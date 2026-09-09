@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-Content *)",
+      "PowerShell(Set-Location *)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(Test-Path *)",
+      "PowerShell(& \"C:\\Program Files\\Git\\bin\\git.exe\" status*)",
+      "PowerShell(& \"C:\\Program Files\\Git\\bin\\git.exe\" diff*)",
+      "PowerShell(Get-Command *)",
+      "PowerShell(Get-Item *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \".claude/hooks/validate-json.ps1\"",
+            "shell": "powershell",
+            "timeout": 15,
+            "statusMessage": "Validating JSON..."
+          }
+        ]
+      }
+    ]
+  }
+}
