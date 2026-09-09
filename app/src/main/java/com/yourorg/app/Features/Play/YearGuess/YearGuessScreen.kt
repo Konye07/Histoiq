@@ -220,8 +220,8 @@ private fun YearGuessQuestion(
         Text(event.event, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
         if (hintRevealed) {
             Surface(
-                color = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
+                color = AppColors.Cream,
+                contentColor = AppColors.SlateBlue,
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(

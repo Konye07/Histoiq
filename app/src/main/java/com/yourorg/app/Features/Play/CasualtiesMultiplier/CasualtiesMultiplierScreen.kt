@@ -214,8 +214,8 @@ private fun CasualtiesQuestion(
         Text(formatEraYear(battle.year), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
         if (hintRevealed) {
             Surface(
-                color = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
+                color = AppColors.Cream,
+                contentColor = AppColors.Maroon,
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
