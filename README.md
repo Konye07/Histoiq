@@ -45,3 +45,7 @@ See `CLAUDE.md` for more detail on conventions used throughout the codebase.
 
 No automated test suite or CI exists yet. Auth and the friends/leaderboard feature are mocked
 (no real backend); a Supabase migration is the intended next step for both.
+
+A Supabase connection now exists (`Data/Remote/SupabaseClient.kt`, credentials via
+`local.properties` — see `SUPABASE_URL`/`SUPABASE_ANON_KEY` there), but nothing reads or writes
+through it yet — that's the next step, not this one.

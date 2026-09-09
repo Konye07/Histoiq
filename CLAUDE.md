@@ -6,8 +6,17 @@ playable once per day, resumable mid-round, with a friends/profile layer on top.
 ## Build
 
 - Gradle 8.7 via the wrapper (`./gradlew` / `gradlew.bat`) — no separate Gradle install needed.
-- `minSdk 26`, `targetSdk 35`, compose-bom 2024.09.00.
+- `minSdk 26`, `targetSdk 35`, compose-bom 2024.09.00, AGP 8.6.1, Kotlin 2.2.20 (Compose Compiler as
+  its own Gradle plugin, not the old `composeOptions.kotlinCompilerExtensionVersion`).
+- Kotlin is pinned to 2.2.20, not latest: Hilt/Dagger (any released version, as of this writing)
+  can't parse the metadata format Kotlin 2.4.0 emits (google/dagger#5190), and 2.2.20 is what
+  supabase-kt's pinned release was itself built with. Don't bump Kotlin past what Hilt supports
+  without checking that issue first.
 - No test suite or CI exists yet.
+- Supabase connection: `Data/Remote/SupabaseClient.kt`, credentials in `local.properties`
+  (`SUPABASE_URL` / `SUPABASE_ANON_KEY`, gitignored, exposed via `BuildConfig`) — connection only,
+  nothing reads/writes through it yet. Only `postgrest-kt` is installed; `auth-kt` is deliberately
+  left out (see the comment in `app/build.gradle.kts`) until auth actually migrates off the mock.
 
 ## The six games
 
