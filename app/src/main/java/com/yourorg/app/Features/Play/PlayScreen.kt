@@ -258,8 +258,15 @@ private fun NextQuizCountdown() {
     val hours = remaining.toHours()
     val minutes = remaining.toMinutesPart()
     val seconds = remaining.toSecondsPart()
-    Text(
-        "New quiz in %02d:%02d:%02d".format(hours, minutes, seconds),
-        style = MaterialTheme.typography.labelMedium
-    )
+    Column(horizontalAlignment = Alignment.End) {
+        Text(
+            DailyClock.todayDisplay(),
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            "Test your knowledge again in %02d:%02d:%02d".format(hours, minutes, seconds),
+            style = MaterialTheme.typography.labelSmall
+        )
+    }
 }
