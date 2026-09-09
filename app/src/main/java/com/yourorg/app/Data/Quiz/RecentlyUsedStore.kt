@@ -22,7 +22,7 @@ object RecentlyUsedStore {
         val map = mutableMapOf<String, String>()
         for (key in obj.keys()) {
             val date = obj.getString(key)
-            if (date >= cutoff) map[key] = date
+            if (date > cutoff) map[key] = date
         }
         return map
     }
@@ -51,9 +51,7 @@ object RecentlyUsedStore {
      * would remain, so a small data pool never runs out of eligible questions.
      */
     fun <T> pickDaily(context: Context, gameKey: String, pool: List<T>, n: Int, idOf: (T) -> String): List<T> {
-        val recentlyUsed = recentlyUsedIds(context, gameKey)
-        val eligible = pool.filter { idOf(it) !in recentlyUsed }
-        val source = if (eligible.size >= n) eligible else pool
+        val source = eligiblePool(context, gameKey, pool, n, idOf)
         val chosen = source.shuffled().take(n)
         record(context, gameKey, chosen.map(idOf))
         return chosen

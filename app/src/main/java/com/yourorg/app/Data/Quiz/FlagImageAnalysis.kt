@@ -98,7 +98,26 @@ fun findFlagColorCandidates(context: Context, assetPath: String): List<FlagColor
     val chosenBuckets = qualifying.ifEmpty {
         listOfNotNull((0 until HUE_BUCKETS).filter { bucketCounts[it] > 0 }.maxByOrNull { bucketCounts[it] })
     }
-    return chosenBuckets.map { candidateFor(it) }
+    if (chosenBuckets.isNotEmpty()) return chosenBuckets.map { candidateFor(it) }
+
+    // Every pixel was neutral (e.g. a black-and-white flag) — fall back to the image's overall
+    // average color so callers can always rely on at least one candidate being returned.
+    var sumHue = 0.0
+    var sumSat = 0.0
+    var sumVal = 0.0
+    for (pixel in pixels) {
+        AndroidColor.colorToHSV(pixel, hsv)
+        sumHue += hsv[0]
+        sumSat += hsv[1]
+        sumVal += hsv[2]
+    }
+    return listOf(
+        FlagColorCandidate(
+            hue = (sumHue / total).toInt().coerceIn(0, 359),
+            saturation = ((sumSat / total) * 100).toInt().coerceIn(0, 100),
+            brightness = ((sumVal / total) * 100).toInt().coerceIn(0, 100)
+        )
+    )
 }
 
 /** Builds the original image plus a recolor mask for one already-chosen target color. */

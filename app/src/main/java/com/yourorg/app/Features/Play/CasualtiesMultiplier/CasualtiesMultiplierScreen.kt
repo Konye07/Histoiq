@@ -45,6 +45,7 @@ import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleCasualty
+import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
@@ -58,7 +59,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 private const val QUESTIONS_PER_ROUND = 5
-private const val PROGRESS_KEY = "casualties_multiplier"
+private const val PROGRESS_KEY = GameKeys.CASUALTIES_MULTIPLIER
 
 private fun persist(context: android.content.Context, ids: List<String>, guesses: List<Long>, multipliers: List<Double>) {
     val obj = JSONObject()
@@ -81,7 +82,7 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
 
     LaunchedEffect(Unit) {
         val pool = loadBattleCasualties(context)
-        val stored = QuizProgressStore.load(context, PROGRESS_KEY)
+        val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("ids") }
         if (stored != null) {
             val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
             battles = ids.mapNotNull { id -> pool.find { it.id == id } }

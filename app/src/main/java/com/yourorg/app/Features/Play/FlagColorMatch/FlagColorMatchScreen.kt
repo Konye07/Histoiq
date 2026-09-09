@@ -63,6 +63,7 @@ import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.FlagColor
 import com.yourorg.app.Data.Quiz.FlagColorAnalysis
 import com.yourorg.app.Data.Quiz.FlagColorCandidate
+import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
@@ -78,7 +79,7 @@ import org.json.JSONObject
 import kotlin.math.roundToInt
 
 private const val QUESTIONS_PER_ROUND = 5
-private const val PROGRESS_KEY = "flag_color_match"
+private const val PROGRESS_KEY = GameKeys.FLAG_COLOR_MATCH
 
 private fun persist(
     context: android.content.Context,

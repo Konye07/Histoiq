@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
+import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
@@ -52,7 +53,7 @@ import org.json.JSONObject
 import kotlin.random.Random
 
 private const val ROUNDS_TO_WIN = 10
-private const val PROGRESS_KEY = "territory_compare"
+private const val PROGRESS_KEY = GameKeys.TERRITORY_COMPARE
 private const val MIN_ELIGIBLE_POOL = 20
 
 private data class HistoryEntry(
@@ -114,9 +115,12 @@ private fun drawNext(
 ): TerritoryCountry {
     if (queue.isEmpty()) queue.addAll(buildClusteredQueue(fullList))
     var next = queue.removeAt(0)
-    if (exclude != null && next.id == exclude.id && queue.isNotEmpty()) {
-        queue.add(next)
-        next = queue.removeAt(0)
+    if (exclude != null && next.id == exclude.id) {
+        if (queue.isEmpty()) queue.addAll(buildClusteredQueue(fullList))
+        if (queue.isNotEmpty()) {
+            queue.add(next)
+            next = queue.removeAt(0)
+        }
     }
     return next
 }
@@ -176,7 +180,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
         val pool = loadTerritories(context)
         val stored = QuizProgressStore.load(context, PROGRESS_KEY)
         if (stored != null) {
-            allCountries = pool
+            allCountries = RecentlyUsedStore.eligiblePool(context, PROGRESS_KEY, pool, MIN_ELIGIBLE_POOL) { it.id }
             val queueIds = stored.getJSONArray("queueIds").let { arr -> List(arr.length()) { arr.getString(it) } }
             queue.addAll(queueIds.mapNotNull { id -> pool.find { it.id == id } })
             champion = pool.find { it.id == stored.getString("championId") }
@@ -199,6 +203,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
             }
         } else {
             val eligible = RecentlyUsedStore.eligiblePool(context, PROGRESS_KEY, pool, MIN_ELIGIBLE_POOL) { it.id }
+            if (eligible.isEmpty()) return@LaunchedEffect
             allCountries = eligible
             queue.addAll(buildClusteredQueue(eligible))
             val champ = queue.removeAt(0)

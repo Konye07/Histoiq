@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
+import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
@@ -46,7 +47,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 private const val ROUNDS_TO_WIN = 10
-private const val PROGRESS_KEY = "true_false"
+private const val PROGRESS_KEY = GameKeys.TRUE_FALSE
 
 private fun persist(context: android.content.Context, ids: List<String>, answers: List<Boolean>, failed: Boolean) {
     val obj = JSONObject()
@@ -71,7 +72,7 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
 
     LaunchedEffect(Unit) {
         val pool = loadTrueFalseStatements(context)
-        val stored = QuizProgressStore.load(context, PROGRESS_KEY)
+        val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("ids") }
         if (stored != null) {
             val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
             statements = ids.mapNotNull { id -> pool.find { it.id == id } }
@@ -118,11 +119,11 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
                             pickedTrue = answerTrue
                             val isCorrect = answerTrue == current.correctAnswer
                             correct = isCorrect
-                            revealed = true
                             if (isCorrect) Haptics.correct(context) else Haptics.wrong(context)
                             answers.add(answerTrue)
                             if (!isCorrect) failed = true
                             persist(context, statements.map { it.id }, answers.toList(), failed)
+                            revealed = true
                         },
                         onContinue = {
                             if (!correct || index == statements.size - 1) {

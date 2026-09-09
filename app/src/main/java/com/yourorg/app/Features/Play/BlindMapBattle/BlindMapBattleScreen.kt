@@ -51,6 +51,7 @@ import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleLocation
+import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
@@ -80,7 +81,7 @@ private val MAP_COLOR_MATRIX = ColorMatrix(
 )
 
 private const val QUESTIONS_PER_ROUND = 5
-private const val PROGRESS_KEY = "blind_map_battle"
+private const val PROGRESS_KEY = GameKeys.BLIND_MAP_BATTLE
 private const val MIN_SCALE = 1f
 private const val MAX_SCALE = 6f
 
@@ -130,7 +131,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
             context.assets.open("images/world_map.png").use { BitmapFactory.decodeStream(it) }.asImageBitmap()
         }
         val pool = loadBattleLocations(context)
-        val stored = QuizProgressStore.load(context, PROGRESS_KEY)
+        val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("ids") }
         if (stored != null) {
             val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
             battles = ids.mapNotNull { id -> pool.find { it.id == id } }

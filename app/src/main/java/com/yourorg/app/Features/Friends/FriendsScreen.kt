@@ -70,7 +70,12 @@ fun FriendsScreen() {
         acceptedFriends.forEach { f ->
             list.add(LeaderboardRow(f.displayName, demoScoreFor(f.code, selectedGame, dateKey), isMe = false))
         }
-        list.sortedByDescending { it.score ?: -1.0 }
+        if (selectedGame == GameKeys.CASUALTIES_MULTIPLIER) {
+            // Lower is better for this game's stored score (a penalty multiplier), unlike every other game.
+            list.sortedBy { it.score ?: Double.MAX_VALUE }
+        } else {
+            list.sortedByDescending { it.score ?: -1.0 }
+        }
     }
 
     Box(Modifier.fillMaxSize()) {

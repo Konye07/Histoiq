@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
+import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.HistoricalEvent
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.RecentlyUsedStore
@@ -60,7 +61,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 private const val QUESTIONS_PER_ROUND = 5
-private const val PROGRESS_KEY = "year_guess"
+private const val PROGRESS_KEY = GameKeys.YEAR_GUESS
 
 private fun persist(context: android.content.Context, ids: List<String>, guesses: List<Int>, scores: List<Double>) {
     val obj = JSONObject()
@@ -87,7 +88,7 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
 
     LaunchedEffect(Unit) {
         val pool = loadHistoricalEvents(context)
-        val stored = QuizProgressStore.load(context, PROGRESS_KEY)
+        val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("ids") }
         if (stored != null) {
             val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
             events = ids.mapNotNull { id -> pool.find { it.id == id } }
