@@ -60,6 +60,8 @@ import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
+import com.yourorg.app.Data.Quiz.DailyClock
+import com.yourorg.app.Data.Quiz.DailyDistribution
 import com.yourorg.app.Data.Quiz.FlagColor
 import com.yourorg.app.Data.Quiz.FlagColorAnalysis
 import com.yourorg.app.Data.Quiz.FlagColorCandidate
@@ -72,6 +74,8 @@ import com.yourorg.app.Data.Quiz.buildFlagColorAnalysis
 import com.yourorg.app.Data.Quiz.colorMatchScore
 import com.yourorg.app.Data.Quiz.findFlagColorCandidates
 import com.yourorg.app.Data.Quiz.loadFlagColors
+import com.yourorg.app.Features.Play.Shared.ResultsHeader
+import com.yourorg.app.Features.Play.Shared.rankingText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -471,33 +475,62 @@ private fun FlagColorResults(
         StatsStore.recordCompletion(context, PROGRESS_KEY, total, isPerfect)
         if (isPerfect) Haptics.perfect(context)
     }
+    val dateKey = remember { DailyClock.todayKey() }
+    val distribution = remember { DailyDistribution.finalScores(GameKeys.FLAG_COLOR_MATCH, dateKey) }
+    val percentile = remember(total) { DailyDistribution.percentile(total, distribution, higherIsBetter = true) }
+
     Column(
         Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Text("Final Score", style = MaterialTheme.typography.titleLarge)
-        Text(
-            "%.2f".format(total),
-            style = MaterialTheme.typography.displayMedium,
-            color = if (isPerfect) AppColors.Success else MaterialTheme.colorScheme.onBackground
+        ResultsHeader(
+            scoreText = "%.2f".format(total),
+            isPerfect = isPerfect,
+            rankingText = rankingText(percentile),
+            accentColor = MaterialTheme.colorScheme.primary
         )
-        Text("Ranking against today's participants isn't available yet.", style = MaterialTheme.typography.bodySmall)
         HorizontalDivider()
         flags.forEachIndexed { i, flag ->
-            val target = analysisByFlagId[flag.id]
-            Column(Modifier.fillMaxWidth()) {
+            val analysis = analysisByFlagId[flag.id]
+            Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(flag.flagName, style = MaterialTheme.typography.bodyMedium)
-                Text(
-                    "Your guess: H${guessHues.getOrNull(i) ?: "-"} S${guessSaturations.getOrNull(i) ?: "-"} " +
-                        "B${guessBrightnesses.getOrNull(i) ?: "-"}  ·  " +
-                        "Correct: H${target?.targetHue ?: "-"} S${target?.targetSaturation ?: "-"} B${target?.targetBrightness ?: "-"}  ·  " +
-                        "%.2f pts".format(scores.getOrNull(i) ?: 0.0),
-                    style = MaterialTheme.typography.bodySmall
-                )
+                Text("%.2f pts".format(scores.getOrNull(i) ?: 0.0), style = MaterialTheme.typography.bodySmall)
+                if (analysis != null) {
+                    val guessColor = Color.hsv(
+                        (guessHues.getOrNull(i) ?: analysis.targetHue).toFloat(),
+                        (guessSaturations.getOrNull(i) ?: analysis.targetSaturation) / 100f,
+                        (guessBrightnesses.getOrNull(i) ?: analysis.targetBrightness) / 100f
+                    )
+                    val aspect = analysis.baseBitmap.width.toFloat() / analysis.baseBitmap.height.toFloat()
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Your Guess", style = MaterialTheme.typography.labelSmall)
+                            RecoloredFlag(
+                                analysis = analysis,
+                                sliderColor = guessColor,
+                                aspectRatio = aspect,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                        Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Original", style = MaterialTheme.typography.labelSmall)
+                            Image(
+                                bitmap = analysis.originalBitmap,
+                                contentDescription = null,
+                                contentScale = ContentScale.FillBounds,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .aspectRatio(aspect)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .border(2.dp, MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f), RoundedCornerShape(8.dp))
+                            )
+                        }
+                    }
+                }
             }
         }
         Button(onClick = onBack) { Text("Back to Menu") }

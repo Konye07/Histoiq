@@ -51,6 +51,8 @@ import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleLocation
+import com.yourorg.app.Data.Quiz.DailyClock
+import com.yourorg.app.Data.Quiz.DailyDistribution
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.RecentlyUsedStore
@@ -59,6 +61,8 @@ import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.haversineKm
 import com.yourorg.app.Data.Quiz.loadBattleLocations
 import com.yourorg.app.Data.Quiz.mapPinpointScore
+import com.yourorg.app.Features.Play.Shared.ResultsHeader
+import com.yourorg.app.Features.Play.Shared.rankingText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -329,21 +333,24 @@ private fun MapResults(
         StatsStore.recordCompletion(context, PROGRESS_KEY, total, isPerfect)
         if (isPerfect) Haptics.perfect(context)
     }
+    val dateKey = remember { DailyClock.todayKey() }
+    val distribution = remember { DailyDistribution.finalScores(GameKeys.BLIND_MAP_BATTLE, dateKey) }
+    val percentile = remember(total) { DailyDistribution.percentile(total, distribution, higherIsBetter = true) }
+
     Column(
         Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Text("Final Score", style = MaterialTheme.typography.titleLarge)
-        Text(
-            "%.2f".format(total),
-            style = MaterialTheme.typography.displayMedium,
-            color = if (isPerfect) AppColors.Success else MaterialTheme.colorScheme.onBackground
+        ResultsHeader(
+            scoreText = "%.2f".format(total),
+            isPerfect = isPerfect,
+            rankingText = rankingText(percentile),
+            accentColor = MaterialTheme.colorScheme.primary
         )
-        Text("Ranking against today's participants isn't available yet.", style = MaterialTheme.typography.bodySmall)
         HorizontalDivider()
         battles.forEachIndexed { i, battle ->
             Column(Modifier.fillMaxWidth()) {

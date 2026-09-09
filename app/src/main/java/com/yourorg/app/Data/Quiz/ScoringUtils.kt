@@ -12,6 +12,9 @@ import kotlin.math.sqrt
 
 private fun Double.roundTo2(): Double = (this * 100.0).roundToInt() / 100.0
 
+/** Formats a signed year (negative = BCE, per this app's data convention) as e.g. "1415 AD" / "480 BCE". */
+fun formatEraYear(year: Int): String = if (year < 0) "${-year} BCE" else "$year AD"
+
 /**
  * Linear falloff from 10 down to 1 over a difficulty-scaled tolerance window,
  * floored at 1 beyond that window.

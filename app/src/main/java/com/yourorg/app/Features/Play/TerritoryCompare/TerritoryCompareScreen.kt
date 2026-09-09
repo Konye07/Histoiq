@@ -41,6 +41,8 @@ import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
+import com.yourorg.app.Data.Quiz.DailyClock
+import com.yourorg.app.Data.Quiz.DailyDistribution
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.RecentlyUsedStore
@@ -48,6 +50,8 @@ import com.yourorg.app.Data.Quiz.ScoreHistoryStore
 import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.TerritoryCountry
 import com.yourorg.app.Data.Quiz.loadTerritories
+import com.yourorg.app.Features.Play.Shared.ResultsHeader
+import com.yourorg.app.Features.Play.Shared.rankingText
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.random.Random
@@ -404,25 +408,25 @@ private fun TerritoryResults(
         ScoreHistoryStore.recordResult(context, PROGRESS_KEY, score.toDouble())
         StatsStore.recordCompletion(context, PROGRESS_KEY, score.toDouble(), score == ROUNDS_TO_WIN)
     }
+    val dateKey = remember { DailyClock.todayKey() }
+    val distribution = remember { DailyDistribution.finalScores(GameKeys.TERRITORY_COMPARE, dateKey) }
+    val percentile = remember(score) { DailyDistribution.percentile(score.toDouble(), distribution, higherIsBetter = true) }
+
     Column(
         Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Text("Final Score", style = MaterialTheme.typography.titleLarge)
-        Text(
-            "$score",
-            style = MaterialTheme.typography.displayMedium,
-            color = if (score == ROUNDS_TO_WIN) AppColors.Success else MaterialTheme.colorScheme.onBackground
+        ResultsHeader(
+            scoreText = "$score",
+            isPerfect = score == ROUNDS_TO_WIN,
+            rankingText = rankingText(percentile),
+            accentColor = MaterialTheme.colorScheme.primary,
+            subtitle = if (won) "You survived all $ROUNDS_TO_WIN rounds!" else "You made it to round ${history.size}."
         )
-        Text(
-            if (won) "You survived all $ROUNDS_TO_WIN rounds!" else "You made it to round ${history.size}.",
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Text("Ranking against today's participants isn't available yet.", style = MaterialTheme.typography.bodySmall)
         HorizontalDivider()
         history.forEachIndexed { i, h ->
             val champ = allCountries.find { it.id == h.championId }

@@ -31,6 +31,7 @@ fun loadBattleCasualties(context: Context): List<BattleCasualty> {
             type = o.getString("type"),
             battle = o.getString("battle"),
             correctCasualties = o.getLong("correctCasualties"),
+            year = o.getInt("year"),
             source = o.getString("source"),
             difficulty = o.getInt("difficulty"),
             imageAsset = o.optString("imageAsset", "").ifBlank { null }

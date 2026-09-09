@@ -45,16 +45,24 @@ import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleCasualty
+import com.yourorg.app.Data.Quiz.DailyClock
+import com.yourorg.app.Data.Quiz.DailyDistribution
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
 import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.casualtyMultiplier
+import com.yourorg.app.Data.Quiz.formatEraYear
 import com.yourorg.app.Data.Quiz.loadBattleCasualties
 import com.yourorg.app.Data.Quiz.tryLoadImageBitmap
+import com.yourorg.app.Features.Play.Shared.GuessDistributionAxis
+import com.yourorg.app.Features.Play.Shared.ResultsHeader
+import com.yourorg.app.Features.Play.Shared.rankingText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.math.ln
+import kotlin.math.max
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -189,6 +197,7 @@ private fun CasualtiesQuestion(
             )
         }
         Text(battle.battle, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+        Text(formatEraYear(battle.year), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
 
         OutlinedTextField(
             value = guessText,
@@ -231,30 +240,64 @@ private fun CasualtiesResults(
         StatsStore.recordCompletion(context, PROGRESS_KEY, total, isPerfect)
         if (isPerfect) Haptics.perfect(context)
     }
+    val dateKey = remember { DailyClock.todayKey() }
+    val finalDistribution = remember { DailyDistribution.finalScores(GameKeys.CASUALTIES_MULTIPLIER, dateKey) }
+    val percentile = remember(total) { DailyDistribution.percentile(total, finalDistribution, higherIsBetter = false) }
+    val multiplierDist = remember { DailyDistribution.casualtyMultipliers(dateKey) }
+    val multiplierMax = remember(total) { max(multiplierDist.maxOrNull() ?: 1.0, total) * 1.05 }
+    fun multiplierPos(v: Double): Float =
+        ((v - 1.0) / (multiplierMax - 1.0).coerceAtLeast(0.01)).toFloat().coerceIn(0f, 1f)
+
     Column(
         Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Text("Final Score", style = MaterialTheme.typography.titleLarge)
-        Text(
-            "x%.2f".format(total),
-            style = MaterialTheme.typography.displayMedium,
-            color = if (isPerfect) AppColors.Success else MaterialTheme.colorScheme.onBackground
+        ResultsHeader(
+            scoreText = "x%.2f".format(total),
+            isPerfect = isPerfect,
+            rankingText = rankingText(percentile),
+            accentColor = MaterialTheme.colorScheme.primary
         )
-        Text("Ranking against today's participants isn't available yet.", style = MaterialTheme.typography.bodySmall)
+        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Text("Final multiplier (1.00x is a perfect run)", style = MaterialTheme.typography.bodyMedium)
+            GuessDistributionAxis(
+                distribution = multiplierDist.map { multiplierPos(it) },
+                correctPosition = null,
+                guessPosition = multiplierPos(total),
+                accentColor = MaterialTheme.colorScheme.primary,
+                correctLabel = null,
+                guessLabel = "You: x%.2f".format(total)
+            )
+        }
         HorizontalDivider()
         battles.forEachIndexed { i, battle ->
-            Column(Modifier.fillMaxWidth()) {
+            val guessValue = guesses.getOrNull(i)
+            val guessDist = remember(battle.id) {
+                DailyDistribution.casualtyGuesses(dateKey, battle.id, battle.correctCasualties)
+            }
+            val logMin = remember(battle.id, guessValue) {
+                ln((guessDist + battle.correctCasualties + listOfNotNull(guessValue)).min().coerceAtLeast(1).toDouble())
+            }
+            val logMax = remember(battle.id, guessValue) {
+                ln((guessDist + battle.correctCasualties + listOfNotNull(guessValue)).max().coerceAtLeast(1).toDouble())
+            }
+            val logSpan = (logMax - logMin).coerceAtLeast(0.01)
+            fun logPos(v: Long): Float = ((ln(v.coerceAtLeast(1).toDouble()) - logMin) / logSpan).toFloat().coerceIn(0f, 1f)
+
+            Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(battle.battle, style = MaterialTheme.typography.bodyMedium)
-                Text(
-                    "Your guess: ${guesses.getOrNull(i) ?: "-"}  ·  Actual: ${battle.correctCasualties}  ·  x%.2f".format(
-                        multipliers.getOrNull(i) ?: 1.0
-                    ),
-                    style = MaterialTheme.typography.bodySmall
+                Text("x%.2f".format(multipliers.getOrNull(i) ?: 1.0), style = MaterialTheme.typography.bodySmall)
+                GuessDistributionAxis(
+                    distribution = guessDist.map { logPos(it) },
+                    correctPosition = logPos(battle.correctCasualties),
+                    guessPosition = guessValue?.let { logPos(it) },
+                    accentColor = MaterialTheme.colorScheme.primary,
+                    correctLabel = "Actual: ${battle.correctCasualties}",
+                    guessLabel = guessValue?.let { "You: $it" }
                 )
             }
         }

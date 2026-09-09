@@ -5,6 +5,7 @@ data class BattleCasualty(
     val type: String,
     val battle: String,
     val correctCasualties: Long,
+    val year: Int,
     val source: String,
     val difficulty: Int,
     val imageAsset: String? = null

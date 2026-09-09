@@ -4,51 +4,52 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Teutoburg Forest",
         "correctCasualties":  20000,
+        "year":  9,
         "source":  "...",
-        "difficulty":  2,
-        "imageAsset":  "images/battles/battle_001.png"
+        "difficulty":  2
     },
     {
         "id":  "battle_002",
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Stalingrad",
         "correctCasualties":  2000000,
+        "year":  1942,
         "source":  "...",
-        "difficulty":  3,
-        "imageAsset":  "images/battles/battle_002.png"
+        "difficulty":  3
     },
     {
         "id":  "battle_003",
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Agincourt",
         "correctCasualties":  6000,
+        "year":  1415,
         "source":  "...",
-        "difficulty":  2,
-        "imageAsset":  "images/battles/battle_003.png"
+        "difficulty":  2
     },
     {
         "id":  "battle_004",
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Gettysburg",
         "correctCasualties":  51000,
+        "year":  1863,
         "source":  "...",
-        "difficulty":  2,
-        "imageAsset":  "images/battles/battle_004.png"
+        "difficulty":  2
     },
     {
         "id":  "battle_005",
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Verdun",
         "correctCasualties":  700000,
+        "year":  1916,
         "source":  "...",
-        "difficulty":  3,
-        "imageAsset":  "images/battles/battle_005.png"
+        "difficulty":  3
     },
     {
         "id":  "battle_006",
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of the Great Bridge",
         "correctCasualties":  100,
+        "year":  1775,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -57,6 +58,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Bunker Hill",
         "correctCasualties":  1150,
+        "year":  1775,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -65,6 +67,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Long Island",
         "correctCasualties":  4000,
+        "year":  1776,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -73,6 +76,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Charleston",
         "correctCasualties":  550,
+        "year":  1780,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -81,6 +85,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Camden",
         "correctCasualties":  2000,
+        "year":  1780,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -89,6 +94,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Guilford Court House",
         "correctCasualties":  1200,
+        "year":  1781,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -97,6 +103,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Yorktown",
         "correctCasualties":  500,
+        "year":  1781,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -105,6 +112,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Queenston Heights",
         "correctCasualties":  1000,
+        "year":  1812,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -113,6 +121,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Fort Erie",
         "correctCasualties":  1100,
+        "year":  1814,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -121,6 +130,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Palo Alto",
         "correctCasualties":  350,
+        "year":  1846,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -129,6 +139,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Resaca de la Palma",
         "correctCasualties":  350,
+        "year":  1846,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -137,6 +148,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Monterrey",
         "correctCasualties":  1000,
+        "year":  1846,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -145,6 +157,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Mexico City",
         "correctCasualties":  5000,
+        "year":  1847,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -153,6 +166,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Sacramento",
         "correctCasualties":  1000,
+        "year":  1847,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -161,6 +175,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of San Pasqual",
         "correctCasualties":  250,
+        "year":  1846,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -169,6 +184,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Monterrey (Reform War)",
         "correctCasualties":  500,
+        "year":  1858,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -177,6 +193,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Puebla",
         "correctCasualties":  2000,
+        "year":  1862,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -185,6 +202,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Antietam",
         "correctCasualties":  22717,
+        "year":  1862,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -193,6 +211,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Chancellorsville",
         "correctCasualties":  30000,
+        "year":  1863,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -201,6 +220,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Shiloh",
         "correctCasualties":  23746,
+        "year":  1862,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -209,6 +229,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Fredericksburg",
         "correctCasualties":  18300,
+        "year":  1862,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -217,6 +238,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Stones River",
         "correctCasualties":  24645,
+        "year":  1862,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -225,6 +247,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Vicksburg",
         "correctCasualties":  37000,
+        "year":  1863,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -233,6 +256,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of the Wilderness",
         "correctCasualties":  29000,
+        "year":  1864,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -241,6 +265,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Petersburg",
         "correctCasualties":  70000,
+        "year":  1864,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -249,6 +274,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Mansfield",
         "correctCasualties":  4400,
+        "year":  1864,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -257,6 +283,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Manila Bay",
         "correctCasualties":  0,
+        "year":  1898,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -265,6 +292,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Veracruz",
         "correctCasualties":  250,
+        "year":  1914,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -273,6 +301,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Ciudad Juárez",
         "correctCasualties":  500,
+        "year":  1911,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -281,6 +310,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Kadesh (Egyptian-Levantine theatre)",
         "correctCasualties":  30000,
+        "year":  -1274,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -289,6 +319,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Qarqar",
         "correctCasualties":  24000,
+        "year":  -853,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -297,6 +328,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Carthage (First Punic War)",
         "correctCasualties":  50000,
+        "year":  -256,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -305,6 +337,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Zama",
         "correctCasualties":  30000,
+        "year":  -202,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -313,6 +346,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Cannae (North African Carthaginian army)",
         "correctCasualties":  70000,
+        "year":  -216,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -321,6 +355,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Thapsus",
         "correctCasualties":  10000,
+        "year":  -46,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -329,6 +364,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Utica",
         "correctCasualties":  5000,
+        "year":  -46,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -337,6 +373,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Ad Decimum",
         "correctCasualties":  17000,
+        "year":  533,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -345,6 +382,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Carthage (698)",
         "correctCasualties":  10000,
+        "year":  698,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -353,6 +391,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Manzikert",
         "correctCasualties":  25000,
+        "year":  1071,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -361,6 +400,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Sagrajas",
         "correctCasualties":  20000,
+        "year":  1086,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -369,6 +409,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Alarcos",
         "correctCasualties":  20000,
+        "year":  1195,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -377,6 +418,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Las Navas de Tolosa",
         "correctCasualties":  30000,
+        "year":  1212,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -385,6 +427,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Muret",
         "correctCasualties":  15000,
+        "year":  1213,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -393,6 +436,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Acre",
         "correctCasualties":  20000,
+        "year":  1291,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -401,6 +445,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Wadi al-Khazandar",
         "correctCasualties":  30000,
+        "year":  1299,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -409,6 +454,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Ksar el Kebir",
         "correctCasualties":  25000,
+        "year":  1578,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -417,6 +463,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Dogali",
         "correctCasualties":  700,
+        "year":  1887,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -425,6 +472,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Adwa",
         "correctCasualties":  17300,
+        "year":  1896,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -433,6 +481,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Rorke\u0027s Drift",
         "correctCasualties":  20,
+        "year":  1879,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -441,6 +490,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Spion Kop",
         "correctCasualties":  3000,
+        "year":  1900,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -449,6 +499,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Colenso",
         "correctCasualties":  1600,
+        "year":  1899,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -457,6 +508,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Tanga",
         "correctCasualties":  1000,
+        "year":  1914,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -465,6 +517,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Namacurra",
         "correctCasualties":  1000,
+        "year":  1918,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -473,6 +526,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Mahenge",
         "correctCasualties":  1500,
+        "year":  1917,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -481,6 +535,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Mahiwa",
         "correctCasualties":  7000,
+        "year":  1917,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -489,6 +544,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Kilimanjaro",
         "correctCasualties":  1000,
+        "year":  1914,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -497,6 +553,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Opis",
         "correctCasualties":  10000,
+        "year":  -539,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -505,6 +562,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Marathon",
         "correctCasualties":  6000,
+        "year":  -490,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -513,6 +571,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Thermopylae",
         "correctCasualties":  22500,
+        "year":  -480,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -521,6 +580,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Plataea",
         "correctCasualties":  51500,
+        "year":  -479,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -529,6 +589,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Issus",
         "correctCasualties":  30000,
+        "year":  -333,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -537,6 +598,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Gaugamela",
         "correctCasualties":  53500,
+        "year":  -331,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -545,6 +607,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Persian Gate",
         "correctCasualties":  48500,
+        "year":  -330,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -553,6 +616,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Carrhae",
         "correctCasualties":  20000,
+        "year":  -53,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -561,6 +625,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Actium",
         "correctCasualties":  7500,
+        "year":  -31,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -569,6 +634,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Nisibis",
         "correctCasualties":  15000,
+        "year":  217,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -577,6 +643,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Edessa",
         "correctCasualties":  65000,
+        "year":  260,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -585,6 +652,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Qadisiyyah",
         "correctCasualties":  31000,
+        "year":  636,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -593,6 +661,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of the Bridge",
         "correctCasualties":  10000,
+        "year":  634,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -601,6 +670,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Marj Rahit",
         "correctCasualties":  20000,
+        "year":  684,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -609,6 +679,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Maskin",
         "correctCasualties":  10000,
+        "year":  691,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -617,6 +688,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Zab",
         "correctCasualties":  10000,
+        "year":  750,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -625,6 +697,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Dara",
         "correctCasualties":  8000,
+        "year":  530,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -633,6 +706,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Satala",
         "correctCasualties":  10000,
+        "year":  530,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -641,6 +715,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Sura",
         "correctCasualties":  5000,
+        "year":  540,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -649,6 +724,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Antioch",
         "correctCasualties":  10000,
+        "year":  1098,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -657,6 +733,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Ascalon",
         "correctCasualties":  13000,
+        "year":  1099,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -665,6 +742,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Hattin",
         "correctCasualties":  30000,
+        "year":  1187,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -673,6 +751,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Arsuf",
         "correctCasualties":  10000,
+        "year":  1191,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -681,6 +760,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Jaffa",
         "correctCasualties":  3000,
+        "year":  1192,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -689,6 +769,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Ain Jalut",
         "correctCasualties":  20000,
+        "year":  1260,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -697,6 +778,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Elbistan",
         "correctCasualties":  10000,
+        "year":  1277,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -705,6 +787,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Mohacs",
         "correctCasualties":  30000,
+        "year":  1526,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -713,6 +796,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Siege of Baghdad",
         "correctCasualties":  100000,
+        "year":  1258,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -721,6 +805,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Siege of Aleppo",
         "correctCasualties":  20000,
+        "year":  1260,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -729,6 +814,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Siege of Damascus",
         "correctCasualties":  10000,
+        "year":  1260,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -737,6 +823,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Siege of Jerusalem",
         "correctCasualties":  70000,
+        "year":  -63,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -745,6 +832,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Siege of Antioch",
         "correctCasualties":  20000,
+        "year":  1098,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -753,6 +841,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Siege of Tyre",
         "correctCasualties":  39000,
+        "year":  -332,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -761,6 +850,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Siege of Gaza",
         "correctCasualties":  14000,
+        "year":  -332,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -769,6 +859,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Siege of Athens and Piraeus",
         "correctCasualties":  200000,
+        "year":  -87,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -777,6 +868,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Ankara",
         "correctCasualties":  30000,
+        "year":  1402,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -785,6 +877,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Lepanto",
         "correctCasualties":  40000,
+        "year":  1571,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -793,6 +886,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Vienna",
         "correctCasualties":  83000,
+        "year":  1683,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -801,6 +895,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Zenta",
         "correctCasualties":  30000,
+        "year":  1697,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -809,6 +904,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Petrovaradin",
         "correctCasualties":  8000,
+        "year":  1716,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -817,6 +913,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Pruth",
         "correctCasualties":  7000,
+        "year":  1711,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -825,6 +922,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of the Pyramids",
         "correctCasualties":  6000,
+        "year":  1798,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -833,6 +931,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Heliopolis",
         "correctCasualties":  12000,
+        "year":  1800,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -841,6 +940,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Navarino",
         "correctCasualties":  2000,
+        "year":  1827,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -849,6 +949,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Konya",
         "correctCasualties":  5000,
+        "year":  1832,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -857,6 +958,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Nezib",
         "correctCasualties":  6000,
+        "year":  1839,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -865,6 +967,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Kars",
         "correctCasualties":  10000,
+        "year":  1855,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -873,6 +976,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Plevna",
         "correctCasualties":  75000,
+        "year":  1877,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -881,6 +985,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of San Stefano",
         "correctCasualties":  5000,
+        "year":  1878,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -889,6 +994,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Gallipoli",
         "correctCasualties":  500000,
+        "year":  1915,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -897,6 +1003,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Gaza",
         "correctCasualties":  12000,
+        "year":  1917,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -905,6 +1012,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Damascus",
         "correctCasualties":  5000,
+        "year":  1918,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -913,6 +1021,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Aleppo",
         "correctCasualties":  5000,
+        "year":  1918,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -921,6 +1030,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Muye",
         "correctCasualties":  10000,
+        "year":  -1046,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -929,6 +1039,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Yanling",
         "correctCasualties":  10000,
+        "year":  -575,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -937,6 +1048,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Changshao",
         "correctCasualties":  5000,
+        "year":  -684,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -945,6 +1057,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Bi",
         "correctCasualties":  10000,
+        "year":  -632,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -953,6 +1066,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Changping",
         "correctCasualties":  400000,
+        "year":  -260,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -961,6 +1075,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Julu",
         "correctCasualties":  200000,
+        "year":  -207,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -969,6 +1084,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Gaixia",
         "correctCasualties":  100000,
+        "year":  -202,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -977,6 +1093,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Guandu",
         "correctCasualties":  78000,
+        "year":  200,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -985,6 +1102,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Red Cliffs",
         "correctCasualties":  100000,
+        "year":  208,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -993,6 +1111,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Fei River",
         "correctCasualties":  700000,
+        "year":  383,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1001,6 +1120,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Wuzhang Plains",
         "correctCasualties":  10000,
+        "year":  234,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1009,6 +1129,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Zhongli",
         "correctCasualties":  200000,
+        "year":  507,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1017,6 +1138,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Salsu",
         "correctCasualties":  302300,
+        "year":  612,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1025,6 +1147,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Xiangji Temple",
         "correctCasualties":  110000,
+        "year":  757,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1033,6 +1156,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Yongqiu",
         "correctCasualties":  100000,
+        "year":  756,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1041,6 +1165,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Suiyang",
         "correctCasualties":  200000,
+        "year":  757,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1049,6 +1174,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Shanhai Pass",
         "correctCasualties":  40000,
+        "year":  1644,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1057,6 +1183,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Tsushima",
         "correctCasualties":  12000,
+        "year":  1905,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1065,6 +1192,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Port Arthur",
         "correctCasualties":  5000,
+        "year":  1904,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1073,6 +1201,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Shanghai",
         "correctCasualties":  426140,
+        "year":  1937,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1081,6 +1210,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Nanjing",
         "correctCasualties":  200000,
+        "year":  1937,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1089,6 +1219,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Wuhan",
         "correctCasualties":  400000,
+        "year":  1938,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1097,6 +1228,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of South Shanxi",
         "correctCasualties":  120000,
+        "year":  1941,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1105,6 +1237,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Okinawa",
         "correctCasualties":  240000,
+        "year":  1945,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1113,6 +1246,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Manila",
         "correctCasualties":  200000,
+        "year":  1945,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1121,6 +1255,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Iwo Jima",
         "correctCasualties":  28000,
+        "year":  1945,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1129,6 +1264,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Guadalcanal",
         "correctCasualties":  38000,
+        "year":  1942,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1137,6 +1273,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Midway",
         "correctCasualties":  3500,
+        "year":  1942,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1145,6 +1282,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Coral Sea",
         "correctCasualties":  1600,
+        "year":  1942,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1153,6 +1291,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of the Philippine Sea",
         "correctCasualties":  3000,
+        "year":  1944,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1161,6 +1300,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Leyte Gulf",
         "correctCasualties":  13000,
+        "year":  1944,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1169,6 +1309,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Saigon",
         "correctCasualties":  5000,
+        "year":  1945,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1177,6 +1318,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Dien Bien Phu",
         "correctCasualties":  13000,
+        "year":  1954,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1185,6 +1327,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Khe Sanh",
         "correctCasualties":  10000,
+        "year":  1968,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1193,6 +1336,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Hue",
         "correctCasualties":  5000,
+        "year":  1968,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1201,6 +1345,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Hamburger Hill",
         "correctCasualties":  1000,
+        "year":  1969,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1209,6 +1354,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Singapore",
         "correctCasualties":  10000,
+        "year":  1942,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1217,6 +1363,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Malaya",
         "correctCasualties":  70000,
+        "year":  1941,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1225,6 +1372,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Hong Kong",
         "correctCasualties":  2500,
+        "year":  1941,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1233,6 +1381,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Guam",
         "correctCasualties":  19000,
+        "year":  1944,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1241,6 +1390,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Naval Battle of Guadalcanal",
         "correctCasualties":  5000,
+        "year":  1942,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1249,6 +1399,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Manchuria",
         "correctCasualties":  40000,
+        "year":  1945,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1257,6 +1408,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Khalkhin Gol",
         "correctCasualties":  30000,
+        "year":  1939,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1265,6 +1417,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Salamis",
         "correctCasualties":  50000,
+        "year":  -480,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1273,6 +1426,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Hydaspes",
         "correctCasualties":  23310,
+        "year":  -326,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1281,6 +1435,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Asculum",
         "correctCasualties":  15000,
+        "year":  -279,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1289,6 +1444,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Lake Trasimene",
         "correctCasualties":  30000,
+        "year":  -217,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1297,6 +1453,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Trebia",
         "correctCasualties":  30000,
+        "year":  -218,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1305,6 +1462,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Philippi",
         "correctCasualties":  40000,
+        "year":  -42,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1313,6 +1471,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Milvian Bridge",
         "correctCasualties":  5000,
+        "year":  312,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1321,6 +1480,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of the Catalaunian Plains",
         "correctCasualties":  165000,
+        "year":  451,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1329,6 +1489,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Tours",
         "correctCasualties":  13000,
+        "year":  732,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1337,6 +1498,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Pliska",
         "correctCasualties":  29000,
+        "year":  811,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1345,6 +1507,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Ashdown",
         "correctCasualties":  9000,
+        "year":  871,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1353,6 +1516,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Brenta",
         "correctCasualties":  14000,
+        "year":  899,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1361,6 +1525,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Lechfeld",
         "correctCasualties":  15000,
+        "year":  955,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1369,6 +1534,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Kleidion",
         "correctCasualties":  45000,
+        "year":  1014,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1377,6 +1543,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Hastings",
         "correctCasualties":  6000,
+        "year":  1066,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1385,6 +1552,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Stamford Bridge",
         "correctCasualties":  13000,
+        "year":  1066,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1393,6 +1561,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Civetot",
         "correctCasualties":  50000,
+        "year":  1096,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1401,6 +1570,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Montgisard",
         "correctCasualties":  25850,
+        "year":  1177,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1409,6 +1579,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Kalka River",
         "correctCasualties":  80000,
+        "year":  1223,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1417,6 +1588,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Mohi",
         "correctCasualties":  40000,
+        "year":  1241,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1425,6 +1597,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Stirling Bridge",
         "correctCasualties":  5000,
+        "year":  1297,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1433,6 +1606,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Falkirk",
         "correctCasualties":  2000,
+        "year":  1298,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1441,6 +1615,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Bannockburn",
         "correctCasualties":  10000,
+        "year":  1314,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1449,6 +1624,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Crécy",
         "correctCasualties":  30000,
+        "year":  1346,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1457,6 +1633,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Poitiers",
         "correctCasualties":  10000,
+        "year":  1356,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1465,6 +1642,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Nicopolis",
         "correctCasualties":  17000,
+        "year":  1396,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1473,6 +1651,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Varna",
         "correctCasualties":  15000,
+        "year":  1444,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1481,6 +1660,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Kosovo",
         "correctCasualties":  30000,
+        "year":  1389,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1489,6 +1669,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Grunwald",
         "correctCasualties":  18000,
+        "year":  1410,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1497,6 +1678,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Tannenberg",
         "correctCasualties":  18000,
+        "year":  1410,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1505,6 +1687,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Orsha",
         "correctCasualties":  10000,
+        "year":  1514,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1513,6 +1696,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Pavia",
         "correctCasualties":  15000,
+        "year":  1525,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1521,6 +1705,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Marignano",
         "correctCasualties":  16000,
+        "year":  1515,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1529,6 +1714,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Bicocca",
         "correctCasualties":  5000,
+        "year":  1522,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1537,6 +1723,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Ceresole",
         "correctCasualties":  5000,
+        "year":  1544,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1545,6 +1732,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of White Mountain",
         "correctCasualties":  5000,
+        "year":  1620,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1553,6 +1741,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Breitenfeld",
         "correctCasualties":  17000,
+        "year":  1631,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1561,6 +1750,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Lützen",
         "correctCasualties":  9000,
+        "year":  1632,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1569,6 +1759,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Poltava",
         "correctCasualties":  12000,
+        "year":  1709,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1577,6 +1768,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Narva",
         "correctCasualties":  15000,
+        "year":  1700,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1585,6 +1777,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Prague",
         "correctCasualties":  32000,
+        "year":  1757,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1593,6 +1786,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Marengo",
         "correctCasualties":  12000,
+        "year":  1800,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1601,6 +1795,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Austerlitz",
         "correctCasualties":  27000,
+        "year":  1805,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1609,6 +1804,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Jena-Auerstedt",
         "correctCasualties":  25000,
+        "year":  1806,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1617,6 +1813,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Eylau",
         "correctCasualties":  50000,
+        "year":  1807,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1625,6 +1822,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Friedland",
         "correctCasualties":  35000,
+        "year":  1807,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1633,6 +1831,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Wagram",
         "correctCasualties":  74000,
+        "year":  1809,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1641,6 +1840,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Borodino",
         "correctCasualties":  70000,
+        "year":  1812,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1649,6 +1849,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Leipzig",
         "correctCasualties":  100000,
+        "year":  1813,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1657,6 +1858,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Waterloo",
         "correctCasualties":  47000,
+        "year":  1815,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1665,6 +1867,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Dresden",
         "correctCasualties":  35000,
+        "year":  1813,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1673,6 +1876,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Solferino",
         "correctCasualties":  40000,
+        "year":  1859,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1681,6 +1885,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Königgrätz",
         "correctCasualties":  47500,
+        "year":  1866,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1689,6 +1894,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Sedan",
         "correctCasualties":  26000,
+        "year":  1870,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1697,6 +1903,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Le Mans",
         "correctCasualties":  30000,
+        "year":  1871,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1705,6 +1912,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of the Frontiers",
         "correctCasualties":  664191,
+        "year":  1914,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1713,6 +1921,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Galicia",
         "correctCasualties":  670000,
+        "year":  1914,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1721,6 +1930,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of the Marne",
         "correctCasualties":  513000,
+        "year":  1914,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1729,6 +1939,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "First Battle of Ypres",
         "correctCasualties":  210000,
+        "year":  1914,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1737,6 +1948,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Łódź",
         "correctCasualties":  330000,
+        "year":  1914,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1745,6 +1957,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of the Somme",
         "correctCasualties":  1150000,
+        "year":  1916,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1753,6 +1966,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Brusilov Offensive",
         "correctCasualties":  2000000,
+        "year":  1916,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1761,6 +1975,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Passchendaele",
         "correctCasualties":  585000,
+        "year":  1917,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1769,6 +1984,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Cambrai",
         "correctCasualties":  95000,
+        "year":  1917,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1777,6 +1993,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Caporetto",
         "correctCasualties":  60000,
+        "year":  1917,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1785,6 +2002,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Spring Offensive",
         "correctCasualties":  1539000,
+        "year":  1918,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1793,6 +2011,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Hundred Days Offensive",
         "correctCasualties":  700000,
+        "year":  1918,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1801,6 +2020,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Warsaw",
         "correctCasualties":  30000,
+        "year":  1920,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  3
     },
@@ -1809,6 +2029,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Kursk",
         "correctCasualties":  1338000,
+        "year":  1943,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1817,6 +2038,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Berlin",
         "correctCasualties":  1100000,
+        "year":  1945,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1825,6 +2047,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Kiev",
         "correctCasualties":  761783,
+        "year":  1941,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  1
     },
@@ -1833,6 +2056,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Smolensk",
         "correctCasualties":  300000,
+        "year":  1941,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1841,6 +2065,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Battle of Kharkov",
         "correctCasualties":  277000,
+        "year":  1942,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     },
@@ -1849,6 +2074,7 @@
         "type":  "CASUALTY_GUESS",
         "battle":  "Operation Bagration",
         "correctCasualties":  760000,
+        "year":  1944,
         "source":  "User-provided dataset (historical_battles_600.txt)",
         "difficulty":  2
     }

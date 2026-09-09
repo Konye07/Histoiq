@@ -46,8 +46,11 @@ import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
+import com.yourorg.app.Data.Quiz.DailyClock
+import com.yourorg.app.Data.Quiz.DailyDistribution
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.HistoricalEvent
+import com.yourorg.app.Data.Quiz.formatEraYear
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
@@ -55,6 +58,9 @@ import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.loadHistoricalEvents
 import com.yourorg.app.Data.Quiz.tryLoadImageBitmap
 import com.yourorg.app.Data.Quiz.yearGuessScore
+import com.yourorg.app.Features.Play.Shared.GuessDistributionAxis
+import com.yourorg.app.Features.Play.Shared.ResultsHeader
+import com.yourorg.app.Features.Play.Shared.rankingText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -72,8 +78,6 @@ private fun persist(context: android.content.Context, ids: List<String>, guesses
 }
 
 /** Data stores signed years: negative is BCE, positive (or zero) is AD. */
-private fun formatYear(year: Int): String = if (year < 0) "${-year} BCE" else "$year AD"
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun YearGuessScreen(onBack: () -> Unit = {}) {
@@ -218,7 +222,7 @@ private fun YearGuessQuestion(
                 Text("Submit")
             }
         } else {
-            Text("Correct: ${formatYear(event.correctYear)}", style = MaterialTheme.typography.bodyLarge)
+            Text("Correct: ${formatEraYear(event.correctYear)}", style = MaterialTheme.typography.bodyLarge)
             Text(
                 "You scored %.2f points".format(lastScore ?: 0.0),
                 style = MaterialTheme.typography.bodyLarge
@@ -264,29 +268,43 @@ private fun YearGuessResults(
         StatsStore.recordCompletion(context, PROGRESS_KEY, total, isPerfect)
         if (isPerfect) Haptics.perfect(context)
     }
+    val dateKey = remember { DailyClock.todayKey() }
+    val distribution = remember { DailyDistribution.finalScores(GameKeys.YEAR_GUESS, dateKey) }
+    val percentile = remember(total) { DailyDistribution.percentile(total, distribution, higherIsBetter = true) }
+
     Column(
         Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Text("Final Score", style = MaterialTheme.typography.titleLarge)
-        Text(
-            "%.2f".format(total),
-            style = MaterialTheme.typography.displayMedium,
-            color = if (isPerfect) AppColors.Success else MaterialTheme.colorScheme.onBackground
+        ResultsHeader(
+            scoreText = "%.2f".format(total),
+            isPerfect = isPerfect,
+            rankingText = rankingText(percentile),
+            accentColor = MaterialTheme.colorScheme.primary
         )
-        Text("Ranking against today's participants isn't available yet.", style = MaterialTheme.typography.bodySmall)
         HorizontalDivider()
         events.forEachIndexed { i, event ->
-            Column(Modifier.fillMaxWidth()) {
+            val guessValue = guesses.getOrNull(i)
+            val guessDist = remember(event.id) {
+                DailyDistribution.yearGuesses(dateKey, event.id, event.correctYear, event.difficulty)
+            }
+            val minV = remember(event.id, guessValue) { (guessDist + event.correctYear + listOfNotNull(guessValue)).min() }
+            val maxV = remember(event.id, guessValue) { (guessDist + event.correctYear + listOfNotNull(guessValue)).max() }
+            val span = (maxV - minV).coerceAtLeast(1)
+            Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(event.event, style = MaterialTheme.typography.bodyMedium)
-                Text(
-                    "Your guess: ${guesses.getOrNull(i)?.let { formatYear(it) } ?: "-"}  ·  " +
-                        "Correct: ${formatYear(event.correctYear)}  ·  %.2f pts".format(scores.getOrNull(i) ?: 0.0),
-                    style = MaterialTheme.typography.bodySmall
+                Text("%.2f pts".format(scores.getOrNull(i) ?: 0.0), style = MaterialTheme.typography.bodySmall)
+                GuessDistributionAxis(
+                    distribution = guessDist.map { (it - minV).toFloat() / span.toFloat() },
+                    correctPosition = (event.correctYear - minV).toFloat() / span.toFloat(),
+                    guessPosition = guessValue?.let { (it - minV).toFloat() / span.toFloat() },
+                    accentColor = MaterialTheme.colorScheme.primary,
+                    correctLabel = "Correct: ${formatEraYear(event.correctYear)}",
+                    guessLabel = guessValue?.let { "You: ${formatEraYear(it)}" }
                 )
             }
         }
