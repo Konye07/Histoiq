@@ -1,6 +1,7 @@
 package com.yourorg.app.Features.Play.Shared
 
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -26,16 +27,19 @@ fun HintAction(onWatchAd: () -> Unit) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
+            containerColor = MaterialTheme.colorScheme.surface,
+            titleContentColor = MaterialTheme.colorScheme.onSurface,
+            textContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
             title = { Text("Want a hint?") },
             text = { Text("Watch a short ad to find out which war or conflict this is part of.") },
             confirmButton = {
                 TextButton(onClick = {
                     showDialog = false
                     onWatchAd()
-                }) { Text("Watch Ad") }
+                }) { Text("Watch Ad", color = MaterialTheme.colorScheme.onSurface) }
             },
             dismissButton = {
-                TextButton(onClick = { showDialog = false }) { Text("Cancel") }
+                TextButton(onClick = { showDialog = false }) { Text("Cancel", color = MaterialTheme.colorScheme.onSurface) }
             }
         )
     }
