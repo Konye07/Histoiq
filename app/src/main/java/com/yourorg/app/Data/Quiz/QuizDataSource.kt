@@ -17,7 +17,8 @@ fun loadHistoricalEvents(context: Context): List<HistoricalEvent> {
             correctYear = o.getInt("correctYear"),
             source = o.getString("source"),
             difficulty = o.getInt("difficulty"),
-            imageAsset = o.optString("imageAsset", "").ifBlank { null }
+            imageAsset = o.optString("imageAsset", "").ifBlank { null },
+            hint = o.optString("hint", "").ifBlank { null }
         )
     }
 }
@@ -34,7 +35,8 @@ fun loadBattleCasualties(context: Context): List<BattleCasualty> {
             year = o.getInt("year"),
             source = o.getString("source"),
             difficulty = o.getInt("difficulty"),
-            imageAsset = o.optString("imageAsset", "").ifBlank { null }
+            imageAsset = o.optString("imageAsset", "").ifBlank { null },
+            hint = o.optString("hint", "").ifBlank { null }
         )
     }
 }

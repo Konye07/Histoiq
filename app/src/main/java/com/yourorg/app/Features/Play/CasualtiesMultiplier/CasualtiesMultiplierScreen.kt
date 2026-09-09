@@ -54,9 +54,11 @@ import com.yourorg.app.Data.Quiz.ScoreHistoryStore
 import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.casualtyMultiplier
 import com.yourorg.app.Data.Quiz.formatEraYear
+import com.yourorg.app.Data.Quiz.formatThousands
 import com.yourorg.app.Data.Quiz.loadBattleCasualties
 import com.yourorg.app.Data.Quiz.tryLoadImageBitmap
 import com.yourorg.app.Features.Play.Shared.GuessDistributionAxis
+import com.yourorg.app.Features.Play.Shared.HintAction
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
 import kotlinx.coroutines.Dispatchers
@@ -85,6 +87,7 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
     var questionIndex by remember { mutableStateOf(0) }
     var guessText by remember { mutableStateOf("") }
     var revealed by remember { mutableStateOf(false) }
+    var hintRevealed by remember { mutableStateOf(false) }
     val guesses = remember { mutableStateListOf<Long>() }
     val multipliers = remember { mutableStateListOf<Double>() }
 
@@ -115,6 +118,11 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                         IconButton(onClick = onBack) {
                             Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                         }
+                    },
+                    actions = {
+                        if (questionIndex < battles.size && !hintRevealed) {
+                            HintAction(onWatchAd = { hintRevealed = true })
+                        }
                     }
                 )
             }
@@ -137,6 +145,8 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                             guessText = guessText,
                             revealed = revealed,
                             lastMultiplier = multipliers.getOrNull(questionIndex),
+                            lastGuess = guesses.getOrNull(questionIndex),
+                            hintRevealed = hintRevealed,
                             onGuessChange = { guessText = it },
                             onSubmit = {
                                 val guess = guessText.toLongOrNull() ?: return@CasualtiesQuestion
@@ -149,6 +159,7 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                                 questionIndex += 1
                                 guessText = ""
                                 revealed = false
+                                hintRevealed = false
                             }
                         )
                     }
@@ -166,6 +177,8 @@ private fun CasualtiesQuestion(
     guessText: String,
     revealed: Boolean,
     lastMultiplier: Double?,
+    lastGuess: Long?,
+    hintRevealed: Boolean,
     onGuessChange: (String) -> Unit,
     onSubmit: () -> Unit,
     onNext: () -> Unit
@@ -198,6 +211,13 @@ private fun CasualtiesQuestion(
         }
         Text(battle.battle, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
         Text(formatEraYear(battle.year), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
+        if (hintRevealed) {
+            Text(
+                "Hint: ${battle.hint ?: "No hint available for this one."}",
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
+            )
+        }
 
         OutlinedTextField(
             value = guessText,
@@ -213,10 +233,31 @@ private fun CasualtiesQuestion(
                 Text("Submit")
             }
         } else {
-            Text("Actual casualties: ${battle.correctCasualties}", style = MaterialTheme.typography.bodyLarge)
+            Text("Actual casualties: ${formatThousands(battle.correctCasualties)}", style = MaterialTheme.typography.bodyLarge)
             Text(
                 "You earned x%.2f".format(lastMultiplier ?: 1.0),
                 style = MaterialTheme.typography.bodyLarge
+            )
+            val dateKey = remember { DailyClock.todayKey() }
+            val guessDist = remember(battle.id) {
+                DailyDistribution.casualtyGuesses(dateKey, battle.id, battle.correctCasualties)
+            }
+            val logMin = remember(battle.id, lastGuess) {
+                ln((guessDist + battle.correctCasualties + listOfNotNull(lastGuess)).min().coerceAtLeast(1).toDouble())
+            }
+            val logMax = remember(battle.id, lastGuess) {
+                ln((guessDist + battle.correctCasualties + listOfNotNull(lastGuess)).max().coerceAtLeast(1).toDouble())
+            }
+            val logSpan = (logMax - logMin).coerceAtLeast(0.01)
+            fun logPos(v: Long): Float = ((ln(v.coerceAtLeast(1).toDouble()) - logMin) / logSpan).toFloat().coerceIn(0f, 1f)
+            GuessDistributionAxis(
+                distribution = guessDist.map { logPos(it) },
+                correctPosition = logPos(battle.correctCasualties),
+                guessPosition = lastGuess?.let { logPos(it) },
+                accentColor = MaterialTheme.colorScheme.primary,
+                correctLabel = "Actual: ${formatThousands(battle.correctCasualties)}",
+                guessLabel = lastGuess?.let { "You: ${formatThousands(it)}" },
+                modifier = Modifier.fillMaxWidth()
             )
             Button(onClick = onNext) {
                 Text(if (questionNumber == totalQuestions) "See Results" else "Next Question")
@@ -296,8 +337,8 @@ private fun CasualtiesResults(
                     correctPosition = logPos(battle.correctCasualties),
                     guessPosition = guessValue?.let { logPos(it) },
                     accentColor = MaterialTheme.colorScheme.primary,
-                    correctLabel = "Actual: ${battle.correctCasualties}",
-                    guessLabel = guessValue?.let { "You: $it" }
+                    correctLabel = "Actual: ${formatThousands(battle.correctCasualties)}",
+                    guessLabel = guessValue?.let { "You: ${formatThousands(it)}" }
                 )
             }
         }

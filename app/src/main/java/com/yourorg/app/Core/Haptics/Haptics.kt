@@ -26,6 +26,13 @@ object Haptics {
     fun perfect(context: Context) =
         vibrate(context, longArrayOf(0, 30, 50, 30, 50, 70), intArrayOf(0, 160, 0, 160, 0, 255))
 
+    /** Escalating buzz synced to the results screen's "score bubbling up" reveal animation. */
+    fun scoreReveal(context: Context) = vibrate(
+        context,
+        longArrayOf(0, 80, 40, 80, 40, 80, 40, 100, 40, 150),
+        intArrayOf(0, 40, 0, 70, 0, 110, 0, 160, 0, 220)
+    )
+
     private fun vibrate(context: Context, timings: LongArray, amplitudes: IntArray) {
         if (!SettingsStore.hapticsEnabled(context)) return
         val vibrator = vibratorFor(context)

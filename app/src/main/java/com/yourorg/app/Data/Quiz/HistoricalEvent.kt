@@ -7,5 +7,6 @@ data class HistoricalEvent(
     val correctYear: Int,
     val source: String,
     val difficulty: Int,
-    val imageAsset: String? = null
+    val imageAsset: String? = null,
+    val hint: String? = null
 )

@@ -15,6 +15,14 @@ private fun Double.roundTo2(): Double = (this * 100.0).roundToInt() / 100.0
 /** Formats a signed year (negative = BCE, per this app's data convention) as e.g. "1415 AD" / "480 BCE". */
 fun formatEraYear(year: Int): String = if (year < 0) "${-year} BCE" else "$year AD"
 
+/** Formats a whole number with a space as the thousands separator, e.g. 14000 -> "14 000". */
+fun formatThousands(value: Long): String {
+    val negative = value < 0
+    val digits = abs(value).toString()
+    val grouped = digits.reversed().chunked(3).joinToString(" ").reversed()
+    return if (negative) "-$grouped" else grouped
+}
+
 /**
  * Linear falloff from 10 down to 1 over a difficulty-scaled tolerance window,
  * floored at 1 beyond that window.

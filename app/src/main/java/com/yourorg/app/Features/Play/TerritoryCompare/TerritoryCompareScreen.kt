@@ -112,6 +112,10 @@ private fun buildClusteredQueue(pool: List<TerritoryCountry>): MutableList<Terri
     return result
 }
 
+/** True when two countries would make an unwinnable, ambiguous "which is bigger" round. */
+private fun isTie(a: TerritoryCountry, exclude: TerritoryCountry?): Boolean =
+    exclude != null && (a.id == exclude.id || a.areaKm2 == exclude.areaKm2)
+
 private fun drawNext(
     fullList: List<TerritoryCountry>,
     queue: MutableList<TerritoryCountry>,
@@ -119,12 +123,13 @@ private fun drawNext(
 ): TerritoryCountry {
     if (queue.isEmpty()) queue.addAll(buildClusteredQueue(fullList))
     var next = queue.removeAt(0)
-    if (exclude != null && next.id == exclude.id) {
+    var attempts = 0
+    while (isTie(next, exclude) && attempts < fullList.size) {
         if (queue.isEmpty()) queue.addAll(buildClusteredQueue(fullList))
-        if (queue.isNotEmpty()) {
-            queue.add(next)
-            next = queue.removeAt(0)
-        }
+        if (queue.isEmpty()) break
+        queue.add(next)
+        next = queue.removeAt(0)
+        attempts++
     }
     return next
 }

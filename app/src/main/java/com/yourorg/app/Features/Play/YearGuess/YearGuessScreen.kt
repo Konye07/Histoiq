@@ -59,6 +59,7 @@ import com.yourorg.app.Data.Quiz.loadHistoricalEvents
 import com.yourorg.app.Data.Quiz.tryLoadImageBitmap
 import com.yourorg.app.Data.Quiz.yearGuessScore
 import com.yourorg.app.Features.Play.Shared.GuessDistributionAxis
+import com.yourorg.app.Features.Play.Shared.HintAction
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
 import kotlinx.coroutines.Dispatchers
@@ -87,6 +88,7 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
     var guessText by remember { mutableStateOf("") }
     var isBce by remember { mutableStateOf(false) }
     var revealed by remember { mutableStateOf(false) }
+    var hintRevealed by remember { mutableStateOf(false) }
     val guesses = remember { mutableStateListOf<Int>() }
     val scores = remember { mutableStateListOf<Double>() }
 
@@ -117,6 +119,11 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
                         IconButton(onClick = onBack) {
                             Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                         }
+                    },
+                    actions = {
+                        if (questionIndex < events.size && !hintRevealed) {
+                            HintAction(onWatchAd = { hintRevealed = true })
+                        }
                     }
                 )
             }
@@ -140,6 +147,8 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
                             isBce = isBce,
                             revealed = revealed,
                             lastScore = scores.getOrNull(questionIndex),
+                            lastGuess = guesses.getOrNull(questionIndex),
+                            hintRevealed = hintRevealed,
                             onGuessChange = { guessText = it },
                             onEraChange = { isBce = it },
                             onSubmit = {
@@ -155,6 +164,7 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
                                 guessText = ""
                                 isBce = false
                                 revealed = false
+                                hintRevealed = false
                             }
                         )
                     }
@@ -173,6 +183,8 @@ private fun YearGuessQuestion(
     isBce: Boolean,
     revealed: Boolean,
     lastScore: Double?,
+    lastGuess: Int?,
+    hintRevealed: Boolean,
     onGuessChange: (String) -> Unit,
     onEraChange: (Boolean) -> Unit,
     onSubmit: () -> Unit,
@@ -205,6 +217,13 @@ private fun YearGuessQuestion(
             )
         }
         Text(event.event, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+        if (hintRevealed) {
+            Text(
+                "Hint: ${event.hint ?: "No hint available for this one."}",
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
+            )
+        }
 
         OutlinedTextField(
             value = guessText,
@@ -226,6 +245,22 @@ private fun YearGuessQuestion(
             Text(
                 "You scored %.2f points".format(lastScore ?: 0.0),
                 style = MaterialTheme.typography.bodyLarge
+            )
+            val dateKey = remember { DailyClock.todayKey() }
+            val guessDist = remember(event.id) {
+                DailyDistribution.yearGuesses(dateKey, event.id, event.correctYear, event.difficulty)
+            }
+            val minV = remember(event.id, lastGuess) { (guessDist + event.correctYear + listOfNotNull(lastGuess)).min() }
+            val maxV = remember(event.id, lastGuess) { (guessDist + event.correctYear + listOfNotNull(lastGuess)).max() }
+            val span = (maxV - minV).coerceAtLeast(1)
+            GuessDistributionAxis(
+                distribution = guessDist.map { (it - minV).toFloat() / span.toFloat() },
+                correctPosition = (event.correctYear - minV).toFloat() / span.toFloat(),
+                guessPosition = lastGuess?.let { (it - minV).toFloat() / span.toFloat() },
+                accentColor = MaterialTheme.colorScheme.primary,
+                correctLabel = "Correct: ${formatEraYear(event.correctYear)}",
+                guessLabel = lastGuess?.let { "You: ${formatEraYear(it)}" },
+                modifier = Modifier.fillMaxWidth()
             )
             Button(onClick = onNext) {
                 Text(if (questionNumber == totalQuestions) "See Results" else "Next Question")

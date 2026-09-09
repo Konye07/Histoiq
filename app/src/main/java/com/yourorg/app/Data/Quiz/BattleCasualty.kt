@@ -8,5 +8,6 @@ data class BattleCasualty(
     val year: Int,
     val source: String,
     val difficulty: Int,
-    val imageAsset: String? = null
+    val imageAsset: String? = null,
+    val hint: String? = null
 )

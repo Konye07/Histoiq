@@ -1,5 +1,7 @@
 package com.yourorg.app.Features.Play.Shared
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,13 +18,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.Core.Audio.BubbleSoundPlayer
+import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 
 /**
@@ -39,6 +47,22 @@ fun ResultsHeader(
     scoreLabel: String = "Final Score",
     subtitle: String? = null
 ) {
+    val context = LocalContext.current
+    val scale = remember { Animatable(0.4f) }
+    LaunchedEffect(Unit) {
+        BubbleSoundPlayer.playBubbleRise(context)
+        Haptics.scoreReveal(context)
+        scale.animateTo(
+            targetValue = 1f,
+            animationSpec = keyframes {
+                durationMillis = 900
+                0.4f at 0
+                1.25f at 650
+                1f at 900
+            }
+        )
+    }
+
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -47,7 +71,11 @@ fun ResultsHeader(
         Text(
             scoreText,
             style = MaterialTheme.typography.displayMedium,
-            color = if (isPerfect) AppColors.Success else MaterialTheme.colorScheme.onBackground
+            color = if (isPerfect) AppColors.Success else MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.graphicsLayer {
+                scaleX = scale.value
+                scaleY = scale.value
+            }
         )
         subtitle?.let {
             Text(it, style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
