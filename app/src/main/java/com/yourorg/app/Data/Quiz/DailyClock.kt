@@ -25,4 +25,11 @@ object DailyClock {
         val nextMidnight = now.toLocalDate().plusDays(1).atStartOfDay(zone)
         return Duration.between(now, nextMidnight)
     }
+
+    /** Fraction of today (CET) elapsed so far, in [0, 1] — 0 right at midnight, ~1 just before the next reset. */
+    fun fractionOfDayElapsed(): Double {
+        val now = ZonedDateTime.now(zone)
+        val startOfDay = now.toLocalDate().atStartOfDay(zone)
+        return (Duration.between(startOfDay, now).seconds.toDouble() / 86400.0).coerceIn(0.0, 1.0)
+    }
 }

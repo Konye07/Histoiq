@@ -2,6 +2,7 @@ package com.yourorg.app.Data.Quiz
 
 import kotlin.math.abs
 import kotlin.math.exp
+import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 import kotlin.random.Random
@@ -49,10 +50,18 @@ object DailyDistribution {
         return ((beaten * 100.0) / samples.size).roundToInt().coerceIn(0, 100)
     }
 
-    /** Synthetic total number of players today for one game — for display as "rank X of Y". */
+    /**
+     * Synthetic total number of players today for one game — for display as "rank X of Y".
+     * Ramps up over the course of the day (few players just after the CET midnight reset, most
+     * of the day's final total by late evening) instead of being fixed, so reopening the app
+     * later shows a bigger, more populated leaderboard, the same way a real one would fill in.
+     */
     fun totalPlayers(gameKey: String, dateKey: String): Int {
         val random = Random("totalplayers|$gameKey|$dateKey".hashCode().toLong())
-        return random.nextInt(6000, 22000)
+        val finalTotal = random.nextInt(24000, 36000)
+        val fraction = if (dateKey == DailyClock.todayKey()) DailyClock.fractionOfDayElapsed() else 1.0
+        val soFar = (finalTotal * fraction.pow(2.3)).roundToInt()
+        return soFar.coerceIn(3, finalTotal)
     }
 
     /** Rank (1 = best) among [totalPlayers], derived from a beaten-fraction percentile. */
