@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">YourApp</string>
+    <string name="tab_play">Play</string>
+    <string name="tab_friends">Friends</string>
+    <string name="tab_profile">Profile</string>
+    <string name="tab_settings">Settings</string>
+</resources>

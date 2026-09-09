@@ -1,0 +1,3688 @@
+﻿[
+    {
+        "id":  "event_001",
+        "type":  "YEAR_GUESS",
+        "event":  "Treaty of Trianon",
+        "correctYear":  1920,
+        "source":  "...",
+        "difficulty":  2,
+        "imageAsset":  "images/events/event_001.png"
+    },
+    {
+        "id":  "event_002",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Hastings",
+        "correctYear":  1066,
+        "source":  "...",
+        "difficulty":  1,
+        "imageAsset":  "images/events/event_002.png"
+    },
+    {
+        "id":  "event_003",
+        "type":  "YEAR_GUESS",
+        "event":  "Fall of Constantinople",
+        "correctYear":  1453,
+        "source":  "...",
+        "difficulty":  2,
+        "imageAsset":  "images/events/event_003.png"
+    },
+    {
+        "id":  "event_004",
+        "type":  "YEAR_GUESS",
+        "event":  "Storming of the Bastille",
+        "correctYear":  1789,
+        "source":  "...",
+        "difficulty":  1,
+        "imageAsset":  "images/events/event_004.png"
+    },
+    {
+        "id":  "event_005",
+        "type":  "YEAR_GUESS",
+        "event":  "Chernobyl Disaster",
+        "correctYear":  1986,
+        "source":  "...",
+        "difficulty":  1,
+        "imageAsset":  "images/events/event_005.png"
+    },
+    {
+        "id":  "event_006",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Actium",
+        "correctYear":  -31,
+        "source":  "...",
+        "difficulty":  2,
+        "imageAsset":  "images/events/event_006.png"
+    },
+    {
+        "id":  "event_007",
+        "type":  "YEAR_GUESS",
+        "event":  "Rise of the Aztec Triple Alliance",
+        "correctYear":  1428,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_008",
+        "type":  "YEAR_GUESS",
+        "event":  "European sighting of the Caribbean",
+        "correctYear":  1492,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_009",
+        "type":  "YEAR_GUESS",
+        "event":  "Fall of Tenochtitlan",
+        "correctYear":  1521,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_010",
+        "type":  "YEAR_GUESS",
+        "event":  "Spanish conquest of Peru",
+        "correctYear":  1532,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_011",
+        "type":  "YEAR_GUESS",
+        "event":  "Founding of St. Augustine",
+        "correctYear":  1565,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_012",
+        "type":  "YEAR_GUESS",
+        "event":  "Jamestown founded",
+        "correctYear":  1607,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_013",
+        "type":  "YEAR_GUESS",
+        "event":  "Mayflower Compact",
+        "correctYear":  1620,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_014",
+        "type":  "YEAR_GUESS",
+        "event":  "Pueblo Revolt",
+        "correctYear":  1680,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_015",
+        "type":  "YEAR_GUESS",
+        "event":  "Treaty of Paris ends Seven Years\u0027 War in North America",
+        "correctYear":  1763,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_016",
+        "type":  "YEAR_GUESS",
+        "event":  "Boston Massacre",
+        "correctYear":  1770,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_017",
+        "type":  "YEAR_GUESS",
+        "event":  "Boston Tea Party",
+        "correctYear":  1773,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_018",
+        "type":  "YEAR_GUESS",
+        "event":  "Declaration of Independence",
+        "correctYear":  1776,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_019",
+        "type":  "YEAR_GUESS",
+        "event":  "U.S. Constitution signed",
+        "correctYear":  1787,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_020",
+        "type":  "YEAR_GUESS",
+        "event":  "French abolition of slavery in colonies",
+        "correctYear":  1794,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_021",
+        "type":  "YEAR_GUESS",
+        "event":  "Haitian Revolution begins",
+        "correctYear":  1791,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_022",
+        "type":  "YEAR_GUESS",
+        "event":  "Haitian independence",
+        "correctYear":  1804,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_023",
+        "type":  "YEAR_GUESS",
+        "event":  "Louisiana Purchase",
+        "correctYear":  1803,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_024",
+        "type":  "YEAR_GUESS",
+        "event":  "Mexican independence",
+        "correctYear":  1810,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_025",
+        "type":  "YEAR_GUESS",
+        "event":  "Monroe Doctrine",
+        "correctYear":  1823,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_026",
+        "type":  "YEAR_GUESS",
+        "event":  "Brazilian independence",
+        "correctYear":  1822,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_027",
+        "type":  "YEAR_GUESS",
+        "event":  "Bolivian independence",
+        "correctYear":  1825,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_028",
+        "type":  "YEAR_GUESS",
+        "event":  "Texas Revolution",
+        "correctYear":  1835,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_029",
+        "type":  "YEAR_GUESS",
+        "event":  "U.S.-Mexico War begins",
+        "correctYear":  1846,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_030",
+        "type":  "YEAR_GUESS",
+        "event":  "California Gold Rush",
+        "correctYear":  1848,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_031",
+        "type":  "YEAR_GUESS",
+        "event":  "Compromise of 1850",
+        "correctYear":  1850,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_032",
+        "type":  "YEAR_GUESS",
+        "event":  "Kansas-Nebraska Act",
+        "correctYear":  1854,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_033",
+        "type":  "YEAR_GUESS",
+        "event":  "Mexican Reform War",
+        "correctYear":  1857,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_034",
+        "type":  "YEAR_GUESS",
+        "event":  "American Civil War",
+        "correctYear":  1861,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_035",
+        "type":  "YEAR_GUESS",
+        "event":  "Emancipation Proclamation",
+        "correctYear":  1863,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_036",
+        "type":  "YEAR_GUESS",
+        "event":  "U.S. Reconstruction begins",
+        "correctYear":  1865,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_037",
+        "type":  "YEAR_GUESS",
+        "event":  "Purchase of Alaska",
+        "correctYear":  1867,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_038",
+        "type":  "YEAR_GUESS",
+        "event":  "Spanish-American War",
+        "correctYear":  1898,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_039",
+        "type":  "YEAR_GUESS",
+        "event":  "Panama Canal construction",
+        "correctYear":  1904,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_040",
+        "type":  "YEAR_GUESS",
+        "event":  "Mexican Revolution",
+        "correctYear":  1910,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_041",
+        "type":  "YEAR_GUESS",
+        "event":  "Women gain federal suffrage in U.S.",
+        "correctYear":  1920,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_042",
+        "type":  "YEAR_GUESS",
+        "event":  "Great Depression begins",
+        "correctYear":  1929,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_043",
+        "type":  "YEAR_GUESS",
+        "event":  "New Deal",
+        "correctYear":  1933,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_044",
+        "type":  "YEAR_GUESS",
+        "event":  "Attack on Pearl Harbor",
+        "correctYear":  1941,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_045",
+        "type":  "YEAR_GUESS",
+        "event":  "D-Day",
+        "correctYear":  1944,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_046",
+        "type":  "YEAR_GUESS",
+        "event":  "United Nations founded",
+        "correctYear":  1945,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_047",
+        "type":  "YEAR_GUESS",
+        "event":  "Truman Doctrine",
+        "correctYear":  1947,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_048",
+        "type":  "YEAR_GUESS",
+        "event":  "Cuban Revolution",
+        "correctYear":  1959,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_049",
+        "type":  "YEAR_GUESS",
+        "event":  "Moon landing",
+        "correctYear":  1969,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_050",
+        "type":  "YEAR_GUESS",
+        "event":  "Chile coup",
+        "correctYear":  1973,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_051",
+        "type":  "YEAR_GUESS",
+        "event":  "Ptolemaic rule in Egypt",
+        "correctYear":  -305,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_052",
+        "type":  "YEAR_GUESS",
+        "event":  "Roman annexation of Egypt",
+        "correctYear":  -30,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_053",
+        "type":  "YEAR_GUESS",
+        "event":  "Arab conquest of Egypt",
+        "correctYear":  639,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_054",
+        "type":  "YEAR_GUESS",
+        "event":  "Founding of Cairo",
+        "correctYear":  969,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_055",
+        "type":  "YEAR_GUESS",
+        "event":  "Mansa Musa\u0027s pilgrimage",
+        "correctYear":  1324,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_056",
+        "type":  "YEAR_GUESS",
+        "event":  "Moroccan conquest of Songhai",
+        "correctYear":  1591,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_057",
+        "type":  "YEAR_GUESS",
+        "event":  "Cape Colony established",
+        "correctYear":  1652,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_058",
+        "type":  "YEAR_GUESS",
+        "event":  "Berlin Conference",
+        "correctYear":  1884,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_059",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Adwa",
+        "correctYear":  1896,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_060",
+        "type":  "YEAR_GUESS",
+        "event":  "Ghana independence",
+        "correctYear":  1957,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_061",
+        "type":  "YEAR_GUESS",
+        "event":  "End of apartheid",
+        "correctYear":  1994,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_062",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Kadesh",
+        "correctYear":  -1274,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_063",
+        "type":  "YEAR_GUESS",
+        "event":  "Fall of Nineveh",
+        "correctYear":  -612,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_064",
+        "type":  "YEAR_GUESS",
+        "event":  "Cyrus conquers Babylon",
+        "correctYear":  -539,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_065",
+        "type":  "YEAR_GUESS",
+        "event":  "Persian Wars begin",
+        "correctYear":  -499,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_066",
+        "type":  "YEAR_GUESS",
+        "event":  "Alexander conquers Persia",
+        "correctYear":  -334,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_067",
+        "type":  "YEAR_GUESS",
+        "event":  "Seleucid Empire established",
+        "correctYear":  -312,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_068",
+        "type":  "YEAR_GUESS",
+        "event":  "Destruction of Jerusalem",
+        "correctYear":  70,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_069",
+        "type":  "YEAR_GUESS",
+        "event":  "Sasanian Empire founded",
+        "correctYear":  224,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_070",
+        "type":  "YEAR_GUESS",
+        "event":  "Hijra",
+        "correctYear":  622,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_071",
+        "type":  "YEAR_GUESS",
+        "event":  "Conquest of Jerusalem",
+        "correctYear":  638,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_072",
+        "type":  "YEAR_GUESS",
+        "event":  "Abbasid Revolution",
+        "correctYear":  750,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_073",
+        "type":  "YEAR_GUESS",
+        "event":  "First Crusade",
+        "correctYear":  1096,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_074",
+        "type":  "YEAR_GUESS",
+        "event":  "Capture of Jerusalem by Crusaders",
+        "correctYear":  1099,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_075",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Hattin",
+        "correctYear":  1187,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_076",
+        "type":  "YEAR_GUESS",
+        "event":  "Mongol sack of Baghdad",
+        "correctYear":  1258,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_077",
+        "type":  "YEAR_GUESS",
+        "event":  "Safavid Empire founded",
+        "correctYear":  1501,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_078",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Chaldiran",
+        "correctYear":  1514,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_079",
+        "type":  "YEAR_GUESS",
+        "event":  "Ottoman conquest of Egypt",
+        "correctYear":  1517,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_080",
+        "type":  "YEAR_GUESS",
+        "event":  "Ottoman constitutional era",
+        "correctYear":  1876,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_081",
+        "type":  "YEAR_GUESS",
+        "event":  "Suez Canal opens",
+        "correctYear":  1869,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_082",
+        "type":  "YEAR_GUESS",
+        "event":  "Young Turk Revolution",
+        "correctYear":  1908,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_083",
+        "type":  "YEAR_GUESS",
+        "event":  "Arab Revolt",
+        "correctYear":  1916,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_084",
+        "type":  "YEAR_GUESS",
+        "event":  "Balfour Declaration",
+        "correctYear":  1917,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_085",
+        "type":  "YEAR_GUESS",
+        "event":  "End of Ottoman Empire",
+        "correctYear":  1922,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_086",
+        "type":  "YEAR_GUESS",
+        "event":  "Treaty of Lausanne",
+        "correctYear":  1923,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_087",
+        "type":  "YEAR_GUESS",
+        "event":  "Creation of Saudi Arabia",
+        "correctYear":  1932,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_088",
+        "type":  "YEAR_GUESS",
+        "event":  "Creation of Israel",
+        "correctYear":  1948,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_089",
+        "type":  "YEAR_GUESS",
+        "event":  "First Arab-Israeli War",
+        "correctYear":  1948,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_090",
+        "type":  "YEAR_GUESS",
+        "event":  "Suez Crisis",
+        "correctYear":  1956,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_091",
+        "type":  "YEAR_GUESS",
+        "event":  "Six-Day War",
+        "correctYear":  1967,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_092",
+        "type":  "YEAR_GUESS",
+        "event":  "Yom Kippur War",
+        "correctYear":  1973,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_093",
+        "type":  "YEAR_GUESS",
+        "event":  "Iranian Revolution",
+        "correctYear":  1979,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_094",
+        "type":  "YEAR_GUESS",
+        "event":  "Iran-Iraq War",
+        "correctYear":  1980,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_095",
+        "type":  "YEAR_GUESS",
+        "event":  "Lebanese Civil War",
+        "correctYear":  1975,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_096",
+        "type":  "YEAR_GUESS",
+        "event":  "Soviet invasion of Afghanistan",
+        "correctYear":  1979,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_097",
+        "type":  "YEAR_GUESS",
+        "event":  "Gulf War",
+        "correctYear":  1990,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_098",
+        "type":  "YEAR_GUESS",
+        "event":  "Oslo Accords",
+        "correctYear":  1993,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_099",
+        "type":  "YEAR_GUESS",
+        "event":  "September 11 attacks",
+        "correctYear":  2001,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_100",
+        "type":  "YEAR_GUESS",
+        "event":  "U.S.-led invasion of Iraq",
+        "correctYear":  2003,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_101",
+        "type":  "YEAR_GUESS",
+        "event":  "Arab Spring begins",
+        "correctYear":  2010,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_102",
+        "type":  "YEAR_GUESS",
+        "event":  "Syrian Civil War begins",
+        "correctYear":  2011,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_103",
+        "type":  "YEAR_GUESS",
+        "event":  "Rise of ISIS",
+        "correctYear":  2013,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_104",
+        "type":  "YEAR_GUESS",
+        "event":  "Iran nuclear deal",
+        "correctYear":  2015,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_105",
+        "type":  "YEAR_GUESS",
+        "event":  "Abraham Accords",
+        "correctYear":  2020,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_106",
+        "type":  "YEAR_GUESS",
+        "event":  "Fall of Kabul",
+        "correctYear":  2021,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_107",
+        "type":  "YEAR_GUESS",
+        "event":  "Israel-Gaza war begins",
+        "correctYear":  2023,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_108",
+        "type":  "YEAR_GUESS",
+        "event":  "Ottoman conquest of Constantinople",
+        "correctYear":  1453,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_109",
+        "type":  "YEAR_GUESS",
+        "event":  "Iranian Constitutional Revolution",
+        "correctYear":  1905,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_110",
+        "type":  "YEAR_GUESS",
+        "event":  "Zhou conquest of Shang",
+        "correctYear":  -1046,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_111",
+        "type":  "YEAR_GUESS",
+        "event":  "Confucius born",
+        "correctYear":  -551,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_112",
+        "type":  "YEAR_GUESS",
+        "event":  "Qin unifies China",
+        "correctYear":  -221,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_113",
+        "type":  "YEAR_GUESS",
+        "event":  "Han dynasty founded",
+        "correctYear":  -202,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_114",
+        "type":  "YEAR_GUESS",
+        "event":  "Jin reunification",
+        "correctYear":  280,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_115",
+        "type":  "YEAR_GUESS",
+        "event":  "Sui reunifies China",
+        "correctYear":  589,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_116",
+        "type":  "YEAR_GUESS",
+        "event":  "Tang dynasty founded",
+        "correctYear":  618,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_117",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Talas",
+        "correctYear":  751,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_118",
+        "type":  "YEAR_GUESS",
+        "event":  "An Lushan Rebellion",
+        "correctYear":  755,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_119",
+        "type":  "YEAR_GUESS",
+        "event":  "Song dynasty founded",
+        "correctYear":  960,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_120",
+        "type":  "YEAR_GUESS",
+        "event":  "Mongol conquest of Song",
+        "correctYear":  1271,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_121",
+        "type":  "YEAR_GUESS",
+        "event":  "Yuan dynasty founded",
+        "correctYear":  1271,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_122",
+        "type":  "YEAR_GUESS",
+        "event":  "Ming dynasty founded",
+        "correctYear":  1368,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_123",
+        "type":  "YEAR_GUESS",
+        "event":  "Zheng He\u0027s voyages",
+        "correctYear":  1405,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_124",
+        "type":  "YEAR_GUESS",
+        "event":  "Qing dynasty founded",
+        "correctYear":  1636,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_125",
+        "type":  "YEAR_GUESS",
+        "event":  "Opium War begins",
+        "correctYear":  1839,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_126",
+        "type":  "YEAR_GUESS",
+        "event":  "Treaty of Nanking",
+        "correctYear":  1842,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_127",
+        "type":  "YEAR_GUESS",
+        "event":  "Taiping Rebellion",
+        "correctYear":  1850,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_128",
+        "type":  "YEAR_GUESS",
+        "event":  "Sino-Japanese War",
+        "correctYear":  1894,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_129",
+        "type":  "YEAR_GUESS",
+        "event":  "Hundred Days\u0027 Reform",
+        "correctYear":  1898,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_130",
+        "type":  "YEAR_GUESS",
+        "event":  "Boxer Uprising",
+        "correctYear":  1899,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_131",
+        "type":  "YEAR_GUESS",
+        "event":  "Xinhai Revolution",
+        "correctYear":  1911,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_132",
+        "type":  "YEAR_GUESS",
+        "event":  "Republic of China founded",
+        "correctYear":  1912,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_133",
+        "type":  "YEAR_GUESS",
+        "event":  "May Fourth Movement",
+        "correctYear":  1919,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_134",
+        "type":  "YEAR_GUESS",
+        "event":  "Chinese Communist Party founded",
+        "correctYear":  1921,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_135",
+        "type":  "YEAR_GUESS",
+        "event":  "Long March",
+        "correctYear":  1934,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_136",
+        "type":  "YEAR_GUESS",
+        "event":  "Second Sino-Japanese War",
+        "correctYear":  1937,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_137",
+        "type":  "YEAR_GUESS",
+        "event":  "Nanjing Massacre",
+        "correctYear":  1937,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_138",
+        "type":  "YEAR_GUESS",
+        "event":  "Pearl Harbor attack",
+        "correctYear":  1941,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_139",
+        "type":  "YEAR_GUESS",
+        "event":  "Atomic bombings of Hiroshima and Nagasaki",
+        "correctYear":  1945,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_140",
+        "type":  "YEAR_GUESS",
+        "event":  "Chinese Communist victory",
+        "correctYear":  1949,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_141",
+        "type":  "YEAR_GUESS",
+        "event":  "Korean War begins",
+        "correctYear":  1950,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_142",
+        "type":  "YEAR_GUESS",
+        "event":  "People\u0027s Republic of China enters Korean War",
+        "correctYear":  1950,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_143",
+        "type":  "YEAR_GUESS",
+        "event":  "Great Leap Forward",
+        "correctYear":  1958,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_144",
+        "type":  "YEAR_GUESS",
+        "event":  "Cultural Revolution",
+        "correctYear":  1966,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_145",
+        "type":  "YEAR_GUESS",
+        "event":  "Deng Xiaoping reforms",
+        "correctYear":  1978,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_146",
+        "type":  "YEAR_GUESS",
+        "event":  "Tiananmen protests",
+        "correctYear":  1989,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_147",
+        "type":  "YEAR_GUESS",
+        "event":  "Hong Kong handover",
+        "correctYear":  1997,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_148",
+        "type":  "YEAR_GUESS",
+        "event":  "Macau handover",
+        "correctYear":  1999,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_149",
+        "type":  "YEAR_GUESS",
+        "event":  "China joins WTO",
+        "correctYear":  2001,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_150",
+        "type":  "YEAR_GUESS",
+        "event":  "Indian independence",
+        "correctYear":  1947,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_151",
+        "type":  "YEAR_GUESS",
+        "event":  "Partition of India",
+        "correctYear":  1947,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_152",
+        "type":  "YEAR_GUESS",
+        "event":  "Bangladesh Liberation War",
+        "correctYear":  1971,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_153",
+        "type":  "YEAR_GUESS",
+        "event":  "Indo-Pakistani War",
+        "correctYear":  1971,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_154",
+        "type":  "YEAR_GUESS",
+        "event":  "Vietnamese independence declaration",
+        "correctYear":  1945,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_155",
+        "type":  "YEAR_GUESS",
+        "event":  "First Indochina War",
+        "correctYear":  1946,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_156",
+        "type":  "YEAR_GUESS",
+        "event":  "Vietnam War",
+        "correctYear":  1955,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_157",
+        "type":  "YEAR_GUESS",
+        "event":  "Fall of Saigon",
+        "correctYear":  1975,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_158",
+        "type":  "YEAR_GUESS",
+        "event":  "Doi Moi reforms",
+        "correctYear":  1986,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_159",
+        "type":  "YEAR_GUESS",
+        "event":  "Japanese Meiji Restoration",
+        "correctYear":  1868,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_160",
+        "type":  "YEAR_GUESS",
+        "event":  "First Olympic Games (traditional date)",
+        "correctYear":  -776,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_161",
+        "type":  "YEAR_GUESS",
+        "event":  "Persian Wars",
+        "correctYear":  -499,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_162",
+        "type":  "YEAR_GUESS",
+        "event":  "Peloponnesian War",
+        "correctYear":  -431,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_163",
+        "type":  "YEAR_GUESS",
+        "event":  "Trial and death of Socrates",
+        "correctYear":  -399,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_164",
+        "type":  "YEAR_GUESS",
+        "event":  "Alexander the Great\u0027s conquests",
+        "correctYear":  -334,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_165",
+        "type":  "YEAR_GUESS",
+        "event":  "First Punic War",
+        "correctYear":  -264,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_166",
+        "type":  "YEAR_GUESS",
+        "event":  "Second Punic War",
+        "correctYear":  -218,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_167",
+        "type":  "YEAR_GUESS",
+        "event":  "Destruction of Carthage",
+        "correctYear":  -146,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_168",
+        "type":  "YEAR_GUESS",
+        "event":  "Roman conquest of Greece",
+        "correctYear":  -146,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_169",
+        "type":  "YEAR_GUESS",
+        "event":  "Spartacus revolt",
+        "correctYear":  -73,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_170",
+        "type":  "YEAR_GUESS",
+        "event":  "Caesar crosses the Rubicon",
+        "correctYear":  -49,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_171",
+        "type":  "YEAR_GUESS",
+        "event":  "Julius Caesar assassinated",
+        "correctYear":  -44,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_172",
+        "type":  "YEAR_GUESS",
+        "event":  "Augustus becomes first Roman emperor",
+        "correctYear":  -27,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_173",
+        "type":  "YEAR_GUESS",
+        "event":  "Constantine\u0027s conversion",
+        "correctYear":  312,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_174",
+        "type":  "YEAR_GUESS",
+        "event":  "Edict of Milan",
+        "correctYear":  313,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_175",
+        "type":  "YEAR_GUESS",
+        "event":  "Council of Nicaea",
+        "correctYear":  325,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_176",
+        "type":  "YEAR_GUESS",
+        "event":  "Fall of Western Roman Empire",
+        "correctYear":  476,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_177",
+        "type":  "YEAR_GUESS",
+        "event":  "Justinian\u0027s reign",
+        "correctYear":  527,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_178",
+        "type":  "YEAR_GUESS",
+        "event":  "Great Schism",
+        "correctYear":  1054,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_179",
+        "type":  "YEAR_GUESS",
+        "event":  "Norman Conquest of England",
+        "correctYear":  1066,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_180",
+        "type":  "YEAR_GUESS",
+        "event":  "Magna Carta",
+        "correctYear":  1215,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_181",
+        "type":  "YEAR_GUESS",
+        "event":  "Black Death reaches Europe",
+        "correctYear":  1347,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_182",
+        "type":  "YEAR_GUESS",
+        "event":  "Hundred Years\u0027 War",
+        "correctYear":  1337,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_183",
+        "type":  "YEAR_GUESS",
+        "event":  "Gutenberg printing revolution",
+        "correctYear":  1450,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_184",
+        "type":  "YEAR_GUESS",
+        "event":  "Columbus reaches the Americas",
+        "correctYear":  1492,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_185",
+        "type":  "YEAR_GUESS",
+        "event":  "Protestant Reformation begins",
+        "correctYear":  1517,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_186",
+        "type":  "YEAR_GUESS",
+        "event":  "Diet of Worms",
+        "correctYear":  1521,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_187",
+        "type":  "YEAR_GUESS",
+        "event":  "Council of Trent",
+        "correctYear":  1545,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_188",
+        "type":  "YEAR_GUESS",
+        "event":  "Spanish Armada",
+        "correctYear":  1588,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_189",
+        "type":  "YEAR_GUESS",
+        "event":  "Thirty Years\u0027 War",
+        "correctYear":  1618,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_190",
+        "type":  "YEAR_GUESS",
+        "event":  "Peace of Westphalia",
+        "correctYear":  1648,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_191",
+        "type":  "YEAR_GUESS",
+        "event":  "Glorious Revolution",
+        "correctYear":  1688,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_192",
+        "type":  "YEAR_GUESS",
+        "event":  "Act of Union",
+        "correctYear":  1707,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_193",
+        "type":  "YEAR_GUESS",
+        "event":  "French Revolution begins",
+        "correctYear":  1789,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_194",
+        "type":  "YEAR_GUESS",
+        "event":  "Declaration of the Rights of Man",
+        "correctYear":  1789,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_195",
+        "type":  "YEAR_GUESS",
+        "event":  "Reign of Terror",
+        "correctYear":  1793,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_196",
+        "type":  "YEAR_GUESS",
+        "event":  "Napoleon becomes emperor",
+        "correctYear":  1804,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_197",
+        "type":  "YEAR_GUESS",
+        "event":  "Congress of Vienna",
+        "correctYear":  1814,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_198",
+        "type":  "YEAR_GUESS",
+        "event":  "Greek War of Independence",
+        "correctYear":  1821,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_199",
+        "type":  "YEAR_GUESS",
+        "event":  "Revolutions of 1848",
+        "correctYear":  1848,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_200",
+        "type":  "YEAR_GUESS",
+        "event":  "Italian unification",
+        "correctYear":  1859,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_201",
+        "type":  "YEAR_GUESS",
+        "event":  "German unification",
+        "correctYear":  1871,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_202",
+        "type":  "YEAR_GUESS",
+        "event":  "Paris Commune",
+        "correctYear":  1871,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_203",
+        "type":  "YEAR_GUESS",
+        "event":  "Russian Revolution of 1905",
+        "correctYear":  1905,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_204",
+        "type":  "YEAR_GUESS",
+        "event":  "First Balkan War",
+        "correctYear":  1912,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_205",
+        "type":  "YEAR_GUESS",
+        "event":  "World War I begins",
+        "correctYear":  1914,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_206",
+        "type":  "YEAR_GUESS",
+        "event":  "Russian Revolution",
+        "correctYear":  1917,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_207",
+        "type":  "YEAR_GUESS",
+        "event":  "Bolshevik Revolution",
+        "correctYear":  1917,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_208",
+        "type":  "YEAR_GUESS",
+        "event":  "Treaty of Versailles",
+        "correctYear":  1919,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_209",
+        "type":  "YEAR_GUESS",
+        "event":  "League of Nations founded",
+        "correctYear":  1920,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_210",
+        "type":  "YEAR_GUESS",
+        "event":  "Rise of fascism in Italy",
+        "correctYear":  1922,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_211",
+        "type":  "YEAR_GUESS",
+        "event":  "Nazi seizure of power",
+        "correctYear":  1933,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_212",
+        "type":  "YEAR_GUESS",
+        "event":  "Spanish Civil War",
+        "correctYear":  1936,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_213",
+        "type":  "YEAR_GUESS",
+        "event":  "Munich Agreement",
+        "correctYear":  1938,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_214",
+        "type":  "YEAR_GUESS",
+        "event":  "World War II begins in Europe",
+        "correctYear":  1939,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_215",
+        "type":  "YEAR_GUESS",
+        "event":  "Fall of France",
+        "correctYear":  1940,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_216",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Britain",
+        "correctYear":  1940,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_217",
+        "type":  "YEAR_GUESS",
+        "event":  "Operation Barbarossa",
+        "correctYear":  1941,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_218",
+        "type":  "YEAR_GUESS",
+        "event":  "Fall of Berlin",
+        "correctYear":  1945,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_219",
+        "type":  "YEAR_GUESS",
+        "event":  "Nuremberg Trials",
+        "correctYear":  1945,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_220",
+        "type":  "YEAR_GUESS",
+        "event":  "Marshall Plan",
+        "correctYear":  1948,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_221",
+        "type":  "YEAR_GUESS",
+        "event":  "NATO founded",
+        "correctYear":  1949,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_222",
+        "type":  "YEAR_GUESS",
+        "event":  "European Coal and Steel Community",
+        "correctYear":  1951,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_223",
+        "type":  "YEAR_GUESS",
+        "event":  "Treaty of Rome",
+        "correctYear":  1957,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_224",
+        "type":  "YEAR_GUESS",
+        "event":  "Berlin Wall built",
+        "correctYear":  1961,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_225",
+        "type":  "YEAR_GUESS",
+        "event":  "Cuban Missile Crisis",
+        "correctYear":  1962,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_226",
+        "type":  "YEAR_GUESS",
+        "event":  "Prague Spring",
+        "correctYear":  1968,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_227",
+        "type":  "YEAR_GUESS",
+        "event":  "Fall of Saigon / European détente era",
+        "correctYear":  1975,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_228",
+        "type":  "YEAR_GUESS",
+        "event":  "Fall of Berlin Wall",
+        "correctYear":  1989,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_229",
+        "type":  "YEAR_GUESS",
+        "event":  "German reunification",
+        "correctYear":  1990,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_230",
+        "type":  "YEAR_GUESS",
+        "event":  "Dissolution of Soviet Union",
+        "correctYear":  1991,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_231",
+        "type":  "YEAR_GUESS",
+        "event":  "Maastricht Treaty",
+        "correctYear":  1992,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_232",
+        "type":  "YEAR_GUESS",
+        "event":  "EU enlargement eastward",
+        "correctYear":  2004,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_233",
+        "type":  "YEAR_GUESS",
+        "event":  "Global financial crisis in Europe",
+        "correctYear":  2008,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_234",
+        "type":  "YEAR_GUESS",
+        "event":  "Brexit referendum",
+        "correctYear":  2016,
+        "source":  "User-provided dataset (historical_events_300.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_235",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of the Great Bridge",
+        "correctYear":  1775,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_236",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Bunker Hill",
+        "correctYear":  1775,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_237",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Long Island",
+        "correctYear":  1776,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_238",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Charleston",
+        "correctYear":  1780,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_239",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Camden",
+        "correctYear":  1780,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_240",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Guilford Court House",
+        "correctYear":  1781,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_241",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Yorktown",
+        "correctYear":  1781,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_242",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Queenston Heights",
+        "correctYear":  1812,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_243",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Fort Erie",
+        "correctYear":  1814,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_244",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Palo Alto",
+        "correctYear":  1846,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_245",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Resaca de la Palma",
+        "correctYear":  1846,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_246",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Monterrey",
+        "correctYear":  1846,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_247",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Mexico City",
+        "correctYear":  1847,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_248",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Sacramento",
+        "correctYear":  1847,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_249",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of San Pasqual",
+        "correctYear":  1846,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_250",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Monterrey (Reform War)",
+        "correctYear":  1858,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_251",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Puebla",
+        "correctYear":  1862,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_252",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Antietam",
+        "correctYear":  1862,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_253",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Gettysburg",
+        "correctYear":  1863,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_254",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Chancellorsville",
+        "correctYear":  1863,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_255",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Shiloh",
+        "correctYear":  1862,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_256",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Fredericksburg",
+        "correctYear":  1862,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_257",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Stones River",
+        "correctYear":  1862,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_258",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Vicksburg",
+        "correctYear":  1863,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_259",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of the Wilderness",
+        "correctYear":  1864,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_260",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Petersburg",
+        "correctYear":  1864,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_261",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Mansfield",
+        "correctYear":  1864,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_262",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Manila Bay",
+        "correctYear":  1898,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_263",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Veracruz",
+        "correctYear":  1914,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_264",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Ciudad Juárez",
+        "correctYear":  1911,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_265",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Kadesh (Egyptian-Levantine theatre)",
+        "correctYear":  -1274,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_266",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Qarqar",
+        "correctYear":  -853,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_267",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Carthage (First Punic War)",
+        "correctYear":  -256,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_268",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Zama",
+        "correctYear":  -202,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_269",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Cannae (North African Carthaginian army)",
+        "correctYear":  -216,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_270",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Thapsus",
+        "correctYear":  -46,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_271",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Utica",
+        "correctYear":  -46,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_272",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Ad Decimum",
+        "correctYear":  533,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_273",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Carthage (698)",
+        "correctYear":  698,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_274",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Manzikert",
+        "correctYear":  1071,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_275",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Sagrajas",
+        "correctYear":  1086,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_276",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Alarcos",
+        "correctYear":  1195,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_277",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Las Navas de Tolosa",
+        "correctYear":  1212,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_278",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Muret",
+        "correctYear":  1213,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_279",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Acre",
+        "correctYear":  1291,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_280",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Wadi al-Khazandar",
+        "correctYear":  1299,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_281",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Ksar el Kebir",
+        "correctYear":  1578,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_282",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Dogali",
+        "correctYear":  1887,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_283",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Rorke\u0027s Drift",
+        "correctYear":  1879,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_284",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Spion Kop",
+        "correctYear":  1900,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_285",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Colenso",
+        "correctYear":  1899,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_286",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Tanga",
+        "correctYear":  1914,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_287",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Namacurra",
+        "correctYear":  1918,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_288",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Mahenge",
+        "correctYear":  1917,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_289",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Mahiwa",
+        "correctYear":  1917,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_290",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Kilimanjaro",
+        "correctYear":  1914,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_291",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Opis",
+        "correctYear":  -539,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_292",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Marathon",
+        "correctYear":  -490,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_293",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Thermopylae",
+        "correctYear":  -480,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_294",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Plataea",
+        "correctYear":  -479,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_295",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Issus",
+        "correctYear":  -333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_296",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Gaugamela",
+        "correctYear":  -331,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_297",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Persian Gate",
+        "correctYear":  -330,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_298",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Carrhae",
+        "correctYear":  -53,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_299",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Nisibis",
+        "correctYear":  217,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_300",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Edessa",
+        "correctYear":  260,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_301",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Qadisiyyah",
+        "correctYear":  636,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_302",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of the Bridge",
+        "correctYear":  634,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_303",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Marj Rahit",
+        "correctYear":  684,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_304",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Maskin",
+        "correctYear":  691,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_305",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Zab",
+        "correctYear":  750,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_306",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Dara",
+        "correctYear":  530,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_307",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Satala",
+        "correctYear":  530,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_308",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Sura",
+        "correctYear":  540,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_309",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Antioch",
+        "correctYear":  1098,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_310",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Ascalon",
+        "correctYear":  1099,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_311",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Arsuf",
+        "correctYear":  1191,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_312",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Jaffa",
+        "correctYear":  1192,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_313",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Ain Jalut",
+        "correctYear":  1260,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_314",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Elbistan",
+        "correctYear":  1277,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_315",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Mohacs",
+        "correctYear":  1526,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_316",
+        "type":  "YEAR_GUESS",
+        "event":  "Siege of Baghdad",
+        "correctYear":  1258,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_317",
+        "type":  "YEAR_GUESS",
+        "event":  "Siege of Aleppo",
+        "correctYear":  1260,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_318",
+        "type":  "YEAR_GUESS",
+        "event":  "Siege of Damascus",
+        "correctYear":  1260,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_319",
+        "type":  "YEAR_GUESS",
+        "event":  "Siege of Jerusalem",
+        "correctYear":  1099,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_320",
+        "type":  "YEAR_GUESS",
+        "event":  "Siege of Antioch",
+        "correctYear":  1098,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_321",
+        "type":  "YEAR_GUESS",
+        "event":  "Siege of Tyre",
+        "correctYear":  -332,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_322",
+        "type":  "YEAR_GUESS",
+        "event":  "Siege of Gaza",
+        "correctYear":  -332,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_323",
+        "type":  "YEAR_GUESS",
+        "event":  "Siege of Athens and Piraeus",
+        "correctYear":  -87,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_324",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Ankara",
+        "correctYear":  1402,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_325",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Lepanto",
+        "correctYear":  1571,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_326",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Vienna",
+        "correctYear":  1683,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_327",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Zenta",
+        "correctYear":  1697,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_328",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Petrovaradin",
+        "correctYear":  1716,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_329",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Pruth",
+        "correctYear":  1711,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_330",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of the Pyramids",
+        "correctYear":  1798,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_331",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Heliopolis",
+        "correctYear":  1800,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_332",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Navarino",
+        "correctYear":  1827,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_333",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Konya",
+        "correctYear":  1832,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_334",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Nezib",
+        "correctYear":  1839,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_335",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Kars",
+        "correctYear":  1855,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_336",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Plevna",
+        "correctYear":  1877,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_337",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of San Stefano",
+        "correctYear":  1878,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_338",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Gallipoli",
+        "correctYear":  1915,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_339",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Gaza",
+        "correctYear":  1917,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_340",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Damascus",
+        "correctYear":  1918,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_341",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Aleppo",
+        "correctYear":  1918,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_342",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Muye",
+        "correctYear":  -1046,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_343",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Yanling",
+        "correctYear":  -575,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_344",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Changshao",
+        "correctYear":  -684,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_345",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Bi",
+        "correctYear":  -632,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_346",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Changping",
+        "correctYear":  -260,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_347",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Julu",
+        "correctYear":  -207,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_348",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Gaixia",
+        "correctYear":  -202,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_349",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Guandu",
+        "correctYear":  200,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_350",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Red Cliffs",
+        "correctYear":  208,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_351",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Fei River",
+        "correctYear":  383,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_352",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Wuzhang Plains",
+        "correctYear":  234,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_353",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Zhongli",
+        "correctYear":  507,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_354",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Salsu",
+        "correctYear":  612,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_355",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Xiangji Temple",
+        "correctYear":  757,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_356",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Yongqiu",
+        "correctYear":  756,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_357",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Suiyang",
+        "correctYear":  757,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_358",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Shanhai Pass",
+        "correctYear":  1644,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_359",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Tsushima",
+        "correctYear":  1905,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_360",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Port Arthur",
+        "correctYear":  1904,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_361",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Shanghai",
+        "correctYear":  1937,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_362",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Nanjing",
+        "correctYear":  1937,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_363",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Wuhan",
+        "correctYear":  1938,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_364",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of South Shanxi",
+        "correctYear":  1941,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_365",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Okinawa",
+        "correctYear":  1945,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_366",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Manila",
+        "correctYear":  1945,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_367",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Iwo Jima",
+        "correctYear":  1945,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_368",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Guadalcanal",
+        "correctYear":  1942,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_369",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Midway",
+        "correctYear":  1942,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_370",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Coral Sea",
+        "correctYear":  1942,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_371",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of the Philippine Sea",
+        "correctYear":  1944,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_372",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Leyte Gulf",
+        "correctYear":  1944,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_373",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Saigon",
+        "correctYear":  1945,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_374",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Dien Bien Phu",
+        "correctYear":  1954,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_375",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Khe Sanh",
+        "correctYear":  1968,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_376",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Hue",
+        "correctYear":  1968,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_377",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Hamburger Hill",
+        "correctYear":  1969,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_378",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Singapore",
+        "correctYear":  1942,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_379",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Malaya",
+        "correctYear":  1941,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_380",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Hong Kong",
+        "correctYear":  1941,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_381",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Guam",
+        "correctYear":  1944,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_382",
+        "type":  "YEAR_GUESS",
+        "event":  "Naval Battle of Guadalcanal",
+        "correctYear":  1942,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_383",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Manchuria",
+        "correctYear":  1945,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_384",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Khalkhin Gol",
+        "correctYear":  1939,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_385",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Salamis",
+        "correctYear":  -480,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_386",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Hydaspes",
+        "correctYear":  -326,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_387",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Asculum",
+        "correctYear":  -279,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_388",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Lake Trasimene",
+        "correctYear":  -217,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_389",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Trebia",
+        "correctYear":  -218,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_390",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Philippi",
+        "correctYear":  -42,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_391",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Teutoburg Forest",
+        "correctYear":  9,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_392",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Milvian Bridge",
+        "correctYear":  312,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_393",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of the Catalaunian Plains",
+        "correctYear":  451,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_394",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Tours",
+        "correctYear":  732,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_395",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Pliska",
+        "correctYear":  811,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_396",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Ashdown",
+        "correctYear":  871,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_397",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Brenta",
+        "correctYear":  899,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_398",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Lechfeld",
+        "correctYear":  955,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_399",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Kleidion",
+        "correctYear":  1014,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_400",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Stamford Bridge",
+        "correctYear":  1066,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_401",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Civetot",
+        "correctYear":  1096,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_402",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Montgisard",
+        "correctYear":  1177,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_403",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Kalka River",
+        "correctYear":  1223,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_404",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Mohi",
+        "correctYear":  1241,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_405",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Stirling Bridge",
+        "correctYear":  1297,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_406",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Falkirk",
+        "correctYear":  1298,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_407",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Bannockburn",
+        "correctYear":  1314,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_408",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Crécy",
+        "correctYear":  1346,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_409",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Poitiers",
+        "correctYear":  1356,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_410",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Agincourt",
+        "correctYear":  1415,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_411",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Nicopolis",
+        "correctYear":  1396,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_412",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Varna",
+        "correctYear":  1444,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_413",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Kosovo",
+        "correctYear":  1389,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_414",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Grunwald",
+        "correctYear":  1410,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_415",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Tannenberg",
+        "correctYear":  1410,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_416",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Orsha",
+        "correctYear":  1514,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_417",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Pavia",
+        "correctYear":  1525,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_418",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Marignano",
+        "correctYear":  1515,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_419",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Bicocca",
+        "correctYear":  1522,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_420",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Ceresole",
+        "correctYear":  1544,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_421",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of White Mountain",
+        "correctYear":  1620,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_422",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Breitenfeld",
+        "correctYear":  1631,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_423",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Lützen",
+        "correctYear":  1632,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_424",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Poltava",
+        "correctYear":  1709,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_425",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Narva",
+        "correctYear":  1700,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_426",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Prague",
+        "correctYear":  1757,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_427",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Marengo",
+        "correctYear":  1800,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_428",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Austerlitz",
+        "correctYear":  1805,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_429",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Jena-Auerstedt",
+        "correctYear":  1806,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_430",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Eylau",
+        "correctYear":  1807,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_431",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Friedland",
+        "correctYear":  1807,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_432",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Wagram",
+        "correctYear":  1809,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_433",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Borodino",
+        "correctYear":  1812,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_434",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Leipzig",
+        "correctYear":  1813,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_435",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Waterloo",
+        "correctYear":  1815,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_436",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Dresden",
+        "correctYear":  1813,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_437",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Solferino",
+        "correctYear":  1859,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_438",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Königgrätz",
+        "correctYear":  1866,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_439",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Sedan",
+        "correctYear":  1870,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_440",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Le Mans",
+        "correctYear":  1871,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_441",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of the Frontiers",
+        "correctYear":  1914,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_442",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Galicia",
+        "correctYear":  1914,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_443",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of the Marne",
+        "correctYear":  1914,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_444",
+        "type":  "YEAR_GUESS",
+        "event":  "First Battle of Ypres",
+        "correctYear":  1914,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_445",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Łódź",
+        "correctYear":  1914,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_446",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Verdun",
+        "correctYear":  1916,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_447",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of the Somme",
+        "correctYear":  1916,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_448",
+        "type":  "YEAR_GUESS",
+        "event":  "Brusilov Offensive",
+        "correctYear":  1916,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_449",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Passchendaele",
+        "correctYear":  1917,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_450",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Cambrai",
+        "correctYear":  1917,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_451",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Caporetto",
+        "correctYear":  1917,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_452",
+        "type":  "YEAR_GUESS",
+        "event":  "Spring Offensive",
+        "correctYear":  1918,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_453",
+        "type":  "YEAR_GUESS",
+        "event":  "Hundred Days Offensive",
+        "correctYear":  1918,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_454",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Warsaw",
+        "correctYear":  1920,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "event_455",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Kursk",
+        "correctYear":  1943,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_456",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Berlin",
+        "correctYear":  1945,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_457",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Kiev",
+        "correctYear":  1941,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "event_458",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Smolensk",
+        "correctYear":  1941,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_459",
+        "type":  "YEAR_GUESS",
+        "event":  "Battle of Kharkov",
+        "correctYear":  1942,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "event_460",
+        "type":  "YEAR_GUESS",
+        "event":  "Operation Bagration",
+        "correctYear":  1944,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    }
+]

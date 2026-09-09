@@ -1,0 +1,238 @@
+HISTORICAL BATTLES AND IMPORTANT EVENTS
+==============================================================================
+
+BATTLES
+=======
+No. | Region | Battle | Year | Estimated casualties | Conflict
+------------------------------------------------------------------------------
+001 | Americas | Battle of the Great Bridge | 1775 | 100 | American Revolutionary War
+002 | Americas | Battle of Bunker Hill | 1775 | 1,150 | American Revolutionary War
+003 | Americas | Battle of Long Island | 1776 | 4,000 | American Revolutionary War
+009 | Americas | Battle of Charleston | 1780 | 550 | American Revolutionary War
+010 | Americas | Battle of Camden | 1780 | 2,000 | American Revolutionary War
+013 | Americas | Battle of Guilford Court House | 1781 | 1,200 | American Revolutionary War
+014 | Americas | Battle of Yorktown | 1781 | 500 | American Revolutionary War
+023 | Americas | Battle of Queenston Heights | 1812 | 1,000 | War of 1812
+024 | Americas | Battle of Fort Erie | 1814 | 1,100 | War of 1812
+025 | Americas | Battle of Palo Alto | 1846 | 350 | Mexican-American War
+026 | Americas | Battle of Resaca de la Palma | 1846 | 350 | Mexican-American War
+027 | Americas | Battle of Monterrey | 1846 | 1,000 | Mexican-American War
+034 | Americas | Battle of Mexico City | 1847 | 5,000 | Mexican-American War
+035 | Americas | Battle of Sacramento | 1847 | 1,000 | Mexican-American War
+036 | Americas | Battle of San Pasqual | 1846 | 250 | Mexican-American War
+042 | Americas | Battle of Monterrey (Reform War) | 1858 | 500 | Reform War
+043 | Americas | Battle of Puebla | 1862 | 2,000 | French intervention in Mexico
+051 | Americas | Battle of Antietam | 1862 | 22,717 | American Civil War
+052 | Americas | Battle of Gettysburg | 1863 | 51,000 | American Civil War
+054 | Americas | Battle of Chancellorsville | 1863 | 30,000 | American Civil War
+055 | Americas | Battle of Shiloh | 1862 | 23,746 | American Civil War
+056 | Americas | Battle of Fredericksburg | 1862 | 18,300 | American Civil War
+057 | Americas | Battle of Stones River | 1862 | 24,645 | American Civil War
+060 | Americas | Battle of Vicksburg | 1863 | 37,000 | American Civil War
+082 | Americas | Battle of the Wilderness | 1864 | 29,000 | American Civil War
+088 | Americas | Battle of Petersburg | 1864 | 70,000 | American Civil War
+100 | Americas | Battle of Mansfield | 1864 | 4,400 | Red River Campaign
+118 | Americas | Battle of Manila Bay | 1898 | 0 | Spanish-American War
+119 | Americas | Battle of Veracruz | 1914 | 250 | Mexican Revolution / U.S. intervention
+120 | Americas | Battle of Ciudad Juárez | 1911 | 500 | Mexican Revolution
+121 | Africa | Battle of Kadesh (Egyptian-Levantine theatre) | 1274 BCE | 30,000 | Egyptian-Hittite war
+123 | Africa | Battle of Qarqar | 853 BCE | 24,000 | Assyrian-Syrian conflict
+125 | Africa | Battle of Carthage (First Punic War) | 256 BCE | 50,000 | First Punic War
+126 | Africa | Battle of Zama | 202 BCE | 30,000 | Second Punic War
+127 | Africa | Battle of Cannae (North African Carthaginian army) | 216 BCE | 70,000 | Second Punic War
+128 | Africa | Battle of Thapsus | 46 BCE | 10,000 | Caesar's African campaign
+129 | Africa | Battle of Utica | 46 BCE | 5,000 | Caesar's African campaign
+131 | Africa | Battle of Ad Decimum | 533 | 17,000 | Vandal War
+133 | Africa | Battle of Carthage (698) | 698 | 10,000 | Umayyad conquest of North Africa
+137 | Africa | Battle of Manzikert | 1071 | 25,000 | Byzantine-Seljuk War
+138 | Africa | Battle of Sagrajas | 1086 | 20,000 | Almoravid intervention in Iberia
+139 | Africa | Battle of Alarcos | 1195 | 20,000 | Castilian-Almohad War
+140 | Africa | Battle of Las Navas de Tolosa | 1212 | 30,000 | Almohad wars
+141 | Africa | Battle of Muret | 1213 | 15,000 | Albigensian Crusade
+143 | Africa | Battle of Acre | 1291 | 20,000 | Mamluk-Crusader War
+144 | Africa | Battle of Wadi al-Khazandar | 1299 | 30,000 | Mongol-Mamluk War
+146 | Africa | Battle of Ksar el Kebir | 1578 | 25,000 | Portuguese-Moroccan War
+154 | Africa | Battle of Dogali | 1887 | 700 | Italo-Ethiopian conflict
+155 | Africa | Battle of Adwa | 1896 | 17,300 | First Italo-Ethiopian War
+162 | Africa | Battle of Rorke's Drift | 1879 | 20 | Anglo-Zulu War
+169 | Africa | Battle of Spion Kop | 1900 | 3,000 | Second Boer War
+170 | Africa | Battle of Colenso | 1899 | 1,600 | Second Boer War
+175 | Africa | Battle of Tanga | 1914 | 1,000 | East African campaign
+176 | Africa | Battle of Namacurra | 1918 | 1,000 | East African campaign
+177 | Africa | Battle of Mahenge | 1917 | 1,500 | East African campaign
+178 | Africa | Battle of Mahiwa | 1917 | 7,000 | East African campaign
+179 | Africa | Battle of Kilimanjaro | 1914 | 1,000 | East African campaign
+180 | Middle East | Battle of Opis | 539 BCE | 10,000 | Persian conquest of Babylon
+181 | Middle East | Battle of Marathon | 490 BCE | 6,000 | Greco-Persian Wars
+182 | Middle East | Battle of Thermopylae | 480 BCE | 22,500 | Greco-Persian Wars
+183 | Middle East | Battle of Plataea | 479 BCE | 51,500 | Greco-Persian Wars
+184 | Middle East | Battle of Issus | 333 BCE | 30,000 | Wars of Alexander
+185 | Middle East | Battle of Gaugamela | 331 BCE | 53,500 | Wars of Alexander
+186 | Middle East | Battle of Persian Gate | 330 BCE | 48,500 | Wars of Alexander
+187 | Middle East | Battle of Carrhae | 53 BCE | 20,000 | Roman-Parthian War
+189 | Middle East | Battle of Actium | 31 BCE | 7,500 | Roman civil war
+190 | Middle East | Battle of Nisibis | 217 | 15,000 | Roman-Parthian War
+191 | Middle East | Battle of Edessa | 260 | 65,000 | Roman-Persian War
+196 | Middle East | Battle of Qadisiyyah | 636 | 31,000 | Muslim conquest of Persia
+204 | Middle East | Battle of the Bridge | 634 | 10,000 | Muslim conquest of Persia
+205 | Middle East | Battle of Marj Rahit | 684 | 20,000 | Second Fitna
+206 | Middle East | Battle of Maskin | 691 | 10,000 | Second Fitna
+207 | Middle East | Battle of Zab | 750 | 10,000 | Abbasid Revolution
+209 | Middle East | Battle of Dara | 530 | 8,000 | Iberian War
+210 | Middle East | Battle of Satala | 530 | 10,000 | Iberian War
+211 | Middle East | Battle of Sura | 540 | 5,000 | Lazic War
+221 | Middle East | Battle of Antioch | 1098 | 10,000 | First Crusade
+222 | Middle East | Battle of Ascalon | 1099 | 13,000 | First Crusade
+223 | Middle East | Battle of Hattin | 1187 | 30,000 | Crusades
+224 | Middle East | Battle of Arsuf | 1191 | 10,000 | Third Crusade
+225 | Middle East | Battle of Jaffa | 1192 | 3,000 | Third Crusade
+226 | Middle East | Battle of Ain Jalut | 1260 | 20,000 | Mongol-Mamluk War
+227 | Middle East | Battle of Elbistan | 1277 | 10,000 | Mongol-Mamluk War
+232 | Middle East | Battle of Mohacs | 1526 | 30,000 | Ottoman-Hungarian War
+233 | Middle East | Siege of Baghdad | 1258 | 100,000 | Mongol conquest
+234 | Middle East | Siege of Aleppo | 1260 | 20,000 | Mongol conquest
+235 | Middle East | Siege of Damascus | 1260 | 10,000 | Mongol conquest
+236 | Middle East | Siege of Jerusalem | 1099 | 70,000 | First Crusade
+237 | Middle East | Siege of Antioch | 1098 | 20,000 | First Crusade
+238 | Middle East | Siege of Tyre | 332 BCE | 39,000 | Wars of Alexander
+239 | Middle East | Siege of Gaza | 332 BCE | 14,000 | Wars of Alexander
+240 | Middle East | Siege of Jerusalem | 63 BCE | 12,000 | Mithridatic Wars
+241 | Middle East | Siege of Athens and Piraeus | 87 BCE | 200,000 | Mithridatic Wars
+242 | Middle East | Battle of Ankara | 1402 | 30,000 | Timurid-Ottoman War
+243 | Middle East | Battle of Lepanto | 1571 | 40,000 | Ottoman-Habsburg War
+244 | Middle East | Battle of Vienna | 1683 | 83,000 | Great Turkish War
+245 | Middle East | Battle of Zenta | 1697 | 30,000 | Great Turkish War
+246 | Middle East | Battle of Petrovaradin | 1716 | 8,000 | Austro-Turkish War
+247 | Middle East | Battle of Pruth | 1711 | 7,000 | Russo-Turkish War
+252 | Middle East | Battle of the Pyramids | 1798 | 6,000 | French campaign in Egypt
+253 | Middle East | Battle of Heliopolis | 1800 | 12,000 | French campaign in Egypt
+254 | Middle East | Battle of Navarino | 1827 | 2,000 | Greek War of Independence
+255 | Middle East | Battle of Konya | 1832 | 5,000 | Egyptian-Ottoman War
+256 | Middle East | Battle of Nezib | 1839 | 6,000 | Egyptian-Ottoman War
+257 | Middle East | Battle of Kars | 1855 | 10,000 | Crimean War
+259 | Middle East | Battle of Plevna | 1877 | 75,000 | Russo-Turkish War
+260 | Middle East | Battle of San Stefano | 1878 | 5,000 | Russo-Turkish War
+262 | Middle East | Battle of Gallipoli | 1915 | 500,000 | World War I
+265 | Middle East | Battle of Gaza | 1917 | 12,000 | Sinai and Palestine campaign
+268 | Middle East | Battle of Damascus | 1918 | 5,000 | Sinai and Palestine campaign
+269 | Middle East | Battle of Aleppo | 1918 | 5,000 | World War I287 | Far East & South Asia | Battle of Muye | 1046 BCE | 10,000 | Shang-Zhou transition
+288 | Far East & South Asia | Battle of Yanling | 575 BCE | 10,000 | Spring and Autumn period
+289 | Far East & South Asia | Battle of Changshao | 684 BCE | 5,000 | Spring and Autumn period
+290 | Far East & South Asia | Battle of Bi | 632 BCE | 10,000 | Spring and Autumn period
+293 | Far East & South Asia | Battle of Changping | 260 BCE | 400,000 | Warring States
+294 | Far East & South Asia | Battle of Julu | 207 BCE | 200,000 | Chu-Han contention
+295 | Far East & South Asia | Battle of Gaixia | 202 BCE | 100,000 | Chu-Han contention
+296 | Far East & South Asia | Battle of Guandu | 200 | 78,000 | Three Kingdoms prelude
+297 | Far East & South Asia | Battle of Red Cliffs | 208 | 100,000 | Three Kingdoms
+301 | Far East & South Asia | Battle of Fei River | 383 | 700,000 | Sixteen Kingdoms
+304 | Far East & South Asia | Battle of Wuzhang Plains | 234 | 10,000 | Three Kingdoms
+305 | Far East & South Asia | Battle of Zhongli | 507 | 200,000 | Northern and Southern dynasties
+306 | Far East & South Asia | Battle of Salsu | 612 | 302,300 | Goguryeo-Sui War
+310 | Far East & South Asia | Battle of Xiangji Temple | 757 | 110,000 | An Lushan Rebellion
+311 | Far East & South Asia | Battle of Yongqiu | 756 | 100,000 | An Lushan Rebellion
+312 | Far East & South Asia | Battle of Suiyang | 757 | 200,000 | An Lushan Rebellion
+319 | Far East & South Asia | Battle of Shanhai Pass | 1644 | 40,000 | Ming-Qing transition
+323 | Far East & South Asia | Battle of Tsushima | 1905 | 12,000 | Russo-Japanese War
+324 | Far East & South Asia | Battle of Port Arthur | 1904 | 5,000 | Russo-Japanese War
+330 | Far East & South Asia | Battle of Shanghai | 1937 | 426,140 | Second Sino-Japanese War
+333 | Far East & South Asia | Battle of Nanjing | 1937 | 200,000 | Second Sino-Japanese War
+335 | Far East & South Asia | Battle of Wuhan | 1938 | 400,000 | Second Sino-Japanese War
+339 | Far East & South Asia | Battle of South Shanxi | 1941 | 120,000 | Second Sino-Japanese War
+346 | Far East & South Asia | Battle of Okinawa | 1945 | 240,000 | Pacific War
+347 | Far East & South Asia | Battle of Manila | 1945 | 200,000 | Pacific War
+348 | Far East & South Asia | Battle of Iwo Jima | 1945 | 28,000 | Pacific War
+353 | Far East & South Asia | Battle of Guadalcanal | 1942 | 38,000 | Pacific War
+354 | Far East & South Asia | Battle of Midway | 1942 | 3,500 | Pacific War
+355 | Far East & South Asia | Battle of Coral Sea | 1942 | 1,600 | Pacific War
+356 | Far East & South Asia | Battle of the Philippine Sea | 1944 | 3,000 | Pacific War
+357 | Far East & South Asia | Battle of Leyte Gulf | 1944 | 13,000 | Pacific War
+358 | Far East & South Asia | Battle of Saigon | 1945 | 5,000 | First Indochina context
+359 | Far East & South Asia | Battle of Dien Bien Phu | 1954 | 13,000 | First Indochina War
+360 | Far East & South Asia | Battle of Khe Sanh | 1968 | 10,000 | Vietnam War
+361 | Far East & South Asia | Battle of Hue | 1968 | 5,000 | Vietnam War
+363 | Far East & South Asia | Battle of Hamburger Hill | 1969 | 1,000 | Vietnam War
+369 | Far East & South Asia | Battle of Singapore | 1942 | 10,000 | Pacific War
+370 | Far East & South Asia | Battle of Malaya | 1941 | 70,000 | Pacific War
+371 | Far East & South Asia | Battle of Hong Kong | 1941 | 2,500 | Pacific War
+376 | Far East & South Asia | Battle of Guam | 1944 | 19,000 | Pacific War
+391 | Far East & South Asia | Naval Battle of Guadalcanal | 1942 | 5,000 | Pacific War
+401 | Far East & South Asia | Battle of Manchuria | 1945 | 40,000 | Soviet-Japanese War
+402 | Far East & South Asia | Battle of Khalkhin Gol | 1939 | 30,000 | Soviet-Japanese border conflict
+404 | Europe / Mediterranean | Battle of Salamis | 480 BCE | 50,000 | Greco-Persian Wars
+414 | Europe / Mediterranean | Battle of Hydaspes | 326 BCE | 23,310 | Wars of Alexander
+416 | Europe / Mediterranean | Battle of Asculum | 279 BCE | 15,000 | Pyrrhic War
+419 | Europe / Mediterranean | Battle of Lake Trasimene | 217 BCE | 30,000 | Second Punic War
+420 | Europe / Mediterranean | Battle of Trebia | 218 BCE | 30,000 | Second Punic War
+427 | Europe / Mediterranean | Battle of Philippi | 42 BCE | 40,000 | Roman civil war
+428 | Europe / Mediterranean | Battle of Teutoburg Forest | 9 | 20,000 | Roman-Germanic conflict
+433 | Europe / Mediterranean | Battle of Milvian Bridge | 312 | 5,000 | Roman civil war
+437 | Europe / Mediterranean | Battle of the Catalaunian Plains | 451 | 165,000 | Hunnic invasion
+441 | Europe / Mediterranean | Battle of Tours | 732 | 13,000 | Umayyad invasion of Gaul
+442 | Europe / Mediterranean | Battle of Pliska | 811 | 29,000 | Byzantine-Bulgarian Wars
+443 | Europe / Mediterranean | Battle of Ashdown | 871 | 9,000 | Viking invasions
+444 | Europe / Mediterranean | Battle of Brenta | 899 | 14,000 | Hungarian invasions
+445 | Europe / Mediterranean | Battle of Lechfeld | 955 | 15,000 | Hungarian invasions
+446 | Europe / Mediterranean | Battle of Kleidion | 1014 | 45,000 | Byzantine-Bulgarian Wars
+447 | Europe / Mediterranean | Battle of Hastings | 1066 | 6,000 | Norman Conquest
+448 | Europe / Mediterranean | Battle of Stamford Bridge | 1066 | 13,000 | Viking invasion of England
+450 | Europe / Mediterranean | Battle of Civetot | 1096 | 50,000 | People's Crusade
+453 | Europe / Mediterranean | Battle of Montgisard | 1177 | 25,850 | Ayyubid-Crusader War
+455 | Europe / Mediterranean | Battle of Kalka River | 1223 | 80,000 | Mongol invasion of Rus
+458 | Europe / Mediterranean | Battle of Mohi | 1241 | 40,000 | Mongol invasion of Hungary
+460 | Europe / Mediterranean | Battle of Stirling Bridge | 1297 | 5,000 | First War of Scottish Independence
+461 | Europe / Mediterranean | Battle of Falkirk | 1298 | 2,000 | First War of Scottish Independence
+462 | Europe / Mediterranean | Battle of Bannockburn | 1314 | 10,000 | First War of Scottish Independence
+463 | Europe / Mediterranean | Battle of Crécy | 1346 | 30,000 | Hundred Years' War
+464 | Europe / Mediterranean | Battle of Poitiers | 1356 | 10,000 | Hundred Years' War
+465 | Europe / Mediterranean | Battle of Agincourt | 1415 | 10,000 | Hundred Years' War
+467 | Europe / Mediterranean | Battle of Nicopolis | 1396 | 17,000 | Ottoman wars
+468 | Europe / Mediterranean | Battle of Varna | 1444 | 15,000 | Ottoman wars
+469 | Europe / Mediterranean | Battle of Kosovo | 1389 | 30,000 | Ottoman-Serbian wars
+470 | Europe / Mediterranean | Battle of Grunwald | 1410 | 18,000 | Polish-Lithuanian-Teutonic War
+471 | Europe / Mediterranean | Battle of Tannenberg | 1410 | 18,000 | Polish-Lithuanian-Teutonic War
+472 | Europe / Mediterranean | Battle of Orsha | 1514 | 10,000 | Lithuanian-Muscovite War
+473 | Europe / Mediterranean | Battle of Pavia | 1525 | 15,000 | Italian Wars
+474 | Europe / Mediterranean | Battle of Marignano | 1515 | 16,000 | Italian Wars
+475 | Europe / Mediterranean | Battle of Bicocca | 1522 | 5,000 | Italian Wars
+476 | Europe / Mediterranean | Battle of Ceresole | 1544 | 5,000 | Italian Wars
+477 | Europe / Mediterranean | Battle of White Mountain | 1620 | 5,000 | Thirty Years' War
+478 | Europe / Mediterranean | Battle of Breitenfeld | 1631 | 17,000 | Thirty Years' War
+479 | Europe / Mediterranean | Battle of Lützen | 1632 | 9,000 | Thirty Years' War
+489 | Europe / Mediterranean | Battle of Poltava | 1709 | 12,000 | Great Northern War
+490 | Europe / Mediterranean | Battle of Narva | 1700 | 15,000 | Great Northern War
+499 | Europe / Mediterranean | Battle of Prague | 1757 | 32,000 | Seven Years' War
+502 | Europe / Mediterranean | Battle of Marengo | 1800 | 12,000 | French Revolutionary Wars
+503 | Europe / Mediterranean | Battle of Austerlitz | 1805 | 27,000 | Napoleonic Wars
+504 | Europe / Mediterranean | Battle of Jena-Auerstedt | 1806 | 25,000 | Napoleonic Wars
+505 | Europe / Mediterranean | Battle of Eylau | 1807 | 50,000 | Napoleonic Wars
+506 | Europe / Mediterranean | Battle of Friedland | 1807 | 35,000 | Napoleonic Wars
+507 | Europe / Mediterranean | Battle of Wagram | 1809 | 74,000 | Napoleonic Wars
+508 | Europe / Mediterranean | Battle of Borodino | 1812 | 70,000 | Napoleonic Wars
+509 | Europe / Mediterranean | Battle of Leipzig | 1813 | 100,000 | Napoleonic Wars
+510 | Europe / Mediterranean | Battle of Waterloo | 1815 | 47,000 | Napoleonic Wars
+513 | Europe / Mediterranean | Battle of Dresden | 1813 | 35,000 | Napoleonic Wars
+523 | Europe / Mediterranean | Battle of Solferino | 1859 | 40,000 | Second Italian War of Independence
+524 | Europe / Mediterranean | Battle of Königgrätz | 1866 | 47,500 | Austro-Prussian War
+527 | Europe / Mediterranean | Battle of Sedan | 1870 | 26,000 | Franco-Prussian War
+528 | Europe / Mediterranean | Battle of Le Mans | 1871 | 30,000 | Franco-Prussian War
+529 | Europe / Mediterranean | Battle of the Frontiers | 1914 | 664,191 | World War I
+530 | Europe / Mediterranean | Battle of Galicia | 1914 | 670,000 | World War I
+531 | Europe / Mediterranean | Battle of the Marne | 1914 | 513,000 | World War I
+532 | Europe / Mediterranean | First Battle of Ypres | 1914 | 210,000 | World War I
+533 | Europe / Mediterranean | Battle of Łódź | 1914 | 330,000 | World War I
+534 | Europe / Mediterranean | Battle of Verdun | 1916 | 850,000 | World War I
+535 | Europe / Mediterranean | Battle of the Somme | 1916 | 1,150,000 | World War I
+536 | Europe / Mediterranean | Brusilov Offensive | 1916 | 2,000,000 | World War I
+537 | Europe / Mediterranean | Battle of Passchendaele | 1917 | 585,000 | World War I
+538 | Europe / Mediterranean | Battle of Cambrai | 1917 | 95,000 | World War I
+539 | Europe / Mediterranean | Battle of Caporetto | 1917 | 60,000 | World War I
+540 | Europe / Mediterranean | Spring Offensive | 1918 | 1,539,000 | World War I
+541 | Europe / Mediterranean | Hundred Days Offensive | 1918 | 700,000 | World War I
+542 | Europe / Mediterranean | Battle of Warsaw | 1920 | 30,000 | Polish-Soviet War
+543 | Europe / Mediterranean | Battle of Kursk | 1943 | 1,338,000 | World War II
+544 | Europe / Mediterranean | Battle of Berlin | 1945 | 1,100,000 | World War II
+545 | Europe / Mediterranean | Battle of Kiev | 1941 | 761,783 | World War II
+546 | Europe / Mediterranean | Battle of Smolensk | 1941 | 300,000 | World War II
+547 | Europe / Mediterranean | Battle of Kharkov | 1942 | 277,000 | World War II
+548 | Europe / Mediterranean | Operation Bagration | 1944 | 760,000 | World War II
+

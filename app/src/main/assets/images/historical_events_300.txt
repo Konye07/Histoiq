@@ -1,0 +1,237 @@
+
+IMPORTANT HISTORICAL EVENTS
+===========================
+No. | Region | Event | Date | Significance
+------------------------------------------------------------------------------
+001 | Americas | Rise of the Aztec Triple Alliance | 1428 | Foundation of the Aztec imperial system
+002 | Americas | European sighting of the Caribbean | 1492 | Beginning of sustained Columbian exchange
+003 | Americas | Fall of Tenochtitlan | 1521 | End of Aztec imperial capital
+004 | Americas | Spanish conquest of Peru | 1532 | Fall of Inca political center
+005 | Americas | Founding of St. Augustine | 1565 | Oldest continuously inhabited European-established city in the contiguous U.S.
+006 | Americas | Jamestown founded | 1607 | First permanent English settlement in Virginia
+007 | Americas | Mayflower Compact | 1620 | Early colonial self-government
+008 | Americas | Pueblo Revolt | 1680 | Major Indigenous uprising against Spanish rule
+009 | Americas | Treaty of Paris ends Seven Years' War in North America | 1763 | Britain gains major French possessions
+010 | Americas | Boston Massacre | 1770 | Catalyst in American revolutionary politics
+011 | Americas | Boston Tea Party | 1773 | Major protest against British taxation
+012 | Americas | Declaration of Independence | 1776 | Founding document of the United States
+013 | Americas | U.S. Constitution signed | 1787 | Creation of federal constitutional framework
+014 | Americas | French abolition of slavery in colonies | 1794 | Major Atlantic emancipation measure
+015 | Americas | Haitian Revolution begins | 1791 | Successful large-scale slave revolution
+016 | Americas | Haitian independence | 1804 | First modern state founded by formerly enslaved revolutionaries
+017 | Americas | Louisiana Purchase | 1803 | Major territorial expansion of the United States
+018 | Americas | Mexican independence | 1810 | End of Spanish rule in Mexico
+019 | Americas | Monroe Doctrine | 1823 | Defining U.S. hemispheric foreign-policy doctrine
+020 | Americas | Brazilian independence | 1822 | End of Portuguese colonial rule
+021 | Americas | Bolivian independence | 1825 | Creation of independent Andean republic
+022 | Americas | Texas Revolution | 1835 | Break from Mexican rule
+023 | Americas | U.S.-Mexico War begins | 1846 | Major territorial conflict in North America
+024 | Americas | California Gold Rush | 1848 | Mass migration and economic transformation
+025 | Americas | Compromise of 1850 | 1850 | Major U.S. sectional settlement
+026 | Americas | Kansas-Nebraska Act | 1854 | Accelerated U.S. sectional crisis
+027 | Americas | Mexican Reform War | 1857 | Liberal-conservative struggle in Mexico
+028 | Americas | American Civil War | 1861 | Preservation of Union and abolition of slavery
+029 | Americas | Emancipation Proclamation | 1863 | Major wartime emancipation measure
+030 | Americas | U.S. Reconstruction begins | 1865 | Political restructuring after Civil War
+031 | Americas | Purchase of Alaska | 1867 | Major U.S. territorial acquisition
+032 | Americas | Spanish-American War | 1898 | End of Spanish imperial dominance in the Caribbean
+033 | Americas | Panama Canal construction | 1904 | Major interoceanic infrastructure project
+034 | Americas | Mexican Revolution | 1910 | Major social and political revolution
+035 | Americas | Women gain federal suffrage in U.S. | 1920 | Constitutional expansion of voting rights
+036 | Americas | Great Depression begins | 1929 | Global economic crisis with major American origins
+037 | Americas | New Deal | 1933 | Expansion of U.S. federal economic role
+038 | Americas | Attack on Pearl Harbor | 1941 | United States enters World War II
+039 | Americas | D-Day | 1944 | Opening of major Allied western front
+040 | Americas | United Nations founded | 1945 | Creation of global intergovernmental organization
+041 | Americas | Truman Doctrine | 1947 | Major early Cold War policy
+042 | Americas | Cuban Revolution | 1959 | Overthrow of Batista regime
+044 | Americas | Moon landing | 1969 | First human landing on the Moon
+045 | Americas | Chile coup | 1973 | Military overthrow of Salvador Allende
+052 | Africa | Ptolemaic rule in Egypt | 305 BCE | Hellenistic dynasty in Egypt
+053 | Africa | Roman annexation of Egypt | 30 BCE | Egypt becomes a Roman province
+054 | Africa | Arab conquest of Egypt | 639 | End of Byzantine Egypt
+055 | Africa | Founding of Cairo | 969 | Creation of Fatimid capital
+056 | Africa | Mansa Musa's pilgrimage | 1324 | Demonstrates Mali's wealth and global connections
+057 | Africa | Moroccan conquest of Songhai | 1591 | Major political transformation in West Africa
+058 | Africa | Cape Colony established | 1652 | Beginning of permanent Dutch settlement in southern Africa
+059 | Africa | Berlin Conference | 1884 | Diplomatic framework for European colonial claims
+060 | Africa | Battle of Adwa | 1896 | Ethiopian victory over Italy
+061 | Africa | Ghana independence | 1957 | First sub-Saharan African colony to gain independence in postwar era
+062 | Africa | End of apartheid | 1994 | South Africa transitions to multiracial democracy
+063 | Middle East | Battle of Kadesh | 1274 BCE | Major Egyptian-Hittite confrontation
+064 | Middle East | Fall of Nineveh | 612 BCE | End of Neo-Assyrian imperial dominance
+065 | Middle East | Cyrus conquers Babylon | 539 BCE | Major transition in Near Eastern imperial history
+066 | Middle East | Persian Wars begin | 499 BCE | Greek-Persian struggle begins
+067 | Middle East | Alexander conquers Persia | 334 BCE | Hellenistic age expands across Near East
+068 | Middle East | Seleucid Empire established | 312 BCE | Major Hellenistic Near Eastern state
+070 | Middle East | Destruction of Jerusalem | 70 | Major Jewish-Roman turning point
+071 | Middle East | Sasanian Empire founded | 224 | Major Persian imperial restoration
+072 | Middle East | Hijra | 622 | Beginning of Islamic calendar and early Muslim polity
+073 | Middle East | Conquest of Jerusalem | 638 | Major early Islamic expansion
+074 | Middle East | Abbasid Revolution | 750 | Abbasids replace Umayyads
+075 | Middle East | First Crusade | 1096 | Major Latin Christian military expedition
+076 | Middle East | Capture of Jerusalem by Crusaders | 1099 | Creation of a Crusader state
+077 | Middle East | Battle of Hattin | 1187 | Saladin defeats Crusader army
+078 | Middle East | Mongol sack of Baghdad | 1258 | End of Abbasid political power in Baghdad
+079 | Middle East | Fall of Constantinople | 1453 | Ottoman conquest ends Byzantine imperial rule
+080 | Middle East | Safavid Empire founded | 1501 | Creation of major Shi'a Persian state
+081 | Middle East | Battle of Chaldiran | 1514 | Ottoman-Safavid balance shifts
+082 | Middle East | Ottoman conquest of Egypt | 1517 | Ottomans dominate Arab heartlands
+083 | Middle East | Ottoman constitutional era | 1876 | Major constitutional experiment
+084 | Middle East | Suez Canal opens | 1869 | Transforms global maritime routes
+085 | Middle East | Young Turk Revolution | 1908 | Ottoman constitutional restoration
+086 | Middle East | Arab Revolt | 1916 | Major wartime Arab nationalist movement
+087 | Middle East | Balfour Declaration | 1917 | Major turning point in Palestine's modern history
+088 | Middle East | End of Ottoman Empire | 1922 | Creation of post-Ottoman states
+089 | Middle East | Treaty of Lausanne | 1923 | International settlement of modern Turkey
+090 | Middle East | Creation of Saudi Arabia | 1932 | Unification of Arabian state
+091 | Middle East | Creation of Israel | 1948 | Major transformation of modern Middle Eastern politics
+092 | Middle East | First Arab-Israeli War | 1948 | Regional war following Israel's creation
+093 | Middle East | Suez Crisis | 1956 | Major Cold War-era Middle Eastern crisis
+094 | Middle East | Six-Day War | 1967 | Major territorial transformation in the Middle East
+095 | Middle East | Yom Kippur War | 1973 | Major Arab-Israeli war
+096 | Middle East | Iranian Revolution | 1979 | Overthrow of the Pahlavi monarchy
+097 | Middle East | Iran-Iraq War | 1980 | Long major regional war
+098 | Middle East | Lebanese Civil War | 1975 | Major regional conflict
+099 | Middle East | Soviet invasion of Afghanistan | 1979 | Major Cold War conflict in the region
+100 | Middle East | Gulf War | 1990 | International coalition expels Iraq from Kuwait
+101 | Middle East | Oslo Accords | 1993 | Major Israeli-Palestinian diplomatic process
+102 | Middle East | September 11 attacks | 2001 | Major global and Middle Eastern geopolitical consequences
+103 | Middle East | U.S.-led invasion of Iraq | 2003 | Overthrow of Saddam Hussein
+104 | Middle East | Arab Spring begins | 2010 | Wave of uprisings across Arab states
+105 | Middle East | Syrian Civil War begins | 2011 | Major prolonged regional war
+106 | Middle East | Rise of ISIS | 2013 | Major jihadist territorial movement
+107 | Middle East | Iran nuclear deal | 2015 | Major multilateral nuclear agreement
+108 | Middle East | Abraham Accords | 2020 | Normalization agreements between Israel and several Arab states
+109 | Middle East | Fall of Kabul | 2021 | Return of Taliban to power in Afghanistan
+110 | Middle East | Israel-Gaza war begins | 2023 | Major ongoing regional conflict
+111 | Middle East | Ottoman conquest of Constantinople | 1453 | Ends Byzantine imperial rule and reshapes Eurasian geopolitics
+112 | Middle East | Iranian Constitutional Revolution | 1905 | Major early constitutional and parliamentary movement in the Middle East
+113 | Far East & South Asia | Zhou conquest of Shang | 1046 BCE | Major dynastic transition
+114 | Far East & South Asia | Confucius born | 551 BCE | Foundational Chinese philosopher
+115 | Far East & South Asia | Qin unifies China | 221 BCE | First imperial unification of China
+116 | Far East & South Asia | Han dynasty founded | 202 BCE | Long-lasting imperial Chinese dynasty
+117 | Far East & South Asia | Jin reunification | 280 | Temporary reunification of China
+118 | Far East & South Asia | Sui reunifies China | 589 | Reunification after centuries of division
+119 | Far East & South Asia | Tang dynasty founded | 618 | Major Chinese imperial dynasty
+120 | Far East & South Asia | Battle of Talas | 751 | Major Sino-Islamic frontier encounter
+121 | Far East & South Asia | An Lushan Rebellion | 755 | Major demographic and political crisis in China
+122 | Far East & South Asia | Song dynasty founded | 960 | Major period of Chinese economic and technological growth
+123 | Far East & South Asia | Mongol conquest of Song | 1271 | End of Song and Yuan rule
+124 | Far East & South Asia | Yuan dynasty founded | 1271 | Mongol imperial rule in China
+125 | Far East & South Asia | Ming dynasty founded | 1368 | Restoration of Han Chinese imperial rule
+126 | Far East & South Asia | Zheng He's voyages | 1405 | Major Indian Ocean expeditions
+127 | Far East & South Asia | Qing dynasty founded | 1636 | Manchu conquest and new imperial dynasty
+128 | Far East & South Asia | Opium War begins | 1839 | Major turning point in China's relations with Western powers
+129 | Far East & South Asia | Treaty of Nanking | 1842 | Major unequal treaty with Britain
+130 | Far East & South Asia | Taiping Rebellion | 1850 | Massive Chinese civil war
+131 | Far East & South Asia | Sino-Japanese War | 1894 | Japan defeats Qing China
+132 | Far East & South Asia | Hundred Days' Reform | 1898 | Attempted Qing modernization
+133 | Far East & South Asia | Boxer Uprising | 1899 | Anti-foreign and anti-Christian uprising
+134 | Far East & South Asia | Xinhai Revolution | 1911 | Overthrows Qing dynasty
+135 | Far East & South Asia | Republic of China founded | 1912 | End of imperial China
+136 | Far East & South Asia | May Fourth Movement | 1919 | Major Chinese intellectual and nationalist movement
+137 | Far East & South Asia | Chinese Communist Party founded | 1921 | Major political development
+138 | Far East & South Asia | Long March | 1934 | Major Communist military retreat and political myth
+139 | Far East & South Asia | Second Sino-Japanese War | 1937 | Major East Asian war
+140 | Far East & South Asia | Nanjing Massacre | 1937 | Major wartime atrocity
+141 | Far East & South Asia | Pearl Harbor attack | 1941 | Japan attacks U.S. Pacific base
+142 | Far East & South Asia | Atomic bombings of Hiroshima and Nagasaki | 1945 | Nuclear warfare begins
+143 | Far East & South Asia | Chinese Communist victory | 1949 | People's Republic of China established
+144 | Far East & South Asia | Korean War begins | 1950 | Major Cold War conflict in East Asia
+145 | Far East & South Asia | People's Republic of China enters Korean War | 1950 | Major escalation of Korean War
+146 | Far East & South Asia | Great Leap Forward | 1958 | Radical Chinese economic-social campaign
+147 | Far East & South Asia | Cultural Revolution | 1966 | Major political and social upheaval
+148 | Far East & South Asia | Deng Xiaoping reforms | 1978 | Market-oriented transformation of China
+149 | Far East & South Asia | Tiananmen protests | 1989 | Major Chinese political crisis
+150 | Far East & South Asia | Hong Kong handover | 1997 | End of British colonial rule in Hong Kong
+151 | Far East & South Asia | Macau handover | 1999 | End of Portuguese colonial rule in Macau
+152 | Far East & South Asia | China joins WTO | 2001 | Major integration into global trade
+153 | Far East & South Asia | Indian independence | 1947 | End of British colonial rule in India
+154 | Far East & South Asia | Partition of India | 1947 | Creation of India and Pakistan
+155 | Far East & South Asia | Bangladesh Liberation War | 1971 | Creation of Bangladesh
+156 | Far East & South Asia | Indo-Pakistani War | 1971 | Major South Asian war
+157 | Far East & South Asia | Vietnamese independence declaration | 1945 | Major anti-colonial turning point
+158 | Far East & South Asia | First Indochina War | 1946 | Major decolonization conflict
+159 | Far East & South Asia | Vietnam War | 1955 | Major Cold War conflict
+160 | Far East & South Asia | Fall of Saigon | 1975 | End of South Vietnam
+161 | Far East & South Asia | Doi Moi reforms | 1986 | Vietnamese economic liberalization
+162 | Far East & South Asia | Japanese Meiji Restoration | 1868 | Rapid Japanese state modernization
+163 | Europe / Mediterranean | First Olympic Games (traditional date) | 776 BCE | Panhellenic Greek institution
+164 | Europe / Mediterranean | Persian Wars | 499 BCE | Greek city-states resist Persian expansion
+165 | Europe / Mediterranean | Peloponnesian War | 431 BCE | Major Greek interstate war
+166 | Europe / Mediterranean | Trial and death of Socrates | 399 BCE | Foundational episode in Western philosophy
+167 | Europe / Mediterranean | Alexander the Great's conquests | 334 BCE | Creates Hellenistic world
+168 | Europe / Mediterranean | First Punic War | 264 BCE | Rome and Carthage contest Sicily
+169 | Europe / Mediterranean | Second Punic War | 218 BCE | Hannibal's invasion of Italy
+170 | Europe / Mediterranean | Destruction of Carthage | 146 BCE | Rome becomes dominant Mediterranean power
+171 | Europe / Mediterranean | Roman conquest of Greece | 146 BCE | Greek mainland incorporated into Roman sphere
+172 | Europe / Mediterranean | Spartacus revolt | 73 BCE | Major Roman slave uprising
+173 | Europe / Mediterranean | Caesar crosses the Rubicon | 49 BCE | Beginning of major Roman civil war
+174 | Europe / Mediterranean | Julius Caesar assassinated | 44 BCE | End of Caesar's rule
+175 | Europe / Mediterranean | Augustus becomes first Roman emperor | 27 BCE | Beginning of Roman imperial era
+176 | Europe / Mediterranean | Constantine's conversion | 312 | Major transformation in Roman religious policy
+177 | Europe / Mediterranean | Edict of Milan | 313 | Christian toleration in Roman Empire
+178 | Europe / Mediterranean | Council of Nicaea | 325 | Major Christian doctrinal council
+179 | Europe / Mediterranean | Fall of Western Roman Empire | 476 | Major transition from antiquity
+180 | Europe / Mediterranean | Justinian's reign | 527 | Byzantine legal and imperial revival
+181 | Europe / Mediterranean | Great Schism | 1054 | Formal rupture between Latin and Greek churches
+182 | Europe / Mediterranean | Norman Conquest of England | 1066 | Major transformation of English state and culture
+183 | Europe / Mediterranean | Magna Carta | 1215 | Landmark in constitutional history
+184 | Europe / Mediterranean | Black Death reaches Europe | 1347 | Catastrophic demographic crisis
+185 | Europe / Mediterranean | Hundred Years' War | 1337 | Long Anglo-French dynastic conflict
+186 | Europe / Mediterranean | Gutenberg printing revolution | 1450 | Mass communication transformation
+187 | Europe / Mediterranean | Fall of Constantinople | 1453 | End of Byzantine imperial rule
+188 | Europe / Mediterranean | Columbus reaches the Americas | 1492 | Begins sustained Atlantic exchange
+189 | Europe / Mediterranean | Protestant Reformation begins | 1517 | Major European religious transformation
+190 | Europe / Mediterranean | Diet of Worms | 1521 | Key Reformation confrontation
+191 | Europe / Mediterranean | Council of Trent | 1545 | Catholic Counter-Reformation council
+192 | Europe / Mediterranean | Spanish Armada | 1588 | Major Anglo-Spanish naval confrontation
+193 | Europe / Mediterranean | Thirty Years' War | 1618 | Major European religious-political war
+194 | Europe / Mediterranean | Peace of Westphalia | 1648 | Major European diplomatic settlement
+195 | Europe / Mediterranean | Glorious Revolution | 1688 | English constitutional transformation
+196 | Europe / Mediterranean | Act of Union | 1707 | Formation of Great Britain
+197 | Europe / Mediterranean | French Revolution begins | 1789 | Major political revolution
+198 | Europe / Mediterranean | Declaration of the Rights of Man | 1789 | Major rights document
+199 | Europe / Mediterranean | Reign of Terror | 1793 | Radical phase of French Revolution
+200 | Europe / Mediterranean | Napoleon becomes emperor | 1804 | French imperial phase
+201 | Europe / Mediterranean | Congress of Vienna | 1814 | Post-Napoleonic European settlement
+202 | Europe / Mediterranean | Greek War of Independence | 1821 | Creation of modern Greece
+203 | Europe / Mediterranean | Revolutions of 1848 | 1848 | Europe-wide political upheavals
+204 | Europe / Mediterranean | Italian unification | 1859 | Creation of unified Italy
+205 | Europe / Mediterranean | German unification | 1871 | Creation of German Empire
+206 | Europe / Mediterranean | Paris Commune | 1871 | Major revolutionary government episode
+207 | Europe / Mediterranean | Russian Revolution of 1905 | 1905 | Major challenge to tsarism
+208 | Europe / Mediterranean | First Balkan War | 1912 | Major Ottoman territorial losses
+209 | Europe / Mediterranean | World War I begins | 1914 | Major global conflict
+210 | Europe / Mediterranean | Russian Revolution | 1917 | Overthrow of tsarist government
+211 | Europe / Mediterranean | Bolshevik Revolution | 1917 | Communist seizure of power in Russia
+212 | Europe / Mediterranean | Treaty of Versailles | 1919 | Major postwar settlement
+213 | Europe / Mediterranean | League of Nations founded | 1920 | Early international collective-security institution
+214 | Europe / Mediterranean | Rise of fascism in Italy | 1922 | Major interwar authoritarian movement
+215 | Europe / Mediterranean | Nazi seizure of power | 1933 | Hitler becomes German chancellor
+216 | Europe / Mediterranean | Spanish Civil War | 1936 | Major ideological conflict
+217 | Europe / Mediterranean | Munich Agreement | 1938 | Major prewar diplomatic crisis
+218 | Europe / Mediterranean | World War II begins in Europe | 1939 | Major global conflict
+219 | Europe / Mediterranean | Fall of France | 1940 | Major Axis victory in Western Europe
+220 | Europe / Mediterranean | Battle of Britain | 1940 | Major air campaign
+221 | Europe / Mediterranean | Operation Barbarossa | 1941 | German invasion of Soviet Union
+222 | Europe / Mediterranean | D-Day | 1944 | Allied invasion of Normandy
+223 | Europe / Mediterranean | Fall of Berlin | 1945 | End of Nazi Germany
+224 | Europe / Mediterranean | United Nations founded | 1945 | Postwar international organization
+225 | Europe / Mediterranean | Nuremberg Trials | 1945 | Major postwar international criminal trials
+226 | Europe / Mediterranean | Marshall Plan | 1948 | Major European reconstruction program
+227 | Europe / Mediterranean | NATO founded | 1949 | Major Cold War alliance
+228 | Europe / Mediterranean | European Coal and Steel Community | 1951 | Early European integration
+229 | Europe / Mediterranean | Treaty of Rome | 1957 | Foundation of European Economic Community
+230 | Europe / Mediterranean | Berlin Wall built | 1961 | Major Cold War symbol
+231 | Europe / Mediterranean | Cuban Missile Crisis | 1962 | Major Cold War nuclear confrontation
+232 | Europe / Mediterranean | Prague Spring | 1968 | Major reform movement in Czechoslovakia
+233 | Europe / Mediterranean | Fall of Saigon / European détente era | 1975 | Broader Cold War turning point
+234 | Europe / Mediterranean | Fall of Berlin Wall | 1989 | Major end-of-Cold-War symbol
+235 | Europe / Mediterranean | German reunification | 1990 | End of postwar division of Germany
+236 | Europe / Mediterranean | Dissolution of Soviet Union | 1991 | End of Soviet state
+237 | Europe / Mediterranean | Maastricht Treaty | 1992 | Foundation of modern European Union
+238 | Europe / Mediterranean | EU enlargement eastward | 2004 | Major European integration expansion
+239 | Europe / Mediterranean | Global financial crisis in Europe | 2008 | Major economic and political shock
+240 | Europe / Mediterranean | Brexit referendum | 2016 | Major change in European integration

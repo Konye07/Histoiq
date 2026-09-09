@@ -1,0 +1,2081 @@
+﻿[
+    {
+        "id":  "battlemap_001",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Waterloo",
+        "correctLat":  50.6801,
+        "correctLng":  4.4116,
+        "source":  "...",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_002",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Thermopylae",
+        "correctLat":  38.7965,
+        "correctLng":  22.5372,
+        "source":  "...",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_003",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Hastings",
+        "correctLat":  50.9122,
+        "correctLng":  0.4877,
+        "source":  "...",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_004",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Stalingrad",
+        "correctLat":  48.7080,
+        "correctLng":  44.5133,
+        "source":  "...",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_005",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Gettysburg",
+        "correctLat":  39.8309,
+        "correctLng":  -77.2311,
+        "source":  "...",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_006",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of the Great Bridge",
+        "correctLat":  36.7333,
+        "correctLng":  -76.2333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_007",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Bunker Hill",
+        "correctLat":  42.3782,
+        "correctLng":  -71.0602,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_008",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Long Island",
+        "correctLat":  40.65,
+        "correctLng":  -73.95,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_009",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Charleston",
+        "correctLat":  32.7765,
+        "correctLng":  -79.9311,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_010",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Camden",
+        "correctLat":  34.2496,
+        "correctLng":  -80.6073,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_011",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Guilford Court House",
+        "correctLat":  36.1052,
+        "correctLng":  -79.8103,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_012",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Yorktown",
+        "correctLat":  37.2388,
+        "correctLng":  -76.5081,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_013",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Queenston Heights",
+        "correctLat":  43.1592,
+        "correctLng":  -79.0508,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_014",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Fort Erie",
+        "correctLat":  42.9086,
+        "correctLng":  -78.9302,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_015",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Palo Alto",
+        "correctLat":  25.9975,
+        "correctLng":  -97.4494,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_016",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Resaca de la Palma",
+        "correctLat":  25.95,
+        "correctLng":  -97.48,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_017",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Monterrey",
+        "correctLat":  25.6866,
+        "correctLng":  -100.3161,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_018",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Mexico City",
+        "correctLat":  19.4326,
+        "correctLng":  -99.1332,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_019",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Sacramento",
+        "correctLat":  28.6353,
+        "correctLng":  -106.0889,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_020",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of San Pasqual",
+        "correctLat":  33.1192,
+        "correctLng":  -117.0392,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_021",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Monterrey (Reform War)",
+        "correctLat":  25.6866,
+        "correctLng":  -100.3161,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_022",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Puebla",
+        "correctLat":  19.0414,
+        "correctLng":  -98.2063,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_023",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Antietam",
+        "correctLat":  39.4756,
+        "correctLng":  -77.7431,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_024",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Chancellorsville",
+        "correctLat":  38.314,
+        "correctLng":  -77.64,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_025",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Shiloh",
+        "correctLat":  35.14,
+        "correctLng":  -88.345,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_026",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Fredericksburg",
+        "correctLat":  38.3032,
+        "correctLng":  -77.4605,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_027",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Stones River",
+        "correctLat":  35.8456,
+        "correctLng":  -86.4386,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_028",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Vicksburg",
+        "correctLat":  32.3526,
+        "correctLng":  -90.8779,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_029",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of the Wilderness",
+        "correctLat":  38.3096,
+        "correctLng":  -77.7419,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_030",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Petersburg",
+        "correctLat":  37.2279,
+        "correctLng":  -77.4019,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_031",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Mansfield",
+        "correctLat":  32.0352,
+        "correctLng":  -93.7093,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_032",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Manila Bay",
+        "correctLat":  14.5,
+        "correctLng":  120.8,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_033",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Veracruz",
+        "correctLat":  19.1738,
+        "correctLng":  -96.1342,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_034",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Ciudad Juárez",
+        "correctLat":  31.6904,
+        "correctLng":  -106.4245,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_035",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Kadesh (Egyptian-Levantine theatre)",
+        "correctLat":  34.562,
+        "correctLng":  36.529,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_036",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Qarqar",
+        "correctLat":  35.75,
+        "correctLng":  36.6,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_037",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Carthage (First Punic War)",
+        "correctLat":  36.8531,
+        "correctLng":  10.3236,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_038",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Zama",
+        "correctLat":  36.19,
+        "correctLng":  9.15,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_039",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Cannae (North African Carthaginian army)",
+        "correctLat":  41.3,
+        "correctLng":  16.13,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_040",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Thapsus",
+        "correctLat":  35.6333,
+        "correctLng":  10.65,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_041",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Utica",
+        "correctLat":  37.0553,
+        "correctLng":  10.0631,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_042",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Ad Decimum",
+        "correctLat":  36.75,
+        "correctLng":  10.35,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_043",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Carthage (698)",
+        "correctLat":  36.8531,
+        "correctLng":  10.3236,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_044",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Manzikert",
+        "correctLat":  39.1439,
+        "correctLng":  42.5392,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_045",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Sagrajas",
+        "correctLat":  38.85,
+        "correctLng":  -6.8,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_046",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Alarcos",
+        "correctLat":  38.97,
+        "correctLng":  -3.97,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_047",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Las Navas de Tolosa",
+        "correctLat":  38.3667,
+        "correctLng":  -3.6167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_048",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Muret",
+        "correctLat":  43.4667,
+        "correctLng":  1.3167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_049",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Acre",
+        "correctLat":  32.9281,
+        "correctLng":  35.0818,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_050",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Wadi al-Khazandar",
+        "correctLat":  34.8,
+        "correctLng":  36.6,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_051",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Ksar el Kebir",
+        "correctLat":  34.9896,
+        "correctLng":  -5.9048,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_052",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Dogali",
+        "correctLat":  15.6167,
+        "correctLng":  39.2333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_053",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Adwa",
+        "correctLat":  14.1667,
+        "correctLng":  38.9,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_054",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Rorke\u0027s Drift",
+        "correctLat":  -28.3667,
+        "correctLng":  30.5333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_055",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Spion Kop",
+        "correctLat":  -28.6333,
+        "correctLng":  29.5167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_056",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Colenso",
+        "correctLat":  -28.7333,
+        "correctLng":  29.8333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_057",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Tanga",
+        "correctLat":  -5.0689,
+        "correctLng":  39.0982,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_058",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Namacurra",
+        "correctLat":  -17.5333,
+        "correctLng":  36.7833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_059",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Mahenge",
+        "correctLat":  -8.6833,
+        "correctLng":  36.7167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_060",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Mahiwa",
+        "correctLat":  -10.3667,
+        "correctLng":  38.7667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_061",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Kilimanjaro",
+        "correctLat":  -3.0674,
+        "correctLng":  37.3556,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_062",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Opis",
+        "correctLat":  33.3667,
+        "correctLng":  44.4333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_063",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Marathon",
+        "correctLat":  38.15,
+        "correctLng":  23.9667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_064",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Plataea",
+        "correctLat":  38.2167,
+        "correctLng":  23.2667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_065",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Issus",
+        "correctLat":  36.5833,
+        "correctLng":  36.1667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_066",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Gaugamela",
+        "correctLat":  36.35,
+        "correctLng":  43.25,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_067",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Persian Gate",
+        "correctLat":  30.6833,
+        "correctLng":  51.5833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_068",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Carrhae",
+        "correctLat":  36.8667,
+        "correctLng":  39.0333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_069",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Actium",
+        "correctLat":  38.9333,
+        "correctLng":  20.7333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_070",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Nisibis",
+        "correctLat":  37.0764,
+        "correctLng":  41.2189,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_071",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Edessa",
+        "correctLat":  37.1591,
+        "correctLng":  38.7969,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_072",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Qadisiyyah",
+        "correctLat":  31.95,
+        "correctLng":  44.4667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_073",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of the Bridge",
+        "correctLat":  32.0333,
+        "correctLng":  44.4,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_074",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Marj Rahit",
+        "correctLat":  33.6167,
+        "correctLng":  36.4667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_075",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Maskin",
+        "correctLat":  33.7,
+        "correctLng":  44,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_076",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Zab",
+        "correctLat":  35.75,
+        "correctLng":  43.4,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_077",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Dara",
+        "correctLat":  37.1783,
+        "correctLng":  40.9683,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_078",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Satala",
+        "correctLat":  40.0167,
+        "correctLng":  39.6667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_079",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Sura",
+        "correctLat":  35.6667,
+        "correctLng":  39.4833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_080",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Antioch",
+        "correctLat":  36.2021,
+        "correctLng":  36.1603,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_081",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Ascalon",
+        "correctLat":  31.6693,
+        "correctLng":  34.5715,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_082",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Hattin",
+        "correctLat":  32.8167,
+        "correctLng":  35.45,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_083",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Arsuf",
+        "correctLat":  32.1944,
+        "correctLng":  34.8083,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_084",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Jaffa",
+        "correctLat":  32.0522,
+        "correctLng":  34.75,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_085",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Ain Jalut",
+        "correctLat":  32.5,
+        "correctLng":  35.4667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_086",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Elbistan",
+        "correctLat":  38.2061,
+        "correctLng":  37.1975,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_087",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Mohacs",
+        "correctLat":  46,
+        "correctLng":  18.6833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_088",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Siege of Baghdad",
+        "correctLat":  33.3152,
+        "correctLng":  44.3661,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_089",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Siege of Aleppo",
+        "correctLat":  36.2021,
+        "correctLng":  37.1343,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_090",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Siege of Damascus",
+        "correctLat":  33.5138,
+        "correctLng":  36.2765,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_091",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Siege of Jerusalem",
+        "correctLat":  31.7683,
+        "correctLng":  35.2137,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_092",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Siege of Antioch",
+        "correctLat":  36.2021,
+        "correctLng":  36.1603,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_093",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Siege of Tyre",
+        "correctLat":  33.2704,
+        "correctLng":  35.2038,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_094",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Siege of Gaza",
+        "correctLat":  31.5017,
+        "correctLng":  34.4668,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_095",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Siege of Athens and Piraeus",
+        "correctLat":  37.9475,
+        "correctLng":  23.6367,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_096",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Ankara",
+        "correctLat":  39.9334,
+        "correctLng":  32.8597,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_097",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Lepanto",
+        "correctLat":  38.3833,
+        "correctLng":  21.3667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_098",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Vienna",
+        "correctLat":  48.2082,
+        "correctLng":  16.3738,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_099",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Zenta",
+        "correctLat":  45.9333,
+        "correctLng":  20.0833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_100",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Petrovaradin",
+        "correctLat":  45.25,
+        "correctLng":  19.8667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_101",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Pruth",
+        "correctLat":  46.6833,
+        "correctLng":  27.7167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_102",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of the Pyramids",
+        "correctLat":  29.9792,
+        "correctLng":  31.1342,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_103",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Heliopolis",
+        "correctLat":  30.13,
+        "correctLng":  31.3,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_104",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Navarino",
+        "correctLat":  36.8333,
+        "correctLng":  21.7,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_105",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Konya",
+        "correctLat":  37.8667,
+        "correctLng":  32.4833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_106",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Nezib",
+        "correctLat":  37.0167,
+        "correctLng":  37.7833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_107",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Kars",
+        "correctLat":  40.6013,
+        "correctLng":  43.0975,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_108",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Plevna",
+        "correctLat":  43.417,
+        "correctLng":  24.6067,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_109",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of San Stefano",
+        "correctLat":  40.96,
+        "correctLng":  28.825,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_110",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Gallipoli",
+        "correctLat":  40.2,
+        "correctLng":  26.4,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_111",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Gaza",
+        "correctLat":  31.5017,
+        "correctLng":  34.4668,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_112",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Damascus",
+        "correctLat":  33.5138,
+        "correctLng":  36.2765,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_113",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Aleppo",
+        "correctLat":  36.2021,
+        "correctLng":  37.1343,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_114",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Muye",
+        "correctLat":  35.9333,
+        "correctLng":  114.15,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_115",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Yanling",
+        "correctLat":  33.85,
+        "correctLng":  114.2,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_116",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Changshao",
+        "correctLat":  36.5,
+        "correctLng":  117,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_117",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Bi",
+        "correctLat":  34.7167,
+        "correctLng":  113.65,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_118",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Changping",
+        "correctLat":  35.7833,
+        "correctLng":  112.9167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_119",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Julu",
+        "correctLat":  37.2167,
+        "correctLng":  114.9667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_120",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Gaixia",
+        "correctLat":  33.6167,
+        "correctLng":  116.7833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_121",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Guandu",
+        "correctLat":  34.7167,
+        "correctLng":  113.9833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_122",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Red Cliffs",
+        "correctLat":  29.7167,
+        "correctLng":  113.9333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_123",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Fei River",
+        "correctLat":  32.5667,
+        "correctLng":  116.7833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_124",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Wuzhang Plains",
+        "correctLat":  34.45,
+        "correctLng":  107.6167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_125",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Zhongli",
+        "correctLat":  32.8667,
+        "correctLng":  117.5667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_126",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Salsu",
+        "correctLat":  39.7333,
+        "correctLng":  125.9,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_127",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Xiangji Temple",
+        "correctLat":  34.2667,
+        "correctLng":  108.9333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_128",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Yongqiu",
+        "correctLat":  34.3833,
+        "correctLng":  114.3,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_129",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Suiyang",
+        "correctLat":  34.4144,
+        "correctLng":  115.65,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_130",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Shanhai Pass",
+        "correctLat":  39.9833,
+        "correctLng":  119.7833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_131",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Tsushima",
+        "correctLat":  34.2,
+        "correctLng":  129.5,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_132",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Port Arthur",
+        "correctLat":  38.8167,
+        "correctLng":  121.2667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_133",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Shanghai",
+        "correctLat":  31.2304,
+        "correctLng":  121.4737,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_134",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Nanjing",
+        "correctLat":  32.0603,
+        "correctLng":  118.7969,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_135",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Wuhan",
+        "correctLat":  30.5928,
+        "correctLng":  114.3055,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_136",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of South Shanxi",
+        "correctLat":  35,
+        "correctLng":  111.5,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_137",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Okinawa",
+        "correctLat":  26.2124,
+        "correctLng":  127.6809,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_138",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Manila",
+        "correctLat":  14.5995,
+        "correctLng":  120.9842,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_139",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Iwo Jima",
+        "correctLat":  24.758,
+        "correctLng":  141.3086,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_140",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Guadalcanal",
+        "correctLat":  -9.6457,
+        "correctLng":  160.1562,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_141",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Midway",
+        "correctLat":  28.2072,
+        "correctLng":  -177.3735,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_142",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Coral Sea",
+        "correctLat":  -14,
+        "correctLng":  155,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_143",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of the Philippine Sea",
+        "correctLat":  15,
+        "correctLng":  145,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_144",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Leyte Gulf",
+        "correctLat":  10.75,
+        "correctLng":  125,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_145",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Saigon",
+        "correctLat":  10.8231,
+        "correctLng":  106.6297,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_146",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Dien Bien Phu",
+        "correctLat":  21.389,
+        "correctLng":  103.0159,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_147",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Khe Sanh",
+        "correctLat":  16.6333,
+        "correctLng":  106.7333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_148",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Hue",
+        "correctLat":  16.4637,
+        "correctLng":  107.5909,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_149",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Hamburger Hill",
+        "correctLat":  16.2,
+        "correctLng":  107.1,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_150",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Singapore",
+        "correctLat":  1.3521,
+        "correctLng":  103.8198,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_151",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Malaya",
+        "correctLat":  3.15,
+        "correctLng":  101.7,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_152",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Hong Kong",
+        "correctLat":  22.3193,
+        "correctLng":  114.1694,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_153",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Guam",
+        "correctLat":  13.4443,
+        "correctLng":  144.7937,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_154",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Naval Battle of Guadalcanal",
+        "correctLat":  -9.4333,
+        "correctLng":  159.95,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_155",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Manchuria",
+        "correctLat":  41.8057,
+        "correctLng":  123.4315,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_156",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Khalkhin Gol",
+        "correctLat":  47.7167,
+        "correctLng":  118.6667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_157",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Salamis",
+        "correctLat":  37.9667,
+        "correctLng":  23.5,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_158",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Hydaspes",
+        "correctLat":  32.9333,
+        "correctLng":  73.7333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_159",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Asculum",
+        "correctLat":  41.1926,
+        "correctLng":  15.8672,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_160",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Lake Trasimene",
+        "correctLat":  43.1333,
+        "correctLng":  12.1167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_161",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Trebia",
+        "correctLat":  45.0167,
+        "correctLng":  9.6833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_162",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Philippi",
+        "correctLat":  41.0122,
+        "correctLng":  24.2867,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_163",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Teutoburg Forest",
+        "correctLat":  52.1109,
+        "correctLng":  8.3855,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_164",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Milvian Bridge",
+        "correctLat":  41.9439,
+        "correctLng":  12.4744,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_165",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of the Catalaunian Plains",
+        "correctLat":  48.95,
+        "correctLng":  4.3667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_166",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Tours",
+        "correctLat":  47.25,
+        "correctLng":  0.4667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_167",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Pliska",
+        "correctLat":  43.3833,
+        "correctLng":  27.1333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_168",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Ashdown",
+        "correctLat":  51.55,
+        "correctLng":  -1.4667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_169",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Brenta",
+        "correctLat":  45.6667,
+        "correctLng":  11.95,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_170",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Lechfeld",
+        "correctLat":  48.35,
+        "correctLng":  10.9,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_171",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Kleidion",
+        "correctLat":  41.3667,
+        "correctLng":  23.3833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_172",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Stamford Bridge",
+        "correctLat":  53.9833,
+        "correctLng":  -0.9167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_173",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Civetot",
+        "correctLat":  40.45,
+        "correctLng":  29.6167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_174",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Montgisard",
+        "correctLat":  31.9833,
+        "correctLng":  34.8667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_175",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Kalka River",
+        "correctLat":  47.0833,
+        "correctLng":  37.55,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_176",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Mohi",
+        "correctLat":  48.1167,
+        "correctLng":  20.7667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_177",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Stirling Bridge",
+        "correctLat":  56.1167,
+        "correctLng":  -3.9333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_178",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Falkirk",
+        "correctLat":  56.0019,
+        "correctLng":  -3.7839,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_179",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Bannockburn",
+        "correctLat":  56.0897,
+        "correctLng":  -3.9142,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_180",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Crécy",
+        "correctLat":  50.25,
+        "correctLng":  1.8833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_181",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Poitiers",
+        "correctLat":  46.5802,
+        "correctLng":  0.3404,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_182",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Agincourt",
+        "correctLat":  50.4667,
+        "correctLng":  2.1333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_183",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Nicopolis",
+        "correctLat":  43.7167,
+        "correctLng":  24.9,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_184",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Varna",
+        "correctLat":  43.2141,
+        "correctLng":  27.9147,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_185",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Kosovo",
+        "correctLat":  42.6667,
+        "correctLng":  21.15,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_186",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Grunwald",
+        "correctLat":  53.4833,
+        "correctLng":  20.2833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_187",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Tannenberg",
+        "correctLat":  53.4833,
+        "correctLng":  20.2833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_188",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Orsha",
+        "correctLat":  54.51,
+        "correctLng":  30.42,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_189",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Pavia",
+        "correctLat":  45.1847,
+        "correctLng":  9.1582,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_190",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Marignano",
+        "correctLat":  45.35,
+        "correctLng":  9.3167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_191",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Bicocca",
+        "correctLat":  45.5167,
+        "correctLng":  9.2,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_192",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Ceresole",
+        "correctLat":  44.8667,
+        "correctLng":  7.8167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_193",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of White Mountain",
+        "correctLat":  50.0667,
+        "correctLng":  14.3167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_194",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Breitenfeld",
+        "correctLat":  51.4,
+        "correctLng":  12.4667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_195",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Lützen",
+        "correctLat":  51.25,
+        "correctLng":  12.1333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_196",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Poltava",
+        "correctLat":  49.5883,
+        "correctLng":  34.5514,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_197",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Narva",
+        "correctLat":  59.3772,
+        "correctLng":  28.1903,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_198",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Prague",
+        "correctLat":  50.0755,
+        "correctLng":  14.4378,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_199",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Marengo",
+        "correctLat":  44.9167,
+        "correctLng":  8.6667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_200",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Austerlitz",
+        "correctLat":  49.15,
+        "correctLng":  16.8833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_201",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Jena-Auerstedt",
+        "correctLat":  50.9167,
+        "correctLng":  11.5833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_202",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Eylau",
+        "correctLat":  54.3833,
+        "correctLng":  20.6333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_203",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Friedland",
+        "correctLat":  54.4333,
+        "correctLng":  21.0167,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_204",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Wagram",
+        "correctLat":  48.3667,
+        "correctLng":  16.5667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_205",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Borodino",
+        "correctLat":  55.5167,
+        "correctLng":  35.8333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_206",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Leipzig",
+        "correctLat":  51.3397,
+        "correctLng":  12.3731,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_207",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Dresden",
+        "correctLat":  51.0504,
+        "correctLng":  13.7373,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_208",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Solferino",
+        "correctLat":  45.3833,
+        "correctLng":  10.5833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_209",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Königgrätz",
+        "correctLat":  50.2092,
+        "correctLng":  15.8328,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_210",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Sedan",
+        "correctLat":  49.7,
+        "correctLng":  4.95,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_211",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Le Mans",
+        "correctLat":  48.0061,
+        "correctLng":  0.1996,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_212",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of the Frontiers",
+        "correctLat":  50.4108,
+        "correctLng":  4.4446,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_213",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Galicia",
+        "correctLat":  49.8397,
+        "correctLng":  24.0297,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_214",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of the Marne",
+        "correctLat":  48.96,
+        "correctLng":  2.8794,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_215",
+        "type":  "MAP_PINPOINT",
+        "battle":  "First Battle of Ypres",
+        "correctLat":  50.85,
+        "correctLng":  2.8833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_216",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Łódź",
+        "correctLat":  51.7592,
+        "correctLng":  19.456,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_217",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Verdun",
+        "correctLat":  49.1593,
+        "correctLng":  5.3814,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_218",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of the Somme",
+        "correctLat":  50,
+        "correctLng":  2.6667,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_219",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Brusilov Offensive",
+        "correctLat":  50.7472,
+        "correctLng":  25.3254,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_220",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Passchendaele",
+        "correctLat":  50.8975,
+        "correctLng":  2.9958,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_221",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Cambrai",
+        "correctLat":  50.1667,
+        "correctLng":  3.2333,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_222",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Caporetto",
+        "correctLat":  46.25,
+        "correctLng":  13.5833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_223",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Spring Offensive",
+        "correctLat":  49.85,
+        "correctLng":  3.2833,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_224",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Hundred Days Offensive",
+        "correctLat":  49.8942,
+        "correctLng":  2.2957,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_225",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Warsaw",
+        "correctLat":  52.2297,
+        "correctLng":  21.0122,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battlemap_226",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Kursk",
+        "correctLat":  51.7373,
+        "correctLng":  36.1874,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_227",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Berlin",
+        "correctLat":  52.52,
+        "correctLng":  13.405,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_228",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Kiev",
+        "correctLat":  50.4501,
+        "correctLng":  30.5234,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battlemap_229",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Smolensk",
+        "correctLat":  54.7818,
+        "correctLng":  32.0401,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_230",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Battle of Kharkov",
+        "correctLat":  49.9935,
+        "correctLng":  36.2304,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battlemap_231",
+        "type":  "MAP_PINPOINT",
+        "battle":  "Operation Bagration",
+        "correctLat":  53.9006,
+        "correctLng":  27.559,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    }
+]

@@ -1,0 +1,2282 @@
+﻿[
+    {
+        "id":  "flag_001",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Japan (1870–1999)",
+        "imageAsset":  "images/flags/flag_japan_1930.png",
+        "source":  "Wikimedia Commons (public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_002",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Germany (1935–1945)",
+        "imageAsset":  "images/flags/flag_nazi_germany_1935.png",
+        "source":  "Wikimedia Commons (public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_003",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Soviet Union (1922)",
+        "imageAsset":  "images/flags/flag_soviet_union_1922.png",
+        "source":  "Wikimedia Commons (public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_004",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Italy (1861–1946)",
+        "imageAsset":  "images/flags/flag_kingdom_italy_1861.png",
+        "source":  "Wikimedia Commons (public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_005",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Weimar Republic (1919–1933)",
+        "imageAsset":  "images/flags/flag_weimar_republic_1919.png",
+        "source":  "Wikimedia Commons (public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_006",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Venice (697–1797)",
+        "imageAsset":  "images/flags/flag_republic_of_venice.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_007",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Genoa (1099–1797)",
+        "imageAsset":  "images/flags/flag_republic_of_genoa.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_008",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Duchy of Milan (1395–1447)",
+        "imageAsset":  "images/flags/flag_duchy_of_milan.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_009",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Florence (1115–1532)",
+        "imageAsset":  "images/flags/flag_republic_of_florence.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_011",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Pisa (11th c.–1406)",
+        "imageAsset":  "images/flags/flag_republic_of_pisa.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_012",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Papal States (754–1870)",
+        "imageAsset":  "images/flags/flag_papal_states.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_013",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Naples (1282–1816)",
+        "imageAsset":  "images/flags/flag_kingdom_of_naples.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_015",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Sardinia (1720–1861)",
+        "imageAsset":  "images/flags/flag_kingdom_of_sardinia.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_016",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Grand Duchy of Tuscany (1569–1859)",
+        "imageAsset":  "images/flags/flag_grand_duchy_of_tuscany.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_017",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Duchy of Modena and Reggio (1452–1859)",
+        "imageAsset":  "images/flags/flag_duchy_of_modena_and_reggio.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_018",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Duchy of Parma (1545–1859)",
+        "imageAsset":  "images/flags/flag_duchy_of_parma.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_019",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Lucca (1160–1805)",
+        "imageAsset":  "images/flags/flag_republic_of_lucca.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_020",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Ragusa / Dubrovnik (1358–1808)",
+        "imageAsset":  "images/flags/flag_republic_of_ragusa_dubrovnik.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_021",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Lombardy–Venetia (1815–1866)",
+        "imageAsset":  "images/flags/flag_kingdom_of_lombardy_venetia.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_023",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Italian Social Republic (1943–1945)",
+        "imageAsset":  "images/flags/flag_italian_social_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_024",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Italy (1861–1946)",
+        "imageAsset":  "images/flags/flag_kingdom_of_italy.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_025",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Italy, Napoleonic (1805–1814)",
+        "imageAsset":  "images/flags/flag_kingdom_of_italy_napoleonic.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_026",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Etruria (1801–1807)",
+        "imageAsset":  "images/flags/flag_kingdom_of_etruria.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_028",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Parthenopean Republic (1799)",
+        "imageAsset":  "images/flags/flag_parthenopean_republic.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_030",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Yugoslavia (1918–1941)",
+        "imageAsset":  "images/flags/flag_kingdom_of_yugoslavia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_031",
+        "type":  "COLOR_MATCH",
+        "flagName":  "SFR Yugoslavia (1945–1992)",
+        "imageAsset":  "images/flags/flag_sfr_yugoslavia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_032",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Serbia (1882–1918)",
+        "imageAsset":  "images/flags/flag_kingdom_of_serbia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_033",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Montenegro (1910–1918)",
+        "imageAsset":  "images/flags/flag_kingdom_of_montenegro.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_034",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Bulgaria (1908–1946)",
+        "imageAsset":  "images/flags/flag_kingdom_of_bulgaria.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_035",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Greece (1863–1924)",
+        "imageAsset":  "images/flags/flag_kingdom_of_greece.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_037",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Socialist Republic of Romania (1947–1989)",
+        "imageAsset":  "images/flags/flag_socialist_republic_of_romania.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_038",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Romanian Iron Guard / National Legionary State (1940–1941)",
+        "imageAsset":  "images/flags/flag_romanian_iron_guard_national_legionary_state.png",
+        "source":  "Wikimedia Commons (CC BY 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_039",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Independent State of Croatia (1941–1945)",
+        "imageAsset":  "images/flags/flag_independent_state_of_croatia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_040",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Albania (1928–1939)",
+        "imageAsset":  "images/flags/flag_kingdom_of_albania.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_042",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Second Spanish Republic (1931–1939)",
+        "imageAsset":  "images/flags/flag_second_spanish_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_043",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Spain, Bourbon Restoration (1875–1931)",
+        "imageAsset":  "images/flags/flag_kingdom_of_spain_bourbon_restoration.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_047",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Navarre (824–1620)",
+        "imageAsset":  "images/flags/flag_kingdom_of_navarre.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_049",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Asturias (718–924)",
+        "imageAsset":  "images/flags/flag_kingdom_of_asturias.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_050",
+        "type":  "COLOR_MATCH",
+        "flagName":  "British Empire (Imperial Federation era)",
+        "imageAsset":  "images/flags/flag_british_empire.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_051",
+        "type":  "COLOR_MATCH",
+        "flagName":  "British Raj (1858–1947)",
+        "imageAsset":  "images/flags/flag_british_raj.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_052",
+        "type":  "COLOR_MATCH",
+        "flagName":  "British Ceylon (1815–1948)",
+        "imageAsset":  "images/flags/flag_british_ceylon.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_053",
+        "type":  "COLOR_MATCH",
+        "flagName":  "British Hong Kong (1959–1997)",
+        "imageAsset":  "images/flags/flag_british_hong_kong.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_054",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Rhodesia (1965–1979)",
+        "imageAsset":  "images/flags/flag_rhodesia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_055",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Southern Rhodesia (1923–1964)",
+        "imageAsset":  "images/flags/flag_southern_rhodesia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_056",
+        "type":  "COLOR_MATCH",
+        "flagName":  "British Malaya (Federated Malay States)",
+        "imageAsset":  "images/flags/flag_british_malaya.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_057",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Wessex",
+        "imageAsset":  "images/flags/flag_kingdom_of_wessex.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_058",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Mercia",
+        "imageAsset":  "images/flags/flag_kingdom_of_mercia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_060",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of East Anglia",
+        "imageAsset":  "images/flags/flag_kingdom_of_east_anglia.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_063",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Sussex",
+        "imageAsset":  "images/flags/flag_kingdom_of_sussex.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_067",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Federal State of Austria (1934–1938)",
+        "imageAsset":  "images/flags/flag_federal_state_of_austria.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_068",
+        "type":  "COLOR_MATCH",
+        "flagName":  "First Austrian Republic (1918–1934)",
+        "imageAsset":  "images/flags/flag_first_austrian_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_069",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Portugal, blue-white (1830–1910)",
+        "imageAsset":  "images/flags/flag_kingdom_of_portugal_blue_white.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_072",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Protectorate of Bohemia and Moravia (1939–1945)",
+        "imageAsset":  "images/flags/flag_protectorate_of_bohemia_and_moravia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_075",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Hungary, Horthy era (1920–1944)",
+        "imageAsset":  "images/flags/flag_kingdom_of_hungary_horthy_era.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_076",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Slovak Republic (1939–1945)",
+        "imageAsset":  "images/flags/flag_slovak_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_078",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Grand Duchy of Luxembourg (historic)",
+        "imageAsset":  "images/flags/flag_grand_duchy_of_luxembourg.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_079",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Irish Free State (1922–1937)",
+        "imageAsset":  "images/flags/flag_irish_free_state.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_080",
+        "type":  "COLOR_MATCH",
+        "flagName":  "San Marino (historic)",
+        "imageAsset":  "images/flags/flag_san_marino.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_081",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of the Rio Grande (1840)",
+        "imageAsset":  "images/flags/flag_republic_of_the_rio_grande.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_083",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Texas (1836–1845)",
+        "imageAsset":  "images/flags/flag_republic_of_texas.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_084",
+        "type":  "COLOR_MATCH",
+        "flagName":  "California Republic (1846)",
+        "imageAsset":  "images/flags/flag_california_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_086",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Prussia (1701–1918)",
+        "imageAsset":  "images/flags/flag_kingdom_of_prussia.png",
+        "source":  "Wikimedia Commons (Attribution)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_089",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Grand Duchy of Baden (1806–1918)",
+        "imageAsset":  "images/flags/flag_grand_duchy_of_baden.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_091",
+        "type":  "COLOR_MATCH",
+        "flagName":  "North German Confederation (1867–1871)",
+        "imageAsset":  "images/flags/flag_north_german_confederation.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_092",
+        "type":  "COLOR_MATCH",
+        "flagName":  "German Empire (1871–1918)",
+        "imageAsset":  "images/flags/flag_german_empire.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_093",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Weimar Republic, war ensign era",
+        "imageAsset":  "images/flags/flag_weimar_republic_war_ensign_era.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_094",
+        "type":  "COLOR_MATCH",
+        "flagName":  "East Germany / German Democratic Republic",
+        "imageAsset":  "images/flags/flag_east_germany_german_democratic_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_097",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Grand Duchy of Hesse",
+        "imageAsset":  "images/flags/flag_grand_duchy_of_hesse.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_100",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Wuchang Uprising / 18-Star flag (1911)",
+        "imageAsset":  "images/flags/flag_wuchang_uprising_18_star_flag.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_101",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of China, five-colored flag (1912–1928)",
+        "imageAsset":  "images/flags/flag_republic_of_china_five_colored_flag.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_103",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Empire of China (Yuan Shikai, 1915–1916)",
+        "imageAsset":  "images/flags/flag_empire_of_china.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_104",
+        "type":  "COLOR_MATCH",
+        "flagName":  "People\u0027s Republic of China (1949– )",
+        "imageAsset":  "images/flags/flag_people_s_republic_of_china.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_105",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Manchukuo (1932–1945)",
+        "imageAsset":  "images/flags/flag_manchukuo.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_107",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Chinese Soviet Republic (1931–1937)",
+        "imageAsset":  "images/flags/flag_chinese_soviet_republic.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_108",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Reorganized National Government of China (1940–1945)",
+        "imageAsset":  "images/flags/flag_reorganized_national_government_of_china.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_109",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Ottoman Empire (1844–1922)",
+        "imageAsset":  "images/flags/flag_ottoman_empire.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_110",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Hejaz (1916–1925)",
+        "imageAsset":  "images/flags/flag_kingdom_of_hejaz.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_111",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Iraq (1921–1958)",
+        "imageAsset":  "images/flags/flag_kingdom_of_iraq.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_112",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Mandatory Palestine (1920–1948)",
+        "imageAsset":  "images/flags/flag_mandatory_palestine.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_113",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Trucial States (pre-1971 UAE)",
+        "imageAsset":  "images/flags/flag_trucial_states.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_117",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Emirate of Transjordan (1921–1946)",
+        "imageAsset":  "images/flags/flag_emirate_of_transjordan.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_119",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Imperial State of Iran, Pahlavi (1925–1979)",
+        "imageAsset":  "images/flags/flag_imperial_state_of_iran_pahlavi.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_120",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Egypt (1922–1953)",
+        "imageAsset":  "images/flags/flag_kingdom_of_egypt.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_121",
+        "type":  "COLOR_MATCH",
+        "flagName":  "United Arab Republic (1958–1961)",
+        "imageAsset":  "images/flags/flag_united_arab_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_123",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Aden Colony / Protectorate",
+        "imageAsset":  "images/flags/flag_aden_colony_protectorate.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_125",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Joseon Dynasty Korea",
+        "imageAsset":  "images/flags/flag_joseon_dynasty_korea.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_126",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Empire of Vietnam (Nguyen Dynasty)",
+        "imageAsset":  "images/flags/flag_empire_of_vietnam.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_127",
+        "type":  "COLOR_MATCH",
+        "flagName":  "State of Vietnam (1949–1955)",
+        "imageAsset":  "images/flags/flag_state_of_vietnam.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_128",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Vietnam / South Vietnam (1955–1975)",
+        "imageAsset":  "images/flags/flag_republic_of_vietnam_south_vietnam.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_129",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Democratic Republic of Vietnam (1945–1976)",
+        "imageAsset":  "images/flags/flag_democratic_republic_of_vietnam.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_131",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Cambodia, Sihanouk era",
+        "imageAsset":  "images/flags/flag_kingdom_of_cambodia_sihanouk_era.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_132",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Khmer Republic (1970–1975)",
+        "imageAsset":  "images/flags/flag_khmer_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_133",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Democratic Kampuchea (1975–1979)",
+        "imageAsset":  "images/flags/flag_democratic_kampuchea.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_134",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Siam, elephant flag (pre-1917)",
+        "imageAsset":  "images/flags/flag_siam_elephant_flag.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_135",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Empire of Japan, war flag",
+        "imageAsset":  "images/flags/flag_empire_of_japan_war_flag.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_136",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Ryukyu Kingdom",
+        "imageAsset":  "images/flags/flag_ryukyu_kingdom.png",
+        "source":  "Wikimedia Commons (CC BY 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_137",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Dutch East Indies",
+        "imageAsset":  "images/flags/flag_dutch_east_indies.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_139",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Ethiopian Empire (Haile Selassie era)",
+        "imageAsset":  "images/flags/flag_ethiopian_empire.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_140",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Kongo",
+        "imageAsset":  "images/flags/flag_kingdom_of_kongo.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_141",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Sultanate of Zanzibar (1856–1964)",
+        "imageAsset":  "images/flags/flag_sultanate_of_zanzibar.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_142",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Orange Free State (1854–1902)",
+        "imageAsset":  "images/flags/flag_orange_free_state.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_143",
+        "type":  "COLOR_MATCH",
+        "flagName":  "South African Republic / Transvaal (1852–1902)",
+        "imageAsset":  "images/flags/flag_south_african_republic_transvaal.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_145",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Natalia (1839–1843)",
+        "imageAsset":  "images/flags/flag_republic_of_natalia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_146",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Basutoland (1884–1966)",
+        "imageAsset":  "images/flags/flag_basutoland.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_148",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Nyasaland (1907–1964)",
+        "imageAsset":  "images/flags/flag_nyasaland.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_149",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Belgian Congo (1908–1960)",
+        "imageAsset":  "images/flags/flag_belgian_congo.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_151",
+        "type":  "COLOR_MATCH",
+        "flagName":  "French Equatorial Africa (1910–1958)",
+        "imageAsset":  "images/flags/flag_french_equatorial_africa.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_155",
+        "type":  "COLOR_MATCH",
+        "flagName":  "South-West Africa (German colony)",
+        "imageAsset":  "images/flags/flag_south_west_africa.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_156",
+        "type":  "COLOR_MATCH",
+        "flagName":  "German East Africa",
+        "imageAsset":  "images/flags/flag_german_east_africa.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_158",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Portuguese West Africa (Angola colony)",
+        "imageAsset":  "images/flags/flag_portuguese_west_africa.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_160",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Confederate Battle Flag",
+        "imageAsset":  "images/flags/flag_confederate_battle_flag.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_161",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Gran Colombia (1819–1831)",
+        "imageAsset":  "images/flags/flag_gran_colombia.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_162",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Federal Republic of Central America (1823–1841)",
+        "imageAsset":  "images/flags/flag_federal_republic_of_central_america.png",
+        "source":  "Wikimedia Commons (CC BY-SA 2.5)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_164",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of West Florida (1810)",
+        "imageAsset":  "images/flags/flag_republic_of_west_florida.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_165",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Yucatán (1841–1848)",
+        "imageAsset":  "images/flags/flag_republic_of_yucat_n.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_167",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Second Mexican Empire (1864–1867)",
+        "imageAsset":  "images/flags/flag_second_mexican_empire.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_168",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Hawaii (1845–1893)",
+        "imageAsset":  "images/flags/flag_kingdom_of_hawaii.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_171",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Vermont Republic (1777–1791)",
+        "imageAsset":  "images/flags/flag_vermont_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_172",
+        "type":  "COLOR_MATCH",
+        "flagName":  "West Indies Federation (1958–1962)",
+        "imageAsset":  "images/flags/flag_west_indies_federation.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_173",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Holy Roman Empire",
+        "imageAsset":  "images/flags/flag_holy_roman_empire.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_174",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Poland (966–1795)",
+        "imageAsset":  "images/flags/flag_kingdom_of_poland.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_175",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Polish–Lithuanian Commonwealth (1569–1795)",
+        "imageAsset":  "images/flags/flag_polish_lithuanian_commonwealth.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_176",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Grand Duchy of Lithuania (1236–1795)",
+        "imageAsset":  "images/flags/flag_grand_duchy_of_lithuania.png",
+        "source":  "Wikimedia Commons (CC BY 3.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_178",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Sicily (1130–1816)",
+        "imageAsset":  "images/flags/flag_kingdom_of_sicily.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_179",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Free City of Hamburg (historic)",
+        "imageAsset":  "images/flags/flag_free_city_of_hamburg.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_181",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Free Hanseatic City of Bremen (historic)",
+        "imageAsset":  "images/flags/flag_free_hanseatic_city_of_bremen.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_182",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Grand Duchy of Finland (1809–1917)",
+        "imageAsset":  "images/flags/flag_grand_duchy_of_finland.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_184",
+        "type":  "COLOR_MATCH",
+        "flagName":  "United Kingdom of the Netherlands (1815–1830)",
+        "imageAsset":  "images/flags/flag_united_kingdom_of_the_netherlands.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_186",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Byzantine Empire (Palaiologos era)",
+        "imageAsset":  "images/flags/flag_byzantine_empire.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_188",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Jerusalem (1099–1291)",
+        "imageAsset":  "images/flags/flag_kingdom_of_jerusalem.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_193",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Russian Provisional Government (1917)",
+        "imageAsset":  "images/flags/flag_russian_provisional_government.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_194",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Soviet Union (1922–1991)",
+        "imageAsset":  "images/flags/flag_soviet_union.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_195",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kalmar Union (1397–1523)",
+        "imageAsset":  "images/flags/flag_kalmar_union.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_199",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Helvetic Republic (1798–1803)",
+        "imageAsset":  "images/flags/flag_helvetic_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_202",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Sweden, historic union flag",
+        "imageAsset":  "images/flags/flag_kingdom_of_sweden_historic_union_flag.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_207",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Ecuador, Gran Colombia era",
+        "imageAsset":  "images/flags/flag_republic_of_ecuador_gran_colombia_era.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_209",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Argentine Confederation (1831–1861)",
+        "imageAsset":  "images/flags/flag_argentine_confederation.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_210",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Peru–Bolivia Confederation (1836–1839)",
+        "imageAsset":  "images/flags/flag_peru_bolivia_confederation.png",
+        "source":  "Wikimedia Commons (CC BY-SA 2.5)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_212",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Empire of Haiti (1804–1806, Dessalines)",
+        "imageAsset":  "images/flags/flag_empire_of_haiti.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_214",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Dominican Republic, historic Trinitario flag",
+        "imageAsset":  "images/flags/flag_dominican_republic_historic_trinitario_flag.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_218",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Viceroyalty of the Río de la Plata",
+        "imageAsset":  "images/flags/flag_viceroyalty_of_the_r_o_de_la_plata.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_226",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Vichy France (1940–1944)",
+        "imageAsset":  "images/flags/flag_vichy_france.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_228",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of the Belgians, historic",
+        "imageAsset":  "images/flags/flag_kingdom_of_the_belgians_historic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_229",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Genoa, war ensign",
+        "imageAsset":  "images/flags/flag_republic_of_genoa_war_ensign.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_231",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Free State of Fiume (1920–1924)",
+        "imageAsset":  "images/flags/flag_free_state_of_fiume.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_234",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Duchy of Carinthia",
+        "imageAsset":  "images/flags/flag_duchy_of_carinthia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_236",
+        "type":  "COLOR_MATCH",
+        "flagName":  "County of Tyrol",
+        "imageAsset":  "images/flags/flag_county_of_tyrol.png",
+        "source":  "Wikimedia Commons (CC BY 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_239",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Bosnia and Herzegovina, Austro-Hungarian condominium",
+        "imageAsset":  "images/flags/flag_bosnia_and_herzegovina_austro_hungarian_condominium.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_241",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Principality of Moldavia",
+        "imageAsset":  "images/flags/flag_principality_of_moldavia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_243",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Finland (1918, proposed)",
+        "imageAsset":  "images/flags/flag_kingdom_of_finland.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_244",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Ukrainian People\u0027s Republic (1917–1921)",
+        "imageAsset":  "images/flags/flag_ukrainian_people_s_republic.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_247",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Democratic Republic of Georgia (1918–1921)",
+        "imageAsset":  "images/flags/flag_democratic_republic_of_georgia.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_249",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Azerbaijan Democratic Republic (1918–1920)",
+        "imageAsset":  "images/flags/flag_azerbaijan_democratic_republic.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_250",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Idel-Ural State (1917–1918)",
+        "imageAsset":  "images/flags/flag_idel_ural_state.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_251",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Far Eastern Republic (1920–1922)",
+        "imageAsset":  "images/flags/flag_far_eastern_republic.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_256",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Knights Hospitaller (Order of Malta)",
+        "imageAsset":  "images/flags/flag_knights_hospitaller.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_257",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Barbary States, Regency of Algiers",
+        "imageAsset":  "images/flags/flag_barbary_states_regency_of_algiers.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_258",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Regency of Tunis",
+        "imageAsset":  "images/flags/flag_regency_of_tunis.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_259",
+        "type":  "COLOR_MATCH",
+        "flagName":  "French Protectorate of Tunisia",
+        "imageAsset":  "images/flags/flag_french_protectorate_of_tunisia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_260",
+        "type":  "COLOR_MATCH",
+        "flagName":  "French Morocco (Protectorate)",
+        "imageAsset":  "images/flags/flag_french_morocco.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_261",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Spanish Morocco (Protectorate)",
+        "imageAsset":  "images/flags/flag_spanish_morocco.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_264",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Anglo-Egyptian Sudan (1899–1956)",
+        "imageAsset":  "images/flags/flag_anglo_egyptian_sudan.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_269",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Wassoulou Empire (Samory Touré)",
+        "imageAsset":  "images/flags/flag_wassoulou_empire.png",
+        "source":  "Wikimedia Commons (CC BY 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_271",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Buganda",
+        "imageAsset":  "images/flags/flag_kingdom_of_buganda.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_275",
+        "type":  "COLOR_MATCH",
+        "flagName":  "British Somaliland",
+        "imageAsset":  "images/flags/flag_british_somaliland.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_276",
+        "type":  "COLOR_MATCH",
+        "flagName":  "French Somaliland",
+        "imageAsset":  "images/flags/flag_french_somaliland.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_277",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Portuguese Guinea",
+        "imageAsset":  "images/flags/flag_portuguese_guinea.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_278",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Portuguese Cape Verde",
+        "imageAsset":  "images/flags/flag_portuguese_cape_verde.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_279",
+        "type":  "COLOR_MATCH",
+        "flagName":  "French Indochina",
+        "imageAsset":  "images/flags/flag_french_indochina.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_281",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Portuguese Macau",
+        "imageAsset":  "images/flags/flag_portuguese_macau.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_283",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Straits Settlements",
+        "imageAsset":  "images/flags/flag_straits_settlements.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_284",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Sarawak, Brooke Raj",
+        "imageAsset":  "images/flags/flag_sarawak_brooke_raj.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_285",
+        "type":  "COLOR_MATCH",
+        "flagName":  "North Borneo (British)",
+        "imageAsset":  "images/flags/flag_north_borneo.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_286",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Sikkim",
+        "imageAsset":  "images/flags/flag_kingdom_of_sikkim.png",
+        "source":  "Wikimedia Commons (CC BY-SA 2.5)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_287",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Nepal (historic)",
+        "imageAsset":  "images/flags/flag_kingdom_of_nepal.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_288",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Bhutan (historic)",
+        "imageAsset":  "images/flags/flag_kingdom_of_bhutan.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_289",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Tibet (1912–1951)",
+        "imageAsset":  "images/flags/flag_tibet.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_290",
+        "type":  "COLOR_MATCH",
+        "flagName":  "East Turkestan Republic (1933–1934)",
+        "imageAsset":  "images/flags/flag_east_turkestan_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_291",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Second East Turkestan Republic (1944–1949)",
+        "imageAsset":  "images/flags/flag_second_east_turkestan_republic.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_292",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Mongolian People\u0027s Republic (1924–1992)",
+        "imageAsset":  "images/flags/flag_mongolian_people_s_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_295",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Emirate of Bukhara",
+        "imageAsset":  "images/flags/flag_emirate_of_bukhara.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_296",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Khanate of Khiva",
+        "imageAsset":  "images/flags/flag_khanate_of_khiva.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_297",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Transcaucasian Democratic Federative Republic (1918)",
+        "imageAsset":  "images/flags/flag_transcaucasian_democratic_federative_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_299",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Don Republic (1918–1920)",
+        "imageAsset":  "images/flags/flag_don_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_301",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Kurdistan (1922–1924)",
+        "imageAsset":  "images/flags/flag_kingdom_of_kurdistan.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_302",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Mahabad (1946)",
+        "imageAsset":  "images/flags/flag_republic_of_mahabad.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_303",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of the Hejaz and Nejd",
+        "imageAsset":  "images/flags/flag_kingdom_of_the_hejaz_and_nejd.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_305",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Emirate of Nejd (Second Saudi State)",
+        "imageAsset":  "images/flags/flag_emirate_of_nejd.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_306",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Nejd and Hejaz (1926–1932)",
+        "imageAsset":  "images/flags/flag_kingdom_of_nejd_and_hejaz.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_307",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Idrisid Emirate of Asir",
+        "imageAsset":  "images/flags/flag_idrisid_emirate_of_asir.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_309",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Federation of South Arabia (1962–1967)",
+        "imageAsset":  "images/flags/flag_federation_of_south_arabia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_310",
+        "type":  "COLOR_MATCH",
+        "flagName":  "People\u0027s Republic of South Yemen (1967–1970)",
+        "imageAsset":  "images/flags/flag_people_s_republic_of_south_yemen.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_311",
+        "type":  "COLOR_MATCH",
+        "flagName":  "South Yemen / PDRY (1970–1990)",
+        "imageAsset":  "images/flags/flag_south_yemen_pdry.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_312",
+        "type":  "COLOR_MATCH",
+        "flagName":  "North Yemen / Yemen Arab Republic (1962–1990)",
+        "imageAsset":  "images/flags/flag_north_yemen_yemen_arab_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_316",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Afghanistan (1973–1978)",
+        "imageAsset":  "images/flags/flag_republic_of_afghanistan.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_317",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Democratic Republic of Afghanistan (1978–1987)",
+        "imageAsset":  "images/flags/flag_democratic_republic_of_afghanistan.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_318",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Sikh Empire (1799–1849)",
+        "imageAsset":  "images/flags/flag_sikh_empire.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_319",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Maratha Empire",
+        "imageAsset":  "images/flags/flag_maratha_empire.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_321",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Mysore (Tipu Sultan era)",
+        "imageAsset":  "images/flags/flag_kingdom_of_mysore.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_323",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Princely State of Jammu and Kashmir",
+        "imageAsset":  "images/flags/flag_princely_state_of_jammu_and_kashmir.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_328",
+        "type":  "COLOR_MATCH",
+        "flagName":  "British Burma",
+        "imageAsset":  "images/flags/flag_british_burma.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_329",
+        "type":  "COLOR_MATCH",
+        "flagName":  "State of Burma (1943–1945)",
+        "imageAsset":  "images/flags/flag_state_of_burma.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_330",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Union of Burma (1948–1974)",
+        "imageAsset":  "images/flags/flag_union_of_burma.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_332",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Empire of Annam",
+        "imageAsset":  "images/flags/flag_empire_of_annam.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_333",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Champa",
+        "imageAsset":  "images/flags/flag_kingdom_of_champa.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_334",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Empire of Majapahit",
+        "imageAsset":  "images/flags/flag_empire_of_majapahit.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_337",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Sultanate of Brunei (historic)",
+        "imageAsset":  "images/flags/flag_sultanate_of_brunei.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_338",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Aceh Sultanate",
+        "imageAsset":  "images/flags/flag_aceh_sultanate.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_340",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of the South Moluccas",
+        "imageAsset":  "images/flags/flag_republic_of_the_south_moluccas.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_343",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Empire of Manchuria (alternate name Manchukuo naval)",
+        "imageAsset":  "images/flags/flag_empire_of_manchuria.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_344",
+        "type":  "COLOR_MATCH",
+        "flagName":  "East Hebei Autonomous Government",
+        "imageAsset":  "images/flags/flag_east_hebei_autonomous_government.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_346",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Provisional Government of the Republic of Korea",
+        "imageAsset":  "images/flags/flag_provisional_government_of_the_republic_of_korea.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_348",
+        "type":  "COLOR_MATCH",
+        "flagName":  "South Korea, historic Taegukgi",
+        "imageAsset":  "images/flags/flag_south_korea_historic_taegukgi.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_349",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Empire of Ethiopia, Solomonic dynasty older flag",
+        "imageAsset":  "images/flags/flag_empire_of_ethiopia_solomonic_dynasty_older_flag.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_352",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Burundi (historic)",
+        "imageAsset":  "images/flags/flag_kingdom_of_burundi.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_358",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Lesotho, Basutoland-era",
+        "imageAsset":  "images/flags/flag_kingdom_of_lesotho_basutoland_era.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_359",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Biafra (1967–1970)",
+        "imageAsset":  "images/flags/flag_republic_of_biafra.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_360",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Katanga State (1960–1963)",
+        "imageAsset":  "images/flags/flag_katanga_state.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_362",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of the Congo (Léopoldville, 1960–1965)",
+        "imageAsset":  "images/flags/flag_republic_of_the_congo.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_364",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Federation of Rhodesia and Nyasaland (1953–1963)",
+        "imageAsset":  "images/flags/flag_federation_of_rhodesia_and_nyasaland.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_365",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of South Africa, historic (1928–1994)",
+        "imageAsset":  "images/flags/flag_republic_of_south_africa_historic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  1
+    },
+    {
+        "id":  "flag_367",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Bophuthatswana (bantustan)",
+        "imageAsset":  "images/flags/flag_bophuthatswana.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_368",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Transkei (bantustan)",
+        "imageAsset":  "images/flags/flag_transkei.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_369",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Ciskei (bantustan)",
+        "imageAsset":  "images/flags/flag_ciskei.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_370",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Venda (bantustan)",
+        "imageAsset":  "images/flags/flag_venda.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_372",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Tonga (historic)",
+        "imageAsset":  "images/flags/flag_kingdom_of_tonga.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_373",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Hawaii, Kamehameha era",
+        "imageAsset":  "images/flags/flag_kingdom_of_hawaii_kamehameha_era.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_377",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Araucanía and Patagonia (1860)",
+        "imageAsset":  "images/flags/flag_kingdom_of_araucan_a_and_patagonia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_378",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Paraguay, Francia era (historic)",
+        "imageAsset":  "images/flags/flag_republic_of_paraguay_francia_era.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_380",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Ecuador, historic (1830–1845)",
+        "imageAsset":  "images/flags/flag_republic_of_ecuador_historic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_381",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of New Granada (1831–1858)",
+        "imageAsset":  "images/flags/flag_republic_of_new_granada.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_382",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Guatemala, Central America era",
+        "imageAsset":  "images/flags/flag_republic_of_guatemala_central_america_era.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_385",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Puerto Rico, Lares Revolt flag (1868)",
+        "imageAsset":  "images/flags/flag_puerto_rico_lares_revolt_flag.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_388",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Empire of Central Africa (1976–1979)",
+        "imageAsset":  "images/flags/flag_empire_of_central_africa.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_389",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Upper Volta (1958–1984)",
+        "imageAsset":  "images/flags/flag_republic_of_upper_volta.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_391",
+        "type":  "COLOR_MATCH",
+        "flagName":  "United Arab States (Egypt-Syria-Yemen, 1958–1961)",
+        "imageAsset":  "images/flags/flag_united_arab_states.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_403",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Texas, Lone Star (naval)",
+        "imageAsset":  "images/flags/flag_republic_of_texas_lone_star.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_405",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Sardinia, Savoy war ensign",
+        "imageAsset":  "images/flags/flag_kingdom_of_sardinia_savoy_war_ensign.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_406",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Duchy of Savoy",
+        "imageAsset":  "images/flags/flag_duchy_of_savoy.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_407",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of San Marco (Venice, 1848–1849)",
+        "imageAsset":  "images/flags/flag_republic_of_san_marco.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_408",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Roman Republic (1849)",
+        "imageAsset":  "images/flags/flag_roman_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_409",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Poland, Congress era (November Uprising)",
+        "imageAsset":  "images/flags/flag_kingdom_of_poland_congress_era.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_412",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Cossack Hetmanate",
+        "imageAsset":  "images/flags/flag_cossack_hetmanate.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_417",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Margraviate of Brandenburg",
+        "imageAsset":  "images/flags/flag_margraviate_of_brandenburg.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_418",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Electorate of Saxony",
+        "imageAsset":  "images/flags/flag_electorate_of_saxony.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_419",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Electorate of the Palatinate",
+        "imageAsset":  "images/flags/flag_electorate_of_the_palatinate.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_425",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Grand Duchy of Oldenburg",
+        "imageAsset":  "images/flags/flag_grand_duchy_of_oldenburg.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_431",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Democratic Federal Yugoslavia (1943–1946)",
+        "imageAsset":  "images/flags/flag_democratic_federal_yugoslavia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_441",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Majorca",
+        "imageAsset":  "images/flags/flag_kingdom_of_majorca.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_448",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Massina Empire",
+        "imageAsset":  "images/flags/flag_massina_empire.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_452",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Goshen (1882–1883)",
+        "imageAsset":  "images/flags/flag_republic_of_goshen.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_454",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Klein Vrystaat (Little Free State, 1876–1891)",
+        "imageAsset":  "images/flags/flag_klein_vrystaat.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_455",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Zululand (1887–1897)",
+        "imageAsset":  "images/flags/flag_kingdom_of_zululand.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_457",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Colony of Natal",
+        "imageAsset":  "images/flags/flag_colony_of_natal.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_458",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Rhodesia and Nyasaland, alt check (dup guard)",
+        "imageAsset":  "images/flags/flag_rhodesia_and_nyasaland_alt_check.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_461",
+        "type":  "COLOR_MATCH",
+        "flagName":  "British Cameroons (Trust Territory)",
+        "imageAsset":  "images/flags/flag_british_cameroons.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_462",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Trust Territory of the Pacific Islands",
+        "imageAsset":  "images/flags/flag_trust_territory_of_the_pacific_islands.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_464",
+        "type":  "COLOR_MATCH",
+        "flagName":  "German Samoa",
+        "imageAsset":  "images/flags/flag_german_samoa.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_465",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Samoa (Malietoa era)",
+        "imageAsset":  "images/flags/flag_kingdom_of_samoa.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_466",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Fiji (Cakobau era)",
+        "imageAsset":  "images/flags/flag_kingdom_of_fiji.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_468",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Kingdom of Tonga, Taufa\u0027ahau era",
+        "imageAsset":  "images/flags/flag_kingdom_of_tonga_taufa_ahau_era.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_469",
+        "type":  "COLOR_MATCH",
+        "flagName":  "New Hebrides (Anglo-French Condominium)",
+        "imageAsset":  "images/flags/flag_new_hebrides.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_470",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Papua New Guinea, Territory era",
+        "imageAsset":  "images/flags/flag_papua_new_guinea_territory_era.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_471",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Dutch New Guinea",
+        "imageAsset":  "images/flags/flag_dutch_new_guinea.png",
+        "source":  "Wikimedia Commons (CC BY-SA 2.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_473",
+        "type":  "COLOR_MATCH",
+        "flagName":  "State of East Indonesia (1946–1950)",
+        "imageAsset":  "images/flags/flag_state_of_east_indonesia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_475",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Sarawak Republic proposal (dup guard remove)",
+        "imageAsset":  "images/flags/flag_sarawak_republic_proposal.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_476",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Sultanate of Sulu",
+        "imageAsset":  "images/flags/flag_sultanate_of_sulu.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_477",
+        "type":  "COLOR_MATCH",
+        "flagName":  "First Philippine Republic (1899–1901)",
+        "imageAsset":  "images/flags/flag_first_philippine_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_478",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Commonwealth of the Philippines (1935–1946)",
+        "imageAsset":  "images/flags/flag_commonwealth_of_the_philippines.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_479",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Second Philippine Republic (Japanese-sponsored, 1943–1945)",
+        "imageAsset":  "images/flags/flag_second_philippine_republic.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_480",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Spanish East Indies (Philippines colonial)",
+        "imageAsset":  "images/flags/flag_spanish_east_indies.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_482",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Principality of Serbia (autonomous, 1817–1882)",
+        "imageAsset":  "images/flags/flag_principality_of_serbia.png",
+        "source":  "Wikimedia Commons (CC BY 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_483",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Danubian Principalities, common flag (1862)",
+        "imageAsset":  "images/flags/flag_danubian_principalities_common_flag.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_487",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Hungarian Soviet Republic (1919)",
+        "imageAsset":  "images/flags/flag_hungarian_soviet_republic.png",
+        "source":  "Wikimedia Commons (CC BY-SA 3.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_488",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Hungarian People\u0027s Republic (1949–1989)",
+        "imageAsset":  "images/flags/flag_hungarian_people_s_republic.png",
+        "source":  "Wikimedia Commons (CC0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_491",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Slovak Republic, post-war (1945–1992, within Czechoslovakia)",
+        "imageAsset":  "images/flags/flag_slovak_republic_post_war.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_492",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Poland, People\u0027s Republic era (1944–1989)",
+        "imageAsset":  "images/flags/flag_republic_of_poland_people_s_republic_era.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_493",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Baltic Duchy of Courland (1918)",
+        "imageAsset":  "images/flags/flag_baltic_duchy_of_courland.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_494",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Lithuania (interwar, 1918–1940)",
+        "imageAsset":  "images/flags/flag_republic_of_lithuania.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_495",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Latvia (interwar, 1918–1940)",
+        "imageAsset":  "images/flags/flag_republic_of_latvia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_496",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Republic of Estonia (interwar, 1918–1940)",
+        "imageAsset":  "images/flags/flag_republic_of_estonia.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_497",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Memel Territory (1920–1939)",
+        "imageAsset":  "images/flags/flag_memel_territory.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_498",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Free City of Danzig (1920–1939)",
+        "imageAsset":  "images/flags/flag_free_city_of_danzig.png",
+        "source":  "Wikimedia Commons (CC BY-SA 4.0)",
+        "difficulty":  2
+    },
+    {
+        "id":  "flag_499",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Saar Protectorate (1947–1956)",
+        "imageAsset":  "images/flags/flag_saar_protectorate.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    },
+    {
+        "id":  "flag_500",
+        "type":  "COLOR_MATCH",
+        "flagName":  "Territory of the Basin of the Saar (1920–1935)",
+        "imageAsset":  "images/flags/flag_territory_of_the_basin_of_the_saar.png",
+        "source":  "Wikimedia Commons (Public domain)",
+        "difficulty":  3
+    }
+]

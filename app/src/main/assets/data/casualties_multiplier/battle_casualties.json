@@ -1,0 +1,1855 @@
+﻿[
+    {
+        "id":  "battle_001",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Teutoburg Forest",
+        "correctCasualties":  20000,
+        "source":  "...",
+        "difficulty":  2,
+        "imageAsset":  "images/battles/battle_001.png"
+    },
+    {
+        "id":  "battle_002",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Stalingrad",
+        "correctCasualties":  2000000,
+        "source":  "...",
+        "difficulty":  3,
+        "imageAsset":  "images/battles/battle_002.png"
+    },
+    {
+        "id":  "battle_003",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Agincourt",
+        "correctCasualties":  6000,
+        "source":  "...",
+        "difficulty":  2,
+        "imageAsset":  "images/battles/battle_003.png"
+    },
+    {
+        "id":  "battle_004",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Gettysburg",
+        "correctCasualties":  51000,
+        "source":  "...",
+        "difficulty":  2,
+        "imageAsset":  "images/battles/battle_004.png"
+    },
+    {
+        "id":  "battle_005",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Verdun",
+        "correctCasualties":  700000,
+        "source":  "...",
+        "difficulty":  3,
+        "imageAsset":  "images/battles/battle_005.png"
+    },
+    {
+        "id":  "battle_006",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of the Great Bridge",
+        "correctCasualties":  100,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_007",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Bunker Hill",
+        "correctCasualties":  1150,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_008",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Long Island",
+        "correctCasualties":  4000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_009",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Charleston",
+        "correctCasualties":  550,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_010",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Camden",
+        "correctCasualties":  2000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_011",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Guilford Court House",
+        "correctCasualties":  1200,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_012",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Yorktown",
+        "correctCasualties":  500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_013",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Queenston Heights",
+        "correctCasualties":  1000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_014",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Fort Erie",
+        "correctCasualties":  1100,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_015",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Palo Alto",
+        "correctCasualties":  350,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_016",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Resaca de la Palma",
+        "correctCasualties":  350,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_017",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Monterrey",
+        "correctCasualties":  1000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_018",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Mexico City",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_019",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Sacramento",
+        "correctCasualties":  1000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_020",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of San Pasqual",
+        "correctCasualties":  250,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_021",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Monterrey (Reform War)",
+        "correctCasualties":  500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_022",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Puebla",
+        "correctCasualties":  2000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_023",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Antietam",
+        "correctCasualties":  22717,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_024",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Chancellorsville",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_025",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Shiloh",
+        "correctCasualties":  23746,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_026",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Fredericksburg",
+        "correctCasualties":  18300,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_027",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Stones River",
+        "correctCasualties":  24645,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_028",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Vicksburg",
+        "correctCasualties":  37000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_029",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of the Wilderness",
+        "correctCasualties":  29000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_030",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Petersburg",
+        "correctCasualties":  70000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_031",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Mansfield",
+        "correctCasualties":  4400,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_032",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Manila Bay",
+        "correctCasualties":  0,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_033",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Veracruz",
+        "correctCasualties":  250,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_034",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Ciudad Juárez",
+        "correctCasualties":  500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_035",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Kadesh (Egyptian-Levantine theatre)",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_036",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Qarqar",
+        "correctCasualties":  24000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_037",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Carthage (First Punic War)",
+        "correctCasualties":  50000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_038",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Zama",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_039",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Cannae (North African Carthaginian army)",
+        "correctCasualties":  70000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_040",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Thapsus",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_041",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Utica",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_042",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Ad Decimum",
+        "correctCasualties":  17000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_043",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Carthage (698)",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_044",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Manzikert",
+        "correctCasualties":  25000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_045",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Sagrajas",
+        "correctCasualties":  20000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_046",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Alarcos",
+        "correctCasualties":  20000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_047",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Las Navas de Tolosa",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_048",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Muret",
+        "correctCasualties":  15000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_049",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Acre",
+        "correctCasualties":  20000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_050",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Wadi al-Khazandar",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_051",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Ksar el Kebir",
+        "correctCasualties":  25000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_052",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Dogali",
+        "correctCasualties":  700,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_053",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Adwa",
+        "correctCasualties":  17300,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_054",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Rorke\u0027s Drift",
+        "correctCasualties":  20,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_055",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Spion Kop",
+        "correctCasualties":  3000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_056",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Colenso",
+        "correctCasualties":  1600,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_057",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Tanga",
+        "correctCasualties":  1000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_058",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Namacurra",
+        "correctCasualties":  1000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_059",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Mahenge",
+        "correctCasualties":  1500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_060",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Mahiwa",
+        "correctCasualties":  7000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_061",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Kilimanjaro",
+        "correctCasualties":  1000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_062",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Opis",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_063",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Marathon",
+        "correctCasualties":  6000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_064",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Thermopylae",
+        "correctCasualties":  22500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_065",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Plataea",
+        "correctCasualties":  51500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_066",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Issus",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_067",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Gaugamela",
+        "correctCasualties":  53500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_068",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Persian Gate",
+        "correctCasualties":  48500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_069",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Carrhae",
+        "correctCasualties":  20000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_070",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Actium",
+        "correctCasualties":  7500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_071",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Nisibis",
+        "correctCasualties":  15000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_072",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Edessa",
+        "correctCasualties":  65000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_073",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Qadisiyyah",
+        "correctCasualties":  31000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_074",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of the Bridge",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_075",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Marj Rahit",
+        "correctCasualties":  20000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_076",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Maskin",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_077",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Zab",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_078",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Dara",
+        "correctCasualties":  8000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_079",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Satala",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_080",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Sura",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_081",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Antioch",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_082",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Ascalon",
+        "correctCasualties":  13000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_083",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Hattin",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_084",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Arsuf",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_085",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Jaffa",
+        "correctCasualties":  3000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_086",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Ain Jalut",
+        "correctCasualties":  20000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_087",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Elbistan",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_088",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Mohacs",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_089",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Siege of Baghdad",
+        "correctCasualties":  100000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_090",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Siege of Aleppo",
+        "correctCasualties":  20000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_091",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Siege of Damascus",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_092",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Siege of Jerusalem",
+        "correctCasualties":  70000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_093",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Siege of Antioch",
+        "correctCasualties":  20000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_094",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Siege of Tyre",
+        "correctCasualties":  39000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_095",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Siege of Gaza",
+        "correctCasualties":  14000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_096",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Siege of Athens and Piraeus",
+        "correctCasualties":  200000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_097",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Ankara",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_098",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Lepanto",
+        "correctCasualties":  40000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_099",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Vienna",
+        "correctCasualties":  83000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_100",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Zenta",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_101",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Petrovaradin",
+        "correctCasualties":  8000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_102",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Pruth",
+        "correctCasualties":  7000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_103",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of the Pyramids",
+        "correctCasualties":  6000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_104",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Heliopolis",
+        "correctCasualties":  12000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_105",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Navarino",
+        "correctCasualties":  2000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_106",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Konya",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_107",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Nezib",
+        "correctCasualties":  6000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_108",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Kars",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_109",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Plevna",
+        "correctCasualties":  75000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_110",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of San Stefano",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_111",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Gallipoli",
+        "correctCasualties":  500000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_112",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Gaza",
+        "correctCasualties":  12000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_113",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Damascus",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_114",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Aleppo",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_115",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Muye",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_116",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Yanling",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_117",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Changshao",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_118",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Bi",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_119",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Changping",
+        "correctCasualties":  400000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_120",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Julu",
+        "correctCasualties":  200000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_121",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Gaixia",
+        "correctCasualties":  100000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_122",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Guandu",
+        "correctCasualties":  78000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_123",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Red Cliffs",
+        "correctCasualties":  100000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_124",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Fei River",
+        "correctCasualties":  700000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_125",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Wuzhang Plains",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_126",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Zhongli",
+        "correctCasualties":  200000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_127",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Salsu",
+        "correctCasualties":  302300,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_128",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Xiangji Temple",
+        "correctCasualties":  110000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_129",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Yongqiu",
+        "correctCasualties":  100000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_130",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Suiyang",
+        "correctCasualties":  200000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_131",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Shanhai Pass",
+        "correctCasualties":  40000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_132",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Tsushima",
+        "correctCasualties":  12000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_133",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Port Arthur",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_134",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Shanghai",
+        "correctCasualties":  426140,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_135",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Nanjing",
+        "correctCasualties":  200000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_136",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Wuhan",
+        "correctCasualties":  400000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_137",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of South Shanxi",
+        "correctCasualties":  120000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_138",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Okinawa",
+        "correctCasualties":  240000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_139",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Manila",
+        "correctCasualties":  200000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_140",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Iwo Jima",
+        "correctCasualties":  28000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_141",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Guadalcanal",
+        "correctCasualties":  38000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_142",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Midway",
+        "correctCasualties":  3500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_143",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Coral Sea",
+        "correctCasualties":  1600,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_144",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of the Philippine Sea",
+        "correctCasualties":  3000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_145",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Leyte Gulf",
+        "correctCasualties":  13000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_146",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Saigon",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_147",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Dien Bien Phu",
+        "correctCasualties":  13000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_148",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Khe Sanh",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_149",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Hue",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_150",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Hamburger Hill",
+        "correctCasualties":  1000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_151",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Singapore",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_152",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Malaya",
+        "correctCasualties":  70000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_153",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Hong Kong",
+        "correctCasualties":  2500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_154",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Guam",
+        "correctCasualties":  19000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_155",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Naval Battle of Guadalcanal",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_156",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Manchuria",
+        "correctCasualties":  40000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_157",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Khalkhin Gol",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_158",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Salamis",
+        "correctCasualties":  50000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_159",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Hydaspes",
+        "correctCasualties":  23310,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_160",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Asculum",
+        "correctCasualties":  15000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_161",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Lake Trasimene",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_162",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Trebia",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_163",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Philippi",
+        "correctCasualties":  40000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_164",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Milvian Bridge",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_165",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of the Catalaunian Plains",
+        "correctCasualties":  165000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_166",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Tours",
+        "correctCasualties":  13000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_167",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Pliska",
+        "correctCasualties":  29000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_168",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Ashdown",
+        "correctCasualties":  9000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_169",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Brenta",
+        "correctCasualties":  14000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_170",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Lechfeld",
+        "correctCasualties":  15000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_171",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Kleidion",
+        "correctCasualties":  45000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_172",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Hastings",
+        "correctCasualties":  6000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_173",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Stamford Bridge",
+        "correctCasualties":  13000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_174",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Civetot",
+        "correctCasualties":  50000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_175",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Montgisard",
+        "correctCasualties":  25850,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_176",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Kalka River",
+        "correctCasualties":  80000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_177",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Mohi",
+        "correctCasualties":  40000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_178",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Stirling Bridge",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_179",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Falkirk",
+        "correctCasualties":  2000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_180",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Bannockburn",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_181",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Crécy",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_182",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Poitiers",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_183",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Nicopolis",
+        "correctCasualties":  17000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_184",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Varna",
+        "correctCasualties":  15000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_185",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Kosovo",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_186",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Grunwald",
+        "correctCasualties":  18000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_187",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Tannenberg",
+        "correctCasualties":  18000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_188",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Orsha",
+        "correctCasualties":  10000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_189",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Pavia",
+        "correctCasualties":  15000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_190",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Marignano",
+        "correctCasualties":  16000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_191",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Bicocca",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_192",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Ceresole",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_193",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of White Mountain",
+        "correctCasualties":  5000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_194",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Breitenfeld",
+        "correctCasualties":  17000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_195",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Lützen",
+        "correctCasualties":  9000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_196",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Poltava",
+        "correctCasualties":  12000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_197",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Narva",
+        "correctCasualties":  15000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_198",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Prague",
+        "correctCasualties":  32000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_199",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Marengo",
+        "correctCasualties":  12000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_200",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Austerlitz",
+        "correctCasualties":  27000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_201",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Jena-Auerstedt",
+        "correctCasualties":  25000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_202",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Eylau",
+        "correctCasualties":  50000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_203",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Friedland",
+        "correctCasualties":  35000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_204",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Wagram",
+        "correctCasualties":  74000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_205",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Borodino",
+        "correctCasualties":  70000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_206",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Leipzig",
+        "correctCasualties":  100000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_207",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Waterloo",
+        "correctCasualties":  47000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_208",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Dresden",
+        "correctCasualties":  35000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_209",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Solferino",
+        "correctCasualties":  40000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_210",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Königgrätz",
+        "correctCasualties":  47500,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_211",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Sedan",
+        "correctCasualties":  26000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_212",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Le Mans",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_213",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of the Frontiers",
+        "correctCasualties":  664191,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_214",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Galicia",
+        "correctCasualties":  670000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_215",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of the Marne",
+        "correctCasualties":  513000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_216",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "First Battle of Ypres",
+        "correctCasualties":  210000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_217",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Łódź",
+        "correctCasualties":  330000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_218",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of the Somme",
+        "correctCasualties":  1150000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_219",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Brusilov Offensive",
+        "correctCasualties":  2000000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_220",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Passchendaele",
+        "correctCasualties":  585000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_221",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Cambrai",
+        "correctCasualties":  95000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_222",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Caporetto",
+        "correctCasualties":  60000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_223",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Spring Offensive",
+        "correctCasualties":  1539000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_224",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Hundred Days Offensive",
+        "correctCasualties":  700000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_225",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Warsaw",
+        "correctCasualties":  30000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  3
+    },
+    {
+        "id":  "battle_226",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Kursk",
+        "correctCasualties":  1338000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_227",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Berlin",
+        "correctCasualties":  1100000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_228",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Kiev",
+        "correctCasualties":  761783,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  1
+    },
+    {
+        "id":  "battle_229",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Smolensk",
+        "correctCasualties":  300000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_230",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Battle of Kharkov",
+        "correctCasualties":  277000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    },
+    {
+        "id":  "battle_231",
+        "type":  "CASUALTY_GUESS",
+        "battle":  "Operation Bagration",
+        "correctCasualties":  760000,
+        "source":  "User-provided dataset (historical_battles_600.txt)",
+        "difficulty":  2
+    }
+]
