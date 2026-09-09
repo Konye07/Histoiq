@@ -477,7 +477,9 @@ private fun FlagColorResults(
     }
     val dateKey = remember { DailyClock.todayKey() }
     val distribution = remember { DailyDistribution.finalScores(GameKeys.FLAG_COLOR_MATCH, dateKey) }
-    val percentile = remember(total) { DailyDistribution.percentile(total, distribution, higherIsBetter = true) }
+    val (rank, totalPlayers) = remember(total) {
+        DailyDistribution.rankAmongPlayers(GameKeys.FLAG_COLOR_MATCH, dateKey, total, distribution, higherIsBetter = true)
+    }
 
     Column(
         Modifier
@@ -490,7 +492,7 @@ private fun FlagColorResults(
         ResultsHeader(
             scoreText = "%.2f".format(total),
             isPerfect = isPerfect,
-            rankingText = rankingText(percentile),
+            rankingText = rankingText(rank, totalPlayers),
             accentColor = MaterialTheme.colorScheme.primary
         )
         HorizontalDivider()

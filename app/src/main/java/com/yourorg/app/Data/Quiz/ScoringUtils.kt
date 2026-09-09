@@ -24,14 +24,14 @@ fun formatThousands(value: Long): String {
 }
 
 /**
- * Linear falloff from 10 down to 1 over a difficulty-scaled tolerance window,
- * floored at 1 beyond that window.
+ * Linear falloff from 1000 down to 100 over a difficulty-scaled tolerance window,
+ * floored at 100 beyond that window.
  */
 fun yearGuessScore(guess: Int, correctYear: Int, difficulty: Int): Double {
     val distance = abs(guess - correctYear).toDouble()
     val tolerance = 30.0 + difficulty * 20.0
-    val raw = 10.0 - (distance / tolerance) * 9.0
-    return raw.coerceIn(1.0, 10.0).roundTo2()
+    val raw = 1000.0 - (distance / tolerance) * 900.0
+    return raw.coerceIn(100.0, 1000.0).roundTo2()
 }
 
 /**
@@ -74,9 +74,9 @@ fun haversineKm(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Double 
     return earthRadiusKm * c
 }
 
-/** Linear falloff from 10 to 1 over a 3000km tolerance window, floored at 1 beyond that. */
+/** Linear falloff from 1000 to 100 over a 3000km tolerance window, floored at 100 beyond that. */
 fun mapPinpointScore(distanceKm: Double): Double {
     val tolerance = 3000.0
-    val raw = 10.0 - (distanceKm / tolerance) * 9.0
-    return raw.coerceIn(1.0, 10.0).roundTo2()
+    val raw = 1000.0 - (distanceKm / tolerance) * 900.0
+    return raw.coerceIn(100.0, 1000.0).roundTo2()
 }

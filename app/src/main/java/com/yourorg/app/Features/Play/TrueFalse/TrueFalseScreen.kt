@@ -200,7 +200,9 @@ private fun TrueFalseResults(
     }
     val dateKey = remember { DailyClock.todayKey() }
     val distribution = remember { DailyDistribution.finalScores(GameKeys.TRUE_FALSE, dateKey) }
-    val percentile = remember(score) { DailyDistribution.percentile(score.toDouble(), distribution, higherIsBetter = true) }
+    val (rank, totalPlayers) = remember(score) {
+        DailyDistribution.rankAmongPlayers(GameKeys.TRUE_FALSE, dateKey, score.toDouble(), distribution, higherIsBetter = true)
+    }
 
     Column(
         Modifier
@@ -213,7 +215,7 @@ private fun TrueFalseResults(
         ResultsHeader(
             scoreText = "$score",
             isPerfect = score == ROUNDS_TO_WIN,
-            rankingText = rankingText(percentile),
+            rankingText = rankingText(rank, totalPlayers),
             accentColor = MaterialTheme.colorScheme.primary,
             subtitle = if (won) "You survived all $ROUNDS_TO_WIN statements!" else "You made it to statement ${answers.size}."
         )

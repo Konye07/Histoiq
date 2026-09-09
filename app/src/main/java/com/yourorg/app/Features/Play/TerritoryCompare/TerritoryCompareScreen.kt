@@ -172,6 +172,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
     val queue = remember { mutableListOf<TerritoryCountry>() }
     val history = remember { mutableStateListOf<HistoryEntry>() }
 
+    var refillPool by remember { mutableStateOf<List<TerritoryCountry>>(emptyList()) }
     var champion by remember { mutableStateOf<TerritoryCountry?>(null) }
     var challenger by remember { mutableStateOf<TerritoryCountry?>(null) }
     var round by remember { mutableStateOf(1) }
@@ -189,7 +190,8 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
         val pool = loadTerritories(context)
         val stored = QuizProgressStore.load(context, PROGRESS_KEY)
         if (stored != null) {
-            allCountries = RecentlyUsedStore.eligiblePool(context, PROGRESS_KEY, pool, MIN_ELIGIBLE_POOL) { it.id }
+            allCountries = pool
+            refillPool = RecentlyUsedStore.eligiblePool(context, PROGRESS_KEY, pool, MIN_ELIGIBLE_POOL) { it.id }
             val queueIds = stored.getJSONArray("queueIds").let { arr -> List(arr.length()) { arr.getString(it) } }
             queue.addAll(queueIds.mapNotNull { id -> pool.find { it.id == id } })
             champion = pool.find { it.id == stored.getString("championId") }
@@ -213,7 +215,8 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
         } else {
             val eligible = RecentlyUsedStore.eligiblePool(context, PROGRESS_KEY, pool, MIN_ELIGIBLE_POOL) { it.id }
             if (eligible.isEmpty()) return@LaunchedEffect
-            allCountries = eligible
+            allCountries = pool
+            refillPool = eligible
             queue.addAll(buildClusteredQueue(eligible))
             val champ = queue.removeAt(0)
             val chall = drawNext(eligible, queue, champ)
@@ -274,7 +277,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
                             // The older country (champion) is always retired; the challenger it just faced
                             // is promoted to champion for the next round, paired with a brand new challenger.
                             val newChampion = ch
-                            val newChallenger = drawNext(allCountries, queue, newChampion)
+                            val newChallenger = drawNext(refillPool, queue, newChampion)
                             RecentlyUsedStore.record(context, PROGRESS_KEY, listOf(newChallenger.id))
                             pendingChampion = newChampion
                             pendingChallenger = newChallenger
@@ -318,8 +321,8 @@ private fun TerritoryQuestion(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Round $round / $ROUNDS_TO_WIN", style = MaterialTheme.typography.labelLarge)
-        Text("Which had the bigger territory at its prime?", style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center)
+        Text("Round $round / $ROUNDS_TO_WIN", style = MaterialTheme.typography.titleMedium)
+        Text("Which had the bigger territory at its prime?", style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             TerritoryCard(
@@ -375,14 +378,14 @@ private fun TerritoryCard(
         Column(Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 country.country,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.headlineSmall,
                 color = Color.Black,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
             Text(
                 country.era,
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black.copy(alpha = 0.7f),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
@@ -390,7 +393,7 @@ private fun TerritoryCard(
             if (revealed) {
                 Text(
                     "${"%,d".format(country.areaKm2)} km²",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.titleMedium,
                     color = Color.Black,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
@@ -415,7 +418,9 @@ private fun TerritoryResults(
     }
     val dateKey = remember { DailyClock.todayKey() }
     val distribution = remember { DailyDistribution.finalScores(GameKeys.TERRITORY_COMPARE, dateKey) }
-    val percentile = remember(score) { DailyDistribution.percentile(score.toDouble(), distribution, higherIsBetter = true) }
+    val (rank, totalPlayers) = remember(score) {
+        DailyDistribution.rankAmongPlayers(GameKeys.TERRITORY_COMPARE, dateKey, score.toDouble(), distribution, higherIsBetter = true)
+    }
 
     Column(
         Modifier
@@ -428,7 +433,7 @@ private fun TerritoryResults(
         ResultsHeader(
             scoreText = "$score",
             isPerfect = score == ROUNDS_TO_WIN,
-            rankingText = rankingText(percentile),
+            rankingText = rankingText(rank, totalPlayers),
             accentColor = MaterialTheme.colorScheme.primary,
             subtitle = if (won) "You survived all $ROUNDS_TO_WIN rounds!" else "You made it to round ${history.size}."
         )

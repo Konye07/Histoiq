@@ -283,7 +283,9 @@ private fun CasualtiesResults(
     }
     val dateKey = remember { DailyClock.todayKey() }
     val finalDistribution = remember { DailyDistribution.finalScores(GameKeys.CASUALTIES_MULTIPLIER, dateKey) }
-    val percentile = remember(total) { DailyDistribution.percentile(total, finalDistribution, higherIsBetter = false) }
+    val (rank, totalPlayers) = remember(total) {
+        DailyDistribution.rankAmongPlayers(GameKeys.CASUALTIES_MULTIPLIER, dateKey, total, finalDistribution, higherIsBetter = false)
+    }
     val multiplierDist = remember { DailyDistribution.casualtyMultipliers(dateKey) }
     val multiplierMax = remember(total) { max(multiplierDist.maxOrNull() ?: 1.0, total) * 1.05 }
     fun multiplierPos(v: Double): Float =
@@ -300,7 +302,7 @@ private fun CasualtiesResults(
         ResultsHeader(
             scoreText = "x%.2f".format(total),
             isPerfect = isPerfect,
-            rankingText = rankingText(percentile),
+            rankingText = rankingText(rank, totalPlayers),
             accentColor = MaterialTheme.colorScheme.primary
         )
         Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {

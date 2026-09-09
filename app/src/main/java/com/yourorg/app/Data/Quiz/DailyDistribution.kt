@@ -29,8 +29,10 @@ object DailyDistribution {
         val random = Random("finalscore|$gameKey|$dateKey".hashCode().toLong())
         return List(FINAL_SCORE_SAMPLES) {
             when (gameKey) {
-                GameKeys.YEAR_GUESS, GameKeys.FLAG_COLOR_MATCH, GameKeys.BLIND_MAP_BATTLE ->
+                GameKeys.FLAG_COLOR_MATCH ->
                     random.nextInt(150, 501) / 10.0
+                GameKeys.YEAR_GUESS, GameKeys.BLIND_MAP_BATTLE ->
+                    random.nextInt(1500, 5001).toDouble()
                 GameKeys.CASUALTIES_MULTIPLIER ->
                     random.nextInt(100, 351) / 100.0
                 GameKeys.TERRITORY_COMPARE, GameKeys.TRUE_FALSE ->
@@ -45,6 +47,25 @@ object DailyDistribution {
         if (samples.isEmpty()) return 50
         val beaten = samples.count { if (higherIsBetter) it < value else it > value }
         return ((beaten * 100.0) / samples.size).roundToInt().coerceIn(0, 100)
+    }
+
+    /** Synthetic total number of players today for one game — for display as "rank X of Y". */
+    fun totalPlayers(gameKey: String, dateKey: String): Int {
+        val random = Random("totalplayers|$gameKey|$dateKey".hashCode().toLong())
+        return random.nextInt(6000, 22000)
+    }
+
+    /** Rank (1 = best) among [totalPlayers], derived from a beaten-fraction percentile. */
+    fun rank(percentile: Int, totalPlayers: Int): Int {
+        val fractionBeaten = percentile / 100.0
+        return ((1.0 - fractionBeaten) * totalPlayers).roundToInt().coerceIn(1, totalPlayers)
+    }
+
+    /** Convenience: (rank, totalPlayers) for one game/day given the player's value and a comparison distribution. */
+    fun rankAmongPlayers(gameKey: String, dateKey: String, value: Double, samples: List<Double>, higherIsBetter: Boolean): Pair<Int, Int> {
+        val total = totalPlayers(gameKey, dateKey)
+        val pct = percentile(value, samples, higherIsBetter)
+        return rank(pct, total) to total
     }
 
     /** Synthetic year guesses other players made on this exact question, clustered around the truth. */

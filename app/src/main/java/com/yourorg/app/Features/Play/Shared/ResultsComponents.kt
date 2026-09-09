@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Audio.BubbleSoundPlayer
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
+import com.yourorg.app.Data.Quiz.formatThousands
 
 /**
  * The shared "score, then ranking below it" header every results screen opens with. [rankingText]
@@ -93,12 +94,9 @@ fun ResultsHeader(
     }
 }
 
-/** Turns a percentile (0-100, "beats this % of today's players") into display copy. */
-fun rankingText(percentile: Int): String = when {
-    percentile >= 99 -> "Top 1% today"
-    percentile >= 90 -> "Top ${100 - percentile}% today"
-    else -> "Better than $percentile% of today's players"
-}
+/** Turns a rank and total player count into display copy, e.g. "Rank 1 250 of 14 253 today". */
+fun rankingText(rank: Int, totalPlayers: Int): String =
+    "Rank ${formatThousands(rank.toLong())} of ${formatThousands(totalPlayers.toLong())} today"
 
 /**
  * A number-line for one question: today's synthetic guess distribution as a light histogram,

@@ -326,7 +326,7 @@ private fun MapResults(
     onBack: () -> Unit
 ) {
     val total = scores.sum()
-    val isPerfect = scores.isNotEmpty() && scores.all { it == 10.0 }
+    val isPerfect = scores.isNotEmpty() && scores.all { it == 1000.0 }
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         ScoreHistoryStore.recordResult(context, PROGRESS_KEY, total)
@@ -335,7 +335,9 @@ private fun MapResults(
     }
     val dateKey = remember { DailyClock.todayKey() }
     val distribution = remember { DailyDistribution.finalScores(GameKeys.BLIND_MAP_BATTLE, dateKey) }
-    val percentile = remember(total) { DailyDistribution.percentile(total, distribution, higherIsBetter = true) }
+    val (rank, totalPlayers) = remember(total) {
+        DailyDistribution.rankAmongPlayers(GameKeys.BLIND_MAP_BATTLE, dateKey, total, distribution, higherIsBetter = true)
+    }
 
     Column(
         Modifier
@@ -348,7 +350,7 @@ private fun MapResults(
         ResultsHeader(
             scoreText = "%.2f".format(total),
             isPerfect = isPerfect,
-            rankingText = rankingText(percentile),
+            rankingText = rankingText(rank, totalPlayers),
             accentColor = MaterialTheme.colorScheme.primary
         )
         HorizontalDivider()

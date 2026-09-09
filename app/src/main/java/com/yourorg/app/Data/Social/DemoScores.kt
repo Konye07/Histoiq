@@ -13,8 +13,10 @@ fun demoScoreFor(friendCode: String, quizKey: String, dateKey: String): Double? 
     if (random.nextInt(100) < 15) return null
 
     return when (quizKey) {
-        GameKeys.YEAR_GUESS, GameKeys.FLAG_COLOR_MATCH, GameKeys.BLIND_MAP_BATTLE ->
+        GameKeys.FLAG_COLOR_MATCH ->
             random.nextInt(150, 501) / 10.0
+        GameKeys.YEAR_GUESS, GameKeys.BLIND_MAP_BATTLE ->
+            random.nextInt(1500, 5001).toDouble()
         GameKeys.CASUALTIES_MULTIPLIER ->
             random.nextInt(100, 351) / 100.0
         GameKeys.TERRITORY_COMPARE ->
