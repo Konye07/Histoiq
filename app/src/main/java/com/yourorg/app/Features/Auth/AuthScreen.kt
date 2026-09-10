@@ -25,23 +25,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import android.util.Log
 import androidx.compose.ui.unit.dp
 import com.yourorg.app.Data.Account.AccountRepository
 import com.yourorg.app.Data.Account.AuthProviderType
 import kotlinx.coroutines.launch
 
+private const val TAG = "AuthScreen"
+
 @Composable
 fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) {
     val scope = rememberCoroutineScope()
     var loadingProvider by remember { mutableStateOf<AuthProviderType?>(null) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     fun continueWith(provider: AuthProviderType) {
         if (loadingProvider != null) return
         loadingProvider = provider
+        errorMessage = null
         scope.launch {
-            AccountRepository.continueWithProvider(provider)
-            loadingProvider = null
-            onAuthenticated()
+            try {
+                AccountRepository.continueWithProvider(provider)
+                loadingProvider = null
+                onAuthenticated()
+            } catch (e: Exception) {
+                Log.e(TAG, "Sign-in failed for $provider", e)
+                loadingProvider = null
+                errorMessage = "Sign-in failed. Please try again."
+            }
         }
     }
 
@@ -94,6 +105,16 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
                 } else {
                     Text("Continue with Apple")
                 }
+            }
+
+            errorMessage?.let { message ->
+                Spacer(Modifier.height(12.dp))
+                Text(
+                    message,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center
+                )
             }
 
             Spacer(Modifier.height(12.dp))
