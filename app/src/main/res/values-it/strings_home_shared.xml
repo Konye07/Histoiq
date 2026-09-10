@@ -30,6 +30,10 @@
 
     <string name="results_final_score">Punteggio Finale</string>
     <string name="results_rank_of_today">%1$s° su %2$s oggi</string>
+    <string name="results_share">Condividi Risultati</string>
+    <string name="results_share_chooser_title">Condividi i tuoi risultati</string>
+    <string name="results_share_message">Ho ottenuto %1$s in %2$s su %3$s! Riesci a battermi?\n\n%4$s</string>
+    <string name="results_share_footer">Riesci a battermi? Gioca a %1$s</string>
 
     <string name="hint_label">Suggerimento</string>
     <string name="hint_dialog_title">Vuoi un suggerimento?</string>

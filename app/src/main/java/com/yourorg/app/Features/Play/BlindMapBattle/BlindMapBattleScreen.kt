@@ -350,6 +350,7 @@ private fun MapResults(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         ResultsHeader(
+            gameKey = PROGRESS_KEY,
             scoreText = "%.2f".format(total),
             isPerfect = isPerfect,
             rankingText = rankingText(rank, totalPlayers),

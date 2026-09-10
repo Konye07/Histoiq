@@ -291,6 +291,7 @@ private fun CasualtiesResults(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         ResultsHeader(
+            gameKey = PROGRESS_KEY,
             scoreText = "x%.2f".format(total),
             isPerfect = isPerfect,
             rankingText = rankingText(rank, totalPlayers),

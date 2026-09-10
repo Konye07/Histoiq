@@ -14,7 +14,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,13 +30,17 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Audio.BubbleSoundPlayer
 import com.yourorg.app.Core.Haptics.Haptics
+import com.yourorg.app.Core.Share.playStoreUrl
+import com.yourorg.app.Core.Share.shareResults
 import com.yourorg.app.Core.Theme.AppColors
+import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.formatThousands
 import com.yourorg.app.R
 
@@ -42,6 +50,7 @@ import com.yourorg.app.R
  */
 @Composable
 fun ResultsHeader(
+    gameKey: String,
     scoreText: String,
     isPerfect: Boolean,
     rankingText: String,
@@ -92,6 +101,41 @@ fun ResultsHeader(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
                 style = MaterialTheme.typography.labelLarge
             )
+        }
+
+        val appName = stringResource(R.string.home_title)
+        val roleName = GameKeys.roleName(gameKey)
+        val gameTitle = GameKeys.title(gameKey)
+        val shareChooserTitle = stringResource(R.string.results_share_chooser_title)
+        val shareMessage = stringResource(
+            R.string.results_share_message,
+            scoreText,
+            "$roleName — $gameTitle",
+            appName,
+            playStoreUrl(context)
+        )
+        val shareFooter = stringResource(R.string.results_share_footer, appName)
+
+        OutlinedButton(
+            onClick = {
+                shareResults(
+                    context = context,
+                    appName = appName,
+                    roleName = roleName,
+                    gameTitle = gameTitle,
+                    scoreLabel = scoreLabel,
+                    scoreText = scoreText,
+                    rankingText = rankingText,
+                    accentColorArgb = accentColor.toArgb(),
+                    shareMessage = shareMessage,
+                    chooserTitle = shareChooserTitle,
+                    footerText = shareFooter
+                )
+            },
+            modifier = Modifier.padding(top = 12.dp)
+        ) {
+            Icon(Icons.Outlined.Share, contentDescription = null, modifier = Modifier.size(18.dp))
+            Text(stringResource(R.string.results_share), modifier = Modifier.padding(start = 8.dp))
         }
     }
 }

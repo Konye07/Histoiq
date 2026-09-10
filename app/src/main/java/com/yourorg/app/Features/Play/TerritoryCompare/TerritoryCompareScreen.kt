@@ -433,6 +433,7 @@ private fun TerritoryResults(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         ResultsHeader(
+            gameKey = PROGRESS_KEY,
             scoreText = "$score",
             isPerfect = score == ROUNDS_TO_WIN,
             rankingText = rankingText(rank, totalPlayers),

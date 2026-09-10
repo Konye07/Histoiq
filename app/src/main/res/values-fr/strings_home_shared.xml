@@ -30,6 +30,10 @@
 
     <string name="results_final_score">Score Final</string>
     <string name="results_rank_of_today">%1$se sur %2$s aujourd\'hui</string>
+    <string name="results_share">Partager les Résultats</string>
+    <string name="results_share_chooser_title">Partage tes résultats</string>
+    <string name="results_share_message">J\'ai obtenu %1$s en %2$s sur %3$s ! Peux-tu me battre ?\n\n%4$s</string>
+    <string name="results_share_footer">Peux-tu me battre ? Joue à %1$s</string>
 
     <string name="hint_label">Indice</string>
     <string name="hint_dialog_title">Tu veux un indice ?</string>
