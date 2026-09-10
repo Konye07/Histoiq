@@ -1,0 +1,36 @@
+<resources>
+    <!-- AuthScreen.kt -->
+    <string name="auth_title">Heute in der Geschichte</string>
+    <string name="auth_subtitle">Melde dich an, um deine täglichen Punktzahlen zu verfolgen</string>
+    <string name="auth_continue_with_google">Weiter mit Google</string>
+    <string name="auth_continue_with_apple">Weiter mit Apple</string>
+    <string name="auth_sign_in_failed">Anmeldung fehlgeschlagen. Bitte versuche es erneut.</string>
+    <string name="auth_continue_without_login">Ohne Anmeldung fortfahren</string>
+    <string name="auth_guest_info">Auch ohne Konto zählen deine Punktzahlen und Statistiken, und das Tageslimit gilt weiterhin — du hast nur keinen Freundescode zum Teilen und kannst nicht geräteübergreifend synchronisieren.</string>
+    <string name="auth_mock_notice">Vorerst nur eine simulierte Anmeldung — sie erstellt ein lokales Testkonto. Die echte Google-/Apple-Anmeldung benötigt OAuth-Zugangsdaten, die noch nicht eingerichtet sind.</string>
+
+    <!-- SettingsScreen.kt -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_display_name_title">Anzeigename</string>
+    <string name="settings_display_name_subtitle">Wird in deinem Profil und den Freundeslisten angezeigt.</string>
+    <string name="settings_save">Speichern</string>
+    <string name="settings_friend_code">Dein Freundescode: %1$s</string>
+    <string name="settings_languages_title">Sprachen</string>
+    <string name="settings_coming_soon">Demnächst verfügbar</string>
+    <string name="settings_preferences_title">Optionen</string>
+    <string name="settings_haptics_title">Vibration</string>
+    <string name="settings_haptics_subtitle">Vibriert bei richtigen/falschen Antworten, perfekten Ergebnissen und der Menünavigation.</string>
+    <string name="settings_daily_reminder_title">Tägliche Erinnerung</string>
+    <string name="settings_daily_reminder_subtitle">Eine tägliche Erinnerung, die heutigen Quiz zu spielen.</string>
+    <string name="settings_account_title">Konto</string>
+    <string name="settings_email_label">E-Mail</string>
+    <string name="settings_privacy_policy_title">Datenschutzerklärung</string>
+    <string name="settings_sign_out">Abmelden</string>
+    <string name="settings_delete_account">Konto Löschen</string>
+    <string name="settings_privacy_policy_text">Diese App speichert dein Konto (Anzeigename, E-Mail, Anmeldeanbieter, Freundescode), deine Freunde und den Fortschritt/die Punktzahlen der täglichen Quiz in einer gehosteten Supabase-Datenbank, nicht nur auf diesem Gerät — dadurch funktionieren Statistiken und Freundes-Ranglisten geräteübergreifend, und echte Freunde können gegenseitig ihre Punktzahlen sehen. Diese Daten werden nicht an Dritte weitergegeben oder verkauft.\n\nDie Anmeldung ist derzeit simuliert — es werden keine echten Google- oder Apple-Kontodaten gelesen oder übertragen —, aber jedes Gerät erhält trotzdem eine echte, eindeutige, anonyme Kontoidentität, damit deine Daten von niemand anderem gelesen oder bearbeitet werden können.\n\nJede Anmeldung wird mit IP-Adresse und Geräteinformationen in einem Sicherheits-Audit-Protokoll erfasst, das ausschließlich zur Missbrauchserkennung dient; dieses Protokoll ist für keinen Client jemals einsehbar, sondern nur für die administrative Sicherheitsüberprüfung.\n\nDas Löschen deines Kontos entfernt dauerhaft alles oben Genannte (Profil, Freunde, Statistiken, Fortschritt, Verlauf) aus der gehosteten Datenbank — dies kann nicht rückgängig gemacht werden.</string>
+    <string name="settings_close">Schließen</string>
+    <string name="settings_delete_confirm_title">Konto löschen?</string>
+    <string name="settings_delete_confirm_body">Dies löscht dein Konto und ALLE deine Spieldaten dauerhaft — den Fortschritt und die Punkteverlauf-Historie jedes Quiz. Dies kann nicht rückgängig gemacht werden, und danach ist nichts mehr wiederherstellbar.</string>
+    <string name="settings_delete_confirm_button">Löschen</string>
+    <string name="settings_cancel">Abbrechen</string>
+</resources>

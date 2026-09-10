@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- YearGuessScreen.kt (Annalist) -->
+    <string name="yearguess_title">Guess the Year</string>
+    <string name="yearguess_back_cd">Back</string>
+    <string name="yearguess_question_counter">Question %1$d / %2$d</string>
+    <string name="yearguess_hint_prefix">Hint: %1$s</string>
+    <string name="yearguess_hint_unavailable">No hint available for this one.</string>
+    <string name="yearguess_guess_label">Your guess (year)</string>
+    <string name="yearguess_submit">Submit</string>
+    <string name="yearguess_correct">Correct: %1$s</string>
+    <string name="yearguess_score_points">You scored %1$s points</string>
+    <string name="yearguess_you_label">You: %1$s</string>
+    <string name="yearguess_see_results">See Results</string>
+    <string name="yearguess_next_question">Next Question</string>
+    <string name="yearguess_era_ad">AD</string>
+    <string name="yearguess_era_bce">BCE</string>
+    <string name="yearguess_back_to_menu">Back to Menu</string>
+
+    <!-- CasualtiesMultiplierScreen.kt (Herald) -->
+    <string name="casualties_title">Casualty Count</string>
+    <string name="casualties_back_cd">Back</string>
+    <string name="casualties_question_counter">Question %1$d / %2$d</string>
+    <string name="casualties_hint_prefix">Hint: %1$s</string>
+    <string name="casualties_hint_unavailable">No hint available for this one.</string>
+    <string name="casualties_guess_label">Your guess (casualties)</string>
+    <string name="casualties_submit">Submit</string>
+    <string name="casualties_actual_casualties">Actual casualties: %1$s</string>
+    <string name="casualties_earned_multiplier">You earned %1$s</string>
+    <string name="casualties_actual_label">Actual: %1$s</string>
+    <string name="casualties_you_label">You: %1$s</string>
+    <string name="casualties_see_results">See Results</string>
+    <string name="casualties_next_question">Next Question</string>
+    <string name="casualties_final_multiplier_caption">Final multiplier (1.00x is a perfect run)</string>
+    <string name="casualties_back_to_menu">Back to Menu</string>
+</resources>

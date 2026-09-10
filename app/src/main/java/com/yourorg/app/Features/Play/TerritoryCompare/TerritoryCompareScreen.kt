@@ -36,8 +36,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.R
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
@@ -233,10 +235,10 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Bigger Territory") },
+                title = { Text(stringResource(R.string.territory_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.territory_back))
                     }
                 }
             )
@@ -323,8 +325,8 @@ private fun TerritoryQuestion(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Round $round / $ROUNDS_TO_WIN", style = MaterialTheme.typography.titleMedium)
-        Text("Which had the bigger territory at its prime?", style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
+        Text(stringResource(R.string.territory_round_counter, round, ROUNDS_TO_WIN), style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.territory_question_prompt), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             TerritoryCard(
@@ -347,11 +349,11 @@ private fun TerritoryQuestion(
 
         if (revealed) {
             Text(
-                if (correct) "Correct!" else "Wrong — game over.",
+                if (correct) stringResource(R.string.territory_correct) else stringResource(R.string.territory_wrong_game_over),
                 style = MaterialTheme.typography.bodyLarge
             )
             Button(onClick = onContinue) {
-                Text(if (!correct || round == ROUNDS_TO_WIN) "See Results" else "Next Round")
+                Text(if (!correct || round == ROUNDS_TO_WIN) stringResource(R.string.territory_see_results) else stringResource(R.string.territory_next_round))
             }
         }
     }
@@ -394,7 +396,7 @@ private fun TerritoryCard(
             )
             if (revealed) {
                 Text(
-                    "${"%,d".format(country.areaKm2)} km²",
+                    stringResource(R.string.territory_area_km2, "%,d".format(country.areaKm2)),
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.Black,
                     textAlign = TextAlign.Center,
@@ -435,7 +437,7 @@ private fun TerritoryResults(
             isPerfect = score == ROUNDS_TO_WIN,
             rankingText = rankingText(rank, totalPlayers),
             accentColor = MaterialTheme.colorScheme.primary,
-            subtitle = if (won) "You survived all $ROUNDS_TO_WIN rounds!" else "You made it to round ${history.size}."
+            subtitle = if (won) stringResource(R.string.territory_survived_all, ROUNDS_TO_WIN) else stringResource(R.string.territory_made_it_to_round, history.size)
         )
         HorizontalDivider()
         history.forEachIndexed { i, h ->
@@ -443,15 +445,15 @@ private fun TerritoryResults(
             val chall = allCountries.find { it.id == h.challengerId }
             Column(Modifier.fillMaxWidth()) {
                 Text(
-                    "Round ${i + 1}: ${champ?.country ?: "?"} vs ${chall?.country ?: "?"}",
+                    stringResource(R.string.territory_round_matchup, i + 1, champ?.country ?: "?", chall?.country ?: "?"),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    if (h.correct) "Correct" else "Wrong",
+                    if (h.correct) stringResource(R.string.territory_result_correct) else stringResource(R.string.territory_result_wrong),
                     style = MaterialTheme.typography.bodySmall
                 )
             }
         }
-        Button(onClick = onBack) { Text("Back to Menu") }
+        Button(onClick = onBack) { Text(stringResource(R.string.territory_back_to_menu)) }
     }
 }

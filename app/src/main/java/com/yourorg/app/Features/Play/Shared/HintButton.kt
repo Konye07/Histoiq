@@ -18,7 +18,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.R
 
 /**
  * Top-right "Hint" action for a question screen: tapping it asks to watch an ad, and on
@@ -39,7 +41,7 @@ fun HintAction(onWatchAd: () -> Unit) {
         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
     ) {
         Icon(Icons.Outlined.Lightbulb, contentDescription = null, modifier = Modifier.size(18.dp))
-        Text("Hint", modifier = Modifier.padding(start = 6.dp))
+        Text(stringResource(R.string.hint_label), modifier = Modifier.padding(start = 6.dp))
     }
 
     if (showDialog) {
@@ -48,16 +50,16 @@ fun HintAction(onWatchAd: () -> Unit) {
             containerColor = MaterialTheme.colorScheme.surface,
             titleContentColor = MaterialTheme.colorScheme.onSurface,
             textContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            title = { Text("Want a hint?") },
-            text = { Text("Watch a short ad to find out which war or conflict this is part of.") },
+            title = { Text(stringResource(R.string.hint_dialog_title)) },
+            text = { Text(stringResource(R.string.hint_dialog_text)) },
             confirmButton = {
                 TextButton(onClick = {
                     showDialog = false
                     onWatchAd()
-                }) { Text("Watch Ad", color = MaterialTheme.colorScheme.onSurface) }
+                }) { Text(stringResource(R.string.hint_watch_ad), color = MaterialTheme.colorScheme.onSurface) }
             },
             dismissButton = {
-                TextButton(onClick = { showDialog = false }) { Text("Cancel", color = MaterialTheme.colorScheme.onSurface) }
+                TextButton(onClick = { showDialog = false }) { Text(stringResource(R.string.hint_cancel), color = MaterialTheme.colorScheme.onSurface) }
             }
         )
     }

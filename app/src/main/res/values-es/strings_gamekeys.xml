@@ -1,0 +1,15 @@
+<resources>
+    <string name="role_annalist">Analista</string>
+    <string name="role_herald">Heraldo</string>
+    <string name="role_officer_of_arms">Oficial de Armas</string>
+    <string name="role_cosmographer">Cosmógrafo</string>
+    <string name="role_chronicler">Cronista</string>
+    <string name="role_chancellor">Canciller</string>
+
+    <string name="title_year_guess">Adivina el Año</string>
+    <string name="title_casualties_multiplier">Cuenta de Bajas</string>
+    <string name="title_flag_color_match">Iguala el Color de la Bandera</string>
+    <string name="title_territory_compare">Mayor Territorio</string>
+    <string name="title_true_false">Verdadero o Falso</string>
+    <string name="title_blind_map_battle">Batalla en Mapa Ciego</string>
+</resources>

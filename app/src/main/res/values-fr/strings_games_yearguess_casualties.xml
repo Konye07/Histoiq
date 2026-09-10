@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- YearGuessScreen.kt (Annalist) -->
+    <string name="yearguess_title">Devine l\'Année</string>
+    <string name="yearguess_back_cd">Retour</string>
+    <string name="yearguess_question_counter">Question %1$d / %2$d</string>
+    <string name="yearguess_hint_prefix">Indice : %1$s</string>
+    <string name="yearguess_hint_unavailable">Aucun indice disponible pour cet événement.</string>
+    <string name="yearguess_guess_label">Ta réponse (année)</string>
+    <string name="yearguess_submit">Valider</string>
+    <string name="yearguess_correct">Correct : %1$s</string>
+    <string name="yearguess_score_points">Tu as marqué %1$s points</string>
+    <string name="yearguess_you_label">Toi : %1$s</string>
+    <string name="yearguess_see_results">Voir les Résultats</string>
+    <string name="yearguess_next_question">Question Suivante</string>
+    <string name="yearguess_era_ad">apr. J.-C.</string>
+    <string name="yearguess_era_bce">av. J.-C.</string>
+    <string name="yearguess_back_to_menu">Retour au Menu</string>
+
+    <!-- CasualtiesMultiplierScreen.kt (Herald) -->
+    <string name="casualties_title">Nombre de Pertes</string>
+    <string name="casualties_back_cd">Retour</string>
+    <string name="casualties_question_counter">Question %1$d / %2$d</string>
+    <string name="casualties_hint_prefix">Indice : %1$s</string>
+    <string name="casualties_hint_unavailable">Aucun indice disponible pour cette bataille.</string>
+    <string name="casualties_guess_label">Ta réponse (pertes)</string>
+    <string name="casualties_submit">Valider</string>
+    <string name="casualties_actual_casualties">Pertes réelles : %1$s</string>
+    <string name="casualties_earned_multiplier">Tu as gagné %1$s</string>
+    <string name="casualties_actual_label">Réel : %1$s</string>
+    <string name="casualties_you_label">Toi : %1$s</string>
+    <string name="casualties_see_results">Voir les Résultats</string>
+    <string name="casualties_next_question">Question Suivante</string>
+    <string name="casualties_final_multiplier_caption">Multiplicateur final (1,00x est une partie parfaite)</string>
+    <string name="casualties_back_to_menu">Retour au Menu</string>
+</resources>

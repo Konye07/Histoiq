@@ -23,12 +23,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import android.util.Log
 import androidx.compose.ui.unit.dp
 import com.yourorg.app.Data.Account.AccountRepository
 import com.yourorg.app.Data.Account.AuthProviderType
+import com.yourorg.app.R
 import kotlinx.coroutines.launch
 
 private const val TAG = "AuthScreen"
@@ -38,6 +40,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
     val scope = rememberCoroutineScope()
     var loadingProvider by remember { mutableStateOf<AuthProviderType?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    val signInFailedMessage = stringResource(R.string.auth_sign_in_failed)
 
     fun continueWith(provider: AuthProviderType) {
         if (loadingProvider != null) return
@@ -51,7 +54,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
             } catch (e: Exception) {
                 Log.e(TAG, "Sign-in failed for $provider", e)
                 loadingProvider = null
-                errorMessage = "Sign-in failed. Please try again."
+                errorMessage = signInFailedMessage
             }
         }
     }
@@ -68,13 +71,13 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                "Today in History",
+                stringResource(R.string.auth_title),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
             Text(
-                "Sign in to track your daily scores",
+                stringResource(R.string.auth_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center
             )
@@ -89,7 +92,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
                 if (loadingProvider == AuthProviderType.GOOGLE) {
                     CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
                 } else {
-                    Text("Continue with Google")
+                    Text(stringResource(R.string.auth_continue_with_google))
                 }
             }
 
@@ -103,7 +106,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
                 if (loadingProvider == AuthProviderType.APPLE) {
                     CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
                 } else {
-                    Text("Continue with Apple")
+                    Text(stringResource(R.string.auth_continue_with_apple))
                 }
             }
 
@@ -124,13 +127,13 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
                 enabled = loadingProvider == null,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Continue without login")
+                Text(stringResource(R.string.auth_continue_without_login))
             }
 
             Spacer(Modifier.height(12.dp))
 
             Text(
-                "Without an account, your scores and stats still count and the daily limit still applies — you just won't have a friend code to share, or be able to sync across devices.",
+                stringResource(R.string.auth_guest_info),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.outline,
                 textAlign = TextAlign.Center
@@ -139,7 +142,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
             Spacer(Modifier.height(20.dp))
 
             Text(
-                "Mock sign-in for now — creates a local test account. Real Google/Apple sign-in needs OAuth credentials that aren't set up yet.",
+                stringResource(R.string.auth_mock_notice),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.outline,
                 textAlign = TextAlign.Center

@@ -1,0 +1,17 @@
+<resources>
+    <string name="tf_back">Zurück</string>
+    <string name="tf_round_counter">Runde %1$d / %2$d</string>
+    <string name="tf_true_button">Wahr</string>
+    <string name="tf_false_button">Falsch</string>
+    <string name="tf_true_caps">WAHR</string>
+    <string name="tf_false_caps">FALSCH</string>
+    <string name="tf_correct">Richtig!</string>
+    <string name="tf_wrong_game_over">Falsch — Spiel vorbei.</string>
+    <string name="tf_statement_is">Die Aussage ist %1$s.</string>
+    <string name="tf_see_results">Ergebnisse Ansehen</string>
+    <string name="tf_next_statement">Nächste Aussage</string>
+    <string name="tf_survived_all">Du hast alle %1$d Aussagen überstanden!</string>
+    <string name="tf_made_it_to">Du hast es bis Aussage %1$d geschafft.</string>
+    <string name="tf_answer_correct_line">Deine Antwort: %1$s  ·  Richtig: %2$s</string>
+    <string name="tf_back_to_menu">Zurück zum Menü</string>
+</resources>

@@ -8,6 +8,7 @@ object SettingsStore {
     private const val KEY_LANGUAGE = "language"
     private const val KEY_HAPTICS_ENABLED = "hapticsEnabled"
     private const val KEY_DAILY_REMINDER_ENABLED = "dailyReminderEnabled"
+    private const val KEY_GUEST_MODE = "guestMode"
 
     const val LANGUAGE_ENGLISH = "en"
 
@@ -16,6 +17,14 @@ object SettingsStore {
 
     fun setLanguage(context: Context, language: String) {
         prefs(context).edit().putString(KEY_LANGUAGE, language).apply()
+    }
+
+    /** Survives Activity recreation (e.g. a language change), unlike RootApp's in-memory `isGuest`. */
+    fun guestMode(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_GUEST_MODE, false)
+
+    fun setGuestMode(context: Context, enabled: Boolean) {
+        prefs(context).edit().putBoolean(KEY_GUEST_MODE, enabled).apply()
     }
 
     fun hapticsEnabled(context: Context): Boolean =

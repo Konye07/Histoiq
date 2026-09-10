@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- FlagColorMatchScreen.kt (Officer-of-Arms) -->
+    <string name="flag_title">Trouvez la Couleur du Drapeau</string>
+    <string name="flag_back">Retour</string>
+    <string name="flag_question_counter">Question %1$d / %2$d</string>
+    <string name="flag_your_guess">Votre Essai</string>
+    <string name="flag_original">Original</string>
+    <string name="flag_hue">Teinte</string>
+    <string name="flag_saturation">Saturation</string>
+    <string name="flag_brightness">Luminosité</string>
+    <string name="flag_lock_color">Valider la Couleur ✓</string>
+    <string name="flag_target_values">Cible : T%1$d S%2$d L%3$d</string>
+    <string name="flag_score_points">Vous avez obtenu %1$s points</string>
+    <string name="flag_see_results">Voir les Résultats</string>
+    <string name="flag_next_question">Question Suivante</string>
+    <string name="flag_score_pts">%1$s pts</string>
+    <string name="flag_back_to_menu">Retour au Menu</string>
+
+    <!-- TerritoryCompareScreen.kt (Cosmographer) -->
+    <string name="territory_title">Plus Grand Territoire</string>
+    <string name="territory_back">Retour</string>
+    <string name="territory_round_counter">Manche %1$d / %2$d</string>
+    <string name="territory_question_prompt">Lequel avait le plus grand territoire à son apogée ?</string>
+    <string name="territory_correct">Correct !</string>
+    <string name="territory_wrong_game_over">Faux — partie terminée.</string>
+    <string name="territory_see_results">Voir les Résultats</string>
+    <string name="territory_next_round">Manche Suivante</string>
+    <string name="territory_area_km2">%1$s km²</string>
+    <string name="territory_survived_all">Vous avez survécu aux %1$d manches !</string>
+    <string name="territory_made_it_to_round">Vous êtes arrivé à la manche %1$d.</string>
+    <string name="territory_round_matchup">Manche %1$d : %2$s contre %3$s</string>
+    <string name="territory_result_correct">Correct</string>
+    <string name="territory_result_wrong">Faux</string>
+    <string name="territory_back_to_menu">Retour au Menu</string>
+
+    <!-- BlindMapBattleScreen.kt (Chancellor) -->
+    <string name="blindmap_title">Bataille de Carte à l\'Aveugle</string>
+    <string name="blindmap_back">Retour</string>
+    <string name="blindmap_question_counter">Question %1$d / %2$d</string>
+    <string name="blindmap_instructions">Pincez pour zoomer, faites glisser pour vous déplacer, touchez pour placer votre repère — aucune frontière affichée.</string>
+    <string name="blindmap_map_attribution">Carte : données Natural Earth via Wikimedia Commons (CC BY-SA 4.0)</string>
+    <string name="blindmap_submit">Valider</string>
+    <string name="blindmap_score_points">Vous avez obtenu %1$s points</string>
+    <string name="blindmap_see_results">Voir les Résultats</string>
+    <string name="blindmap_next_question">Question Suivante</string>
+    <string name="blindmap_pin_actual_pts">Votre repère : %1$s, %2$s  ·  Réel : %3$s, %4$s  ·  %5$s pts</string>
+    <string name="blindmap_score_pts">%1$s pts</string>
+    <string name="blindmap_back_to_menu">Retour au Menu</string>
+</resources>

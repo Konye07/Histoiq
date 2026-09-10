@@ -11,8 +11,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.yourorg.app.Data.Account.AccountRepository
 import com.yourorg.app.Data.Account.UserAccount
+import com.yourorg.app.Data.Settings.SettingsStore
 import com.yourorg.app.Features.Auth.AuthScreen
 
 /**
@@ -22,8 +24,9 @@ import com.yourorg.app.Features.Auth.AuthScreen
  */
 @Composable
 fun RootApp() {
+    val context = LocalContext.current
     var account by remember { mutableStateOf<UserAccount?>(null) }
-    var isGuest by remember { mutableStateOf(false) }
+    var isGuest by remember { mutableStateOf(SettingsStore.guestMode(context)) }
     var restoring by remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
@@ -37,8 +40,15 @@ fun RootApp() {
         }
         account == null && !isGuest -> AuthScreen(
             onAuthenticated = { account = AccountRepository.currentAccount() },
-            onContinueAsGuest = { isGuest = true }
+            onContinueAsGuest = {
+                SettingsStore.setGuestMode(context, true)
+                isGuest = true
+            }
         )
-        else -> AppNavHost(onSignedOut = { account = null; isGuest = false })
+        else -> AppNavHost(onSignedOut = {
+            SettingsStore.setGuestMode(context, false)
+            account = null
+            isGuest = false
+        })
     }
 }

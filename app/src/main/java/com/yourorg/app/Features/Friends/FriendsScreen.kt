@@ -37,8 +37,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.R
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Data.Account.AccountRepository
 import com.yourorg.app.Data.Quiz.DailyClock
@@ -65,6 +67,7 @@ fun FriendsScreen() {
     var acceptedFriends by remember { mutableStateOf<List<FriendConnection>>(emptyList()) }
     var incomingRequests by remember { mutableStateOf<List<FriendConnection>>(emptyList()) }
     var rows by remember { mutableStateOf<List<LeaderboardRow>>(emptyList()) }
+    val youFallback = stringResource(R.string.friends_you_fallback)
 
     LaunchedEffect(friendsVersion) {
         if (myAccount != null) {
@@ -77,7 +80,7 @@ fun FriendsScreen() {
         loading = true
         val dateKey = DailyClock.dateKey(selectedDayOffset)
         val myScore = ScoreHistoryStore.resultFor(context, selectedGame, dateKey)
-        val list = mutableListOf(LeaderboardRow(myAccount?.displayName ?: "You", myScore, isMe = true))
+        val list = mutableListOf(LeaderboardRow(myAccount?.displayName ?: youFallback, myScore, isMe = true))
         acceptedFriends.forEach { f ->
             list.add(LeaderboardRow(f.displayName, ScoreHistoryStore.resultFor(f.otherId, selectedGame, dateKey), isMe = false))
         }
@@ -92,7 +95,7 @@ fun FriendsScreen() {
 
     Box(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize().padding(16.dp)) {
-            Text("Friends", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.friends_title), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(12.dp))
 
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -117,14 +120,19 @@ fun FriendsScreen() {
                     FilterChip(
                         selected = selectedDayOffset == offset,
                         onClick = { selectedDayOffset = offset },
-                        label = { Text(if (offset == 0) "Today" else "-$offset d") }
+                        label = {
+                            Text(
+                                if (offset == 0) stringResource(R.string.friends_filter_today)
+                                else stringResource(R.string.friends_filter_days_ago, offset)
+                            )
+                        }
                     )
                 }
             }
 
             Spacer(Modifier.height(16.dp))
             Text(
-                "${GameKeys.roleName(selectedGame)} — ${GameKeys.title(selectedGame)}",
+                stringResource(R.string.friends_role_title_format, GameKeys.roleName(selectedGame), GameKeys.title(selectedGame)),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -152,7 +160,10 @@ fun FriendsScreen() {
                     containerColor = if (incomingRequests.isNotEmpty()) AppColors.Maroon else MaterialTheme.colorScheme.primary
                 )
             ) {
-                Text(if (incomingRequests.isNotEmpty()) "Add Friend (${incomingRequests.size} pending)" else "Add Friend")
+                Text(
+                    if (incomingRequests.isNotEmpty()) stringResource(R.string.friends_add_friend_pending, incomingRequests.size)
+                    else stringResource(R.string.friends_add_friend)
+                )
             }
         }
     }
@@ -186,12 +197,12 @@ private fun LeaderboardRowItem(row: LeaderboardRow, gameKey: String) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                if (row.isMe) "${row.name} (You)" else row.name,
+                if (row.isMe) stringResource(R.string.friends_you_suffix, row.name) else row.name,
                 fontWeight = if (row.isMe) FontWeight.Bold else FontWeight.Normal,
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
-                row.score?.let { GameKeys.formatScore(gameKey, it) } ?: "Not played",
+                row.score?.let { GameKeys.formatScore(gameKey, it) } ?: stringResource(R.string.friends_not_played),
                 style = MaterialTheme.typography.bodyLarge,
                 color = if (row.score == null) MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.onSurface
             )
@@ -209,23 +220,27 @@ private fun AddFriendDialog(
     var codeInput by remember { mutableStateOf("") }
     var sending by remember { mutableStateOf(false) }
     var feedback by remember { mutableStateOf<String?>(null) }
+    val feedbackAdded = stringResource(R.string.friends_feedback_added)
+    val feedbackAlreadyConnected = stringResource(R.string.friends_feedback_already_connected)
+    val feedbackOwnCode = stringResource(R.string.friends_feedback_own_code)
+    val feedbackNotFound = stringResource(R.string.friends_feedback_not_found)
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add Friend") },
+        title = { Text(stringResource(R.string.friends_add_friend)) },
         text = {
             Column(
                 Modifier.verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text("Enter a friend's 9-digit code (find your own in Settings).", style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.friends_add_friend_instructions), style = MaterialTheme.typography.bodySmall)
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     OutlinedTextField(
                         value = codeInput,
                         onValueChange = { codeInput = it.filter { c -> c.isDigit() }.take(9) },
                         modifier = Modifier.weight(1f),
                         singleLine = true,
-                        placeholder = { Text("123456789") }
+                        placeholder = { Text(stringResource(R.string.friends_code_placeholder)) }
                     )
                     Button(
                         onClick = {
@@ -235,10 +250,10 @@ private fun AddFriendDialog(
                                 val result = FriendsRepository.addFriendByCode(codeInput)
                                 sending = false
                                 feedback = when (result) {
-                                    AddFriendResult.ADDED -> "Friend added!"
-                                    AddFriendResult.ALREADY_CONNECTED -> "Already connected."
-                                    AddFriendResult.IS_YOUR_OWN_CODE -> "That's your own code."
-                                    AddFriendResult.NOT_FOUND -> "No player found with that code."
+                                    AddFriendResult.ADDED -> feedbackAdded
+                                    AddFriendResult.ALREADY_CONNECTED -> feedbackAlreadyConnected
+                                    AddFriendResult.IS_YOUR_OWN_CODE -> feedbackOwnCode
+                                    AddFriendResult.NOT_FOUND -> feedbackNotFound
                                 }
                                 if (result == AddFriendResult.ADDED) {
                                     codeInput = ""
@@ -248,7 +263,7 @@ private fun AddFriendDialog(
                         },
                         enabled = codeInput.length == 9 && !sending
                     ) {
-                        Text(if (sending) "..." else "Send")
+                        Text(if (sending) stringResource(R.string.friends_sending) else stringResource(R.string.friends_send))
                     }
                 }
                 feedback?.let {
@@ -257,7 +272,7 @@ private fun AddFriendDialog(
 
                 if (incomingRequests.isNotEmpty()) {
                     HorizontalDivider()
-                    Text("Incoming Requests", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.friends_incoming_requests), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
                     incomingRequests.forEach { req ->
                         Row(
                             Modifier.fillMaxWidth(),
@@ -271,13 +286,13 @@ private fun AddFriendDialog(
                                         FriendsRepository.acceptIncoming(req.friendshipId)
                                         onConnectionsChanged()
                                     }
-                                }) { Text("Accept") }
+                                }) { Text(stringResource(R.string.friends_accept)) }
                                 TextButton(onClick = {
                                     scope.launch {
                                         FriendsRepository.declineIncoming(req.friendshipId)
                                         onConnectionsChanged()
                                     }
-                                }) { Text("Decline") }
+                                }) { Text(stringResource(R.string.friends_decline)) }
                             }
                         }
                     }
@@ -285,7 +300,7 @@ private fun AddFriendDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("Close") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.friends_close)) }
         }
     )
 }

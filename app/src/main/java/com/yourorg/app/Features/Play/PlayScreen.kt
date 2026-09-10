@@ -40,12 +40,14 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Data.Quiz.DailyClock
+import com.yourorg.app.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -74,54 +76,54 @@ fun PlayScreen(
 
     val modes = listOf(
         QuizMode(
-            roleName = "Annalist",
-            title = "Guess the Year",
-            description = "An event is given — guess the year it happened. The closer you are, the more points you score.",
+            roleName = stringResource(R.string.home_role_annalist),
+            title = stringResource(R.string.home_subtitle_year_guess),
+            description = stringResource(R.string.home_desc_year_guess),
             color = AppColors.SlateBlue,
             logoAsset = "images/menulogos/01guess_year.png",
             enabled = true,
             onClick = onSelectYearGuess
         ),
         QuizMode(
-            roleName = "Herald",
-            title = "Casualty Count",
-            description = "A battle is given — guess the casualties. The closer your guess, the bigger your multiplier.",
+            roleName = stringResource(R.string.home_role_herald),
+            title = stringResource(R.string.home_subtitle_casualties_multiplier),
+            description = stringResource(R.string.home_desc_casualties_multiplier),
             color = AppColors.Maroon,
             logoAsset = "images/menulogos/02casualities.png",
             enabled = true,
             onClick = onSelectCasualtiesMultiplier
         ),
         QuizMode(
-            roleName = "Officer-of-Arms",
-            title = "Match the Flag Color",
-            description = "Match a historical flag's true color using hue, saturation and brightness sliders.",
+            roleName = stringResource(R.string.home_role_officer_of_arms),
+            title = stringResource(R.string.home_subtitle_flag_color_match),
+            description = stringResource(R.string.home_desc_flag_color_match),
             color = AppColors.OliveDark,
             logoAsset = "images/menulogos/03paint_flag.png",
             enabled = true,
             onClick = onSelectFlagColorMatch
         ),
         QuizMode(
-            roleName = "Cosmographer",
-            title = "Bigger Territory",
-            description = "Pick which empire had the bigger territory at its prime. One wrong pick ends the run.",
+            roleName = stringResource(R.string.home_role_cosmographer),
+            title = stringResource(R.string.home_subtitle_territory_compare),
+            description = stringResource(R.string.home_desc_territory_compare),
             color = AppColors.ForestDark,
             logoAsset = "images/menulogos/04peak_empire_vs.png",
             enabled = true,
             onClick = onSelectTerritoryCompare
         ),
         QuizMode(
-            roleName = "Chronicler",
-            title = "True or False",
-            description = "Historical statements — one wrong answer ends the run.",
+            roleName = stringResource(R.string.home_role_chronicler),
+            title = stringResource(R.string.home_subtitle_true_false),
+            description = stringResource(R.string.home_desc_true_false),
             color = AppColors.BrownDark,
             logoAsset = "images/menulogos/05hist_statements.png",
             enabled = true,
             onClick = onSelectTrueFalse
         ),
         QuizMode(
-            roleName = "Chancellor",
-            title = "Blind Map Battle",
-            description = "Place a historical battle on the map with no borders shown. The closer your pin, the more points.",
+            roleName = stringResource(R.string.home_role_chancellor),
+            title = stringResource(R.string.home_subtitle_blind_map_battle),
+            description = stringResource(R.string.home_desc_blind_map_battle),
             color = AppColors.EspressoDark,
             logoAsset = "images/menulogos/06battle_map.png",
             enabled = true,
@@ -145,7 +147,7 @@ fun PlayScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Today in History", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.home_title), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             NextQuizCountdown()
         }
 
@@ -213,7 +215,7 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?) {
                 )
                 if (!mode.enabled) {
                     Text(
-                        "Coming soon",
+                        stringResource(R.string.home_coming_soon),
                         style = MaterialTheme.typography.labelMedium,
                         color = textColor.copy(alpha = 0.7f)
                     )
@@ -225,7 +227,7 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?) {
             ) {
                 Icon(
                     Icons.Outlined.Info,
-                    contentDescription = "About ${mode.roleName}",
+                    contentDescription = stringResource(R.string.home_about_content_desc, mode.roleName),
                     tint = textColor
                 )
             }
@@ -235,10 +237,10 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?) {
     if (showInfo) {
         AlertDialog(
             onDismissRequest = { showInfo = false },
-            title = { Text("${mode.roleName} — ${mode.title}") },
+            title = { Text(stringResource(R.string.home_info_dialog_title, mode.roleName, mode.title)) },
             text = { Text(mode.description) },
             confirmButton = {
-                TextButton(onClick = { showInfo = false }) { Text("Close") }
+                TextButton(onClick = { showInfo = false }) { Text(stringResource(R.string.home_close)) }
             }
         )
     }
@@ -265,7 +267,7 @@ private fun NextQuizCountdown() {
             fontWeight = FontWeight.Bold
         )
         Text(
-            "Test your knowledge again in %02d:%02d:%02d".format(hours, minutes, seconds),
+            stringResource(R.string.home_countdown, "%02d:%02d:%02d".format(hours, minutes, seconds)),
             style = MaterialTheme.typography.labelSmall
         )
     }

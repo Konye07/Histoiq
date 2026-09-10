@@ -22,8 +22,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.R
 import com.yourorg.app.Data.Account.AccountRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.GameStats
@@ -46,14 +48,14 @@ fun ProfileScreen() {
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Profile", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.profile_title), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
         if (account != null) {
             Text(account.displayName, style = MaterialTheme.typography.titleMedium)
             Text(account.email, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
         }
 
         HorizontalDivider()
-        Text("Statistics", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.profile_statistics), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
 
         GameKeys.ALL.forEach { key ->
             val stats = statsByGame[key] ?: GameStats(0, 0.0, 0)
@@ -63,17 +65,17 @@ fun ProfileScreen() {
             ) {
                 Column(Modifier.padding(16.dp)) {
                     Text(
-                        "${GameKeys.roleName(key)} — ${GameKeys.title(key)}",
+                        stringResource(R.string.profile_role_title_format, GameKeys.roleName(key), GameKeys.title(key)),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
                     if (stats.gamesPlayed == 0) {
-                        Text("Not played yet", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+                        Text(stringResource(R.string.profile_not_played_yet), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
                     } else {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            StatColumn("Played", "${stats.gamesPlayed}")
-                            StatColumn("Average", GameKeys.formatScore(key, stats.averageScore))
-                            StatColumn("Perfect Runs", "${stats.perfectCount}")
+                            StatColumn(stringResource(R.string.profile_played), "${stats.gamesPlayed}")
+                            StatColumn(stringResource(R.string.profile_average), GameKeys.formatScore(key, stats.averageScore))
+                            StatColumn(stringResource(R.string.profile_perfect_runs), "${stats.perfectCount}")
                         }
                     }
                 }

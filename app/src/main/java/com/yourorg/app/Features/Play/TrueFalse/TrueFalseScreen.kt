@@ -31,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Haptics.Haptics
@@ -43,8 +44,10 @@ import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.TrueFalseStatement
 import com.yourorg.app.Data.Quiz.loadTrueFalseStatements
 import com.yourorg.app.Data.Quiz.recordAndRank
+import com.yourorg.app.Data.Settings.SettingsStore
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
+import com.yourorg.app.R
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -94,10 +97,10 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("True or False") },
+                title = { Text(GameKeys.title(GameKeys.TRUE_FALSE)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.tf_back))
                     }
                 }
             )
@@ -159,30 +162,34 @@ private fun TrueFalseQuestion(
     onAnswer: (Boolean) -> Unit,
     onContinue: () -> Unit
 ) {
+    val language = SettingsStore.language(LocalContext.current)
+    val trueCaps = stringResource(R.string.tf_true_caps)
+    val falseCaps = stringResource(R.string.tf_false_caps)
+
     Column(
         Modifier.fillMaxWidth().padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Round $round / $ROUNDS_TO_WIN", style = MaterialTheme.typography.labelLarge)
-        Text(statement.statement, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+        Text(stringResource(R.string.tf_round_counter, round, ROUNDS_TO_WIN), style = MaterialTheme.typography.labelLarge)
+        Text(statement.localized(language), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
 
         if (!revealed) {
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Button(onClick = { onAnswer(true) }) { Text("True") }
-                Button(onClick = { onAnswer(false) }) { Text("False") }
+                Button(onClick = { onAnswer(true) }) { Text(stringResource(R.string.tf_true_button)) }
+                Button(onClick = { onAnswer(false) }) { Text(stringResource(R.string.tf_false_button)) }
             }
         } else {
             Text(
-                if (correct) "Correct!" else "Wrong — game over.",
+                if (correct) stringResource(R.string.tf_correct) else stringResource(R.string.tf_wrong_game_over),
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
-                "The statement is ${if (statement.correctAnswer) "TRUE" else "FALSE"}.",
+                stringResource(R.string.tf_statement_is, if (statement.correctAnswer) trueCaps else falseCaps),
                 style = MaterialTheme.typography.bodyMedium
             )
             Button(onClick = onContinue) {
-                Text(if (!correct || round == ROUNDS_TO_WIN) "See Results" else "Next Statement")
+                Text(if (!correct || round == ROUNDS_TO_WIN) stringResource(R.string.tf_see_results) else stringResource(R.string.tf_next_statement))
             }
         }
     }
@@ -198,6 +205,9 @@ private fun TrueFalseResults(
     val won = !failed && answers.size == statements.size
     val score = answers.indices.count { i -> answers[i] == statements[i].correctAnswer }
     val context = LocalContext.current
+    val language = SettingsStore.language(context)
+    val trueCaps = stringResource(R.string.tf_true_caps)
+    val falseCaps = stringResource(R.string.tf_false_caps)
     var rank by remember { mutableStateOf(1) }
     var totalPlayers by remember { mutableStateOf(1) }
     LaunchedEffect(Unit) {
@@ -219,19 +229,23 @@ private fun TrueFalseResults(
             isPerfect = score == ROUNDS_TO_WIN,
             rankingText = rankingText(rank, totalPlayers),
             accentColor = MaterialTheme.colorScheme.primary,
-            subtitle = if (won) "You survived all $ROUNDS_TO_WIN statements!" else "You made it to statement ${answers.size}."
+            subtitle = if (won) stringResource(R.string.tf_survived_all, ROUNDS_TO_WIN) else stringResource(R.string.tf_made_it_to, answers.size)
         )
         HorizontalDivider()
         answers.forEachIndexed { i, answer ->
             val statement = statements[i]
             Column(Modifier.fillMaxWidth()) {
-                Text(statement.statement, style = MaterialTheme.typography.bodyMedium)
+                Text(statement.localized(language), style = MaterialTheme.typography.bodyMedium)
                 Text(
-                    "Your answer: ${if (answer) "TRUE" else "FALSE"}  ·  Correct: ${if (statement.correctAnswer) "TRUE" else "FALSE"}",
+                    stringResource(
+                        R.string.tf_answer_correct_line,
+                        if (answer) trueCaps else falseCaps,
+                        if (statement.correctAnswer) trueCaps else falseCaps
+                    ),
                     style = MaterialTheme.typography.bodySmall
                 )
             }
         }
-        Button(onClick = onBack) { Text("Back to Menu") }
+        Button(onClick = onBack) { Text(stringResource(R.string.tf_back_to_menu)) }
     }
 }

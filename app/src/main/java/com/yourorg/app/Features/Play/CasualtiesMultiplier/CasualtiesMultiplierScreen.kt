@@ -34,9 +34,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.R
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleCasualty
@@ -105,10 +107,10 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("Casualty Count") },
+                    title = { Text(stringResource(R.string.casualties_title)) },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                            Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.casualties_back_cd))
                         }
                     },
                     actions = {
@@ -188,7 +190,7 @@ private fun CasualtiesQuestion(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Question $questionNumber / $totalQuestions", style = MaterialTheme.typography.labelLarge)
+        Text(stringResource(R.string.casualties_question_counter, questionNumber, totalQuestions), style = MaterialTheme.typography.labelLarge)
         Text(battle.battle, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
         Text(formatEraYear(battle.year), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
         if (hintRevealed) {
@@ -198,7 +200,7 @@ private fun CasualtiesQuestion(
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    "Hint: ${battle.hint ?: "No hint available for this one."}",
+                    stringResource(R.string.casualties_hint_prefix, battle.hint ?: stringResource(R.string.casualties_hint_unavailable)),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
@@ -209,7 +211,7 @@ private fun CasualtiesQuestion(
         OutlinedTextField(
             value = guessText,
             onValueChange = onGuessChange,
-            label = { Text("Your guess (casualties)") },
+            label = { Text(stringResource(R.string.casualties_guess_label)) },
             enabled = !revealed,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
@@ -217,12 +219,12 @@ private fun CasualtiesQuestion(
 
         if (!revealed) {
             Button(onClick = onSubmit, enabled = guessText.toLongOrNull() != null) {
-                Text("Submit")
+                Text(stringResource(R.string.casualties_submit))
             }
         } else {
-            Text("Actual casualties: ${formatThousands(battle.correctCasualties)}", style = MaterialTheme.typography.bodyLarge)
+            Text(stringResource(R.string.casualties_actual_casualties, formatThousands(battle.correctCasualties)), style = MaterialTheme.typography.bodyLarge)
             Text(
-                "You earned x%.2f".format(lastMultiplier ?: 1.0),
+                stringResource(R.string.casualties_earned_multiplier, "x%.2f".format(lastMultiplier ?: 1.0)),
                 style = MaterialTheme.typography.bodyLarge
             )
             var guessDist by remember(battle.id) { mutableStateOf<List<Long>>(emptyList()) }
@@ -238,12 +240,12 @@ private fun CasualtiesQuestion(
                 correctPosition = logPos(battle.correctCasualties),
                 guessPosition = lastGuess?.let { logPos(it) },
                 accentColor = MaterialTheme.colorScheme.primary,
-                correctLabel = "Actual: ${formatThousands(battle.correctCasualties)}",
-                guessLabel = lastGuess?.let { "You: ${formatThousands(it)}" },
+                correctLabel = stringResource(R.string.casualties_actual_label, formatThousands(battle.correctCasualties)),
+                guessLabel = lastGuess?.let { stringResource(R.string.casualties_you_label, formatThousands(it)) },
                 modifier = Modifier.fillMaxWidth()
             )
             Button(onClick = onNext) {
-                Text(if (questionNumber == totalQuestions) "See Results" else "Next Question")
+                Text(if (questionNumber == totalQuestions) stringResource(R.string.casualties_see_results) else stringResource(R.string.casualties_next_question))
             }
         }
     }
@@ -295,14 +297,14 @@ private fun CasualtiesResults(
             accentColor = MaterialTheme.colorScheme.primary
         )
         Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text("Final multiplier (1.00x is a perfect run)", style = MaterialTheme.typography.bodyMedium)
+            Text(stringResource(R.string.casualties_final_multiplier_caption), style = MaterialTheme.typography.bodyMedium)
             GuessDistributionAxis(
                 distribution = finalDistribution.map { multiplierPos(it) },
                 correctPosition = null,
                 guessPosition = multiplierPos(total),
                 accentColor = MaterialTheme.colorScheme.primary,
                 correctLabel = null,
-                guessLabel = "You: x%.2f".format(total)
+                guessLabel = stringResource(R.string.casualties_you_label, "x%.2f".format(total))
             )
         }
         HorizontalDivider()
@@ -322,11 +324,11 @@ private fun CasualtiesResults(
                     correctPosition = logPos(battle.correctCasualties),
                     guessPosition = guessValue?.let { logPos(it) },
                     accentColor = MaterialTheme.colorScheme.primary,
-                    correctLabel = "Actual: ${formatThousands(battle.correctCasualties)}",
-                    guessLabel = guessValue?.let { "You: ${formatThousands(it)}" }
+                    correctLabel = stringResource(R.string.casualties_actual_label, formatThousands(battle.correctCasualties)),
+                    guessLabel = guessValue?.let { stringResource(R.string.casualties_you_label, formatThousands(it)) }
                 )
             }
         }
-        Button(onClick = onBack) { Text("Back to Menu") }
+        Button(onClick = onBack) { Text(stringResource(R.string.casualties_back_to_menu)) }
     }
 }

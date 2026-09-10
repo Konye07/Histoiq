@@ -1,0 +1,33 @@
+<resources>
+    <!-- FriendsScreen.kt -->
+    <string name="friends_title">Amis</string>
+    <string name="friends_you_fallback">Toi</string>
+    <string name="friends_filter_today">Aujourd\'hui</string>
+    <string name="friends_filter_days_ago">-%1$d j</string>
+    <string name="friends_role_title_format">%1$s — %2$s</string>
+    <string name="friends_add_friend_pending">Ajouter un ami (%1$d)</string>
+    <string name="friends_add_friend">Ajouter un ami</string>
+    <string name="friends_you_suffix">%1$s (Toi)</string>
+    <string name="friends_not_played">Pas joué</string>
+    <string name="friends_feedback_added">Ami ajouté !</string>
+    <string name="friends_feedback_already_connected">Vous êtes déjà amis</string>
+    <string name="friends_feedback_own_code">C\'est votre propre code</string>
+    <string name="friends_feedback_not_found">Aucun compte trouvé avec ce code</string>
+    <string name="friends_add_friend_instructions">Entrez le code à 9 chiffres d\'un ami pour vous connecter.</string>
+    <string name="friends_code_placeholder">123456789</string>
+    <string name="friends_sending">Envoi…</string>
+    <string name="friends_send">Envoyer</string>
+    <string name="friends_incoming_requests">Demandes reçues</string>
+    <string name="friends_accept">Accepter</string>
+    <string name="friends_decline">Refuser</string>
+    <string name="friends_close">Fermer</string>
+
+    <!-- ProfileScreen.kt -->
+    <string name="profile_title">Profil</string>
+    <string name="profile_statistics">Statistiques</string>
+    <string name="profile_role_title_format">%1$s — %2$s</string>
+    <string name="profile_not_played_yet">Pas encore joué</string>
+    <string name="profile_played">Parties</string>
+    <string name="profile_average">Moyenne</string>
+    <string name="profile_perfect_runs">Parties Parfaites</string>
+</resources>

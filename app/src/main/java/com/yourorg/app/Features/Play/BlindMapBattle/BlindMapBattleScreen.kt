@@ -44,9 +44,11 @@ import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.R
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleLocation
@@ -152,10 +154,10 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Blind Map Battle") },
+                title = { Text(stringResource(R.string.blindmap_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.blindmap_back))
                     }
                 }
             )
@@ -231,11 +233,11 @@ private fun MapQuestion(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Question $questionNumber / $totalQuestions", style = MaterialTheme.typography.labelLarge)
+        Text(stringResource(R.string.blindmap_question_counter, questionNumber, totalQuestions), style = MaterialTheme.typography.labelLarge)
         Text(battle.battle, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
-        Text("Pinch to zoom, drag to pan, tap to place your pin — no borders shown.", style = MaterialTheme.typography.bodySmall)
+        Text(stringResource(R.string.blindmap_instructions), style = MaterialTheme.typography.bodySmall)
         Text(
-            "Map: Natural Earth data via Wikimedia Commons (CC BY-SA 4.0)",
+            stringResource(R.string.blindmap_map_attribution),
             style = MaterialTheme.typography.labelSmall
         )
 
@@ -307,14 +309,14 @@ private fun MapQuestion(
         }
 
         if (!revealed) {
-            Button(onClick = onSubmit, enabled = guessOffset != null) { Text("Submit") }
+            Button(onClick = onSubmit, enabled = guessOffset != null) { Text(stringResource(R.string.blindmap_submit)) }
         } else {
             Text(
-                "You scored %.2f points".format(lastScore ?: 0.0),
+                stringResource(R.string.blindmap_score_points, "%.2f".format(lastScore ?: 0.0)),
                 style = MaterialTheme.typography.bodyLarge
             )
             Button(onClick = onNext) {
-                Text(if (questionNumber == totalQuestions) "See Results" else "Next Question")
+                Text(if (questionNumber == totalQuestions) stringResource(R.string.blindmap_see_results) else stringResource(R.string.blindmap_next_question))
             }
         }
     }
@@ -361,16 +363,21 @@ private fun MapResults(
                 val guessLng = guessLngs.getOrNull(i)
                 Text(
                     if (guessLat != null && guessLng != null) {
-                        "Your pin: %.1f, %.1f  ·  Actual: %.1f, %.1f  ·  %.2f pts".format(
-                            guessLat, guessLng, battle.correctLat, battle.correctLng, scores.getOrNull(i) ?: 0.0
+                        stringResource(
+                            R.string.blindmap_pin_actual_pts,
+                            "%.1f".format(guessLat),
+                            "%.1f".format(guessLng),
+                            "%.1f".format(battle.correctLat),
+                            "%.1f".format(battle.correctLng),
+                            "%.2f".format(scores.getOrNull(i) ?: 0.0)
                         )
                     } else {
-                        "%.2f pts".format(scores.getOrNull(i) ?: 0.0)
+                        stringResource(R.string.blindmap_score_pts, "%.2f".format(scores.getOrNull(i) ?: 0.0))
                     },
                     style = MaterialTheme.typography.bodySmall
                 )
             }
         }
-        Button(onClick = onBack) { Text("Back to Menu") }
+        Button(onClick = onBack) { Text(stringResource(R.string.blindmap_back_to_menu)) }
     }
 }

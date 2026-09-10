@@ -1,0 +1,50 @@
+<resources>
+    <string name="home_title">Heute in der Geschichte</string>
+
+    <string name="home_role_annalist">Annalist</string>
+    <string name="home_role_herald">Herold</string>
+    <string name="home_role_officer_of_arms">Wappenoffizier</string>
+    <string name="home_role_cosmographer">Kosmograph</string>
+    <string name="home_role_chronicler">Chronist</string>
+    <string name="home_role_chancellor">Kanzler</string>
+
+    <string name="home_subtitle_year_guess">Errate das Jahr</string>
+    <string name="home_subtitle_casualties_multiplier">Verlustzahlen</string>
+    <string name="home_subtitle_flag_color_match">Flaggenfarbe Treffen</string>
+    <string name="home_subtitle_territory_compare">Größeres Territorium</string>
+    <string name="home_subtitle_true_false">Wahr oder Falsch</string>
+    <string name="home_subtitle_blind_map_battle">Blinde Kartenschlacht</string>
+
+    <string name="home_desc_year_guess">Ein Ereignis wird gezeigt — errate, in welchem Jahr es stattfand. Je näher du liegst, desto mehr Punkte bekommst du.</string>
+    <string name="home_desc_casualties_multiplier">Eine Schlacht wird gezeigt — schätze die Verluste. Je näher deine Schätzung ist, desto größer dein Multiplikator.</string>
+    <string name="home_desc_flag_color_match">Triff die wahre Farbe einer historischen Flagge mit den Reglern für Farbton, Sättigung und Helligkeit.</string>
+    <string name="home_desc_territory_compare">Wähle, welches Reich auf seinem Höhepunkt das größere Territorium hatte. Eine falsche Wahl beendet den Lauf.</string>
+    <string name="home_desc_true_false">Historische Aussagen — eine falsche Antwort beendet den Lauf.</string>
+    <string name="home_desc_blind_map_battle">Markiere den Ort einer historischen Schlacht auf der Karte ohne eingezeichnete Grenzen. Je näher deine Markierung, desto mehr Punkte.</string>
+
+    <string name="home_coming_soon">Demnächst verfügbar</string>
+    <string name="home_about_content_desc">Über %1$s</string>
+    <string name="home_info_dialog_title">%1$s — %2$s</string>
+    <string name="home_close">Schließen</string>
+    <string name="home_countdown">Teste dein Wissen erneut in %1$s</string>
+
+    <string name="results_final_score">Endergebnis</string>
+    <string name="results_rank_of_today">Platz %1$s von %2$s heute</string>
+
+    <string name="hint_label">Hinweis</string>
+    <string name="hint_dialog_title">Möchtest du einen Hinweis?</string>
+    <string name="hint_dialog_text">Sieh dir eine kurze Werbung an, um herauszufinden, zu welchem Krieg oder Konflikt dies gehört.</string>
+    <string name="hint_watch_ad">Werbung Ansehen</string>
+    <string name="hint_cancel">Abbrechen</string>
+
+    <string name="nav_play">Spielen</string>
+    <string name="nav_friends">Freunde</string>
+    <string name="nav_profile">Profil</string>
+    <string name="nav_settings">Einstellungen</string>
+    <string name="nav_year_guess">Errate das Jahr</string>
+    <string name="nav_casualties_multiplier">Verlustzahlen</string>
+    <string name="nav_flag_color_match">Flaggenfarbe Treffen</string>
+    <string name="nav_territory_compare">Größeres Territorium</string>
+    <string name="nav_true_false">Wahr oder Falsch</string>
+    <string name="nav_blind_map_battle">Blinde Kartenschlacht</string>
+</resources>

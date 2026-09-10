@@ -1,0 +1,15 @@
+<resources>
+    <string name="role_annalist">Annalista</string>
+    <string name="role_herald">Araldo</string>
+    <string name="role_officer_of_arms">Ufficiale d\'Armi</string>
+    <string name="role_cosmographer">Cosmografo</string>
+    <string name="role_chronicler">Cronista</string>
+    <string name="role_chancellor">Cancelliere</string>
+
+    <string name="title_year_guess">Indovina l\'Anno</string>
+    <string name="title_casualties_multiplier">Conteggio delle Perdite</string>
+    <string name="title_flag_color_match">Abbina il Colore della Bandiera</string>
+    <string name="title_territory_compare">Territorio Maggiore</string>
+    <string name="title_true_false">Vero o Falso</string>
+    <string name="title_blind_map_battle">Battaglia sulla Mappa Cieca</string>
+</resources>

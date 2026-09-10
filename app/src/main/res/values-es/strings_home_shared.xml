@@ -1,0 +1,50 @@
+<resources>
+    <string name="home_title">Hoy en la Historia</string>
+
+    <string name="home_role_annalist">Analista</string>
+    <string name="home_role_herald">Heraldo</string>
+    <string name="home_role_officer_of_arms">Oficial de Armas</string>
+    <string name="home_role_cosmographer">Cosmógrafo</string>
+    <string name="home_role_chronicler">Cronista</string>
+    <string name="home_role_chancellor">Canciller</string>
+
+    <string name="home_subtitle_year_guess">Adivina el Año</string>
+    <string name="home_subtitle_casualties_multiplier">Cuenta de Bajas</string>
+    <string name="home_subtitle_flag_color_match">Iguala el Color de la Bandera</string>
+    <string name="home_subtitle_territory_compare">Territorio Mayor</string>
+    <string name="home_subtitle_true_false">Verdadero o Falso</string>
+    <string name="home_subtitle_blind_map_battle">Batalla en el Mapa a Ciegas</string>
+
+    <string name="home_desc_year_guess">Se muestra un evento: adivina el año en que ocurrió. Cuanto más te acerques, más puntos consigues.</string>
+    <string name="home_desc_casualties_multiplier">Se muestra una batalla: adivina el número de bajas. Cuanto más te acerques, mayor será tu multiplicador.</string>
+    <string name="home_desc_flag_color_match">Iguala el color real de una bandera histórica ajustando los deslizadores de tono, saturación y brillo.</string>
+    <string name="home_desc_territory_compare">Elige qué imperio tuvo el mayor territorio en su apogeo. Un solo fallo termina la partida.</string>
+    <string name="home_desc_true_false">Afirmaciones históricas: una sola respuesta incorrecta termina la partida.</string>
+    <string name="home_desc_blind_map_battle">Marca en el mapa la ubicación de una batalla histórica sin fronteras visibles. Cuanto más cerca coloques tu marcador, más puntos consigues.</string>
+
+    <string name="home_coming_soon">Próximamente</string>
+    <string name="home_about_content_desc">Acerca de %1$s</string>
+    <string name="home_info_dialog_title">%1$s — %2$s</string>
+    <string name="home_close">Cerrar</string>
+    <string name="home_countdown">Pon a prueba tus conocimientos de nuevo en %1$s</string>
+
+    <string name="results_final_score">Puntuación Final</string>
+    <string name="results_rank_of_today">Puesto %1$s de %2$s hoy</string>
+
+    <string name="hint_label">Pista</string>
+    <string name="hint_dialog_title">¿Quieres una pista?</string>
+    <string name="hint_dialog_text">Mira un breve anuncio para descubrir a qué guerra o conflicto pertenece esto.</string>
+    <string name="hint_watch_ad">Ver Anuncio</string>
+    <string name="hint_cancel">Cancelar</string>
+
+    <string name="nav_play">Jugar</string>
+    <string name="nav_friends">Amigos</string>
+    <string name="nav_profile">Perfil</string>
+    <string name="nav_settings">Ajustes</string>
+    <string name="nav_year_guess">Adivina el Año</string>
+    <string name="nav_casualties_multiplier">Cuenta de Bajas</string>
+    <string name="nav_flag_color_match">Iguala el Color de la Bandera</string>
+    <string name="nav_territory_compare">Territorio Mayor</string>
+    <string name="nav_true_false">Verdadero o Falso</string>
+    <string name="nav_blind_map_battle">Batalla en el Mapa a Ciegas</string>
+</resources>

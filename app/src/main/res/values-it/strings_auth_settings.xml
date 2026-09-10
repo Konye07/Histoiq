@@ -1,0 +1,36 @@
+<resources>
+    <!-- AuthScreen.kt -->
+    <string name="auth_title">Oggi nella Storia</string>
+    <string name="auth_subtitle">Accedi per tenere traccia dei tuoi punteggi giornalieri</string>
+    <string name="auth_continue_with_google">Continua con Google</string>
+    <string name="auth_continue_with_apple">Continua con Apple</string>
+    <string name="auth_sign_in_failed">Accesso non riuscito. Riprova.</string>
+    <string name="auth_continue_without_login">Continua senza accedere</string>
+    <string name="auth_guest_info">Senza un account, i tuoi punteggi e le tue statistiche contano comunque e il limite giornaliero si applica lo stesso — semplicemente non avrai un codice amico da condividere né potrai sincronizzare tra dispositivi.</string>
+    <string name="auth_mock_notice">Per ora è un accesso simulato, che crea un account di prova locale. L\'accesso reale con Google/Apple richiede credenziali OAuth non ancora configurate.</string>
+
+    <!-- SettingsScreen.kt -->
+    <string name="settings_title">Impostazioni</string>
+    <string name="settings_display_name_title">Nome visualizzato</string>
+    <string name="settings_display_name_subtitle">Mostrato nel tuo profilo e nelle classifiche con gli amici.</string>
+    <string name="settings_save">Salva</string>
+    <string name="settings_friend_code">Il tuo codice amico: %1$s</string>
+    <string name="settings_languages_title">Lingue</string>
+    <string name="settings_coming_soon">Prossimamente</string>
+    <string name="settings_preferences_title">Preferenze</string>
+    <string name="settings_haptics_title">Vibrazione</string>
+    <string name="settings_haptics_subtitle">Vibra per risposte giuste/sbagliate, punteggi perfetti e navigazione nei menu.</string>
+    <string name="settings_daily_reminder_title">Promemoria Giornaliero</string>
+    <string name="settings_daily_reminder_subtitle">Un promemoria giornaliero per giocare ai quiz di oggi.</string>
+    <string name="settings_account_title">Account</string>
+    <string name="settings_email_label">E-mail</string>
+    <string name="settings_privacy_policy_title">Informativa sulla Privacy</string>
+    <string name="settings_sign_out">Esci</string>
+    <string name="settings_delete_account">Elimina Account</string>
+    <string name="settings_privacy_policy_text">Questa app salva il tuo account (nome visualizzato, e-mail, provider di accesso, codice amico), i tuoi amici e i progressi/punteggi dei quiz giornalieri in un database Supabase ospitato, non solo su questo dispositivo — questo è ciò che permette a statistiche e classifiche tra amici di funzionare su tutti i tuoi dispositivi e ai tuoi amici reali di vedere i punteggi l\'uno dell\'altro. Questi dati non vengono condivisi né venduti a terzi.\n\nL\'accesso è al momento simulato — non vengono letti né trasmessi dati reali di account Google o Apple — ma ogni dispositivo riceve comunque un\'identità account reale, unica e anonima, così che nessun altro possa leggere o modificare i tuoi dati.\n\nOgni accesso viene registrato con indirizzo IP e informazioni sul dispositivo in un registro di controllo della sicurezza, usato solo per rilevare abusi; questo registro non è mai leggibile da alcun client, ma solo per revisione amministrativa della sicurezza.\n\nEliminare il tuo account rimuove permanentemente tutto quanto sopra (profilo, amici, statistiche, progressi, cronologia) dal database ospitato — questa azione non può essere annullata.</string>
+    <string name="settings_close">Chiudi</string>
+    <string name="settings_delete_confirm_title">Eliminare l\'account?</string>
+    <string name="settings_delete_confirm_body">Questa azione elimina definitivamente il tuo account e TUTTI i tuoi dati di gioco — i progressi e la cronologia dei punteggi di ogni quiz. Questa azione non può essere annullata e in seguito non sarà possibile recuperare nulla.</string>
+    <string name="settings_delete_confirm_button">Elimina</string>
+    <string name="settings_cancel">Annulla</string>
+</resources>

@@ -53,10 +53,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.R
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.DailyClock
@@ -167,10 +169,10 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Match the Flag Color") },
+                title = { Text(stringResource(R.string.flag_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.flag_back))
                     }
                 }
             )
@@ -279,7 +281,7 @@ private fun FlagColorQuestion(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text("Question $questionNumber / $totalQuestions", style = MaterialTheme.typography.labelLarge)
+        Text(stringResource(R.string.flag_question_counter, questionNumber, totalQuestions), style = MaterialTheme.typography.labelLarge)
         Text(flag.flagName, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
 
         if (!revealed) {
@@ -292,7 +294,7 @@ private fun FlagColorQuestion(
         } else {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Your Guess", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.flag_your_guess), style = MaterialTheme.typography.labelSmall)
                     RecoloredFlag(
                         analysis = analysis,
                         sliderColor = sliderColor,
@@ -301,7 +303,7 @@ private fun FlagColorQuestion(
                     )
                 }
                 Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Original", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.flag_original), style = MaterialTheme.typography.labelSmall)
                     Image(
                         bitmap = analysis.originalBitmap,
                         contentDescription = null,
@@ -317,7 +319,7 @@ private fun FlagColorQuestion(
         }
 
         LabeledGradientSlider(
-            label = "Hue",
+            label = stringResource(R.string.flag_hue),
             value = hue / 360f,
             enabled = !revealed,
             brush = Brush.horizontalGradient(
@@ -326,7 +328,7 @@ private fun FlagColorQuestion(
             onValueChange = { onHueChange(it * 360f) }
         )
         LabeledGradientSlider(
-            label = "Saturation",
+            label = stringResource(R.string.flag_saturation),
             value = saturation / 100f,
             enabled = !revealed,
             brush = Brush.horizontalGradient(
@@ -338,7 +340,7 @@ private fun FlagColorQuestion(
             onValueChange = { onSaturationChange(it * 100f) }
         )
         LabeledGradientSlider(
-            label = "Brightness",
+            label = stringResource(R.string.flag_brightness),
             value = brightness / 100f,
             enabled = !revealed,
             brush = Brush.horizontalGradient(
@@ -351,18 +353,18 @@ private fun FlagColorQuestion(
         )
 
         if (!revealed) {
-            Button(onClick = onSubmit) { Text("Lock Color ✓") }
+            Button(onClick = onSubmit) { Text(stringResource(R.string.flag_lock_color)) }
         } else {
             Text(
-                "Target: H${analysis.targetHue} S${analysis.targetSaturation} B${analysis.targetBrightness}",
+                stringResource(R.string.flag_target_values, analysis.targetHue, analysis.targetSaturation, analysis.targetBrightness),
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                "You scored %.2f points".format(lastScore ?: 0.0),
+                stringResource(R.string.flag_score_points, "%.2f".format(lastScore ?: 0.0)),
                 style = MaterialTheme.typography.bodyLarge
             )
             Button(onClick = onNext) {
-                Text(if (questionNumber == totalQuestions) "See Results" else "Next Question")
+                Text(if (questionNumber == totalQuestions) stringResource(R.string.flag_see_results) else stringResource(R.string.flag_next_question))
             }
         }
     }
@@ -501,7 +503,7 @@ private fun FlagColorResults(
             val analysis = analysisByFlagId[flag.id]
             Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(flag.flagName, style = MaterialTheme.typography.bodyMedium)
-                Text("%.2f pts".format(scores.getOrNull(i) ?: 0.0), style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.flag_score_pts, "%.2f".format(scores.getOrNull(i) ?: 0.0)), style = MaterialTheme.typography.bodySmall)
                 if (analysis != null) {
                     val guessColor = Color.hsv(
                         (guessHues.getOrNull(i) ?: analysis.targetHue).toFloat(),
@@ -511,7 +513,7 @@ private fun FlagColorResults(
                     val aspect = analysis.baseBitmap.width.toFloat() / analysis.baseBitmap.height.toFloat()
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("Your Guess", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.flag_your_guess), style = MaterialTheme.typography.labelSmall)
                             RecoloredFlag(
                                 analysis = analysis,
                                 sliderColor = guessColor,
@@ -520,7 +522,7 @@ private fun FlagColorResults(
                             )
                         }
                         Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("Original", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.flag_original), style = MaterialTheme.typography.labelSmall)
                             Image(
                                 bitmap = analysis.originalBitmap,
                                 contentDescription = null,
@@ -536,6 +538,6 @@ private fun FlagColorResults(
                 }
             }
         }
-        Button(onClick = onBack) { Text("Back to Menu") }
+        Button(onClick = onBack) { Text(stringResource(R.string.flag_back_to_menu)) }
     }
 }

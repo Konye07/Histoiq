@@ -32,32 +32,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.Core.Locale.findActivity
 import com.yourorg.app.Core.Notifications.ReminderScheduler
 import com.yourorg.app.Data.Account.AccountRepository
 import com.yourorg.app.Data.Settings.SettingsStore
 import com.yourorg.app.Data.Social.formatFriendCode
+import com.yourorg.app.R
 import kotlinx.coroutines.launch
 
 private data class LanguageOption(val code: String, val label: String, val available: Boolean)
 
 private val LANGUAGES = listOf(
     LanguageOption("en", "English", available = true),
-    LanguageOption("es", "Spanish", available = false),
-    LanguageOption("fr", "French", available = false),
-    LanguageOption("de", "German", available = false),
-    LanguageOption("it", "Italian", available = false),
-    LanguageOption("ar", "Arabic", available = false)
+    LanguageOption("es", "Español", available = true),
+    LanguageOption("fr", "Français", available = true),
+    LanguageOption("de", "Deutsch", available = true),
+    LanguageOption("it", "Italiano", available = true)
 )
-
-private const val PRIVACY_POLICY_TEXT = """This app stores your account (display name, email, sign-in provider, friend code), friends, and daily quiz progress/scores in a hosted Supabase database, not just on this device — that's what lets stats and friend leaderboards work across your devices and let real friends see each other's scores. It is not shared with or sold to any third party.
-
-Sign-in is currently a mock — no real Google or Apple account data is read or transmitted — but each device still gets a real, unique, anonymous account identity so your data can't be read or edited by anyone else.
-
-Every sign-in is logged with its IP address and device info in a security audit log, used only to detect abuse; this log is never readable by any client, only for administrative security review.
-
-Deleting your account permanently removes all of the above (profile, friends, stats, progress, history) from the hosted database — this cannot be undone."""
 
 @Composable
 fun SettingsScreen(onSignedOut: () -> Unit = {}) {
@@ -85,6 +79,13 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
         }
     }
 
+    fun selectLanguage(ctx: android.content.Context, code: String) {
+        if (code == language) return
+        language = code
+        SettingsStore.setLanguage(ctx, code)
+        ctx.findActivity()?.recreate()
+    }
+
     fun onDailyReminderToggle(enabled: Boolean) {
         if (enabled) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -108,12 +109,12 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Text("Settings", style = MaterialTheme.typography.headlineSmall)
+        Text(stringResource(R.string.settings_title), style = MaterialTheme.typography.headlineSmall)
 
         // Display Name
-        SectionTitle("Display Name")
+        SectionTitle(stringResource(R.string.settings_display_name_title))
         Text(
-            "Shown on your profile and friend leaderboards.",
+            stringResource(R.string.settings_display_name_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.outline
         )
@@ -133,12 +134,12 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
                 },
                 enabled = displayName.isNotBlank() && displayName != account?.displayName
             ) {
-                Text("Save")
+                Text(stringResource(R.string.settings_save))
             }
         }
         if (account != null) {
             Text(
-                "Your friend code: ${formatFriendCode(account!!.friendCode)}",
+                stringResource(R.string.settings_friend_code, formatFriendCode(account!!.friendCode)),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.outline
             )
@@ -147,22 +148,19 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
         HorizontalDivider()
 
         // Languages
-        SectionTitle("Languages")
+        SectionTitle(stringResource(R.string.settings_languages_title))
         Column {
             LANGUAGES.forEach { option ->
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .clickable(enabled = option.available) {
-                            language = option.code
-                            SettingsStore.setLanguage(context, option.code)
-                        }
+                        .clickable(enabled = option.available) { selectLanguage(context, option.code) }
                         .padding(vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
                         selected = language == option.code,
-                        onClick = { if (option.available) { language = option.code; SettingsStore.setLanguage(context, option.code) } },
+                        onClick = { selectLanguage(context, option.code) },
                         enabled = option.available
                     )
                     Text(
@@ -171,7 +169,7 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
                         color = if (option.available) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.outline
                     )
                     if (!option.available) {
-                        Text("Coming soon", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline)
+                        Text(stringResource(R.string.settings_coming_soon), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline)
                     }
                 }
             }
@@ -180,10 +178,10 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
         HorizontalDivider()
 
         // Preferences
-        SectionTitle("Preferences")
+        SectionTitle(stringResource(R.string.settings_preferences_title))
         SettingToggleRow(
-            title = "Haptics",
-            subtitle = "Buzz on right/wrong answers, perfect scores, and menu navigation.",
+            title = stringResource(R.string.settings_haptics_title),
+            subtitle = stringResource(R.string.settings_haptics_subtitle),
             checked = hapticsEnabled,
             onCheckedChange = {
                 hapticsEnabled = it
@@ -191,8 +189,8 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
             }
         )
         SettingToggleRow(
-            title = "Daily Reminder",
-            subtitle = "A once-a-day nudge to play today's quizzes.",
+            title = stringResource(R.string.settings_daily_reminder_title),
+            subtitle = stringResource(R.string.settings_daily_reminder_subtitle),
             checked = dailyReminderEnabled,
             onCheckedChange = ::onDailyReminderToggle
         )
@@ -200,9 +198,9 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
         HorizontalDivider()
 
         // Account
-        SectionTitle("Account")
+        SectionTitle(stringResource(R.string.settings_account_title))
         if (account != null) {
-            Text("Email", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.outline)
+            Text(stringResource(R.string.settings_email_label), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.outline)
             Text(account!!.email, style = MaterialTheme.typography.bodyMedium)
         }
         Row(
@@ -211,7 +209,7 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
                 .clickable { showPrivacyDialog = true }
                 .padding(vertical = 8.dp)
         ) {
-            Text("Privacy Policy", style = MaterialTheme.typography.bodyMedium)
+            Text(stringResource(R.string.settings_privacy_policy_title), style = MaterialTheme.typography.bodyMedium)
         }
         Button(
             onClick = {
@@ -222,27 +220,27 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Sign Out")
+            Text(stringResource(R.string.settings_sign_out))
         }
         OutlinedButton(
             onClick = { showDeleteConfirm = true },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Delete Account")
+            Text(stringResource(R.string.settings_delete_account))
         }
     }
 
     if (showPrivacyDialog) {
         AlertDialog(
             onDismissRequest = { showPrivacyDialog = false },
-            title = { Text("Privacy Policy") },
+            title = { Text(stringResource(R.string.settings_privacy_policy_title)) },
             text = {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
-                    Text(PRIVACY_POLICY_TEXT, style = MaterialTheme.typography.bodySmall)
+                    Text(stringResource(R.string.settings_privacy_policy_text), style = MaterialTheme.typography.bodySmall)
                 }
             },
             confirmButton = {
-                TextButton(onClick = { showPrivacyDialog = false }) { Text("Close") }
+                TextButton(onClick = { showPrivacyDialog = false }) { Text(stringResource(R.string.settings_close)) }
             }
         )
     }
@@ -250,12 +248,9 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
     if (showDeleteConfirm) {
         AlertDialog(
             onDismissRequest = { showDeleteConfirm = false },
-            title = { Text("Delete account?") },
+            title = { Text(stringResource(R.string.settings_delete_confirm_title)) },
             text = {
-                Text(
-                    "This permanently deletes your account and ALL of your game data — every quiz's progress and " +
-                        "score history. This cannot be undone and none of it can be recovered afterward."
-                )
+                Text(stringResource(R.string.settings_delete_confirm_body))
             },
             confirmButton = {
                 TextButton(onClick = {
@@ -264,10 +259,10 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
                         showDeleteConfirm = false
                         onSignedOut()
                     }
-                }) { Text("Delete") }
+                }) { Text(stringResource(R.string.settings_delete_confirm_button)) }
             },
             dismissButton = {
-                TextButton(onClick = { showDeleteConfirm = false }) { Text("Cancel") }
+                TextButton(onClick = { showDeleteConfirm = false }) { Text(stringResource(R.string.settings_cancel)) }
             }
         )
     }

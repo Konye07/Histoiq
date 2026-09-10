@@ -10,12 +10,16 @@ import java.util.Locale
 /** All daily resets (new questions, replay locks) turn over at CET midnight. */
 object DailyClock {
     private val zone = ZoneId.of("CET")
-    private val displayFormatter = DateTimeFormatter.ofPattern("EEEE, MMMM d", Locale.getDefault())
 
     fun todayKey(): String = LocalDate.now(zone).toString()
 
-    /** Today's date for display, e.g. "Wednesday, September 10". */
-    fun todayDisplay(): String = LocalDate.now(zone).format(displayFormatter)
+    /**
+     * Today's date for display, e.g. "Wednesday, September 10". Built fresh on every call (not
+     * cached) since `Locale.getDefault()` changes at runtime when the user switches the app's
+     * language — a cached formatter would keep showing the locale active when it was first built.
+     */
+    fun todayDisplay(): String =
+        LocalDate.now(zone).format(DateTimeFormatter.ofPattern("EEEE, MMMM d", Locale.getDefault()))
 
     /** ISO date key for N days ago (0 = today), CET-based to match the daily reset boundary. */
     fun dateKey(daysAgo: Int): String = LocalDate.now(zone).minusDays(daysAgo.toLong()).toString()

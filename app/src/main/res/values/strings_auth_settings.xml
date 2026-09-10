@@ -1,0 +1,36 @@
+<resources>
+    <!-- AuthScreen.kt -->
+    <string name="auth_title">Today in History</string>
+    <string name="auth_subtitle">Sign in to track your daily scores</string>
+    <string name="auth_continue_with_google">Continue with Google</string>
+    <string name="auth_continue_with_apple">Continue with Apple</string>
+    <string name="auth_sign_in_failed">Sign-in failed. Please try again.</string>
+    <string name="auth_continue_without_login">Continue without login</string>
+    <string name="auth_guest_info">Without an account, your scores and stats still count and the daily limit still applies — you just won\'t have a friend code to share, or be able to sync across devices.</string>
+    <string name="auth_mock_notice">Mock sign-in for now — creates a local test account. Real Google/Apple sign-in needs OAuth credentials that aren\'t set up yet.</string>
+
+    <!-- SettingsScreen.kt -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_display_name_title">Display Name</string>
+    <string name="settings_display_name_subtitle">Shown on your profile and friend leaderboards.</string>
+    <string name="settings_save">Save</string>
+    <string name="settings_friend_code">Your friend code: %1$s</string>
+    <string name="settings_languages_title">Languages</string>
+    <string name="settings_coming_soon">Coming soon</string>
+    <string name="settings_preferences_title">Preferences</string>
+    <string name="settings_haptics_title">Haptics</string>
+    <string name="settings_haptics_subtitle">Buzz on right/wrong answers, perfect scores, and menu navigation.</string>
+    <string name="settings_daily_reminder_title">Daily Reminder</string>
+    <string name="settings_daily_reminder_subtitle">A once-a-day nudge to play today\'s quizzes.</string>
+    <string name="settings_account_title">Account</string>
+    <string name="settings_email_label">Email</string>
+    <string name="settings_privacy_policy_title">Privacy Policy</string>
+    <string name="settings_sign_out">Sign Out</string>
+    <string name="settings_delete_account">Delete Account</string>
+    <string name="settings_privacy_policy_text">This app stores your account (display name, email, sign-in provider, friend code), friends, and daily quiz progress/scores in a hosted Supabase database, not just on this device — that\'s what lets stats and friend leaderboards work across your devices and let real friends see each other\'s scores. It is not shared with or sold to any third party.\n\nSign-in is currently a mock — no real Google or Apple account data is read or transmitted — but each device still gets a real, unique, anonymous account identity so your data can\'t be read or edited by anyone else.\n\nEvery sign-in is logged with its IP address and device info in a security audit log, used only to detect abuse; this log is never readable by any client, only for administrative security review.\n\nDeleting your account permanently removes all of the above (profile, friends, stats, progress, history) from the hosted database — this cannot be undone.</string>
+    <string name="settings_close">Close</string>
+    <string name="settings_delete_confirm_title">Delete account?</string>
+    <string name="settings_delete_confirm_body">This permanently deletes your account and ALL of your game data — every quiz\'s progress and score history. This cannot be undone and none of it can be recovered afterward.</string>
+    <string name="settings_delete_confirm_button">Delete</string>
+    <string name="settings_cancel">Cancel</string>
+</resources>

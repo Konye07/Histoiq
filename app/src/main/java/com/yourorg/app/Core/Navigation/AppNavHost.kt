@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -63,8 +64,8 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
                                 restoreState = true
                             }
                         },
-                        icon = { Icon(iconFor(tab), contentDescription = tab.label) },
-                        label = { Text(tab.label) },
+                        icon = { Icon(iconFor(tab), contentDescription = stringResource(tab.labelRes)) },
+                        label = { Text(stringResource(tab.labelRes)) },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = onBarColor,
                             selectedTextColor = onBarColor,

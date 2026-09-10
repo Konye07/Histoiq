@@ -41,9 +41,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.R
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.DailyClock
@@ -114,10 +116,10 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("Guess the Year") },
+                    title = { Text(stringResource(R.string.yearguess_title)) },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                            Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.yearguess_back_cd))
                         }
                     },
                     actions = {
@@ -209,7 +211,10 @@ private fun YearGuessQuestion(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Question $questionNumber / $totalQuestions", style = MaterialTheme.typography.labelLarge)
+        Text(
+            stringResource(R.string.yearguess_question_counter, questionNumber, totalQuestions),
+            style = MaterialTheme.typography.labelLarge
+        )
         image?.let {
             Image(
                 bitmap = it,
@@ -229,7 +234,7 @@ private fun YearGuessQuestion(
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    "Hint: ${event.hint ?: "No hint available for this one."}",
+                    stringResource(R.string.yearguess_hint_prefix, event.hint ?: stringResource(R.string.yearguess_hint_unavailable)),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
@@ -240,7 +245,7 @@ private fun YearGuessQuestion(
         OutlinedTextField(
             value = guessText,
             onValueChange = onGuessChange,
-            label = { Text("Your guess (year)") },
+            label = { Text(stringResource(R.string.yearguess_guess_label)) },
             enabled = !revealed,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
@@ -250,12 +255,12 @@ private fun YearGuessQuestion(
 
         if (!revealed) {
             Button(onClick = onSubmit, enabled = guessText.toIntOrNull() != null) {
-                Text("Submit")
+                Text(stringResource(R.string.yearguess_submit))
             }
         } else {
-            Text("Correct: ${formatEraYear(event.correctYear)}", style = MaterialTheme.typography.bodyLarge)
+            Text(stringResource(R.string.yearguess_correct, formatEraYear(event.correctYear)), style = MaterialTheme.typography.bodyLarge)
             Text(
-                "You scored %.2f points".format(lastScore ?: 0.0),
+                stringResource(R.string.yearguess_score_points, "%.2f".format(lastScore ?: 0.0)),
                 style = MaterialTheme.typography.bodyLarge
             )
             var guessDist by remember(event.id) { mutableStateOf<List<Int>>(emptyList()) }
@@ -270,12 +275,12 @@ private fun YearGuessQuestion(
                 correctPosition = (event.correctYear - minV).toFloat() / span.toFloat(),
                 guessPosition = lastGuess?.let { (it - minV).toFloat() / span.toFloat() },
                 accentColor = MaterialTheme.colorScheme.primary,
-                correctLabel = "Correct: ${formatEraYear(event.correctYear)}",
-                guessLabel = lastGuess?.let { "You: ${formatEraYear(it)}" },
+                correctLabel = stringResource(R.string.yearguess_correct, formatEraYear(event.correctYear)),
+                guessLabel = lastGuess?.let { stringResource(R.string.yearguess_you_label, formatEraYear(it)) },
                 modifier = Modifier.fillMaxWidth()
             )
             Button(onClick = onNext) {
-                Text(if (questionNumber == totalQuestions) "See Results" else "Next Question")
+                Text(if (questionNumber == totalQuestions) stringResource(R.string.yearguess_see_results) else stringResource(R.string.yearguess_next_question))
             }
         }
     }
@@ -284,7 +289,7 @@ private fun YearGuessQuestion(
 @Composable
 private fun EraToggle(isBce: Boolean, enabled: Boolean, onIsBceChange: (Boolean) -> Unit) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        listOf(false to "AD", true to "BCE").forEach { (bce, label) ->
+        listOf(false to stringResource(R.string.yearguess_era_ad), true to stringResource(R.string.yearguess_era_bce)).forEach { (bce, label) ->
             val selected = isBce == bce
             Button(
                 onClick = { onIsBceChange(bce) },
@@ -352,11 +357,11 @@ private fun YearGuessResults(
                     correctPosition = (event.correctYear - minV).toFloat() / span.toFloat(),
                     guessPosition = guessValue?.let { (it - minV).toFloat() / span.toFloat() },
                     accentColor = MaterialTheme.colorScheme.primary,
-                    correctLabel = "Correct: ${formatEraYear(event.correctYear)}",
-                    guessLabel = guessValue?.let { "You: ${formatEraYear(it)}" }
+                    correctLabel = stringResource(R.string.yearguess_correct, formatEraYear(event.correctYear)),
+                    guessLabel = guessValue?.let { stringResource(R.string.yearguess_you_label, formatEraYear(it)) }
                 )
             }
         }
-        Button(onClick = onBack) { Text("Back to Menu") }
+        Button(onClick = onBack) { Text(stringResource(R.string.yearguess_back_to_menu)) }
     }
 }

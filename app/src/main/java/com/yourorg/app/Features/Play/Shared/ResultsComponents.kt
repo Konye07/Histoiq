@@ -27,12 +27,14 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Audio.BubbleSoundPlayer
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Data.Quiz.formatThousands
+import com.yourorg.app.R
 
 /**
  * The shared "score, then ranking below it" header every results screen opens with. [rankingText]
@@ -45,7 +47,7 @@ fun ResultsHeader(
     rankingText: String,
     accentColor: Color,
     modifier: Modifier = Modifier,
-    scoreLabel: String = "Final Score",
+    scoreLabel: String = stringResource(R.string.results_final_score),
     subtitle: String? = null
 ) {
     val context = LocalContext.current
@@ -95,8 +97,9 @@ fun ResultsHeader(
 }
 
 /** Turns a rank and total player count into display copy, e.g. "Rank 1 250 of 14 253 today". */
+@Composable
 fun rankingText(rank: Int, totalPlayers: Int): String =
-    "Rank ${formatThousands(rank.toLong())} of ${formatThousands(totalPlayers.toLong())} today"
+    stringResource(R.string.results_rank_of_today, formatThousands(rank.toLong()), formatThousands(totalPlayers.toLong()))
 
 /**
  * A number-line for one question: today's synthetic guess distribution as a light histogram,
