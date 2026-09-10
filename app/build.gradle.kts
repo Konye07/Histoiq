@@ -19,12 +19,12 @@ fun localProperty(key: String): String = localProperties.getProperty(key, "")
 
 android {
     namespace = "com.yourorg.app"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.yourorg.app"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "0.1"
 
@@ -70,16 +70,11 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.58")
     kapt("com.google.dagger:hilt-android-compiler:2.58")
 
-    // postgrest-kt transitively pulls in auth-kt-android (for automatic session-token attachment)
-    // regardless of whether we depend on auth-kt ourselves, which drags in androidx.browser 1.10.0
-    // for its OAuth Custom Tabs flow — a dependency needing AGP 8.9.1+ and compileSdk 36 that we
-    // don't need yet since nothing here calls install(Auth) or any OAuth API. Excluded below.
     // Pinned to 3.2.4 (not latest) because that's the newest supabase-kt release still built with
     // Kotlin 2.2.20 — anything newer moved to Kotlin 2.4.0, whose metadata format no released
     // Hilt/Dagger version can parse yet (google/dagger#5190).
     implementation(platform("io.github.jan-tennert.supabase:bom:3.2.4"))
-    implementation("io.github.jan-tennert.supabase:postgrest-kt") {
-        exclude(group = "androidx.browser", module = "browser")
-    }
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.github.jan-tennert.supabase:auth-kt")
     implementation("io.ktor:ktor-client-android:3.3.0")
 }

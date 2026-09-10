@@ -43,9 +43,9 @@ import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.DailyClock
 import com.yourorg.app.Data.Quiz.DailyDistribution
+import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
-import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
 import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.TerritoryCountry
@@ -58,7 +58,9 @@ import kotlin.random.Random
 
 private const val ROUNDS_TO_WIN = 10
 private const val PROGRESS_KEY = GameKeys.TERRITORY_COMPARE
-private const val MIN_ELIGIBLE_POOL = 20
+
+/** Big enough to comfortably outlast a 10-round run (plus tie-skip retries) drawn from one day's shared pool. */
+private const val DAILY_POOL_SIZE = 60
 
 private data class HistoryEntry(
     val championId: String,
@@ -70,10 +72,12 @@ private data class HistoryEntry(
 /**
  * Orders [pool] into runs of 3-4 similarly-sized countries (by area) separated by 1-2 "big jump"
  * countries pulled from far away in the size ranking. Keeps most rounds a close call while
- * occasionally throwing in a lopsided pair, instead of a pure shuffle.
+ * occasionally throwing in a lopsided pair, instead of a pure shuffle. [random] is seeded by the
+ * day's date so every player who gets the same [pool] (from get_or_create_daily_quiz) sees the
+ * exact same match order — a pure function of (pool, date), not per-device randomness.
  */
-private fun buildClusteredQueue(pool: List<TerritoryCountry>): MutableList<TerritoryCountry> {
-    if (pool.size < 6) return pool.shuffled().toMutableList()
+private fun buildClusteredQueue(pool: List<TerritoryCountry>, random: Random): MutableList<TerritoryCountry> {
+    if (pool.size < 6) return pool.shuffled(random).toMutableList()
     val sorted = pool.sortedBy { it.areaKm2 }
     val used = BooleanArray(sorted.size)
     val result = mutableListOf<TerritoryCountry>()
@@ -83,7 +87,7 @@ private fun buildClusteredQueue(pool: List<TerritoryCountry>): MutableList<Terri
     while (remaining > 0) {
         while (pointer < sorted.size && used[pointer]) pointer++
 
-        val clusterSize = Random.nextInt(3, 5).coerceAtMost(remaining)
+        val clusterSize = random.nextInt(3, 5).coerceAtMost(remaining)
         var added = 0
         var idx = pointer
         while (added < clusterSize && idx < sorted.size) {
@@ -98,7 +102,7 @@ private fun buildClusteredQueue(pool: List<TerritoryCountry>): MutableList<Terri
         pointer = idx
         if (remaining == 0) break
 
-        val jumpCount = Random.nextInt(1, 3).coerceAtMost(remaining)
+        val jumpCount = random.nextInt(1, 3).coerceAtMost(remaining)
         val farOrder = sorted.indices.filter { !used[it] }.sortedByDescending { kotlin.math.abs(it - pointer) }
         var jumps = 0
         for (cand in farOrder) {
@@ -119,13 +123,14 @@ private fun isTie(a: TerritoryCountry, exclude: TerritoryCountry?): Boolean =
 private fun drawNext(
     fullList: List<TerritoryCountry>,
     queue: MutableList<TerritoryCountry>,
-    exclude: TerritoryCountry?
+    exclude: TerritoryCountry?,
+    random: Random
 ): TerritoryCountry {
-    if (queue.isEmpty()) queue.addAll(buildClusteredQueue(fullList))
+    if (queue.isEmpty()) queue.addAll(buildClusteredQueue(fullList, random))
     var next = queue.removeAt(0)
     var attempts = 0
     while (isTie(next, exclude) && attempts < fullList.size) {
-        if (queue.isEmpty()) queue.addAll(buildClusteredQueue(fullList))
+        if (queue.isEmpty()) queue.addAll(buildClusteredQueue(fullList, random))
         if (queue.isEmpty()) break
         queue.add(next)
         next = queue.removeAt(0)
@@ -134,7 +139,7 @@ private fun drawNext(
     return next
 }
 
-private fun persist(
+private suspend fun persist(
     context: android.content.Context,
     championId: String,
     challengerId: String,
@@ -171,8 +176,8 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
     var allCountries by remember { mutableStateOf<List<TerritoryCountry>>(emptyList()) }
     val queue = remember { mutableListOf<TerritoryCountry>() }
     val history = remember { mutableStateListOf<HistoryEntry>() }
+    val dailyRandom = remember { Random(DailyClock.todayKey().hashCode().toLong()) }
 
-    var refillPool by remember { mutableStateOf<List<TerritoryCountry>>(emptyList()) }
     var champion by remember { mutableStateOf<TerritoryCountry?>(null) }
     var challenger by remember { mutableStateOf<TerritoryCountry?>(null) }
     var round by remember { mutableStateOf(1) }
@@ -187,11 +192,14 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
     var pendingRound by remember { mutableStateOf(1) }
 
     LaunchedEffect(Unit) {
-        val pool = loadTerritories(context)
+        val dateKey = DailyClock.todayKey()
+        val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, dateKey, DAILY_POOL_SIZE)
+        val pool = loadTerritories(ids)
+        allCountries = pool
+        if (pool.isEmpty()) return@LaunchedEffect
+
         val stored = QuizProgressStore.load(context, PROGRESS_KEY)
         if (stored != null) {
-            allCountries = pool
-            refillPool = RecentlyUsedStore.eligiblePool(context, PROGRESS_KEY, pool, MIN_ELIGIBLE_POOL) { it.id }
             val queueIds = stored.getJSONArray("queueIds").let { arr -> List(arr.length()) { arr.getString(it) } }
             queue.addAll(queueIds.mapNotNull { id -> pool.find { it.id == id } })
             champion = pool.find { it.id == stored.getString("championId") }
@@ -213,17 +221,12 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
                 }
             }
         } else {
-            val eligible = RecentlyUsedStore.eligiblePool(context, PROGRESS_KEY, pool, MIN_ELIGIBLE_POOL) { it.id }
-            if (eligible.isEmpty()) return@LaunchedEffect
-            allCountries = pool
-            refillPool = eligible
-            queue.addAll(buildClusteredQueue(eligible))
+            queue.addAll(buildClusteredQueue(pool, dailyRandom))
             val champ = queue.removeAt(0)
-            val chall = drawNext(eligible, queue, champ)
+            val chall = drawNext(pool, queue, champ, dailyRandom)
             champion = champ
             challenger = chall
             round = 1
-            RecentlyUsedStore.record(context, PROGRESS_KEY, listOf(champ.id, chall.id))
             persist(context, champ.id, chall.id, queue.map { it.id }, 1, false, false, emptyList())
         }
     }
@@ -269,23 +272,16 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
 
                         if (!isCorrect) {
                             won = false
-                            persist(context, c.id, ch.id, queue.map { it.id }, round, true, false, history.toList())
                         } else if (round == ROUNDS_TO_WIN) {
                             won = true
-                            persist(context, c.id, ch.id, queue.map { it.id }, round, true, true, history.toList())
                         } else {
                             // The older country (champion) is always retired; the challenger it just faced
                             // is promoted to champion for the next round, paired with a brand new challenger.
                             val newChampion = ch
-                            val newChallenger = drawNext(refillPool, queue, newChampion)
-                            RecentlyUsedStore.record(context, PROGRESS_KEY, listOf(newChallenger.id))
+                            val newChallenger = drawNext(allCountries, queue, newChampion, dailyRandom)
                             pendingChampion = newChampion
                             pendingChallenger = newChallenger
                             pendingRound = round + 1
-                            persist(
-                                context, newChampion.id, newChallenger.id, queue.map { it.id },
-                                round + 1, false, false, history.toList()
-                            )
                         }
                     },
                     onContinue = {
@@ -302,6 +298,14 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
             }
         }
     }
+    }
+
+    LaunchedEffect(round, showResults) {
+        val c = champion
+        val ch = challenger
+        if (c != null && ch != null) {
+            persist(context, c.id, ch.id, queue.map { it.id }, round, showResults, won, history.toList())
+        }
     }
 }
 
@@ -412,14 +416,16 @@ private fun TerritoryResults(
 ) {
     val score = history.count { it.correct }
     val context = LocalContext.current
+    var rank by remember { mutableStateOf(1) }
+    var totalPlayers by remember { mutableStateOf(1) }
     LaunchedEffect(Unit) {
         ScoreHistoryStore.recordResult(context, PROGRESS_KEY, score.toDouble())
         StatsStore.recordCompletion(context, PROGRESS_KEY, score.toDouble(), score == ROUNDS_TO_WIN)
-    }
-    val dateKey = remember { DailyClock.todayKey() }
-    val distribution = remember { DailyDistribution.finalScores(GameKeys.TERRITORY_COMPARE, dateKey) }
-    val (rank, totalPlayers) = remember(score) {
-        DailyDistribution.rankAmongPlayers(GameKeys.TERRITORY_COMPARE, dateKey, score.toDouble(), distribution, higherIsBetter = true)
+
+        val distribution = DailyDistribution.finalScores(GameKeys.TERRITORY_COMPARE, DailyClock.todayKey())
+        val (r, t) = DailyDistribution.rankAmongPlayers(score.toDouble(), distribution, higherIsBetter = true)
+        rank = r
+        totalPlayers = t
     }
 
     Column(

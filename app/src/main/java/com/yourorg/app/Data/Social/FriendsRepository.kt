@@ -1,42 +1,65 @@
 package com.yourorg.app.Data.Social
 
-import android.content.Context
 import com.yourorg.app.Data.Account.AccountRepository
-import kotlinx.coroutines.delay
+import com.yourorg.app.Data.Remote.SupabaseClient
+import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.query.Columns
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 
 enum class AddFriendResult {
     ADDED, ALREADY_CONNECTED, IS_YOUR_OWN_CODE, NOT_FOUND
 }
 
+@Serializable
+private data class FriendCodeLookup(val id: String, @SerialName("display_name") val displayName: String)
+
+@Serializable
+private data class FriendshipInsert(
+    @SerialName("requester_id") val requesterId: String,
+    @SerialName("addressee_id") val addresseeId: String,
+    val status: String = "pending"
+)
+
+@Serializable
+private data class FriendshipStatusUpdate(val status: String)
+
 object FriendsRepository {
 
-    /**
-     * Sends a request to the given code. If it matches a demo directory entry, simulates that
-     * player accepting shortly after — there's no real backend yet, so this is the only way to
-     * demonstrate the full request-then-accept lifecycle from a single device.
-     */
-    suspend fun addFriendByCode(context: Context, rawCode: String): AddFriendResult {
+    /** Sends a real friend request by code, looked up against the shared `profiles` table. */
+    suspend fun addFriendByCode(rawCode: String): AddFriendResult {
         val code = rawCode.filter { it.isDigit() }
-        val myAccount = AccountRepository.currentAccount(context)
-        if (myAccount != null && myAccount.friendCode == code) return AddFriendResult.IS_YOUR_OWN_CODE
-        if (FriendsStore.loadAll(context).any { it.code == code }) return AddFriendResult.ALREADY_CONNECTED
+        val myAccount = AccountRepository.currentAccount() ?: return NOT_FOUND_RESULT
+        if (myAccount.friendCode == code) return AddFriendResult.IS_YOUR_OWN_CODE
 
-        val demo = FriendDirectory.find(code) ?: return AddFriendResult.NOT_FOUND
-        FriendsStore.upsert(context, FriendConnection(demo.code, demo.displayName, FriendConnection.PENDING_OUTGOING))
-        delay(1200)
-        FriendsStore.upsert(context, FriendConnection(demo.code, demo.displayName, FriendConnection.ACCEPTED))
+        val match = SupabaseClient.client.postgrest.rpc(
+            "lookup_friend_code",
+            buildJsonObject { put("code", code) }
+        ).decodeList<FriendCodeLookup>().firstOrNull() ?: return AddFriendResult.NOT_FOUND
+
+        val existing = FriendsStore.loadAll(myAccount.id).any { it.otherId == match.id }
+        if (existing) return AddFriendResult.ALREADY_CONNECTED
+
+        SupabaseClient.client.postgrest.from("friendships").insert(
+            FriendshipInsert(requesterId = myAccount.id, addresseeId = match.id)
+        )
         return AddFriendResult.ADDED
     }
 
-    fun acceptIncoming(context: Context, code: String, displayName: String) {
-        FriendsStore.upsert(context, FriendConnection(code, displayName, FriendConnection.ACCEPTED))
+    suspend fun acceptIncoming(friendshipId: String) {
+        SupabaseClient.client.postgrest.from("friendships")
+            .update(FriendshipStatusUpdate("accepted")) { filter { eq("id", friendshipId) } }
     }
 
-    fun declineIncoming(context: Context, code: String) {
-        FriendsStore.remove(context, code)
+    suspend fun declineIncoming(friendshipId: String) {
+        SupabaseClient.client.postgrest.from("friendships").delete { filter { eq("id", friendshipId) } }
     }
 
-    fun removeFriend(context: Context, code: String) {
-        FriendsStore.remove(context, code)
+    suspend fun removeFriend(friendshipId: String) {
+        SupabaseClient.client.postgrest.from("friendships").delete { filter { eq("id", friendshipId) } }
     }
+
+    private val NOT_FOUND_RESULT = AddFriendResult.NOT_FOUND
 }

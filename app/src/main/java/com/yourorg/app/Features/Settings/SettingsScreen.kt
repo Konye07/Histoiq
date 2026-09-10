@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +38,7 @@ import com.yourorg.app.Core.Notifications.ReminderScheduler
 import com.yourorg.app.Data.Account.AccountRepository
 import com.yourorg.app.Data.Settings.SettingsStore
 import com.yourorg.app.Data.Social.formatFriendCode
+import kotlinx.coroutines.launch
 
 private data class LanguageOption(val code: String, val label: String, val available: Boolean)
 
@@ -49,18 +51,19 @@ private val LANGUAGES = listOf(
     LanguageOption("ar", "Arabic", available = false)
 )
 
-private const val PRIVACY_POLICY_TEXT = """This app currently stores your account (display name, email, sign-in provider) and your daily quiz progress locally on this device. It is not shared with or sold to any third party.
+private const val PRIVACY_POLICY_TEXT = """This app stores your account (display name, email, sign-in provider, friend code), friends, and daily quiz progress/scores in a hosted Supabase database, not just on this device — that's what lets stats and friend leaderboards work across your devices and let real friends see each other's scores. It is not shared with or sold to any third party.
 
-Planned: this local storage will move to a hosted database (Supabase) so your account and progress can sync across devices. When that happens this policy will be updated to describe what's sent to that service and how it's secured.
+Sign-in is currently a mock — no real Google or Apple account data is read or transmitted — but each device still gets a real, unique, anonymous account identity so your data can't be read or edited by anyone else.
 
-Sign-in is currently a local mock — no real Google or Apple account data is read or transmitted.
+Every sign-in is logged with its IP address and device info in a security audit log, used only to detect abuse; this log is never readable by any client, only for administrative security review.
 
-Deleting your account removes all of the above from this device immediately and permanently."""
+Deleting your account permanently removes all of the above (profile, friends, stats, progress, history) from the hosted database — this cannot be undone."""
 
 @Composable
 fun SettingsScreen(onSignedOut: () -> Unit = {}) {
     val context = LocalContext.current
-    var account by remember { mutableStateOf(AccountRepository.currentAccount(context)) }
+    val scope = rememberCoroutineScope()
+    var account by remember { mutableStateOf(AccountRepository.currentAccount()) }
 
     var displayName by remember { mutableStateOf(account?.displayName ?: "") }
     var language by remember { mutableStateOf(SettingsStore.language(context)) }
@@ -124,7 +127,8 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
             Button(
                 onClick = {
                     if (displayName.isNotBlank()) {
-                        account = AccountRepository.updateDisplayName(context, displayName.trim())
+                        val newName = displayName.trim()
+                        scope.launch { account = AccountRepository.updateDisplayName(newName) }
                     }
                 },
                 enabled = displayName.isNotBlank() && displayName != account?.displayName
@@ -211,8 +215,10 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
         }
         Button(
             onClick = {
-                AccountRepository.signOut(context)
-                onSignedOut()
+                scope.launch {
+                    AccountRepository.signOut()
+                    onSignedOut()
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -253,9 +259,11 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
             },
             confirmButton = {
                 TextButton(onClick = {
-                    AccountRepository.deleteAccount(context)
-                    showDeleteConfirm = false
-                    onSignedOut()
+                    scope.launch {
+                        AccountRepository.deleteAccount()
+                        showDeleteConfirm = false
+                        onSignedOut()
+                    }
                 }) { Text("Delete") }
             },
             dismissButton = {

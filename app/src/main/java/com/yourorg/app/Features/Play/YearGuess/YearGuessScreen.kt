@@ -49,11 +49,11 @@ import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.DailyClock
 import com.yourorg.app.Data.Quiz.DailyDistribution
+import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.HistoricalEvent
 import com.yourorg.app.Data.Quiz.formatEraYear
 import com.yourorg.app.Data.Quiz.QuizProgressStore
-import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
 import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.loadHistoricalEvents
@@ -71,7 +71,7 @@ import org.json.JSONObject
 private const val QUESTIONS_PER_ROUND = 5
 private const val PROGRESS_KEY = GameKeys.YEAR_GUESS
 
-private fun persist(context: android.content.Context, ids: List<String>, guesses: List<Int>, scores: List<Double>) {
+private suspend fun persist(context: android.content.Context, ids: List<String>, guesses: List<Int>, scores: List<Double>) {
     val obj = JSONObject()
     obj.put("ids", JSONArray(ids))
     obj.put("guesses", JSONArray(guesses))
@@ -94,20 +94,21 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
     val scores = remember { mutableStateListOf<Double>() }
 
     LaunchedEffect(Unit) {
-        val pool = loadHistoricalEvents(context)
         val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("ids") }
         if (stored != null) {
             val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
-            events = ids.mapNotNull { id -> pool.find { it.id == id } }
+            val rows = loadHistoricalEvents(ids)
+            events = ids.mapNotNull { id -> rows.find { it.id == id } }
             val storedGuesses = stored.optJSONArray("guesses")
             if (storedGuesses != null) repeat(storedGuesses.length()) { guesses.add(storedGuesses.getInt(it)) }
             val storedScores = stored.optJSONArray("scores")
             if (storedScores != null) repeat(storedScores.length()) { scores.add(storedScores.getDouble(it)) }
             questionIndex = scores.size
         } else {
-            val chosen = RecentlyUsedStore.pickDaily(context, PROGRESS_KEY, pool, QUESTIONS_PER_ROUND) { it.id }
-            events = chosen
-            persist(context, chosen.map { it.id }, emptyList(), emptyList())
+            val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, DailyClock.todayKey(), QUESTIONS_PER_ROUND)
+            val rows = loadHistoricalEvents(ids)
+            events = ids.mapNotNull { id -> rows.find { it.id == id } }
+            persist(context, ids, emptyList(), emptyList())
         }
     }
 
@@ -157,7 +158,6 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
                                 val guess = if (isBce) -magnitude else magnitude
                                 guesses.add(guess)
                                 scores.add(yearGuessScore(guess, current.correctYear, current.difficulty))
-                                persist(context, events.map { it.id }, guesses.toList(), scores.toList())
                                 revealed = true
                             },
                             onNext = {
@@ -171,6 +171,12 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
                     }
                 }
             }
+        }
+    }
+
+    LaunchedEffect(guesses.size) {
+        if (guesses.size in 1..events.size && guesses.size == scores.size) {
+            persist(context, events.map { it.id }, guesses.toList(), scores.toList())
         }
     }
 }
@@ -254,12 +260,12 @@ private fun YearGuessQuestion(
                 "You scored %.2f points".format(lastScore ?: 0.0),
                 style = MaterialTheme.typography.bodyLarge
             )
-            val dateKey = remember { DailyClock.todayKey() }
-            val guessDist = remember(event.id) {
-                DailyDistribution.yearGuesses(dateKey, event.id, event.correctYear, event.difficulty)
+            var guessDist by remember(event.id) { mutableStateOf<List<Int>>(emptyList()) }
+            LaunchedEffect(event.id) {
+                guessDist = DailyDistribution.yearGuesses(GameKeys.YEAR_GUESS, DailyClock.todayKey(), event.id)
             }
-            val minV = remember(event.id, lastGuess) { (guessDist + event.correctYear + listOfNotNull(lastGuess)).min() }
-            val maxV = remember(event.id, lastGuess) { (guessDist + event.correctYear + listOfNotNull(lastGuess)).max() }
+            val minV = (guessDist + event.correctYear + listOfNotNull(lastGuess)).min()
+            val maxV = (guessDist + event.correctYear + listOfNotNull(lastGuess)).max()
             val span = (maxV - minV).coerceAtLeast(1)
             GuessDistributionAxis(
                 distribution = guessDist.map { (it - minV).toFloat() / span.toFloat() },
@@ -306,15 +312,21 @@ private fun YearGuessResults(
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 1000.0 }
     val context = LocalContext.current
+    var rank by remember { mutableStateOf(1) }
+    var totalPlayers by remember { mutableStateOf(1) }
+    var guessDistByEventId by remember { mutableStateOf<Map<String, List<Int>>>(emptyMap()) }
+
     LaunchedEffect(Unit) {
         ScoreHistoryStore.recordResult(context, PROGRESS_KEY, total)
         StatsStore.recordCompletion(context, PROGRESS_KEY, total, isPerfect)
         if (isPerfect) Haptics.perfect(context)
-    }
-    val dateKey = remember { DailyClock.todayKey() }
-    val distribution = remember { DailyDistribution.finalScores(GameKeys.YEAR_GUESS, dateKey) }
-    val (rank, totalPlayers) = remember(total) {
-        DailyDistribution.rankAmongPlayers(GameKeys.YEAR_GUESS, dateKey, total, distribution, higherIsBetter = true)
+
+        val dateKey = DailyClock.todayKey()
+        val distribution = DailyDistribution.finalScores(GameKeys.YEAR_GUESS, dateKey)
+        val (r, t) = DailyDistribution.rankAmongPlayers(total, distribution, higherIsBetter = true)
+        rank = r
+        totalPlayers = t
+        guessDistByEventId = events.associate { it.id to DailyDistribution.yearGuesses(GameKeys.YEAR_GUESS, dateKey, it.id) }
     }
 
     Column(
@@ -334,11 +346,9 @@ private fun YearGuessResults(
         HorizontalDivider()
         events.forEachIndexed { i, event ->
             val guessValue = guesses.getOrNull(i)
-            val guessDist = remember(event.id) {
-                DailyDistribution.yearGuesses(dateKey, event.id, event.correctYear, event.difficulty)
-            }
-            val minV = remember(event.id, guessValue) { (guessDist + event.correctYear + listOfNotNull(guessValue)).min() }
-            val maxV = remember(event.id, guessValue) { (guessDist + event.correctYear + listOfNotNull(guessValue)).max() }
+            val guessDist = guessDistByEventId[event.id] ?: emptyList()
+            val minV = (guessDist + event.correctYear + listOfNotNull(guessValue)).min()
+            val maxV = (guessDist + event.correctYear + listOfNotNull(guessValue)).max()
             val span = (maxV - minV).coerceAtLeast(1)
             Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(event.event, style = MaterialTheme.typography.bodyMedium)

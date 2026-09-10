@@ -48,9 +48,9 @@ import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleCasualty
 import com.yourorg.app.Data.Quiz.DailyClock
 import com.yourorg.app.Data.Quiz.DailyDistribution
+import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
-import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
 import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.casualtyMultiplier
@@ -72,7 +72,7 @@ import org.json.JSONObject
 private const val QUESTIONS_PER_ROUND = 5
 private const val PROGRESS_KEY = GameKeys.CASUALTIES_MULTIPLIER
 
-private fun persist(context: android.content.Context, ids: List<String>, guesses: List<Long>, multipliers: List<Double>) {
+private suspend fun persist(context: android.content.Context, ids: List<String>, guesses: List<Long>, multipliers: List<Double>) {
     val obj = JSONObject()
     obj.put("ids", JSONArray(ids))
     obj.put("guesses", JSONArray(guesses))
@@ -93,20 +93,21 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
     val multipliers = remember { mutableStateListOf<Double>() }
 
     LaunchedEffect(Unit) {
-        val pool = loadBattleCasualties(context)
         val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("ids") }
         if (stored != null) {
             val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
-            battles = ids.mapNotNull { id -> pool.find { it.id == id } }
+            val rows = loadBattleCasualties(ids)
+            battles = ids.mapNotNull { id -> rows.find { it.id == id } }
             val storedGuesses = stored.optJSONArray("guesses")
             if (storedGuesses != null) repeat(storedGuesses.length()) { guesses.add(storedGuesses.getLong(it)) }
             val storedMultipliers = stored.optJSONArray("multipliers")
             if (storedMultipliers != null) repeat(storedMultipliers.length()) { multipliers.add(storedMultipliers.getDouble(it)) }
             questionIndex = multipliers.size
         } else {
-            val chosen = RecentlyUsedStore.pickDaily(context, PROGRESS_KEY, pool, QUESTIONS_PER_ROUND) { it.id }
-            battles = chosen
-            persist(context, chosen.map { it.id }, emptyList(), emptyList())
+            val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, DailyClock.todayKey(), QUESTIONS_PER_ROUND)
+            val rows = loadBattleCasualties(ids)
+            battles = ids.mapNotNull { id -> rows.find { it.id == id } }
+            persist(context, ids, emptyList(), emptyList())
         }
     }
 
@@ -153,7 +154,6 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                                 val guess = guessText.toLongOrNull() ?: return@CasualtiesQuestion
                                 guesses.add(guess)
                                 multipliers.add(casualtyMultiplier(guess, current.correctCasualties))
-                                persist(context, battles.map { it.id }, guesses.toList(), multipliers.toList())
                                 revealed = true
                             },
                             onNext = {
@@ -166,6 +166,12 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                     }
                 }
             }
+        }
+    }
+
+    LaunchedEffect(guesses.size) {
+        if (guesses.size in 1..battles.size && guesses.size == multipliers.size) {
+            persist(context, battles.map { it.id }, guesses.toList(), multipliers.toList())
         }
     }
 }
@@ -246,16 +252,12 @@ private fun CasualtiesQuestion(
                 "You earned x%.2f".format(lastMultiplier ?: 1.0),
                 style = MaterialTheme.typography.bodyLarge
             )
-            val dateKey = remember { DailyClock.todayKey() }
-            val guessDist = remember(battle.id) {
-                DailyDistribution.casualtyGuesses(dateKey, battle.id, battle.correctCasualties)
+            var guessDist by remember(battle.id) { mutableStateOf<List<Long>>(emptyList()) }
+            LaunchedEffect(battle.id) {
+                guessDist = DailyDistribution.casualtyGuesses(GameKeys.CASUALTIES_MULTIPLIER, DailyClock.todayKey(), battle.id)
             }
-            val logMin = remember(battle.id, lastGuess) {
-                ln((guessDist + battle.correctCasualties + listOfNotNull(lastGuess)).min().coerceAtLeast(1).toDouble())
-            }
-            val logMax = remember(battle.id, lastGuess) {
-                ln((guessDist + battle.correctCasualties + listOfNotNull(lastGuess)).max().coerceAtLeast(1).toDouble())
-            }
+            val logMin = ln((guessDist + battle.correctCasualties + listOfNotNull(lastGuess)).min().coerceAtLeast(1).toDouble())
+            val logMax = ln((guessDist + battle.correctCasualties + listOfNotNull(lastGuess)).max().coerceAtLeast(1).toDouble())
             val logSpan = (logMax - logMin).coerceAtLeast(0.01)
             fun logPos(v: Long): Float = ((ln(v.coerceAtLeast(1).toDouble()) - logMin) / logSpan).toFloat().coerceIn(0f, 1f)
             GuessDistributionAxis(
@@ -284,18 +286,28 @@ private fun CasualtiesResults(
     val total = multipliers.fold(1.0) { acc, m -> acc * m }
     val isPerfect = multipliers.isNotEmpty() && multipliers.all { it == 1.0 }
     val context = LocalContext.current
+    var rank by remember { mutableStateOf(1) }
+    var totalPlayers by remember { mutableStateOf(1) }
+    var finalDistribution by remember { mutableStateOf<List<Double>>(emptyList()) }
+    var guessDistByBattleId by remember { mutableStateOf<Map<String, List<Long>>>(emptyMap()) }
+
     LaunchedEffect(Unit) {
         ScoreHistoryStore.recordResult(context, PROGRESS_KEY, total)
         StatsStore.recordCompletion(context, PROGRESS_KEY, total, isPerfect)
         if (isPerfect) Haptics.perfect(context)
+
+        val dateKey = DailyClock.todayKey()
+        val distribution = DailyDistribution.finalScores(GameKeys.CASUALTIES_MULTIPLIER, dateKey)
+        finalDistribution = distribution
+        val (r, t) = DailyDistribution.rankAmongPlayers(total, distribution, higherIsBetter = false)
+        rank = r
+        totalPlayers = t
+        guessDistByBattleId = battles.associate {
+            it.id to DailyDistribution.casualtyGuesses(GameKeys.CASUALTIES_MULTIPLIER, dateKey, it.id)
+        }
     }
-    val dateKey = remember { DailyClock.todayKey() }
-    val finalDistribution = remember { DailyDistribution.finalScores(GameKeys.CASUALTIES_MULTIPLIER, dateKey) }
-    val (rank, totalPlayers) = remember(total) {
-        DailyDistribution.rankAmongPlayers(GameKeys.CASUALTIES_MULTIPLIER, dateKey, total, finalDistribution, higherIsBetter = false)
-    }
-    val multiplierDist = remember { DailyDistribution.casualtyMultipliers(dateKey) }
-    val multiplierMax = remember(total) { max(multiplierDist.maxOrNull() ?: 1.0, total) * 1.05 }
+
+    val multiplierMax = max(finalDistribution.maxOrNull() ?: 1.0, total) * 1.05
     fun multiplierPos(v: Double): Float =
         ((v - 1.0) / (multiplierMax - 1.0).coerceAtLeast(0.01)).toFloat().coerceIn(0f, 1f)
 
@@ -316,7 +328,7 @@ private fun CasualtiesResults(
         Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text("Final multiplier (1.00x is a perfect run)", style = MaterialTheme.typography.bodyMedium)
             GuessDistributionAxis(
-                distribution = multiplierDist.map { multiplierPos(it) },
+                distribution = finalDistribution.map { multiplierPos(it) },
                 correctPosition = null,
                 guessPosition = multiplierPos(total),
                 accentColor = MaterialTheme.colorScheme.primary,
@@ -327,15 +339,9 @@ private fun CasualtiesResults(
         HorizontalDivider()
         battles.forEachIndexed { i, battle ->
             val guessValue = guesses.getOrNull(i)
-            val guessDist = remember(battle.id) {
-                DailyDistribution.casualtyGuesses(dateKey, battle.id, battle.correctCasualties)
-            }
-            val logMin = remember(battle.id, guessValue) {
-                ln((guessDist + battle.correctCasualties + listOfNotNull(guessValue)).min().coerceAtLeast(1).toDouble())
-            }
-            val logMax = remember(battle.id, guessValue) {
-                ln((guessDist + battle.correctCasualties + listOfNotNull(guessValue)).max().coerceAtLeast(1).toDouble())
-            }
+            val guessDist = guessDistByBattleId[battle.id] ?: emptyList()
+            val logMin = ln((guessDist + battle.correctCasualties + listOfNotNull(guessValue)).min().coerceAtLeast(1).toDouble())
+            val logMax = ln((guessDist + battle.correctCasualties + listOfNotNull(guessValue)).max().coerceAtLeast(1).toDouble())
             val logSpan = (logMax - logMin).coerceAtLeast(0.01)
             fun logPos(v: Long): Float = ((ln(v.coerceAtLeast(1).toDouble()) - logMin) / logSpan).toFloat().coerceIn(0f, 1f)
 

@@ -19,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -27,6 +28,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,7 +48,6 @@ import com.yourorg.app.Data.Social.AddFriendResult
 import com.yourorg.app.Data.Social.FriendConnection
 import com.yourorg.app.Data.Social.FriendsRepository
 import com.yourorg.app.Data.Social.FriendsStore
-import com.yourorg.app.Data.Social.demoScoreFor
 import kotlinx.coroutines.launch
 
 private data class LeaderboardRow(val name: String, val score: Double?, val isMe: Boolean)
@@ -58,24 +59,35 @@ fun FriendsScreen() {
     var selectedDayOffset by remember { mutableStateOf(0) }
     var friendsVersion by remember { mutableStateOf(0) }
     var showAddFriendDialog by remember { mutableStateOf(false) }
+    var loading by remember { mutableStateOf(true) }
 
-    val myAccount = remember { AccountRepository.currentAccount(context) }
-    val acceptedFriends = remember(friendsVersion) { FriendsStore.accepted(context) }
-    val incomingRequests = remember(friendsVersion) { FriendsStore.incoming(context) }
+    val myAccount = remember { AccountRepository.currentAccount() }
+    var acceptedFriends by remember { mutableStateOf<List<FriendConnection>>(emptyList()) }
+    var incomingRequests by remember { mutableStateOf<List<FriendConnection>>(emptyList()) }
+    var rows by remember { mutableStateOf<List<LeaderboardRow>>(emptyList()) }
 
-    val dateKey = remember(selectedDayOffset) { DailyClock.dateKey(selectedDayOffset) }
-    val rows = remember(selectedGame, dateKey, acceptedFriends) {
+    LaunchedEffect(friendsVersion) {
+        if (myAccount != null) {
+            acceptedFriends = FriendsStore.accepted(myAccount.id)
+            incomingRequests = FriendsStore.incoming(myAccount.id)
+        }
+    }
+
+    LaunchedEffect(selectedGame, selectedDayOffset, acceptedFriends) {
+        loading = true
+        val dateKey = DailyClock.dateKey(selectedDayOffset)
         val myScore = ScoreHistoryStore.resultFor(context, selectedGame, dateKey)
         val list = mutableListOf(LeaderboardRow(myAccount?.displayName ?: "You", myScore, isMe = true))
         acceptedFriends.forEach { f ->
-            list.add(LeaderboardRow(f.displayName, demoScoreFor(f.code, selectedGame, dateKey), isMe = false))
+            list.add(LeaderboardRow(f.displayName, ScoreHistoryStore.resultFor(f.otherId, selectedGame, dateKey), isMe = false))
         }
-        if (selectedGame == GameKeys.CASUALTIES_MULTIPLIER) {
+        rows = if (selectedGame == GameKeys.CASUALTIES_MULTIPLIER) {
             // Lower is better for this game's stored score (a penalty multiplier), unlike every other game.
             list.sortedBy { it.score ?: Double.MAX_VALUE }
         } else {
             list.sortedByDescending { it.score ?: -1.0 }
         }
+        loading = false
     }
 
     Box(Modifier.fillMaxSize()) {
@@ -118,24 +130,30 @@ fun FriendsScreen() {
             )
             HorizontalDivider(Modifier.padding(vertical = 8.dp))
 
-            LazyColumn(Modifier.weight(1f)) {
-                items(rows) { row ->
-                    LeaderboardRowItem(row, selectedGame)
+            if (loading) {
+                CircularProgressIndicator(Modifier.padding(16.dp))
+            } else {
+                LazyColumn(Modifier.weight(1f)) {
+                    items(rows) { row ->
+                        LeaderboardRowItem(row, selectedGame)
+                    }
+                    item { Spacer(Modifier.height(80.dp)) }
                 }
-                item { Spacer(Modifier.height(80.dp)) }
             }
         }
 
-        Button(
-            onClick = { showAddFriendDialog = true },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 24.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (incomingRequests.isNotEmpty()) AppColors.Maroon else MaterialTheme.colorScheme.primary
-            )
-        ) {
-            Text(if (incomingRequests.isNotEmpty()) "Add Friend (${incomingRequests.size} pending)" else "Add Friend")
+        if (myAccount != null) {
+            Button(
+                onClick = { showAddFriendDialog = true },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 24.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (incomingRequests.isNotEmpty()) AppColors.Maroon else MaterialTheme.colorScheme.primary
+                )
+            ) {
+                Text(if (incomingRequests.isNotEmpty()) "Add Friend (${incomingRequests.size} pending)" else "Add Friend")
+            }
         }
     }
 
@@ -187,7 +205,6 @@ private fun AddFriendDialog(
     onDismiss: () -> Unit,
     onConnectionsChanged: () -> Unit
 ) {
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var codeInput by remember { mutableStateOf("") }
     var sending by remember { mutableStateOf(false) }
@@ -215,7 +232,7 @@ private fun AddFriendDialog(
                             sending = true
                             feedback = null
                             scope.launch {
-                                val result = FriendsRepository.addFriendByCode(context, codeInput)
+                                val result = FriendsRepository.addFriendByCode(codeInput)
                                 sending = false
                                 feedback = when (result) {
                                     AddFriendResult.ADDED -> "Friend added!"
@@ -250,12 +267,16 @@ private fun AddFriendDialog(
                             Text(req.displayName, style = MaterialTheme.typography.bodyMedium)
                             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                                 TextButton(onClick = {
-                                    FriendsRepository.acceptIncoming(context, req.code, req.displayName)
-                                    onConnectionsChanged()
+                                    scope.launch {
+                                        FriendsRepository.acceptIncoming(req.friendshipId)
+                                        onConnectionsChanged()
+                                    }
                                 }) { Text("Accept") }
                                 TextButton(onClick = {
-                                    FriendsRepository.declineIncoming(context, req.code)
-                                    onConnectionsChanged()
+                                    scope.launch {
+                                        FriendsRepository.declineIncoming(req.friendshipId)
+                                        onConnectionsChanged()
+                                    }
                                 }) { Text("Decline") }
                             }
                         }

@@ -14,7 +14,11 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,12 +26,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.yourorg.app.Data.Account.AccountRepository
 import com.yourorg.app.Data.Quiz.GameKeys
+import com.yourorg.app.Data.Quiz.GameStats
 import com.yourorg.app.Data.Quiz.StatsStore
 
 @Composable
 fun ProfileScreen() {
     val context = LocalContext.current
-    val account = remember { AccountRepository.currentAccount(context) }
+    val account = remember { AccountRepository.currentAccount() }
+    var statsByGame by remember { mutableStateOf<Map<String, GameStats>>(emptyMap()) }
+
+    LaunchedEffect(Unit) {
+        statsByGame = GameKeys.ALL.associateWith { key -> StatsStore.statsFor(context, key) }
+    }
 
     Column(
         Modifier
@@ -46,7 +56,7 @@ fun ProfileScreen() {
         Text("Statistics", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
 
         GameKeys.ALL.forEach { key ->
-            val stats = remember(key) { StatsStore.statsFor(context, key) }
+            val stats = statsByGame[key] ?: GameStats(0, 0.0, 0)
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = GameKeys.color(key).copy(alpha = 0.12f))

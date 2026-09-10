@@ -23,7 +23,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,7 +32,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) {
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var loadingProvider by remember { mutableStateOf<AuthProviderType?>(null) }
 
@@ -41,7 +39,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
         if (loadingProvider != null) return
         loadingProvider = provider
         scope.launch {
-            AccountRepository.continueWithProvider(context, provider)
+            AccountRepository.continueWithProvider(provider)
             loadingProvider = null
             onAuthenticated()
         }

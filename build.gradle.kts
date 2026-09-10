@@ -1,5 +1,8 @@
 plugins {
-    id("com.android.application") version "8.6.1" apply false
+    // 8.10.0: androidx.browser 1.10.0 (pulled in via auth-kt-android below) needs AGP 8.9.1+ and
+    // compileSdk 36, but AGP 8.9.x only supports compileSdk up to 35 — 8.10.0 is the first release
+    // that supports compileSdk 36, so it's the actual floor here, not just androidx.browser's stated minimum.
+    id("com.android.application") version "8.10.0" apply false
     // Pinned to match supabase-kt 3.2.4's own build (see app/build.gradle.kts): Kotlin 2.4.0
     // emits a metadata format newer than any released Hilt/Dagger version can parse yet
     // (google/dagger#5190) — 2.2.20 is the newest Kotlin release both Hilt 2.58 and

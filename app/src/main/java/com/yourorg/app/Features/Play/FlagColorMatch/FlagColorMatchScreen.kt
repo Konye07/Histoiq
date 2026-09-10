@@ -62,12 +62,12 @@ import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.DailyClock
 import com.yourorg.app.Data.Quiz.DailyDistribution
+import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.FlagColor
 import com.yourorg.app.Data.Quiz.FlagColorAnalysis
 import com.yourorg.app.Data.Quiz.FlagColorCandidate
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
-import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
 import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.buildFlagColorAnalysis
@@ -85,7 +85,7 @@ import kotlin.math.roundToInt
 private const val QUESTIONS_PER_ROUND = 5
 private const val PROGRESS_KEY = GameKeys.FLAG_COLOR_MATCH
 
-private fun persist(
+private suspend fun persist(
     context: android.content.Context,
     ids: List<String>,
     targetHues: List<Int>,
@@ -125,13 +125,13 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
     val scores = remember { mutableStateListOf<Double>() }
 
     LaunchedEffect(Unit) {
-        val pool = loadFlagColors(context)
         val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("targetHues") }
         val chosen: List<FlagColor>
         val targets: List<FlagColorCandidate>
         if (stored != null) {
             val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
-            chosen = ids.mapNotNull { id -> pool.find { it.id == id } }
+            val rows = loadFlagColors(ids)
+            chosen = ids.mapNotNull { id -> rows.find { it.id == id } }
             val targetHueArr = stored.getJSONArray("targetHues")
             val targetSatArr = stored.getJSONArray("targetSaturations")
             val targetBrightArr = stored.getJSONArray("targetBrightnesses")
@@ -144,7 +144,9 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
             stored.optJSONArray("scores")?.let { arr -> repeat(arr.length()) { scores.add(arr.getDouble(it)) } }
             questionIndex = scores.size
         } else {
-            val newlyChosen = RecentlyUsedStore.pickDaily(context, PROGRESS_KEY, pool, QUESTIONS_PER_ROUND) { it.id }
+            val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, DailyClock.todayKey(), QUESTIONS_PER_ROUND)
+            val rows = loadFlagColors(ids)
+            val newlyChosen = ids.mapNotNull { id -> rows.find { it.id == id } }
             chosen = newlyChosen
             targets = withContext(Dispatchers.Default) {
                 newlyChosen.map { flag -> findFlagColorCandidates(context, flag.imageAsset).random() }
@@ -219,17 +221,6 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
                                     correctBrightness = analysis.targetBrightness
                                 )
                             )
-                            persist(
-                                context,
-                                flags.map { it.id },
-                                flags.map { analysisByFlagId.getValue(it.id).targetHue },
-                                flags.map { analysisByFlagId.getValue(it.id).targetSaturation },
-                                flags.map { analysisByFlagId.getValue(it.id).targetBrightness },
-                                guessHues.toList(),
-                                guessSaturations.toList(),
-                                guessBrightnesses.toList(),
-                                scores.toList()
-                            )
                             revealed = true
                         },
                         onNext = {
@@ -244,6 +235,22 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
             }
         }
     }
+    }
+
+    LaunchedEffect(scores.size) {
+        if (scores.size in 1..flags.size && analysisByFlagId.size >= flags.size) {
+            persist(
+                context,
+                flags.map { it.id },
+                flags.map { analysisByFlagId.getValue(it.id).targetHue },
+                flags.map { analysisByFlagId.getValue(it.id).targetSaturation },
+                flags.map { analysisByFlagId.getValue(it.id).targetBrightness },
+                guessHues.toList(),
+                guessSaturations.toList(),
+                guessBrightnesses.toList(),
+                scores.toList()
+            )
+        }
     }
 }
 
@@ -470,15 +477,17 @@ private fun FlagColorResults(
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 10.0 }
     val context = LocalContext.current
+    var rank by remember { mutableStateOf(1) }
+    var totalPlayers by remember { mutableStateOf(1) }
     LaunchedEffect(Unit) {
         ScoreHistoryStore.recordResult(context, PROGRESS_KEY, total)
         StatsStore.recordCompletion(context, PROGRESS_KEY, total, isPerfect)
         if (isPerfect) Haptics.perfect(context)
-    }
-    val dateKey = remember { DailyClock.todayKey() }
-    val distribution = remember { DailyDistribution.finalScores(GameKeys.FLAG_COLOR_MATCH, dateKey) }
-    val (rank, totalPlayers) = remember(total) {
-        DailyDistribution.rankAmongPlayers(GameKeys.FLAG_COLOR_MATCH, dateKey, total, distribution, higherIsBetter = true)
+
+        val distribution = DailyDistribution.finalScores(GameKeys.FLAG_COLOR_MATCH, DailyClock.todayKey())
+        val (r, t) = DailyDistribution.rankAmongPlayers(total, distribution, higherIsBetter = true)
+        rank = r
+        totalPlayers = t
     }
 
     Column(

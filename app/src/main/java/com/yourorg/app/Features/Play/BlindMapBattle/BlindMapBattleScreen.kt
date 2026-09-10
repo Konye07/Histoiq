@@ -53,9 +53,9 @@ import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleLocation
 import com.yourorg.app.Data.Quiz.DailyClock
 import com.yourorg.app.Data.Quiz.DailyDistribution
+import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
-import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
 import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.haversineKm
@@ -89,7 +89,7 @@ private const val PROGRESS_KEY = GameKeys.BLIND_MAP_BATTLE
 private const val MIN_SCALE = 1f
 private const val MAX_SCALE = 6f
 
-private fun persist(
+private suspend fun persist(
     context: android.content.Context,
     ids: List<String>,
     guessLats: List<Double>,
@@ -134,19 +134,20 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
         worldMap = withContext(Dispatchers.Default) {
             context.assets.open("images/world_map.png").use { BitmapFactory.decodeStream(it) }.asImageBitmap()
         }
-        val pool = loadBattleLocations(context)
         val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("ids") }
         if (stored != null) {
             val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
-            battles = ids.mapNotNull { id -> pool.find { it.id == id } }
+            val rows = loadBattleLocations(ids)
+            battles = ids.mapNotNull { id -> rows.find { it.id == id } }
             stored.optJSONArray("guessLats")?.let { arr -> repeat(arr.length()) { guessLats.add(arr.getDouble(it)) } }
             stored.optJSONArray("guessLngs")?.let { arr -> repeat(arr.length()) { guessLngs.add(arr.getDouble(it)) } }
             stored.optJSONArray("scores")?.let { arr -> repeat(arr.length()) { scores.add(arr.getDouble(it)) } }
             questionIndex = scores.size
         } else {
-            val chosen = RecentlyUsedStore.pickDaily(context, PROGRESS_KEY, pool, QUESTIONS_PER_ROUND) { it.id }
-            battles = chosen
-            persist(context, chosen.map { it.id }, emptyList(), emptyList(), emptyList())
+            val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, DailyClock.todayKey(), QUESTIONS_PER_ROUND)
+            val rows = loadBattleLocations(ids)
+            battles = ids.mapNotNull { id -> rows.find { it.id == id } }
+            persist(context, ids, emptyList(), emptyList(), emptyList())
         }
     }
 
@@ -194,7 +195,6 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
                         guessLats.add(lat)
                         guessLngs.add(lng)
                         scores.add(mapPinpointScore(distanceKm))
-                        persist(context, battles.map { it.id }, guessLats.toList(), guessLngs.toList(), scores.toList())
                         revealed = true
                     },
                     onNext = {
@@ -206,6 +206,12 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
             }
         }
     }
+    }
+
+    LaunchedEffect(scores.size) {
+        if (scores.size in 1..battles.size && scores.size == guessLats.size) {
+            persist(context, battles.map { it.id }, guessLats.toList(), guessLngs.toList(), scores.toList())
+        }
     }
 }
 
@@ -328,15 +334,17 @@ private fun MapResults(
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 1000.0 }
     val context = LocalContext.current
+    var rank by remember { mutableStateOf(1) }
+    var totalPlayers by remember { mutableStateOf(1) }
     LaunchedEffect(Unit) {
         ScoreHistoryStore.recordResult(context, PROGRESS_KEY, total)
         StatsStore.recordCompletion(context, PROGRESS_KEY, total, isPerfect)
         if (isPerfect) Haptics.perfect(context)
-    }
-    val dateKey = remember { DailyClock.todayKey() }
-    val distribution = remember { DailyDistribution.finalScores(GameKeys.BLIND_MAP_BATTLE, dateKey) }
-    val (rank, totalPlayers) = remember(total) {
-        DailyDistribution.rankAmongPlayers(GameKeys.BLIND_MAP_BATTLE, dateKey, total, distribution, higherIsBetter = true)
+
+        val distribution = DailyDistribution.finalScores(GameKeys.BLIND_MAP_BATTLE, DailyClock.todayKey())
+        val (r, t) = DailyDistribution.rankAmongPlayers(total, distribution, higherIsBetter = true)
+        rank = r
+        totalPlayers = t
     }
 
     Column(

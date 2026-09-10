@@ -1,79 +1,67 @@
 package com.yourorg.app.Data.Social
 
-import android.content.Context
-import org.json.JSONArray
-import org.json.JSONObject
+import com.yourorg.app.Data.Remote.SupabaseClient
+import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-data class FriendConnection(val code: String, val displayName: String, val status: String) {
+@Serializable
+private data class FriendshipRow(
+    val id: String,
+    @SerialName("requester_id") val requesterId: String,
+    @SerialName("addressee_id") val addresseeId: String,
+    val status: String
+)
+
+@Serializable
+private data class ProfileNameRow(val id: String, @SerialName("display_name") val displayName: String)
+
+/** One real friendship row, from the current account's point of view. */
+data class FriendConnection(
+    val friendshipId: String,
+    val otherId: String,
+    val displayName: String,
+    val status: String,
+    val iAmRequester: Boolean
+) {
     companion object {
         const val ACCEPTED = "accepted"
-        const val PENDING_INCOMING = "pending_incoming"
-        const val PENDING_OUTGOING = "pending_outgoing"
+        const val PENDING = "pending"
     }
 }
 
-/** Local stand-in for a future Supabase "friendships" table, scoped to this device's one account. */
+/** Real friendships backed by the shared `friendships`/`profiles` tables (RLS-scoped to the caller). */
 object FriendsStore {
-    private const val PREFS_NAME = "friends"
-    private const val KEY_CONNECTIONS = "connections"
-    private const val KEY_SEEDED = "seededDemoIncoming"
+    suspend fun loadAll(myId: String): List<FriendConnection> {
+        val rows = SupabaseClient.client.postgrest.from("friendships")
+            .select {
+                filter {
+                    or {
+                        eq("requester_id", myId)
+                        eq("addressee_id", myId)
+                    }
+                }
+            }
+            .decodeList<FriendshipRow>()
+        if (rows.isEmpty()) return emptyList()
 
-    fun loadAll(context: Context): List<FriendConnection> {
-        seedIncomingRequestOnce(context)
-        val raw = prefs(context).getString(KEY_CONNECTIONS, null) ?: return emptyList()
-        val array = JSONArray(raw)
-        return List(array.length()) { i ->
-            val o = array.getJSONObject(i)
-            FriendConnection(o.getString("code"), o.getString("displayName"), o.getString("status"))
+        val otherIds = rows.map { if (it.requesterId == myId) it.addresseeId else it.requesterId }.distinct()
+        val names = SupabaseClient.client.postgrest.from("profiles")
+            .select { filter { isIn("id", otherIds) } }
+            .decodeList<ProfileNameRow>()
+            .associateBy({ it.id }, { it.displayName })
+
+        return rows.map { row ->
+            val iAmRequester = row.requesterId == myId
+            val otherId = if (iAmRequester) row.addresseeId else row.requesterId
+            FriendConnection(row.id, otherId, names[otherId] ?: "Unknown", row.status, iAmRequester)
         }
     }
 
-    fun accepted(context: Context): List<FriendConnection> = loadAll(context).filter { it.status == FriendConnection.ACCEPTED }
-    fun incoming(context: Context): List<FriendConnection> = loadAll(context).filter { it.status == FriendConnection.PENDING_INCOMING }
-    fun outgoing(context: Context): List<FriendConnection> = loadAll(context).filter { it.status == FriendConnection.PENDING_OUTGOING }
+    suspend fun accepted(myId: String): List<FriendConnection> =
+        loadAll(myId).filter { it.status == FriendConnection.ACCEPTED }
 
-    fun upsert(context: Context, connection: FriendConnection) {
-        val list = loadAll(context).filterNot { it.code == connection.code } + connection
-        writeAll(context, list)
-    }
-
-    fun remove(context: Context, code: String) {
-        writeAll(context, loadAll(context).filterNot { it.code == code })
-    }
-
-    fun clearAll(context: Context) {
-        prefs(context).edit().clear().apply()
-    }
-
-    /** Demo-only: seeds one incoming request once, so the accept flow is testable without a second device. */
-    private fun seedIncomingRequestOnce(context: Context) {
-        if (prefs(context).getBoolean(KEY_SEEDED, false)) return
-        val demo = FriendDirectory.entries.first()
-        val raw = prefs(context).getString(KEY_CONNECTIONS, null)
-        val array = if (raw != null) JSONArray(raw) else JSONArray()
-        val entry = JSONObject()
-        entry.put("code", demo.code)
-        entry.put("displayName", demo.displayName)
-        entry.put("status", FriendConnection.PENDING_INCOMING)
-        array.put(entry)
-        prefs(context).edit()
-            .putString(KEY_CONNECTIONS, array.toString())
-            .putBoolean(KEY_SEEDED, true)
-            .apply()
-    }
-
-    private fun writeAll(context: Context, list: List<FriendConnection>) {
-        val array = JSONArray()
-        list.forEach { c ->
-            val o = JSONObject()
-            o.put("code", c.code)
-            o.put("displayName", c.displayName)
-            o.put("status", c.status)
-            array.put(o)
-        }
-        prefs(context).edit().putString(KEY_CONNECTIONS, array.toString()).apply()
-    }
-
-    private fun prefs(context: Context) =
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    /** Requests sent TO me that I haven't responded to yet. */
+    suspend fun incoming(myId: String): List<FriendConnection> =
+        loadAll(myId).filter { it.status == FriendConnection.PENDING && !it.iAmRequester }
 }

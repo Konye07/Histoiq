@@ -38,9 +38,9 @@ import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.DailyClock
 import com.yourorg.app.Data.Quiz.DailyDistribution
+import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
-import com.yourorg.app.Data.Quiz.RecentlyUsedStore
 import com.yourorg.app.Data.Quiz.ScoreHistoryStore
 import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.TrueFalseStatement
@@ -53,7 +53,7 @@ import org.json.JSONObject
 private const val ROUNDS_TO_WIN = 10
 private const val PROGRESS_KEY = GameKeys.TRUE_FALSE
 
-private fun persist(context: android.content.Context, ids: List<String>, answers: List<Boolean>, failed: Boolean) {
+private suspend fun persist(context: android.content.Context, ids: List<String>, answers: List<Boolean>, failed: Boolean) {
     val obj = JSONObject()
     obj.put("ids", JSONArray(ids))
     obj.put("answers", JSONArray(answers))
@@ -75,19 +75,20 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
     val answers = remember { mutableStateListOf<Boolean>() }
 
     LaunchedEffect(Unit) {
-        val pool = loadTrueFalseStatements(context)
         val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("ids") }
         if (stored != null) {
             val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
-            statements = ids.mapNotNull { id -> pool.find { it.id == id } }
+            val rows = loadTrueFalseStatements(ids)
+            statements = ids.mapNotNull { id -> rows.find { it.id == id } }
             stored.optJSONArray("answers")?.let { arr -> repeat(arr.length()) { answers.add(arr.getBoolean(it)) } }
             failed = stored.optBoolean("failed", false)
             index = answers.size
             showResults = failed || index >= statements.size
         } else {
-            val chosen = RecentlyUsedStore.pickDaily(context, PROGRESS_KEY, pool, ROUNDS_TO_WIN) { it.id }
-            statements = chosen
-            persist(context, chosen.map { it.id }, emptyList(), false)
+            val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, DailyClock.todayKey(), ROUNDS_TO_WIN)
+            val rows = loadTrueFalseStatements(ids)
+            statements = ids.mapNotNull { id -> rows.find { it.id == id } }
+            persist(context, ids, emptyList(), false)
         }
     }
 
@@ -126,7 +127,6 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
                             if (isCorrect) Haptics.correct(context) else Haptics.wrong(context)
                             answers.add(answerTrue)
                             if (!isCorrect) failed = true
-                            persist(context, statements.map { it.id }, answers.toList(), failed)
                             revealed = true
                         },
                         onContinue = {
@@ -142,6 +142,12 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
             }
         }
     }
+    }
+
+    LaunchedEffect(answers.size, failed) {
+        if (statements.isNotEmpty()) {
+            persist(context, statements.map { it.id }, answers.toList(), failed)
+        }
     }
 }
 
@@ -194,14 +200,16 @@ private fun TrueFalseResults(
     val won = !failed && answers.size == statements.size
     val score = answers.indices.count { i -> answers[i] == statements[i].correctAnswer }
     val context = LocalContext.current
+    var rank by remember { mutableStateOf(1) }
+    var totalPlayers by remember { mutableStateOf(1) }
     LaunchedEffect(Unit) {
         ScoreHistoryStore.recordResult(context, PROGRESS_KEY, score.toDouble())
         StatsStore.recordCompletion(context, PROGRESS_KEY, score.toDouble(), score == ROUNDS_TO_WIN)
-    }
-    val dateKey = remember { DailyClock.todayKey() }
-    val distribution = remember { DailyDistribution.finalScores(GameKeys.TRUE_FALSE, dateKey) }
-    val (rank, totalPlayers) = remember(score) {
-        DailyDistribution.rankAmongPlayers(GameKeys.TRUE_FALSE, dateKey, score.toDouble(), distribution, higherIsBetter = true)
+
+        val distribution = DailyDistribution.finalScores(GameKeys.TRUE_FALSE, DailyClock.todayKey())
+        val (r, t) = DailyDistribution.rankAmongPlayers(score.toDouble(), distribution, higherIsBetter = true)
+        rank = r
+        totalPlayers = t
     }
 
     Column(
