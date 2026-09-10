@@ -211,22 +211,36 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
         ) {
             Text(stringResource(R.string.settings_privacy_policy_title), style = MaterialTheme.typography.bodyMedium)
         }
-        Button(
-            onClick = {
-                scope.launch {
-                    AccountRepository.signOut()
-                    onSignedOut()
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(R.string.settings_sign_out))
-        }
-        OutlinedButton(
-            onClick = { showDeleteConfirm = true },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(R.string.settings_delete_account))
+        if (account != null) {
+            Button(
+                onClick = {
+                    scope.launch {
+                        AccountRepository.signOut()
+                        onSignedOut()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.settings_sign_out))
+            }
+            OutlinedButton(
+                onClick = { showDeleteConfirm = true },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.settings_delete_account))
+            }
+        } else {
+            Text(
+                stringResource(R.string.settings_guest_notice),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.outline
+            )
+            Button(
+                onClick = { onSignedOut() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.settings_sign_in))
+            }
         }
     }
 

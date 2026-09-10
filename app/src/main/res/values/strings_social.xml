@@ -21,6 +21,7 @@
     <string name="friends_accept">Accept</string>
     <string name="friends_decline">Decline</string>
     <string name="friends_close">Close</string>
+    <string name="friends_guest_notice">Sign in to add friends and see them on this leaderboard.</string>
 
     <!-- ProfileScreen.kt -->
     <string name="profile_title">Profile</string>

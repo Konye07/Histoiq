@@ -21,6 +21,7 @@
     <string name="friends_accept">Accepter</string>
     <string name="friends_decline">Refuser</string>
     <string name="friends_close">Fermer</string>
+    <string name="friends_guest_notice">Connecte-toi pour ajouter des amis et les voir dans ce classement.</string>
 
     <!-- ProfileScreen.kt -->
     <string name="profile_title">Profil</string>

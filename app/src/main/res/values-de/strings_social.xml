@@ -21,6 +21,7 @@
     <string name="friends_accept">Annehmen</string>
     <string name="friends_decline">Ablehnen</string>
     <string name="friends_close">Schließen</string>
+    <string name="friends_guest_notice">Melde dich an, um Freunde hinzuzufügen und sie in dieser Rangliste zu sehen.</string>
 
     <!-- ProfileScreen.kt -->
     <string name="profile_title">Profil</string>

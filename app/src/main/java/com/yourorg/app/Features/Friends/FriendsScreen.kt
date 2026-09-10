@@ -165,6 +165,16 @@ fun FriendsScreen() {
                     else stringResource(R.string.friends_add_friend)
                 )
             }
+        } else {
+            Text(
+                stringResource(R.string.friends_guest_notice),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 24.dp, start = 24.dp, end = 24.dp),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.outline,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            )
         }
     }
 

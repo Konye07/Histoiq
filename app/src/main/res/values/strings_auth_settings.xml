@@ -27,6 +27,8 @@
     <string name="settings_privacy_policy_title">Privacy Policy</string>
     <string name="settings_sign_out">Sign Out</string>
     <string name="settings_delete_account">Delete Account</string>
+    <string name="settings_guest_notice">You\'re playing as a guest — nothing is signed in to sign out of yet. Sign in to get a friend code, sync across devices, and back up your progress.</string>
+    <string name="settings_sign_in">Sign In</string>
     <string name="settings_privacy_policy_text">This app stores your account (display name, email, sign-in provider, friend code), friends, and daily quiz progress/scores in a hosted Supabase database, not just on this device — that\'s what lets stats and friend leaderboards work across your devices and let real friends see each other\'s scores. It is not shared with or sold to any third party.\n\nSign-in is currently a mock — no real Google or Apple account data is read or transmitted — but each device still gets a real, unique, anonymous account identity so your data can\'t be read or edited by anyone else.\n\nEvery sign-in is logged with its IP address and device info in a security audit log, used only to detect abuse; this log is never readable by any client, only for administrative security review.\n\nDeleting your account permanently removes all of the above (profile, friends, stats, progress, history) from the hosted database — this cannot be undone.</string>
     <string name="settings_close">Close</string>
     <string name="settings_delete_confirm_title">Delete account?</string>
