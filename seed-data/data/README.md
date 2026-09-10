@@ -23,8 +23,11 @@ table directly (or re-run a bulk load from an edited copy of these files).
 - **IDs are globally unique within their table** and are the join key `get_or_create_daily_quiz`
   and `quiz_progress` use to track what's been assigned/seen — don't reuse an id across an edit, or
   you'll silently corrupt another entry's cooldown/resume history.
-- **`imageAsset`** (where present) is a path relative to `assets/`, e.g. `"images/battles/battle_001.png"`,
-  resolved via `AssetManager` at runtime — not a `res/drawable` resource.
+- **`imageAsset`** (year_guess and flag_color_match only — the only two games with real bundled
+  artwork) is a path relative to `assets/`, e.g. `"images/events/event_001.png"`, resolved via
+  `AssetManager` at runtime — not a `res/drawable` resource. `casualties_multiplier` had this field
+  too at one point but it was never populated in any row, so it — and the 5 unused images it would
+  have pointed at — were removed; don't re-add it speculatively.
 - **`hint`** (Annalist/Herald only) is the war/conflict this event or battle belongs to, shown
   behind the "watch an ad" hint dialog. Keep it short (a war/conflict name, not a sentence).
 - **Adding a new field**: update the Kotlin data class (`@SerialName` for the snake_case column),

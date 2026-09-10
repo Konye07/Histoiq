@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">TuApp</string>
-    <string name="tab_play">Jugar</string>
-    <string name="tab_friends">Amigos</string>
-    <string name="tab_profile">Perfil</string>
-    <string name="tab_settings">Ajustes</string>
-</resources>

@@ -1,12 +1,10 @@
 package com.yourorg.app.Features.Play.CasualtiesMultiplier
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,14 +33,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleCasualty
@@ -51,19 +45,15 @@ import com.yourorg.app.Data.Quiz.DailyDistribution
 import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
-import com.yourorg.app.Data.Quiz.ScoreHistoryStore
-import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.casualtyMultiplier
 import com.yourorg.app.Data.Quiz.formatEraYear
 import com.yourorg.app.Data.Quiz.formatThousands
 import com.yourorg.app.Data.Quiz.loadBattleCasualties
-import com.yourorg.app.Data.Quiz.tryLoadImageBitmap
+import com.yourorg.app.Data.Quiz.recordAndRank
 import com.yourorg.app.Features.Play.Shared.GuessDistributionAxis
 import com.yourorg.app.Features.Play.Shared.HintAction
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlin.math.ln
 import kotlin.math.max
 import org.json.JSONArray
@@ -190,12 +180,6 @@ private fun CasualtiesQuestion(
     onSubmit: () -> Unit,
     onNext: () -> Unit
 ) {
-    val context = LocalContext.current
-    var image by remember(battle.id) { mutableStateOf<ImageBitmap?>(null) }
-    LaunchedEffect(battle.id) {
-        image = withContext(Dispatchers.Default) { tryLoadImageBitmap(context, battle.imageAsset) }
-    }
-
     Column(
         Modifier
             .fillMaxWidth()
@@ -205,17 +189,6 @@ private fun CasualtiesQuestion(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text("Question $questionNumber / $totalQuestions", style = MaterialTheme.typography.labelLarge)
-        image?.let {
-            Image(
-                bitmap = it,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
-                    .clip(RoundedCornerShape(12.dp))
-            )
-        }
         Text(battle.battle, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
         Text(formatEraYear(battle.year), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
         if (hintRevealed) {
@@ -292,16 +265,12 @@ private fun CasualtiesResults(
     var guessDistByBattleId by remember { mutableStateOf<Map<String, List<Long>>>(emptyMap()) }
 
     LaunchedEffect(Unit) {
-        ScoreHistoryStore.recordResult(context, PROGRESS_KEY, total)
-        StatsStore.recordCompletion(context, PROGRESS_KEY, total, isPerfect)
-        if (isPerfect) Haptics.perfect(context)
+        val result = recordAndRank(context, PROGRESS_KEY, GameKeys.CASUALTIES_MULTIPLIER, total, isPerfect, higherIsBetter = false)
+        rank = result.rank
+        totalPlayers = result.totalPlayers
+        finalDistribution = result.distribution
 
         val dateKey = DailyClock.todayKey()
-        val distribution = DailyDistribution.finalScores(GameKeys.CASUALTIES_MULTIPLIER, dateKey)
-        finalDistribution = distribution
-        val (r, t) = DailyDistribution.rankAmongPlayers(total, distribution, higherIsBetter = false)
-        rank = r
-        totalPlayers = t
         guessDistByBattleId = battles.associate {
             it.id to DailyDistribution.casualtyGuesses(GameKeys.CASUALTIES_MULTIPLIER, dateKey, it.id)
         }

@@ -41,11 +41,11 @@ You'll also need a `local.properties` with `SUPABASE_URL` and `SUPABASE_ANON_KEY
   - `Data/Social/` — real friend requests/leaderboard (`FriendsRepository.kt`, `FriendsStore.kt`).
   - `Data/Remote/` — the single Supabase client (`SupabaseClient.kt`).
   - `Core/Theme/` — the fixed color palette and per-game `ColorScheme` generation.
-- `app/src/main/assets/data/` — the question banks used to *live* here as JSON; they're in Supabase
-  now (see `CLAUDE.md`), but the README there still documents each game's field-level schema.
-- `app/src/main/assets/images/` — flag/battle/event artwork (sourced from Wikimedia Commons under
-  verified public-domain or CC licenses) plus the world map used by Chancellor; stays bundled in
-  the APK rather than moving to Supabase Storage.
+- `app/src/main/assets/images/` — flag/event artwork (sourced from Wikimedia Commons under verified
+  public-domain or CC licenses) plus the world map used by Chancellor; stays bundled in the APK
+  rather than moving to Supabase Storage.
+- `seed-data/` (repo root, not in `app/`) — the question banks' original JSON, not shipped in the
+  APK; see `CLAUDE.md` for the live Postgres schema each game's field-level structure now lives in.
 
 See `CLAUDE.md` for the full Supabase schema/architecture and build-toolchain notes.
 

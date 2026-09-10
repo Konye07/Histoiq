@@ -47,19 +47,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleLocation
 import com.yourorg.app.Data.Quiz.DailyClock
-import com.yourorg.app.Data.Quiz.DailyDistribution
 import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
-import com.yourorg.app.Data.Quiz.ScoreHistoryStore
-import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.haversineKm
 import com.yourorg.app.Data.Quiz.loadBattleLocations
+import com.yourorg.app.Data.Quiz.recordAndRank
 import com.yourorg.app.Data.Quiz.mapPinpointScore
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
@@ -337,14 +334,9 @@ private fun MapResults(
     var rank by remember { mutableStateOf(1) }
     var totalPlayers by remember { mutableStateOf(1) }
     LaunchedEffect(Unit) {
-        ScoreHistoryStore.recordResult(context, PROGRESS_KEY, total)
-        StatsStore.recordCompletion(context, PROGRESS_KEY, total, isPerfect)
-        if (isPerfect) Haptics.perfect(context)
-
-        val distribution = DailyDistribution.finalScores(GameKeys.BLIND_MAP_BATTLE, DailyClock.todayKey())
-        val (r, t) = DailyDistribution.rankAmongPlayers(total, distribution, higherIsBetter = true)
-        rank = r
-        totalPlayers = t
+        val result = recordAndRank(context, PROGRESS_KEY, GameKeys.BLIND_MAP_BATTLE, total, isPerfect)
+        rank = result.rank
+        totalPlayers = result.totalPlayers
     }
 
     Column(

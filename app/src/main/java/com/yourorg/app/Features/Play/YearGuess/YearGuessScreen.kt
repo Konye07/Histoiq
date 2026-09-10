@@ -44,7 +44,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.DailyClock
@@ -54,9 +53,8 @@ import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.HistoricalEvent
 import com.yourorg.app.Data.Quiz.formatEraYear
 import com.yourorg.app.Data.Quiz.QuizProgressStore
-import com.yourorg.app.Data.Quiz.ScoreHistoryStore
-import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.loadHistoricalEvents
+import com.yourorg.app.Data.Quiz.recordAndRank
 import com.yourorg.app.Data.Quiz.tryLoadImageBitmap
 import com.yourorg.app.Data.Quiz.yearGuessScore
 import com.yourorg.app.Features.Play.Shared.GuessDistributionAxis
@@ -317,15 +315,11 @@ private fun YearGuessResults(
     var guessDistByEventId by remember { mutableStateOf<Map<String, List<Int>>>(emptyMap()) }
 
     LaunchedEffect(Unit) {
-        ScoreHistoryStore.recordResult(context, PROGRESS_KEY, total)
-        StatsStore.recordCompletion(context, PROGRESS_KEY, total, isPerfect)
-        if (isPerfect) Haptics.perfect(context)
+        val result = recordAndRank(context, PROGRESS_KEY, GameKeys.YEAR_GUESS, total, isPerfect)
+        rank = result.rank
+        totalPlayers = result.totalPlayers
 
         val dateKey = DailyClock.todayKey()
-        val distribution = DailyDistribution.finalScores(GameKeys.YEAR_GUESS, dateKey)
-        val (r, t) = DailyDistribution.rankAmongPlayers(total, distribution, higherIsBetter = true)
-        rank = r
-        totalPlayers = t
         guessDistByEventId = events.associate { it.id to DailyDistribution.yearGuesses(GameKeys.YEAR_GUESS, dateKey, it.id) }
     }
 

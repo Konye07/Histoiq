@@ -37,14 +37,12 @@ import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.DailyClock
-import com.yourorg.app.Data.Quiz.DailyDistribution
 import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
-import com.yourorg.app.Data.Quiz.ScoreHistoryStore
-import com.yourorg.app.Data.Quiz.StatsStore
 import com.yourorg.app.Data.Quiz.TrueFalseStatement
 import com.yourorg.app.Data.Quiz.loadTrueFalseStatements
+import com.yourorg.app.Data.Quiz.recordAndRank
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
 import org.json.JSONArray
@@ -203,13 +201,9 @@ private fun TrueFalseResults(
     var rank by remember { mutableStateOf(1) }
     var totalPlayers by remember { mutableStateOf(1) }
     LaunchedEffect(Unit) {
-        ScoreHistoryStore.recordResult(context, PROGRESS_KEY, score.toDouble())
-        StatsStore.recordCompletion(context, PROGRESS_KEY, score.toDouble(), score == ROUNDS_TO_WIN)
-
-        val distribution = DailyDistribution.finalScores(GameKeys.TRUE_FALSE, DailyClock.todayKey())
-        val (r, t) = DailyDistribution.rankAmongPlayers(score.toDouble(), distribution, higherIsBetter = true)
-        rank = r
-        totalPlayers = t
+        val result = recordAndRank(context, PROGRESS_KEY, GameKeys.TRUE_FALSE, score.toDouble(), score == ROUNDS_TO_WIN)
+        rank = result.rank
+        totalPlayers = result.totalPlayers
     }
 
     Column(

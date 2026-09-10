@@ -12,6 +12,5 @@ data class BattleCasualty(
     val year: Int,
     val source: String,
     val difficulty: Int,
-    @SerialName("image_asset") val imageAsset: String? = null,
     val hint: String? = null
 )
