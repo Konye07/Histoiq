@@ -24,14 +24,10 @@
             android:name=".Core.Notifications.DailyReminderReceiver"
             android:exported="false" />
         <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
+            android:name=".Core.Share.InMemoryShareImageProvider"
+            android:authorities="${applicationId}.shareimage"
             android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
+            android:grantUriPermissions="true" />
     </application>
 
 </manifest>

@@ -4,17 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.util.Log
-import androidx.core.content.FileProvider
-import java.io.File
-import java.io.FileOutputStream
+import java.io.ByteArrayOutputStream
 
 private const val TAG = "ShareResults"
 
 /**
  * Renders a share card for one game's result and opens the system share sheet with it, alongside
- * text carrying the score and a link to the app's Play Store listing. The image is written to
- * cacheDir/share_images (declared in res/xml/file_paths.xml) and shared via a FileProvider content
- * Uri — a raw file:// Uri would be rejected by other apps' targeting API 24+ StrictMode policy.
+ * text carrying the score and a link to the app's Play Store listing. The image is never written
+ * to disk: it's PNG-encoded straight into memory and handed to InMemoryShareImageProvider, which
+ * streams those bytes to whatever app the user picks and forgets them immediately after — there's
+ * no cache file or temp file at any point.
  */
 fun shareResults(
     context: Context,
@@ -41,11 +40,13 @@ fun shareResults(
             footerText = footerText
         )
 
-        val imagesDir = File(context.cacheDir, "share_images").apply { mkdirs() }
-        val file = File(imagesDir, "result_${System.currentTimeMillis()}.png")
-        FileOutputStream(file).use { out -> bitmap.compress(Bitmap.CompressFormat.PNG, 100, out) }
+        val pngBytes = ByteArrayOutputStream().use { out ->
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+            out.toByteArray()
+        }
+        bitmap.recycle()
 
-        val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+        val uri = InMemoryShareImageProvider.put(context, pngBytes)
 
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             type = "image/png"
