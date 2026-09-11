@@ -14,6 +14,7 @@ sealed class NavRoutes(val route: String, @StringRes val labelRes: Int) {
     data object TerritoryCompare : NavRoutes("play/territory_compare", R.string.nav_territory_compare)
     data object TrueFalse : NavRoutes("play/true_false", R.string.nav_true_false)
     data object BlindMapBattle : NavRoutes("play/blind_map_battle", R.string.nav_blind_map_battle)
+    data object PrivacyPolicy : NavRoutes("settings/privacy_policy", R.string.settings_privacy_policy_title)
 
     companion object {
         val bottomTabs = listOf(Play, Friends, Profile, Settings)

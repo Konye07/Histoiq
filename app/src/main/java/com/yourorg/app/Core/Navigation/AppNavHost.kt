@@ -36,6 +36,7 @@ import com.yourorg.app.Features.Play.TerritoryCompare.TerritoryCompareScreen
 import com.yourorg.app.Features.Play.TrueFalse.TrueFalseScreen
 import com.yourorg.app.Features.Play.YearGuess.YearGuessScreen
 import com.yourorg.app.Features.Profile.ProfileScreen
+import com.yourorg.app.Features.Settings.PrivacyPolicyScreen
 import com.yourorg.app.Features.Settings.SettingsScreen
 
 @Composable
@@ -113,7 +114,15 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
             }
             composable(NavRoutes.Friends.route) { FriendsScreen() }
             composable(NavRoutes.Profile.route) { ProfileScreen() }
-            composable(NavRoutes.Settings.route) { SettingsScreen(onSignedOut = onSignedOut) }
+            composable(NavRoutes.Settings.route) {
+                SettingsScreen(
+                    onSignedOut = onSignedOut,
+                    onOpenPrivacyPolicy = { navController.navigate(NavRoutes.PrivacyPolicy.route) }
+                )
+            }
+            composable(NavRoutes.PrivacyPolicy.route) {
+                PrivacyPolicyScreen(onBack = { navController.popBackStack() })
+            }
         }
     }
 }
@@ -139,4 +148,5 @@ private fun iconFor(route: NavRoutes) = when (route) {
     NavRoutes.TerritoryCompare,
     NavRoutes.TrueFalse,
     NavRoutes.BlindMapBattle -> Icons.Default.PlayArrow
+    NavRoutes.PrivacyPolicy -> Icons.Default.Settings
 }
