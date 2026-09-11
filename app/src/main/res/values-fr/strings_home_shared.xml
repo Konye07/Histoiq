@@ -1,20 +1,6 @@
 <resources>
     <string name="home_title">Aujourd\'hui dans l\'Histoire</string>
 
-    <string name="home_role_annalist">Annaliste</string>
-    <string name="home_role_herald">Héraut</string>
-    <string name="home_role_officer_of_arms">Officier d\'Armes</string>
-    <string name="home_role_cosmographer">Cosmographe</string>
-    <string name="home_role_chronicler">Chroniqueur</string>
-    <string name="home_role_chancellor">Chancelier</string>
-
-    <string name="home_subtitle_year_guess">Devine l\'Année</string>
-    <string name="home_subtitle_casualties_multiplier">Compte des Pertes</string>
-    <string name="home_subtitle_flag_color_match">Reproduis la Couleur du Drapeau</string>
-    <string name="home_subtitle_territory_compare">Plus Grand Territoire</string>
-    <string name="home_subtitle_true_false">Vrai ou Faux</string>
-    <string name="home_subtitle_blind_map_battle">Bataille sur Carte Aveugle</string>
-
     <string name="home_desc_year_guess">Un événement est donné — devine l\'année à laquelle il a eu lieu. Plus tu es proche, plus tu marques de points.</string>
     <string name="home_desc_casualties_multiplier">Une bataille est donnée — devine le nombre de pertes. Plus ton estimation est proche, plus ton multiplicateur est élevé.</string>
     <string name="home_desc_flag_color_match">Reproduis la couleur réelle d\'un drapeau historique à l\'aide des curseurs de teinte, saturation et luminosité.</string>

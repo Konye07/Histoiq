@@ -1,20 +1,6 @@
 <resources>
     <string name="home_title">Oggi nella Storia</string>
 
-    <string name="home_role_annalist">Annalista</string>
-    <string name="home_role_herald">Araldo</string>
-    <string name="home_role_officer_of_arms">Ufficiale d\'Armi</string>
-    <string name="home_role_cosmographer">Cosmografo</string>
-    <string name="home_role_chronicler">Cronista</string>
-    <string name="home_role_chancellor">Cancelliere</string>
-
-    <string name="home_subtitle_year_guess">Indovina l\'Anno</string>
-    <string name="home_subtitle_casualties_multiplier">Conta delle Vittime</string>
-    <string name="home_subtitle_flag_color_match">Abbina il Colore della Bandiera</string>
-    <string name="home_subtitle_territory_compare">Territorio Maggiore</string>
-    <string name="home_subtitle_true_false">Vero o Falso</string>
-    <string name="home_subtitle_blind_map_battle">Battaglia sulla Mappa al Buio</string>
-
     <string name="home_desc_year_guess">Viene mostrato un evento: indovina l\'anno in cui è accaduto. Più ti avvicini, più punti ottieni.</string>
     <string name="home_desc_casualties_multiplier">Viene mostrata una battaglia: indovina il numero delle vittime. Più la tua stima è vicina, maggiore sarà il tuo moltiplicatore.</string>
     <string name="home_desc_flag_color_match">Abbina il vero colore di una bandiera storica usando i cursori di tonalità, saturazione e luminosità.</string>

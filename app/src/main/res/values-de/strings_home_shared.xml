@@ -1,20 +1,6 @@
 <resources>
     <string name="home_title">Heute in der Geschichte</string>
 
-    <string name="home_role_annalist">Annalist</string>
-    <string name="home_role_herald">Herold</string>
-    <string name="home_role_officer_of_arms">Wappenoffizier</string>
-    <string name="home_role_cosmographer">Kosmograph</string>
-    <string name="home_role_chronicler">Chronist</string>
-    <string name="home_role_chancellor">Kanzler</string>
-
-    <string name="home_subtitle_year_guess">Errate das Jahr</string>
-    <string name="home_subtitle_casualties_multiplier">Verlustzahlen</string>
-    <string name="home_subtitle_flag_color_match">Flaggenfarbe Treffen</string>
-    <string name="home_subtitle_territory_compare">Größeres Territorium</string>
-    <string name="home_subtitle_true_false">Wahr oder Falsch</string>
-    <string name="home_subtitle_blind_map_battle">Blinde Kartenschlacht</string>
-
     <string name="home_desc_year_guess">Ein Ereignis wird gezeigt — errate, in welchem Jahr es stattfand. Je näher du liegst, desto mehr Punkte bekommst du.</string>
     <string name="home_desc_casualties_multiplier">Eine Schlacht wird gezeigt — schätze die Verluste. Je näher deine Schätzung ist, desto größer dein Multiplikator.</string>
     <string name="home_desc_flag_color_match">Triff die wahre Farbe einer historischen Flagge mit den Reglern für Farbton, Sättigung und Helligkeit.</string>

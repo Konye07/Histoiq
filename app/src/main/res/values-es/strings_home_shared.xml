@@ -1,20 +1,6 @@
 <resources>
     <string name="home_title">Hoy en la Historia</string>
 
-    <string name="home_role_annalist">Analista</string>
-    <string name="home_role_herald">Heraldo</string>
-    <string name="home_role_officer_of_arms">Oficial de Armas</string>
-    <string name="home_role_cosmographer">Cosmógrafo</string>
-    <string name="home_role_chronicler">Cronista</string>
-    <string name="home_role_chancellor">Canciller</string>
-
-    <string name="home_subtitle_year_guess">Adivina el Año</string>
-    <string name="home_subtitle_casualties_multiplier">Cuenta de Bajas</string>
-    <string name="home_subtitle_flag_color_match">Iguala el Color de la Bandera</string>
-    <string name="home_subtitle_territory_compare">Territorio Mayor</string>
-    <string name="home_subtitle_true_false">Verdadero o Falso</string>
-    <string name="home_subtitle_blind_map_battle">Batalla en el Mapa a Ciegas</string>
-
     <string name="home_desc_year_guess">Se muestra un evento: adivina el año en que ocurrió. Cuanto más te acerques, más puntos consigues.</string>
     <string name="home_desc_casualties_multiplier">Se muestra una batalla: adivina el número de bajas. Cuanto más te acerques, mayor será tu multiplicador.</string>
     <string name="home_desc_flag_color_match">Iguala el color real de una bandera histórica ajustando los deslizadores de tono, saturación y brillo.</string>

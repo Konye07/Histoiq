@@ -31,9 +31,6 @@ fun Color.darken(amount: Float): Color = lerp(this, Color.Black, amount)
 /** Cream on a dark color, espresso-dark on a light one — always legible either way. */
 fun contrastingOn(color: Color): Color = if (color.luminance() < 0.5f) AppColors.Cream else AppColors.EspressoDark
 
-/** One theme per quiz: its historical role name and signature color. */
-data class GameTheme(val roleName: String, val color: Color)
-
 /**
  * Builds a full color scheme around one game's signature color: it becomes the screen
  * background, with an accent shade (lightened if the base is dark, darkened if it's light,

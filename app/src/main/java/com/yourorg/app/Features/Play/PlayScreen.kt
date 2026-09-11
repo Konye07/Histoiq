@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Data.Quiz.DailyClock
+import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -76,55 +77,55 @@ fun PlayScreen(
 
     val modes = listOf(
         QuizMode(
-            roleName = stringResource(R.string.home_role_annalist),
-            title = stringResource(R.string.home_subtitle_year_guess),
+            roleName = GameKeys.roleName(GameKeys.YEAR_GUESS),
+            title = GameKeys.title(GameKeys.YEAR_GUESS),
             description = stringResource(R.string.home_desc_year_guess),
-            color = AppColors.SlateBlue,
+            color = GameKeys.color(GameKeys.YEAR_GUESS),
             logoAsset = "images/menulogos/01guess_year.png",
             enabled = true,
             onClick = onSelectYearGuess
         ),
         QuizMode(
-            roleName = stringResource(R.string.home_role_herald),
-            title = stringResource(R.string.home_subtitle_casualties_multiplier),
+            roleName = GameKeys.roleName(GameKeys.CASUALTIES_MULTIPLIER),
+            title = GameKeys.title(GameKeys.CASUALTIES_MULTIPLIER),
             description = stringResource(R.string.home_desc_casualties_multiplier),
-            color = AppColors.Maroon,
+            color = GameKeys.color(GameKeys.CASUALTIES_MULTIPLIER),
             logoAsset = "images/menulogos/02casualities.png",
             enabled = true,
             onClick = onSelectCasualtiesMultiplier
         ),
         QuizMode(
-            roleName = stringResource(R.string.home_role_officer_of_arms),
-            title = stringResource(R.string.home_subtitle_flag_color_match),
+            roleName = GameKeys.roleName(GameKeys.FLAG_COLOR_MATCH),
+            title = GameKeys.title(GameKeys.FLAG_COLOR_MATCH),
             description = stringResource(R.string.home_desc_flag_color_match),
-            color = AppColors.OliveDark,
+            color = GameKeys.color(GameKeys.FLAG_COLOR_MATCH),
             logoAsset = "images/menulogos/03paint_flag.png",
             enabled = true,
             onClick = onSelectFlagColorMatch
         ),
         QuizMode(
-            roleName = stringResource(R.string.home_role_cosmographer),
-            title = stringResource(R.string.home_subtitle_territory_compare),
+            roleName = GameKeys.roleName(GameKeys.TERRITORY_COMPARE),
+            title = GameKeys.title(GameKeys.TERRITORY_COMPARE),
             description = stringResource(R.string.home_desc_territory_compare),
-            color = AppColors.ForestDark,
+            color = GameKeys.color(GameKeys.TERRITORY_COMPARE),
             logoAsset = "images/menulogos/04peak_empire_vs.png",
             enabled = true,
             onClick = onSelectTerritoryCompare
         ),
         QuizMode(
-            roleName = stringResource(R.string.home_role_chronicler),
-            title = stringResource(R.string.home_subtitle_true_false),
+            roleName = GameKeys.roleName(GameKeys.TRUE_FALSE),
+            title = GameKeys.title(GameKeys.TRUE_FALSE),
             description = stringResource(R.string.home_desc_true_false),
-            color = AppColors.BrownDark,
+            color = GameKeys.color(GameKeys.TRUE_FALSE),
             logoAsset = "images/menulogos/05hist_statements.png",
             enabled = true,
             onClick = onSelectTrueFalse
         ),
         QuizMode(
-            roleName = stringResource(R.string.home_role_chancellor),
-            title = stringResource(R.string.home_subtitle_blind_map_battle),
+            roleName = GameKeys.roleName(GameKeys.BLIND_MAP_BATTLE),
+            title = GameKeys.title(GameKeys.BLIND_MAP_BATTLE),
             description = stringResource(R.string.home_desc_blind_map_battle),
-            color = AppColors.EspressoDark,
+            color = GameKeys.color(GameKeys.BLIND_MAP_BATTLE),
             logoAsset = "images/menulogos/06battle_map.png",
             enabled = true,
             onClick = onSelectBlindMapBattle

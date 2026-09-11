@@ -1,20 +1,6 @@
 <resources>
     <string name="home_title">Today in History</string>
 
-    <string name="home_role_annalist">Annalist</string>
-    <string name="home_role_herald">Herald</string>
-    <string name="home_role_officer_of_arms">Officer-of-Arms</string>
-    <string name="home_role_cosmographer">Cosmographer</string>
-    <string name="home_role_chronicler">Chronicler</string>
-    <string name="home_role_chancellor">Chancellor</string>
-
-    <string name="home_subtitle_year_guess">Guess the Year</string>
-    <string name="home_subtitle_casualties_multiplier">Casualty Count</string>
-    <string name="home_subtitle_flag_color_match">Match the Flag Color</string>
-    <string name="home_subtitle_territory_compare">Bigger Territory</string>
-    <string name="home_subtitle_true_false">True or False</string>
-    <string name="home_subtitle_blind_map_battle">Blind Map Battle</string>
-
     <string name="home_desc_year_guess">An event is given — guess the year it happened. The closer you are, the more points you score.</string>
     <string name="home_desc_casualties_multiplier">A battle is given — guess the casualties. The closer your guess, the bigger your multiplier.</string>
     <string name="home_desc_flag_color_match">Match a historical flag\'s true color using hue, saturation and brightness sliders.</string>
