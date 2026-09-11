@@ -1,6 +1,8 @@
 package com.yourorg.app.Features.Settings
 
 import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,11 +13,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -43,6 +49,14 @@ import com.yourorg.app.Data.Social.formatFriendCode
 import com.yourorg.app.R
 import kotlinx.coroutines.launch
 
+/**
+ * Hosted separately from the app so it's reachable as a plain URL (Play Console's Data Safety
+ * form requires one). The page's source lives at docs/privacy-policy.html in this repo — update
+ * this constant once it's deployed to its real, permanent host.
+ */
+// TODO: replace with the real hosted URL for docs/privacy-policy.html once it's deployed.
+private const val PRIVACY_POLICY_URL = "https://example.com/privacy-policy.html"
+
 private data class LanguageOption(val code: String, val label: String, val available: Boolean)
 
 private val LANGUAGES = listOf(
@@ -64,7 +78,6 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
     var hapticsEnabled by remember { mutableStateOf(SettingsStore.hapticsEnabled(context)) }
     var dailyReminderEnabled by remember { mutableStateOf(SettingsStore.dailyReminderEnabled(context)) }
 
-    var showPrivacyDialog by remember { mutableStateOf(false) }
     var showDeleteConfirm by remember { mutableStateOf(false) }
 
     val notificationPermissionLauncher = rememberLauncherForActivityResult(
@@ -206,10 +219,18 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .clickable { showPrivacyDialog = true }
-                .padding(vertical = 8.dp)
+                .clickable { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY_URL))) }
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(stringResource(R.string.settings_privacy_policy_title), style = MaterialTheme.typography.bodyMedium)
+            Icon(
+                Icons.AutoMirrored.Outlined.OpenInNew,
+                contentDescription = null,
+                modifier = Modifier.size(16.dp),
+                tint = MaterialTheme.colorScheme.outline
+            )
         }
         if (account != null) {
             Button(
@@ -242,21 +263,6 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}) {
                 Text(stringResource(R.string.settings_sign_in))
             }
         }
-    }
-
-    if (showPrivacyDialog) {
-        AlertDialog(
-            onDismissRequest = { showPrivacyDialog = false },
-            title = { Text(stringResource(R.string.settings_privacy_policy_title)) },
-            text = {
-                Column(Modifier.verticalScroll(rememberScrollState())) {
-                    Text(stringResource(R.string.settings_privacy_policy_text), style = MaterialTheme.typography.bodySmall)
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = { showPrivacyDialog = false }) { Text(stringResource(R.string.settings_close)) }
-            }
-        )
     }
 
     if (showDeleteConfirm) {

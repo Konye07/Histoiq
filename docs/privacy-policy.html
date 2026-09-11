@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Today in History — Privacy Policy</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --paper: #F5F4F0;
+    --paper-raised: #FFFFFF;
+    --ink: #22242A;
+    --ink-muted: #5B5E66;
+    --ink-faint: #8B8E94;
+    --rule: #DDDAD2;
+    --accent: #3D5A80;
+    --accent-ink: #2C4260;
+    --accent-soft: #E4EAF1;
+    --good-soft: #E3EEE6;
+    --good-ink: #2E6B45;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1B1C20;
+      --paper-raised: #232429;
+      --ink: #E8E7E2;
+      --ink-muted: #A8ABB2;
+      --ink-faint: #6E7178;
+      --rule: #35373E;
+      --accent: #8FB0D4;
+      --accent-ink: #A9C6E6;
+      --accent-soft: #232E3B;
+      --good-soft: #1E2E24;
+      --good-ink: #7FC496;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+  }
+
+  .page {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 52px 24px 90px;
+  }
+
+  .mono { font-family: ui-monospace, "SF Mono", Consolas, "Courier New", monospace; }
+
+  header.top { margin-bottom: 8px; }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    margin: 0 0 12px;
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 38px);
+    line-height: 1.15;
+    margin: 0 0 10px;
+  }
+  .meta {
+    font-family: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    margin: 0 0 28px;
+  }
+  .lede {
+    font-size: 16.5px;
+    color: var(--ink-muted);
+    max-width: 62ch;
+    margin: 0 0 36px;
+  }
+
+  nav.toc {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 40px;
+  }
+  nav.toc p.label {
+    font-family: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 10px;
+  }
+  nav.toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 24px;
+  }
+  nav.toc li { break-inside: avoid; margin-bottom: 7px; }
+  nav.toc a { color: var(--ink); text-decoration: none; font-size: 14px; }
+  nav.toc a .num {
+    color: var(--accent-ink);
+    font-family: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 12.5px;
+    margin-right: 8px;
+  }
+  nav.toc a:hover { color: var(--accent-ink); }
+
+  section.entry { margin-bottom: 34px; scroll-margin-top: 20px; }
+  h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    font-size: 21px;
+    margin: 0 0 6px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  h2 .num {
+    font-family: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--accent-ink);
+  }
+  section.entry > p, section.entry > ul { color: var(--ink); font-size: 15.5px; }
+  section.entry ul { margin: 10px 0 10px; padding-left: 22px; }
+  section.entry li { margin-bottom: 8px; }
+  section.entry li::marker { color: var(--accent-ink); }
+
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 14px 0;
+  }
+  .card p { margin: 0; font-size: 14.5px; color: var(--ink-muted); }
+  .card strong { color: var(--ink); }
+  .card.good { border-left-color: var(--good-ink); background: var(--good-soft); }
+  .card.good p { color: var(--good-ink); }
+
+  code.field {
+    font-family: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 0.92em;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  hr.rule { border: none; border-top: 1px solid var(--rule); margin: 44px 0 36px; }
+
+  footer.contact { font-size: 14.5px; color: var(--ink-muted); }
+  footer.contact a { color: var(--accent-ink); }
+  footer.contact p { margin: 0 0 6px; }
+
+  @media (max-width: 520px) {
+    nav.toc ol { columns: 1; }
+    .page { padding: 40px 18px 70px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="top">
+    <p class="eyebrow">Privacy Policy</p>
+    <h1>Today in History</h1>
+    <p class="meta">Effective September 11, 2026 · Applies to the Today in History Android app</p>
+    <p class="lede">This page explains, in full, what the Today in History app collects, why, where it's stored, and what control you have over it — matching exactly what the app's code actually does, not a generic template.</p>
+  </header>
+
+  <nav class="toc" aria-label="Table of contents">
+    <p class="label">Jump to a section</p>
+    <ol>
+      <li><a href="#overview"><span class="num">1</span>Overview</a></li>
+      <li><a href="#account"><span class="num">2</span>Account information</a></li>
+      <li><a href="#gameplay"><span class="num">3</span>Gameplay data</a></li>
+      <li><a href="#friends"><span class="num">4</span>Friends</a></li>
+      <li><a href="#security"><span class="num">5</span>Security audit log</a></li>
+      <li><a href="#device"><span class="num">6</span>On-device-only settings</a></li>
+      <li><a href="#guest"><span class="num">7</span>Guest mode</a></li>
+      <li><a href="#sharing"><span class="num">8</span>Sharing &amp; third parties</a></li>
+      <li><a href="#storage"><span class="num">9</span>Where data is stored</a></li>
+      <li><a href="#choices"><span class="num">10</span>Your choices &amp; deletion</a></li>
+      <li><a href="#children"><span class="num">11</span>Children's privacy</a></li>
+      <li><a href="#changes"><span class="num">12</span>Changes to this policy</a></li>
+      <li><a href="#contact"><span class="num">13</span>Contact</a></li>
+    </ol>
+  </nav>
+
+  <section class="entry" id="overview">
+    <h2><span class="num">1.</span>Overview</h2>
+    <p>Today in History is a daily history-trivia app with six quiz modes, a friends list, and per-game stats. What data exists about you depends entirely on how you use the app:</p>
+    <div class="card">
+      <p><strong>Signed in</strong> (mock Google/Apple sign-in): your account, gameplay, and friends data are stored in a hosted database so your stats and friend leaderboards work the same across every device you sign into.</p>
+    </div>
+    <div class="card good">
+      <p><strong>Continue without login (guest)</strong>: nothing about you is sent anywhere. Scores, stats, and preferences stay only in the app's local storage on your device.</p>
+    </div>
+    <p>Everything below states plainly which of these two modes each kind of data applies to.</p>
+  </section>
+
+  <section class="entry" id="account">
+    <h2><span class="num">2.</span>Account information</h2>
+    <p>If you choose "Continue with Google" or "Continue with Apple," the app creates an account with:</p>
+    <ul>
+      <li><code class="field">display name</code> — shown on your profile and to friends on leaderboards</li>
+      <li><code class="field">email</code> — currently a mock value, not a real address read from Google or Apple, since real OAuth isn't connected yet (see the note below)</li>
+      <li><code class="field">sign-in provider</code> — which button you tapped ("google" or "apple"), display-only</li>
+      <li><code class="field">friend code</code> — a random 9-digit code other players can use to add you as a friend</li>
+      <li>a unique, anonymous account identifier, so the app's database can tell your data apart from every other player's without needing to know who you really are</li>
+    </ul>
+    <div class="card">
+      <p><strong>About "mock" sign-in:</strong> the app doesn't yet have real Google/Apple OAuth credentials configured. Tapping either button creates a real, unique account on the app's backend, but the identity behind it — your name, email — is a placeholder, not anything actually read from your Google or Apple account. No real Google or Apple account data is read, requested, or transmitted. This will be updated if real sign-in is added later.</p>
+    </div>
+  </section>
+
+  <section class="entry" id="gameplay">
+    <h2><span class="num">3.</span>Gameplay data</h2>
+    <p>For a signed-in account, the app stores:</p>
+    <ul>
+      <li>daily quiz progress for each of the six games (which questions you've seen, your answers so far) — so you can close the app mid-quiz and resume later</li>
+      <li>your score for each game, for each day you've played it</li>
+      <li>aggregate stats per game: total games played, average score, and perfect-run count</li>
+    </ul>
+    <p>This is what powers your Profile screen's stats and lets your accepted friends see your daily scores on the Friends leaderboard.</p>
+  </section>
+
+  <section class="entry" id="friends">
+    <h2><span class="num">4.</span>Friends</h2>
+    <p>If you send or accept a friend request, the app stores that connection (which two accounts are connected, and whether the request is pending or accepted) so your Friends leaderboard can show their scores and theirs can show yours. Only accepted friends can see each other's daily scores — no one else can.</p>
+  </section>
+
+  <section class="entry" id="security">
+    <h2><span class="num">5.</span>Security audit log</h2>
+    <p>Every sign-in is logged with its IP address, device/user-agent info, an event label (e.g. "sign_in"), and a timestamp. This log exists solely to detect abuse (e.g. one device mass-creating accounts) and is <strong>never readable by the app itself or any client</strong> — it's written by a server-side function with no read access granted to anyone, reviewed only through direct administrative access to the database when investigating a security concern.</p>
+  </section>
+
+  <section class="entry" id="device">
+    <h2><span class="num">6.</span>On-device-only settings</h2>
+    <p>Your language choice, whether haptic vibration is on, and whether the daily reminder notification is on are stored only in the app's local settings on your device. None of these ever leave your device, whether you're signed in or playing as a guest.</p>
+  </section>
+
+  <section class="entry" id="guest">
+    <h2><span class="num">7.</span>Guest mode</h2>
+    <p>Choosing "Continue without login" means the app never creates an account and never contacts the hosted database with anything identifying you. Your scores, stats, and progress still work — the daily play limit still applies — but all of it lives only in local storage on your device. It isn't backed up, and switching devices starts over. There's no friend code and no friends list in guest mode, since there's no account for anyone to connect to.</p>
+  </section>
+
+  <section class="entry" id="sharing">
+    <h2><span class="num">8.</span>Sharing &amp; third parties</h2>
+    <p>None of the data above is sold, rented, or shared with any third party, advertiser, or analytics service. The app has no advertising SDK and no analytics/tracking SDK integrated — the "Watch Ad" option on hints is a placeholder that doesn't actually show an ad yet, and collects nothing when used.</p>
+    <p>The app's "Share Results" feature is the one exception worth naming explicitly: tapping it hands an image and a line of text to whatever app you pick from your device's own share sheet (Messages, a social app, etc.) — that's a one-time action you trigger yourself, not ongoing data collection, and the app has no visibility into what happens after you choose where to share it.</p>
+  </section>
+
+  <section class="entry" id="storage">
+    <h2><span class="num">9.</span>Where data is stored</h2>
+    <p>Signed-in accounts, gameplay data, friends, and the security audit log are stored in a hosted Postgres database (via Supabase). Access is restricted by row-level security rules scoped to your own account and, for scores specifically, your accepted friends — nobody else's client can read your data directly. Guest-mode data never reaches this database at all; it stays in the app's local storage only.</p>
+  </section>
+
+  <section class="entry" id="choices">
+    <h2><span class="num">10.</span>Your choices &amp; deletion</h2>
+    <ul>
+      <li><strong>Change your display name</strong> anytime from Settings.</li>
+      <li><strong>Turn off</strong> haptics or the daily reminder anytime from Settings — these take effect immediately and stay off until you turn them back on.</li>
+      <li><strong>Delete your account</strong> from Settings → Account → Delete Account. This permanently removes your profile, friends, stats, progress, and score history from the hosted database. This cannot be undone, and none of it can be recovered afterward.</li>
+      <li><strong>Guests</strong> have nothing server-side to delete; uninstalling the app removes the local data guest mode stored on your device.</li>
+    </ul>
+  </section>
+
+  <section class="entry" id="children">
+    <h2><span class="num">11.</span>Children's privacy</h2>
+    <p>Today in History is a general-audience trivia app and isn't directed at children under 13. The app doesn't knowingly collect personal information from children under 13. If you believe a child has provided personal information through the app, contact us using the details below and it will be removed.</p>
+  </section>
+
+  <section class="entry" id="changes">
+    <h2><span class="num">12.</span>Changes to this policy</h2>
+    <p>If what the app collects or how it's used changes, this page will be updated and the "Effective" date at the top will change accordingly. Meaningful changes will also be reflected in the in-app description of this policy in Settings.</p>
+  </section>
+
+  <hr class="rule">
+
+  <footer class="contact" id="contact">
+    <h2 style="margin-bottom:14px;"><span class="num mono" style="font-family:ui-monospace,monospace;font-size:15px;color:var(--accent-ink);">13.</span> Contact</h2>
+    <p>Questions about this policy, or requests to access or delete your data, can be sent to:</p>
+    <p><a href="mailto:mate.konye@gmail.com">mate.konye@gmail.com</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
