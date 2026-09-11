@@ -32,6 +32,9 @@
     <string name="territory_round_matchup">Turno %1$d: %2$s contro %3$s</string>
     <string name="territory_result_correct">Corretto</string>
     <string name="territory_result_wrong">Sbagliato</string>
+    <string name="territory_failed_here">Qui hai perso</string>
+    <string name="territory_unplayed_header">Turni Non Raggiunti</string>
+    <string name="territory_unplayed_bigger">Territorio più grande: %1$s</string>
     <string name="territory_back_to_menu">Torna al Menu</string>
 
     <!-- BlindMapBattleScreen.kt (Chancellor) -->

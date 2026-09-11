@@ -13,5 +13,8 @@
     <string name="tf_survived_all">Hai superato tutte le %1$d affermazioni!</string>
     <string name="tf_made_it_to">Sei arrivato all\'affermazione %1$d.</string>
     <string name="tf_answer_correct_line">La tua risposta: %1$s  ·  Corretto: %2$s</string>
+    <string name="tf_failed_here">Qui hai perso</string>
+    <string name="tf_unplayed_header">Affermazioni Non Raggiunte</string>
+    <string name="tf_unplayed_answer_line">Risposta corretta: %1$s</string>
     <string name="tf_back_to_menu">Torna al Menu</string>
 </resources>

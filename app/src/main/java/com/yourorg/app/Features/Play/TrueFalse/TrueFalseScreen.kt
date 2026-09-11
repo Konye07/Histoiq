@@ -242,6 +242,29 @@ private fun TrueFalseResults(
                     ),
                     style = MaterialTheme.typography.bodySmall
                 )
+                if (failed && i == answers.lastIndex) {
+                    Text(
+                        stringResource(R.string.tf_failed_here),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
+        }
+
+        if (failed && answers.size < statements.size) {
+            HorizontalDivider()
+            Text(stringResource(R.string.tf_unplayed_header), style = MaterialTheme.typography.titleMedium)
+            statements.drop(answers.size).forEach { statement ->
+                val dimmed = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                Column(Modifier.fillMaxWidth()) {
+                    Text(statement.localized(language), style = MaterialTheme.typography.bodyMedium, color = dimmed)
+                    Text(
+                        stringResource(R.string.tf_unplayed_answer_line, if (statement.correctAnswer) trueCaps else falseCaps),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = dimmed
+                    )
+                }
             }
         }
         Button(onClick = onBack) { Text(stringResource(R.string.tf_back_to_menu)) }

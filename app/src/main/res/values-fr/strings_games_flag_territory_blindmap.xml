@@ -32,6 +32,9 @@
     <string name="territory_round_matchup">Manche %1$d : %2$s contre %3$s</string>
     <string name="territory_result_correct">Correct</string>
     <string name="territory_result_wrong">Faux</string>
+    <string name="territory_failed_here">C\'est ici que vous avez perdu</string>
+    <string name="territory_unplayed_header">Manches Non Atteintes</string>
+    <string name="territory_unplayed_bigger">Plus grand territoire : %1$s</string>
     <string name="territory_back_to_menu">Retour au Menu</string>
 
     <!-- BlindMapBattleScreen.kt (Chancellor) -->

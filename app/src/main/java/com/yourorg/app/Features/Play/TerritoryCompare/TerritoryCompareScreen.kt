@@ -154,6 +154,39 @@ private fun drawNext(
     return next
 }
 
+/**
+ * Which side wins a round is ground truth (territory size), independent of what the player
+ * guessed — so the matchups that would have followed a loss are fully determined: the actually
+ * bigger side of the failed round advances as champion, paired against the next challenger already
+ * queued in the shared daily order. Used to show "what would have come next" on a failed run.
+ */
+private fun buildUnplayedRounds(
+    lastChampion: TerritoryCountry,
+    lastChallenger: TerritoryCountry,
+    remainingQueue: List<TerritoryCountry>,
+    startRound: Int,
+    roundsToWin: Int
+): List<Pair<TerritoryCountry, TerritoryCountry>> {
+    val result = mutableListOf<Pair<TerritoryCountry, TerritoryCountry>>()
+    var champion = if (lastChampion.areaKm2 >= lastChallenger.areaKm2) lastChampion else lastChallenger
+    val queue = remainingQueue.toMutableList()
+    var round = startRound
+    while (round <= roundsToWin && queue.isNotEmpty()) {
+        var next = queue.removeAt(0)
+        var attempts = 0
+        while (isTie(next, champion) && queue.isNotEmpty() && attempts < remainingQueue.size) {
+            queue.add(next)
+            next = queue.removeAt(0)
+            attempts++
+        }
+        if (isTie(next, champion)) break
+        result.add(champion to next)
+        champion = if (champion.areaKm2 >= next.areaKm2) champion else next
+        round++
+    }
+    return result
+}
+
 private suspend fun persist(
     context: android.content.Context,
     championId: String,
@@ -239,7 +272,15 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
             val ch = challenger
             when {
                 c == null || ch == null -> CircularProgressIndicator()
-                showResults -> TerritoryResults(won = won, history = history, allCountries = allCountries, onBack = onBack)
+                showResults -> TerritoryResults(
+                    won = won,
+                    history = history,
+                    allCountries = allCountries,
+                    lastChampion = c,
+                    lastChallenger = ch,
+                    remainingQueue = queue.toList(),
+                    onBack = onBack
+                )
                 else -> TerritoryQuestion(
                     champion = c,
                     challenger = ch,
@@ -399,6 +440,9 @@ private fun TerritoryResults(
     won: Boolean,
     history: List<HistoryEntry>,
     allCountries: List<TerritoryCountry>,
+    lastChampion: TerritoryCountry,
+    lastChallenger: TerritoryCountry,
+    remainingQueue: List<TerritoryCountry>,
     onBack: () -> Unit
 ) {
     val score = history.count { it.correct }
@@ -409,6 +453,9 @@ private fun TerritoryResults(
         val result = recordAndRank(context, PROGRESS_KEY, GameKeys.TERRITORY_COMPARE, score.toDouble(), score == ROUNDS_TO_WIN)
         rank = result.rank
         totalPlayers = result.totalPlayers
+    }
+    val unplayedMatchups = remember(won, lastChampion, lastChallenger, remainingQueue) {
+        if (won) emptyList() else buildUnplayedRounds(lastChampion, lastChallenger, remainingQueue, history.size + 1, ROUNDS_TO_WIN)
     }
 
     Column(
@@ -440,6 +487,34 @@ private fun TerritoryResults(
                     if (h.correct) stringResource(R.string.territory_result_correct) else stringResource(R.string.territory_result_wrong),
                     style = MaterialTheme.typography.bodySmall
                 )
+                if (!won && i == history.lastIndex) {
+                    Text(
+                        stringResource(R.string.territory_failed_here),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
+        }
+
+        if (unplayedMatchups.isNotEmpty()) {
+            HorizontalDivider()
+            Text(stringResource(R.string.territory_unplayed_header), style = MaterialTheme.typography.titleMedium)
+            val dimmed = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+            unplayedMatchups.forEachIndexed { offset, (champ, chall) ->
+                val bigger = if (champ.areaKm2 >= chall.areaKm2) champ else chall
+                Column(Modifier.fillMaxWidth()) {
+                    Text(
+                        stringResource(R.string.territory_round_matchup, history.size + 1 + offset, champ.country, chall.country),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = dimmed
+                    )
+                    Text(
+                        stringResource(R.string.territory_unplayed_bigger, bigger.country),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = dimmed
+                    )
+                }
             }
         }
         Button(onClick = onBack) { Text(stringResource(R.string.territory_back_to_menu)) }

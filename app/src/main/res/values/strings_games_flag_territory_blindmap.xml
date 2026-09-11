@@ -32,6 +32,9 @@
     <string name="territory_round_matchup">Round %1$d: %2$s vs %3$s</string>
     <string name="territory_result_correct">Correct</string>
     <string name="territory_result_wrong">Wrong</string>
+    <string name="territory_failed_here">This is where you lost</string>
+    <string name="territory_unplayed_header">Rounds You Didn\'t Reach</string>
+    <string name="territory_unplayed_bigger">Bigger territory: %1$s</string>
     <string name="territory_back_to_menu">Back to Menu</string>
 
     <!-- BlindMapBattleScreen.kt (Chancellor) -->
