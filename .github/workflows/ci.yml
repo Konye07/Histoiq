@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  android:
+    name: Android build + iOS metadata check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Write local.properties
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> local.properties
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> local.properties
+      - name: composeApp assembleDebug (Android)
+        run: ./gradlew :composeApp:assembleDebug --stacktrace
+      # Type-checks commonMain against both platforms' expect/actual contracts without needing
+      # the Kotlin/Native compiler backend — the one iOS-adjacent check that doesn't need macOS.
+      - name: Kotlin metadata compile (iosMain)
+        run: ./gradlew :composeApp:compileIosMainKotlinMetadata --stacktrace
+
+  ios:
+    name: iOS Kotlin/Native compile
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Write local.properties
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> local.properties
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> local.properties
+      # Real Kotlin/Native compilation for both iOS targets — this is the check that can only
+      # run on macOS, and doesn't need an Xcode project/iosApp shell to exist yet.
+      - name: Link iOS frameworks (arm64 device + Apple Silicon simulator)
+        run: |
+          ./gradlew :composeApp:linkDebugFrameworkIosArm64 --stacktrace
+          ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64 --stacktrace
