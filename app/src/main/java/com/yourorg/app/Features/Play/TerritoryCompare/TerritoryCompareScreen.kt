@@ -52,8 +52,11 @@ import com.yourorg.app.Data.Quiz.loadTerritories
 import com.yourorg.app.Data.Quiz.recordAndRank
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.jsonObject
 import kotlin.random.Random
 
 private const val ROUNDS_TO_WIN = 10
@@ -62,11 +65,23 @@ private const val PROGRESS_KEY = GameKeys.TERRITORY_COMPARE
 /** Big enough to comfortably outlast a 10-round run (plus tie-skip retries) drawn from one day's shared pool. */
 private const val DAILY_POOL_SIZE = 60
 
+@Serializable
 private data class HistoryEntry(
     val championId: String,
     val challengerId: String,
     val pickedChampionSide: Boolean,
     val correct: Boolean
+)
+
+@Serializable
+private data class TerritoryProgressState(
+    val championId: String,
+    val challengerId: String,
+    val queueIds: List<String>,
+    val round: Int,
+    val finished: Boolean,
+    val won: Boolean,
+    val history: List<HistoryEntry> = emptyList()
 )
 
 /**
@@ -149,24 +164,8 @@ private suspend fun persist(
     won: Boolean,
     history: List<HistoryEntry>
 ) {
-    val obj = JSONObject()
-    obj.put("championId", championId)
-    obj.put("challengerId", challengerId)
-    obj.put("queueIds", JSONArray(queueIds))
-    obj.put("round", round)
-    obj.put("finished", finished)
-    obj.put("won", won)
-    val historyArray = JSONArray()
-    history.forEach { h ->
-        val o = JSONObject()
-        o.put("championId", h.championId)
-        o.put("challengerId", h.challengerId)
-        o.put("pickedChampionSide", h.pickedChampionSide)
-        o.put("correct", h.correct)
-        historyArray.put(o)
-    }
-    obj.put("history", historyArray)
-    QuizProgressStore.save(context, PROGRESS_KEY, obj)
+    val state = TerritoryProgressState(championId, challengerId, queueIds, round, finished, won, history)
+    QuizProgressStore.save(context, PROGRESS_KEY, Json.encodeToJsonElement(state).jsonObject)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -200,26 +199,14 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
 
         val stored = QuizProgressStore.load(context, PROGRESS_KEY)
         if (stored != null) {
-            val queueIds = stored.getJSONArray("queueIds").let { arr -> List(arr.length()) { arr.getString(it) } }
-            queue.addAll(queueIds.mapNotNull { id -> pool.find { it.id == id } })
-            champion = pool.find { it.id == stored.getString("championId") }
-            challenger = pool.find { it.id == stored.getString("challengerId") }
-            round = stored.getInt("round")
-            won = stored.optBoolean("won", false)
-            showResults = stored.optBoolean("finished", false)
-            stored.optJSONArray("history")?.let { arr ->
-                repeat(arr.length()) { i ->
-                    val o = arr.getJSONObject(i)
-                    history.add(
-                        HistoryEntry(
-                            o.getString("championId"),
-                            o.getString("challengerId"),
-                            o.getBoolean("pickedChampionSide"),
-                            o.getBoolean("correct")
-                        )
-                    )
-                }
-            }
+            val state = Json.decodeFromJsonElement<TerritoryProgressState>(stored)
+            queue.addAll(state.queueIds.mapNotNull { id -> pool.find { it.id == id } })
+            champion = pool.find { it.id == state.championId }
+            challenger = pool.find { it.id == state.challengerId }
+            round = state.round
+            won = state.won
+            showResults = state.finished
+            history.addAll(state.history)
         } else {
             queue.addAll(buildClusteredQueue(pool, dailyRandom))
             val champ = queue.removeAt(0)

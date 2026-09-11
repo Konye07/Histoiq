@@ -52,20 +52,22 @@ import com.yourorg.app.R
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleLocation
-import com.yourorg.app.Data.Quiz.DailyClock
-import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
+import com.yourorg.app.Data.Quiz.getDoubleList
 import com.yourorg.app.Data.Quiz.haversineKm
 import com.yourorg.app.Data.Quiz.loadBattleLocations
 import com.yourorg.app.Data.Quiz.recordAndRank
+import com.yourorg.app.Data.Quiz.resumeOrStartQuiz
 import com.yourorg.app.Data.Quiz.mapPinpointScore
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import kotlin.math.min
 
 /**
@@ -95,12 +97,12 @@ private suspend fun persist(
     guessLngs: List<Double>,
     scores: List<Double>
 ) {
-    val obj = JSONObject()
-    obj.put("ids", JSONArray(ids))
-    obj.put("guessLats", JSONArray(guessLats))
-    obj.put("guessLngs", JSONArray(guessLngs))
-    obj.put("scores", JSONArray(scores))
-    QuizProgressStore.save(context, PROGRESS_KEY, obj)
+    QuizProgressStore.save(context, PROGRESS_KEY, buildJsonObject {
+        put("ids", JsonArray(ids.map { JsonPrimitive(it) }))
+        put("guessLats", JsonArray(guessLats.map { JsonPrimitive(it) }))
+        put("guessLngs", JsonArray(guessLngs.map { JsonPrimitive(it) }))
+        put("scores", JsonArray(scores.map { JsonPrimitive(it) }))
+    })
 }
 
 private fun offsetToLatLng(offset: Offset, size: IntSize): Pair<Double, Double> {
@@ -133,20 +135,13 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
         worldMap = withContext(Dispatchers.Default) {
             context.assets.open("images/world_map.png").use { BitmapFactory.decodeStream(it) }.asImageBitmap()
         }
-        val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("ids") }
-        if (stored != null) {
-            val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
-            val rows = loadBattleLocations(ids)
-            battles = ids.mapNotNull { id -> rows.find { it.id == id } }
-            stored.optJSONArray("guessLats")?.let { arr -> repeat(arr.length()) { guessLats.add(arr.getDouble(it)) } }
-            stored.optJSONArray("guessLngs")?.let { arr -> repeat(arr.length()) { guessLngs.add(arr.getDouble(it)) } }
-            stored.optJSONArray("scores")?.let { arr -> repeat(arr.length()) { scores.add(arr.getDouble(it)) } }
+        val resume = resumeOrStartQuiz(context, PROGRESS_KEY, QUESTIONS_PER_ROUND, { it.id }, ::loadBattleLocations)
+        battles = resume.questions
+        resume.resumedState?.let { stored ->
+            guessLats.addAll(stored.getDoubleList("guessLats"))
+            guessLngs.addAll(stored.getDoubleList("guessLngs"))
+            scores.addAll(stored.getDoubleList("scores"))
             questionIndex = scores.size
-        } else {
-            val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, DailyClock.todayKey(), QUESTIONS_PER_ROUND)
-            val rows = loadBattleLocations(ids)
-            battles = ids.mapNotNull { id -> rows.find { it.id == id } }
-            persist(context, ids, emptyList(), emptyList(), emptyList())
         }
     }
 

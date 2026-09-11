@@ -6,7 +6,7 @@ import com.yourorg.app.Data.Remote.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.json.JSONObject
+import kotlinx.serialization.json.Json
 
 data class GameStats(val gamesPlayed: Int, val averageScore: Double, val perfectCount: Int)
 
@@ -22,25 +22,27 @@ object StatsStore {
         val account = AccountRepository.currentAccount()
         val today = DailyClock.todayKey()
         if (account == null) {
-            val obj = loadRaw(context, quizKey)
-            if (obj.optString("lastRecordedDate") == today) return
-            obj.put("gamesPlayed", obj.optInt("gamesPlayed", 0) + 1)
-            obj.put("totalScore", obj.optDouble("totalScore", 0.0) + score)
-            obj.put("perfectCount", obj.optInt("perfectCount", 0) + if (isPerfect) 1 else 0)
-            obj.put("lastRecordedDate", today)
-            prefs(context).edit().putString(quizKey, obj.toString()).apply()
+            val existing = loadRaw(context, quizKey)
+            if (existing.lastRecordedDate == today) return
+            val updated = existing.copy(
+                gamesPlayed = existing.gamesPlayed + 1,
+                totalScore = existing.totalScore + score,
+                perfectCount = existing.perfectCount + if (isPerfect) 1 else 0,
+                lastRecordedDate = today
+            )
+            prefs(context).edit().putString(quizKey, Json.encodeToString(updated)).apply()
             return
         }
 
-        val existing = fetchRemote(account.id, quizKey)
-        if (existing?.lastRecordedDate == today) return
+        val existingRemote = fetchRemote(account.id, quizKey)
+        if (existingRemote?.lastRecordedDate == today) return
         SupabaseClient.client.postgrest.from("game_stats").upsert(
             GameStatsRow(
                 userId = account.id,
                 gameKey = quizKey,
-                gamesPlayed = (existing?.gamesPlayed ?: 0) + 1,
-                totalScore = (existing?.totalScore ?: 0.0) + score,
-                perfectCount = (existing?.perfectCount ?: 0) + if (isPerfect) 1 else 0,
+                gamesPlayed = (existingRemote?.gamesPlayed ?: 0) + 1,
+                totalScore = (existingRemote?.totalScore ?: 0.0) + score,
+                perfectCount = (existingRemote?.perfectCount ?: 0) + if (isPerfect) 1 else 0,
                 lastRecordedDate = today
             )
         )
@@ -49,12 +51,9 @@ object StatsStore {
     suspend fun statsFor(context: Context, quizKey: String): GameStats {
         val account = AccountRepository.currentAccount()
         if (account == null) {
-            val obj = loadRaw(context, quizKey)
-            val gamesPlayed = obj.optInt("gamesPlayed", 0)
-            val totalScore = obj.optDouble("totalScore", 0.0)
-            val perfectCount = obj.optInt("perfectCount", 0)
-            val average = if (gamesPlayed > 0) totalScore / gamesPlayed else 0.0
-            return GameStats(gamesPlayed, average, perfectCount)
+            val raw = loadRaw(context, quizKey)
+            val average = if (raw.gamesPlayed > 0) raw.totalScore / raw.gamesPlayed else 0.0
+            return GameStats(raw.gamesPlayed, average, raw.perfectCount)
         }
 
         val row = fetchRemote(account.id, quizKey) ?: return GameStats(0, 0.0, 0)
@@ -71,14 +70,23 @@ object StatsStore {
             .select { filter { eq("user_id", userId); eq("game_key", quizKey) } }
             .decodeSingleOrNull<GameStatsRow>()
 
-    private fun loadRaw(context: Context, quizKey: String): JSONObject {
-        val raw = prefs(context).getString(quizKey, null) ?: return JSONObject()
-        return JSONObject(raw)
+    /** Old org.json-era data that fails to parse under the new format is treated as "no stats yet," not a crash. */
+    private fun loadRaw(context: Context, quizKey: String): GuestStats {
+        val raw = prefs(context).getString(quizKey, null) ?: return GuestStats()
+        return runCatching { Json.decodeFromString<GuestStats>(raw) }.getOrDefault(GuestStats())
     }
 
     private fun prefs(context: Context) =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 }
+
+@Serializable
+private data class GuestStats(
+    val gamesPlayed: Int = 0,
+    val totalScore: Double = 0.0,
+    val perfectCount: Int = 0,
+    val lastRecordedDate: String? = null
+)
 
 @Serializable
 private data class GameStatsRow(

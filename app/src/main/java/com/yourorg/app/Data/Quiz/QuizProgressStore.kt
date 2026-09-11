@@ -8,39 +8,37 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import org.json.JSONObject
 
 /**
  * A signed-in account's quiz progress lives in the shared `quiz_progress` table, keyed by
  * (user_id, game_key, date_key) so a resume works across devices. A guest (no account) keeps the
  * original device-local, same-CET-day SharedPreferences behavior, since there's nowhere remote to
- * put it.
+ * put it — wrapped in [GuestEnvelope] purely to carry that freshness date alongside the state.
  */
 object QuizProgressStore {
     private const val PREFS_NAME = "quiz_progress"
 
-    suspend fun load(context: Context, quizKey: String): JSONObject? {
+    suspend fun load(context: Context, quizKey: String): JsonObject? {
         val account = AccountRepository.currentAccount()
         if (account == null) {
             val raw = prefs(context).getString(quizKey, null) ?: return null
-            val obj = JSONObject(raw)
-            if (obj.optString("date") != DailyClock.todayKey()) return null
-            return obj
+            val envelope = runCatching { Json.decodeFromString<GuestEnvelope>(raw) }.getOrNull() ?: return null
+            if (envelope.date != DailyClock.todayKey()) return null
+            return envelope.state
         }
         val row = fetchRemote(account.id, quizKey, DailyClock.todayKey()) ?: return null
-        return JSONObject(row.state.toString())
+        return row.state
     }
 
-    suspend fun save(context: Context, quizKey: String, state: JSONObject) {
+    suspend fun save(context: Context, quizKey: String, state: JsonObject) {
         val account = AccountRepository.currentAccount()
         if (account == null) {
-            state.put("date", DailyClock.todayKey())
-            prefs(context).edit().putString(quizKey, state.toString()).apply()
+            val envelope = GuestEnvelope(DailyClock.todayKey(), state)
+            prefs(context).edit().putString(quizKey, Json.encodeToString(envelope)).apply()
             return
         }
-        val jsonState = Json.parseToJsonElement(state.toString()) as JsonObject
         SupabaseClient.client.postgrest.from("quiz_progress").upsert(
-            QuizProgressRow(account.id, quizKey, DailyClock.todayKey(), jsonState)
+            QuizProgressRow(account.id, quizKey, DailyClock.todayKey(), state)
         )
     }
 
@@ -57,6 +55,9 @@ object QuizProgressStore {
     private fun prefs(context: Context) =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 }
+
+@Serializable
+private data class GuestEnvelope(val date: String, val state: JsonObject)
 
 @Serializable
 private data class QuizProgressRow(

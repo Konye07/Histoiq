@@ -38,28 +38,32 @@ import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.DailyClock
-import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.TrueFalseStatement
+import com.yourorg.app.Data.Quiz.getBooleanList
 import com.yourorg.app.Data.Quiz.loadTrueFalseStatements
 import com.yourorg.app.Data.Quiz.recordAndRank
+import com.yourorg.app.Data.Quiz.resumeOrStartQuiz
 import com.yourorg.app.Data.Settings.SettingsStore
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
 import com.yourorg.app.R
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 
 private const val ROUNDS_TO_WIN = 10
 private const val PROGRESS_KEY = GameKeys.TRUE_FALSE
 
 private suspend fun persist(context: android.content.Context, ids: List<String>, answers: List<Boolean>, failed: Boolean) {
-    val obj = JSONObject()
-    obj.put("ids", JSONArray(ids))
-    obj.put("answers", JSONArray(answers))
-    obj.put("failed", failed)
-    QuizProgressStore.save(context, PROGRESS_KEY, obj)
+    QuizProgressStore.save(context, PROGRESS_KEY, buildJsonObject {
+        put("ids", JsonArray(ids.map { JsonPrimitive(it) }))
+        put("answers", JsonArray(answers.map { JsonPrimitive(it) }))
+        put("failed", failed)
+    })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,20 +80,13 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
     val answers = remember { mutableStateListOf<Boolean>() }
 
     LaunchedEffect(Unit) {
-        val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("ids") }
-        if (stored != null) {
-            val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
-            val rows = loadTrueFalseStatements(ids)
-            statements = ids.mapNotNull { id -> rows.find { it.id == id } }
-            stored.optJSONArray("answers")?.let { arr -> repeat(arr.length()) { answers.add(arr.getBoolean(it)) } }
-            failed = stored.optBoolean("failed", false)
+        val resume = resumeOrStartQuiz(context, PROGRESS_KEY, ROUNDS_TO_WIN, { it.id }, ::loadTrueFalseStatements)
+        statements = resume.questions
+        resume.resumedState?.let { stored ->
+            answers.addAll(stored.getBooleanList("answers"))
+            failed = (stored["failed"] as? JsonPrimitive)?.boolean ?: false
             index = answers.size
             showResults = failed || index >= statements.size
-        } else {
-            val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, DailyClock.todayKey(), ROUNDS_TO_WIN)
-            val rows = loadTrueFalseStatements(ids)
-            statements = ids.mapNotNull { id -> rows.find { it.id == id } }
-            persist(context, ids, emptyList(), false)
         }
     }
 

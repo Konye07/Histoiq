@@ -44,32 +44,36 @@ import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleCasualty
 import com.yourorg.app.Data.Quiz.DailyClock
 import com.yourorg.app.Data.Quiz.DailyDistribution
-import com.yourorg.app.Data.Quiz.DailyQuizRepository
 import com.yourorg.app.Data.Quiz.GameKeys
 import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.casualtyMultiplier
 import com.yourorg.app.Data.Quiz.formatEraYear
 import com.yourorg.app.Data.Quiz.formatThousands
+import com.yourorg.app.Data.Quiz.getDoubleList
+import com.yourorg.app.Data.Quiz.getLongList
 import com.yourorg.app.Data.Quiz.loadBattleCasualties
 import com.yourorg.app.Data.Quiz.recordAndRank
+import com.yourorg.app.Data.Quiz.resumeOrStartQuiz
 import com.yourorg.app.Features.Play.Shared.GuessDistributionAxis
 import com.yourorg.app.Features.Play.Shared.HintAction
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
 import kotlin.math.ln
 import kotlin.math.max
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 
 private const val QUESTIONS_PER_ROUND = 5
 private const val PROGRESS_KEY = GameKeys.CASUALTIES_MULTIPLIER
 
 private suspend fun persist(context: android.content.Context, ids: List<String>, guesses: List<Long>, multipliers: List<Double>) {
-    val obj = JSONObject()
-    obj.put("ids", JSONArray(ids))
-    obj.put("guesses", JSONArray(guesses))
-    obj.put("multipliers", JSONArray(multipliers))
-    QuizProgressStore.save(context, PROGRESS_KEY, obj)
+    QuizProgressStore.save(context, PROGRESS_KEY, buildJsonObject {
+        put("ids", JsonArray(ids.map { JsonPrimitive(it) }))
+        put("guesses", JsonArray(guesses.map { JsonPrimitive(it) }))
+        put("multipliers", JsonArray(multipliers.map { JsonPrimitive(it) }))
+    })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,21 +89,12 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
     val multipliers = remember { mutableStateListOf<Double>() }
 
     LaunchedEffect(Unit) {
-        val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("ids") }
-        if (stored != null) {
-            val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
-            val rows = loadBattleCasualties(ids)
-            battles = ids.mapNotNull { id -> rows.find { it.id == id } }
-            val storedGuesses = stored.optJSONArray("guesses")
-            if (storedGuesses != null) repeat(storedGuesses.length()) { guesses.add(storedGuesses.getLong(it)) }
-            val storedMultipliers = stored.optJSONArray("multipliers")
-            if (storedMultipliers != null) repeat(storedMultipliers.length()) { multipliers.add(storedMultipliers.getDouble(it)) }
+        val resume = resumeOrStartQuiz(context, PROGRESS_KEY, QUESTIONS_PER_ROUND, { it.id }, ::loadBattleCasualties)
+        battles = resume.questions
+        resume.resumedState?.let { stored ->
+            guesses.addAll(stored.getLongList("guesses"))
+            multipliers.addAll(stored.getDoubleList("multipliers"))
             questionIndex = multipliers.size
-        } else {
-            val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, DailyClock.todayKey(), QUESTIONS_PER_ROUND)
-            val rows = loadBattleCasualties(ids)
-            battles = ids.mapNotNull { id -> rows.find { it.id == id } }
-            persist(context, ids, emptyList(), emptyList())
         }
     }
 

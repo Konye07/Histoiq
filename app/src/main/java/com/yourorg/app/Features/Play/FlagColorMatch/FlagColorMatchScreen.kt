@@ -71,14 +71,19 @@ import com.yourorg.app.Data.Quiz.QuizProgressStore
 import com.yourorg.app.Data.Quiz.buildFlagColorAnalysis
 import com.yourorg.app.Data.Quiz.colorMatchScore
 import com.yourorg.app.Data.Quiz.findFlagColorCandidates
+import com.yourorg.app.Data.Quiz.getDoubleList
+import com.yourorg.app.Data.Quiz.getIntList
+import com.yourorg.app.Data.Quiz.getStringList
 import com.yourorg.app.Data.Quiz.loadFlagColors
 import com.yourorg.app.Data.Quiz.recordAndRank
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import kotlin.math.roundToInt
 
 private const val QUESTIONS_PER_ROUND = 5
@@ -95,16 +100,16 @@ private suspend fun persist(
     brightnesses: List<Int>,
     scores: List<Double>
 ) {
-    val obj = JSONObject()
-    obj.put("ids", JSONArray(ids))
-    obj.put("targetHues", JSONArray(targetHues))
-    obj.put("targetSaturations", JSONArray(targetSaturations))
-    obj.put("targetBrightnesses", JSONArray(targetBrightnesses))
-    obj.put("hues", JSONArray(hues))
-    obj.put("saturations", JSONArray(saturations))
-    obj.put("brightnesses", JSONArray(brightnesses))
-    obj.put("scores", JSONArray(scores))
-    QuizProgressStore.save(context, PROGRESS_KEY, obj)
+    QuizProgressStore.save(context, PROGRESS_KEY, buildJsonObject {
+        put("ids", JsonArray(ids.map { JsonPrimitive(it) }))
+        put("targetHues", JsonArray(targetHues.map { JsonPrimitive(it) }))
+        put("targetSaturations", JsonArray(targetSaturations.map { JsonPrimitive(it) }))
+        put("targetBrightnesses", JsonArray(targetBrightnesses.map { JsonPrimitive(it) }))
+        put("hues", JsonArray(hues.map { JsonPrimitive(it) }))
+        put("saturations", JsonArray(saturations.map { JsonPrimitive(it) }))
+        put("brightnesses", JsonArray(brightnesses.map { JsonPrimitive(it) }))
+        put("scores", JsonArray(scores.map { JsonPrimitive(it) }))
+    })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -124,23 +129,21 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
     val scores = remember { mutableStateListOf<Double>() }
 
     LaunchedEffect(Unit) {
-        val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { it.has("targetHues") }
+        val stored = QuizProgressStore.load(context, PROGRESS_KEY)?.takeIf { "targetHues" in it }
         val chosen: List<FlagColor>
         val targets: List<FlagColorCandidate>
         if (stored != null) {
-            val ids = stored.getJSONArray("ids").let { arr -> List(arr.length()) { arr.getString(it) } }
+            val ids = stored.getStringList("ids")
             val rows = loadFlagColors(ids)
             chosen = ids.mapNotNull { id -> rows.find { it.id == id } }
-            val targetHueArr = stored.getJSONArray("targetHues")
-            val targetSatArr = stored.getJSONArray("targetSaturations")
-            val targetBrightArr = stored.getJSONArray("targetBrightnesses")
-            targets = List(targetHueArr.length()) { i ->
-                FlagColorCandidate(targetHueArr.getInt(i), targetSatArr.getInt(i), targetBrightArr.getInt(i))
-            }
-            stored.optJSONArray("hues")?.let { arr -> repeat(arr.length()) { guessHues.add(arr.getInt(it)) } }
-            stored.optJSONArray("saturations")?.let { arr -> repeat(arr.length()) { guessSaturations.add(arr.getInt(it)) } }
-            stored.optJSONArray("brightnesses")?.let { arr -> repeat(arr.length()) { guessBrightnesses.add(arr.getInt(it)) } }
-            stored.optJSONArray("scores")?.let { arr -> repeat(arr.length()) { scores.add(arr.getDouble(it)) } }
+            val targetHues = stored.getIntList("targetHues")
+            val targetSats = stored.getIntList("targetSaturations")
+            val targetBrights = stored.getIntList("targetBrightnesses")
+            targets = targetHues.indices.map { i -> FlagColorCandidate(targetHues[i], targetSats[i], targetBrights[i]) }
+            guessHues.addAll(stored.getIntList("hues"))
+            guessSaturations.addAll(stored.getIntList("saturations"))
+            guessBrightnesses.addAll(stored.getIntList("brightnesses"))
+            scores.addAll(stored.getDoubleList("scores"))
             questionIndex = scores.size
         } else {
             val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, DailyClock.todayKey(), QUESTIONS_PER_ROUND)

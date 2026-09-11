@@ -6,7 +6,7 @@ import com.yourorg.app.Data.Remote.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.json.JSONObject
+import kotlinx.serialization.json.Json
 import java.time.LocalDate
 
 private const val HISTORY_DAYS_KEPT = 7L
@@ -24,10 +24,10 @@ object ScoreHistoryStore {
     suspend fun recordResult(context: Context, quizKey: String, score: Double) {
         val account = AccountRepository.currentAccount()
         if (account == null) {
-            val obj = loadRaw(context, quizKey)
-            obj.put(DailyClock.todayKey(), score)
-            pruneOld(obj)
-            prefs(context).edit().putString(quizKey, obj.toString()).apply()
+            val map = loadRaw(context, quizKey).toMutableMap()
+            map[DailyClock.todayKey()] = score
+            pruneOld(map)
+            prefs(context).edit().putString(quizKey, Json.encodeToString(map.toMap())).apply()
             return
         }
         SupabaseClient.client.postgrest.from("score_history").upsert(
@@ -38,8 +38,7 @@ object ScoreHistoryStore {
     suspend fun resultFor(context: Context, quizKey: String, dateKey: String): Double? {
         val account = AccountRepository.currentAccount()
         if (account == null) {
-            val obj = loadRaw(context, quizKey)
-            return if (obj.has(dateKey)) obj.getDouble(dateKey) else null
+            return loadRaw(context, quizKey)[dateKey]
         }
         return SupabaseClient.client.postgrest.from("score_history")
             .select {
@@ -68,21 +67,22 @@ object ScoreHistoryStore {
         prefs(context).edit().clear().apply()
     }
 
-    private fun pruneOld(obj: JSONObject) {
+    private fun pruneOld(map: MutableMap<String, Double>) {
         val cutoff = LocalDate.parse(DailyClock.todayKey()).minusDays(HISTORY_DAYS_KEPT)
-        val staleKeys = obj.keys().asSequence().filter { key ->
+        val staleKeys = map.keys.filter { key ->
             try {
                 LocalDate.parse(key) < cutoff
             } catch (e: Exception) {
                 false
             }
-        }.toList()
-        staleKeys.forEach { obj.remove(it) }
+        }
+        staleKeys.forEach { map.remove(it) }
     }
 
-    private fun loadRaw(context: Context, quizKey: String): JSONObject {
-        val raw = prefs(context).getString(quizKey, null) ?: return JSONObject()
-        return JSONObject(raw)
+    /** Old org.json-era data that fails to parse under the new format is treated as "no history yet," not a crash. */
+    private fun loadRaw(context: Context, quizKey: String): Map<String, Double> {
+        val raw = prefs(context).getString(quizKey, null) ?: return emptyMap()
+        return runCatching { Json.decodeFromString<Map<String, Double>>(raw) }.getOrDefault(emptyMap())
     }
 
     private fun prefs(context: Context) =
