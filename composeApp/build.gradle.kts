@@ -96,6 +96,10 @@ kotlin {
                 // implicitly in the old `app` module; kotlinx-datetime is new, needed to replace
                 // java.time in DailyClock.kt, which doesn't exist on Kotlin/Native).
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+                // Cross-platform key-value storage — Android SharedPreferences-equivalent /
+                // NSUserDefaults-equivalent, replacing this project's hand-rolled Context-based
+                // SharedPreferences access in the four data stores.
+                implementation("com.russhwolf:multiplatform-settings:1.3.0")
                 // 0.7.1, not the latest: supabase-kt 3.2.4 strictly constrains kotlinx-datetime to
                 // 0.7.1 (confirmed via dependencyInsight) — declaring that version directly instead
                 // of an older one that Gradle would silently override anyway.
