@@ -11,7 +11,6 @@ plugins {
     // so this exact version came from CI's own error log, not a guess. Confirmed via the Kotlin
     // Multiplatform compatibility guide: Gradle 8.11.1 and AGP 8.10.0 both remain compatible with
     // Kotlin 2.3.20 (range 8.2.2-9.0.0), so no other toolchain version needed to move either.
-    id("org.jetbrains.kotlin.android") version "2.3.20" apply false
     id("org.jetbrains.kotlin.plugin.compose") version "2.3.20" apply false
     id("org.jetbrains.kotlin.plugin.serialization") version "2.3.20" apply false
     id("org.jetbrains.kotlin.multiplatform") version "2.3.20" apply false
