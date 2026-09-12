@@ -55,9 +55,20 @@ jobs:
         working-directory: iosApp
       # Simulator build only — no distribution/signing certificate exists, and none is needed to
       # verify the Xcode project + Swift/Kotlin framework integration actually builds.
+      # -derivedDataPath pins the output location so the next step can find it (the default
+      # DerivedData path includes a random per-checkout hash).
       - name: Build iosApp (Simulator)
         run: |
           xcodebuild -project iosApp.xcodeproj -scheme iosApp \
             -sdk iphonesimulator -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO build
         working-directory: iosApp
+      # Lets you download iosApp.app from this run's Actions summary page and upload it straight to
+      # appetize.io (or any other simulator-based tester) without a Mac — arm64-only, which matches
+      # what Appetize's own docs currently recommend uploading.
+      - name: Upload iOS Simulator .app
+        uses: actions/upload-artifact@v4
+        with:
+          name: iosApp-simulator
+          path: iosApp/build/Build/Products/Debug-iphonesimulator/iosApp.app
