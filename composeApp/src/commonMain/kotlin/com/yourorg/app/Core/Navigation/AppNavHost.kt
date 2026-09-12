@@ -18,6 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Localization.StringsHomeShared
+import com.yourorg.app.Core.Network.GameGate
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.contrastingOn
 import com.yourorg.app.Core.Theme.lighten
@@ -95,22 +96,22 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
                 )
             }
             composable(NavRoutes.YearGuess.route) {
-                YearGuessScreen(onBack = { navController.popBackStack() })
+                GameGate { YearGuessScreen(onBack = { navController.popBackStack() }) }
             }
             composable(NavRoutes.CasualtiesMultiplier.route) {
-                CasualtiesMultiplierScreen(onBack = { navController.popBackStack() })
+                GameGate { CasualtiesMultiplierScreen(onBack = { navController.popBackStack() }) }
             }
             composable(NavRoutes.FlagColorMatch.route) {
-                FlagColorMatchScreen(onBack = { navController.popBackStack() })
+                GameGate { FlagColorMatchScreen(onBack = { navController.popBackStack() }) }
             }
             composable(NavRoutes.TerritoryCompare.route) {
-                TerritoryCompareScreen(onBack = { navController.popBackStack() })
+                GameGate { TerritoryCompareScreen(onBack = { navController.popBackStack() }) }
             }
             composable(NavRoutes.TrueFalse.route) {
-                TrueFalseScreen(onBack = { navController.popBackStack() })
+                GameGate { TrueFalseScreen(onBack = { navController.popBackStack() }) }
             }
             composable(NavRoutes.BlindMapBattle.route) {
-                BlindMapBattleScreen(onBack = { navController.popBackStack() })
+                GameGate { BlindMapBattleScreen(onBack = { navController.popBackStack() }) }
             }
             composable(NavRoutes.Friends.route) { FriendsScreen() }
             composable(NavRoutes.Profile.route) { ProfileScreen() }

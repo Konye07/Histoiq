@@ -318,4 +318,22 @@ object StringsHomeShared {
             AppLanguage.IT -> "Battaglia sulla Mappa al Buio"
         }
 
+    val no_connection_title: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "No internet connection"
+            AppLanguage.ES -> "Sin conexión a internet"
+            AppLanguage.FR -> "Aucune connexion internet"
+            AppLanguage.DE -> "Keine Internetverbindung"
+            AppLanguage.IT -> "Nessuna connessione internet"
+        }
+
+    val no_connection_body: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Today's quizzes need a connection to load — connect to Wi-Fi or mobile data and this screen will move on by itself."
+            AppLanguage.ES -> "Los cuestionarios de hoy necesitan conexión para cargarse — conéctate a Wi-Fi o datos móviles y esta pantalla avanzará sola."
+            AppLanguage.FR -> "Les quiz du jour ont besoin d'une connexion pour se charger — connecte-toi au Wi-Fi ou aux données mobiles et cet écran passera automatiquement."
+            AppLanguage.DE -> "Die heutigen Quizze brauchen eine Verbindung zum Laden — verbinde dich mit WLAN oder mobilen Daten, dann geht es hier von selbst weiter."
+            AppLanguage.IT -> "I quiz di oggi hanno bisogno di una connessione per caricarsi — collegati al Wi-Fi o ai dati mobili e questa schermata proseguirà da sola."
+        }
+
 }

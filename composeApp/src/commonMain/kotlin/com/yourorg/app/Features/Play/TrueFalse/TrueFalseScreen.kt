@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.Core.Ads.AdGatedResults
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Localization.StringsGamesTruefalse
 import com.yourorg.app.Core.Theme.AppColors
@@ -74,6 +75,7 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
     var correct by remember { mutableStateOf(false) }
     var showResults by remember { mutableStateOf(false) }
     var failed by remember { mutableStateOf(false) }
+    var resumedAlreadyDone by remember { mutableStateOf(false) }
     val answers = remember { mutableStateListOf<Boolean>() }
 
     LaunchedEffect(Unit) {
@@ -84,6 +86,7 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
             failed = (stored["failed"] as? JsonPrimitive)?.boolean ?: false
             index = answers.size
             showResults = failed || index >= statements.size
+            resumedAlreadyDone = showResults
         }
     }
 
@@ -106,7 +109,8 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
         ) {
             when {
                 statements.isEmpty() -> CircularProgressIndicator()
-                showResults -> TrueFalseResults(statements, answers, failed, onBack)
+                showResults && resumedAlreadyDone -> TrueFalseResults(statements, answers, failed, onBack)
+                showResults -> AdGatedResults { TrueFalseResults(statements, answers, failed, onBack) }
                 else -> {
                     val current = statements[index]
                     TrueFalseQuestion(

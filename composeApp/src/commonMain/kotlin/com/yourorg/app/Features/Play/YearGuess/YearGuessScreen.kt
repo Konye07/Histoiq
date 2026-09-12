@@ -41,6 +41,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.Core.Ads.AdGatedResults
 import com.yourorg.app.Core.Formatting.formatFixed
 import com.yourorg.app.Core.Localization.StringsGamesYearguessCasualties
 import com.yourorg.app.Core.Theme.AppColors
@@ -93,6 +94,7 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
     var isBce by remember { mutableStateOf(false) }
     var revealed by remember { mutableStateOf(false) }
     var hintRevealed by remember { mutableStateOf(false) }
+    var resumedAlreadyDone by remember { mutableStateOf(false) }
     val guesses = remember { mutableStateListOf<Int>() }
     val scores = remember { mutableStateListOf<Double>() }
 
@@ -103,6 +105,7 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
             guesses.addAll(stored.getIntList("guesses"))
             scores.addAll(stored.getDoubleList("scores"))
             questionIndex = scores.size
+            resumedAlreadyDone = questionIndex >= events.size
         }
     }
 
@@ -132,7 +135,13 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
             ) {
                 when {
                     events.isEmpty() -> CircularProgressIndicator()
-                    questionIndex >= events.size -> YearGuessResults(events, guesses, scores, onBack)
+                    questionIndex >= events.size -> {
+                        if (resumedAlreadyDone) {
+                            YearGuessResults(events, guesses, scores, onBack)
+                        } else {
+                            AdGatedResults { YearGuessResults(events, guesses, scores, onBack) }
+                        }
+                    }
                     else -> {
                         val current = events[questionIndex]
                         YearGuessQuestion(

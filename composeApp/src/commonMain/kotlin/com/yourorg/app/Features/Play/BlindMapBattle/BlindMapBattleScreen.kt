@@ -42,6 +42,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.Core.Ads.AdGatedResults
 import com.yourorg.app.Core.Formatting.formatFixed
 import com.yourorg.app.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.yourorg.app.Core.Theme.AppColors
@@ -127,6 +128,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
     val guessLats = remember { mutableStateListOf<Double>() }
     val guessLngs = remember { mutableStateListOf<Double>() }
     val scores = remember { mutableStateListOf<Double>() }
+    var resumedAlreadyDone by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         worldMap = withContext(Dispatchers.Default) {
@@ -139,6 +141,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
             guessLngs.addAll(stored.getDoubleList("guessLngs"))
             scores.addAll(stored.getDoubleList("scores"))
             questionIndex = scores.size
+            resumedAlreadyDone = questionIndex >= battles.size
         }
     }
 
@@ -164,8 +167,10 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
             val map = worldMap
             if (battles.isEmpty() || map == null) {
                 CircularProgressIndicator()
-            } else if (questionIndex >= battles.size) {
+            } else if (questionIndex >= battles.size && resumedAlreadyDone) {
                 MapResults(battles, guessLats, guessLngs, scores, onBack)
+            } else if (questionIndex >= battles.size) {
+                AdGatedResults { MapResults(battles, guessLats, guessLngs, scores, onBack) }
             } else {
                 val current = battles[questionIndex]
                 MapQuestion(

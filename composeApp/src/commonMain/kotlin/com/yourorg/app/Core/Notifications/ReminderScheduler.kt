@@ -1,9 +1,10 @@
 package com.yourorg.app.Core.Notifications
 
 /**
- * Schedules/cancels the once-a-day "come play today's quizzes" reminder. The iOS actual is a
- * no-op stub for now (deferred to a later phase's real `UNUserNotificationCenter` implementation,
- * which uses a different scheduling model entirely from Android's AlarmManager+BroadcastReceiver).
+ * Schedules/cancels the once-a-day "come play today's quizzes" reminder. Android uses
+ * AlarmManager+BroadcastReceiver (fires fresh once a day); iOS uses a single repeating
+ * `UNCalendarNotificationTrigger` with its content baked in at schedule-time — see
+ * [ReminderText] for the shared, localized notification copy both platforms show.
  */
 expect object ReminderScheduler {
     fun schedule()

@@ -35,8 +35,8 @@ class DailyReminderReceiver : BroadcastReceiver() {
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setContentTitle("Historiq")
-            .setContentText("Today's quizzes are waiting — come guess some history!")
+            .setContentTitle(ReminderText.title)
+            .setContentText(ReminderText.body())
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

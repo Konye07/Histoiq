@@ -54,6 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.Core.Ads.AdGatedResults
 import com.yourorg.app.Core.Formatting.formatFixed
 import com.yourorg.app.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.yourorg.app.Core.Theme.AppColors
@@ -126,6 +127,7 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
     val guessSaturations = remember { mutableStateListOf<Int>() }
     val guessBrightnesses = remember { mutableStateListOf<Int>() }
     val scores = remember { mutableStateListOf<Double>() }
+    var resumedAlreadyDone by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         val stored = QuizProgressStore.load(PROGRESS_KEY)?.takeIf { "targetHues" in it }
@@ -144,6 +146,7 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
             guessBrightnesses.addAll(stored.getIntList("brightnesses"))
             scores.addAll(stored.getDoubleList("scores"))
             questionIndex = scores.size
+            resumedAlreadyDone = questionIndex >= chosen.size
         } else {
             val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, DailyClock.todayKey(), QUESTIONS_PER_ROUND)
             val rows = loadFlagColors(ids)
@@ -193,9 +196,19 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
         ) {
             when {
                 flags.isEmpty() || analysisByFlagId.size < flags.size -> CircularProgressIndicator()
-                questionIndex >= flags.size -> FlagColorResults(
-                    flags, analysisByFlagId, guessHues, guessSaturations, guessBrightnesses, scores, onBack
-                )
+                questionIndex >= flags.size -> {
+                    if (resumedAlreadyDone) {
+                        FlagColorResults(
+                            flags, analysisByFlagId, guessHues, guessSaturations, guessBrightnesses, scores, onBack
+                        )
+                    } else {
+                        AdGatedResults {
+                            FlagColorResults(
+                                flags, analysisByFlagId, guessHues, guessSaturations, guessBrightnesses, scores, onBack
+                            )
+                        }
+                    }
+                }
                 else -> {
                     val current = flags[questionIndex]
                     val analysis = analysisByFlagId.getValue(current.id)

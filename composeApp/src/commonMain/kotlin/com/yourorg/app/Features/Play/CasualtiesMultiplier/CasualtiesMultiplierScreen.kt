@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.Core.Ads.AdGatedResults
 import com.yourorg.app.Core.Formatting.formatFixed
 import com.yourorg.app.Core.Localization.StringsGamesYearguessCasualties
 import com.yourorg.app.Core.Theme.AppColors
@@ -84,6 +85,7 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
     var guessText by remember { mutableStateOf("") }
     var revealed by remember { mutableStateOf(false) }
     var hintRevealed by remember { mutableStateOf(false) }
+    var resumedAlreadyDone by remember { mutableStateOf(false) }
     val guesses = remember { mutableStateListOf<Long>() }
     val multipliers = remember { mutableStateListOf<Double>() }
 
@@ -94,6 +96,7 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
             guesses.addAll(stored.getLongList("guesses"))
             multipliers.addAll(stored.getDoubleList("multipliers"))
             questionIndex = multipliers.size
+            resumedAlreadyDone = questionIndex >= battles.size
         }
     }
 
@@ -123,7 +126,13 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
             ) {
                 when {
                     battles.isEmpty() -> CircularProgressIndicator()
-                    questionIndex >= battles.size -> CasualtiesResults(battles, guesses, multipliers, onBack)
+                    questionIndex >= battles.size -> {
+                        if (resumedAlreadyDone) {
+                            CasualtiesResults(battles, guesses, multipliers, onBack)
+                        } else {
+                            AdGatedResults { CasualtiesResults(battles, guesses, multipliers, onBack) }
+                        }
+                    }
                     else -> {
                         val current = battles[questionIndex]
                         CasualtiesQuestion(

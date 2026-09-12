@@ -14,8 +14,8 @@ private const val REMINDER_HOUR = 18L
 actual object ReminderScheduler {
     actual fun schedule() {
         val content = UNMutableNotificationContent().apply {
-            setTitle("Historiq")
-            setBody("Today's quizzes are waiting — come guess some history!")
+            setTitle(ReminderText.title)
+            setBody(ReminderText.body())
         }
         val dateComponents = NSDateComponents().apply {
             hour = REMINDER_HOUR

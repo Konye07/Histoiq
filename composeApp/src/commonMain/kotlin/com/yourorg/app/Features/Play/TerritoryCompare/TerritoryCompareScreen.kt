@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.Core.Ads.AdGatedResults
 import com.yourorg.app.Core.Formatting.formatWithCommas
 import com.yourorg.app.Core.Haptics.Haptics
 import com.yourorg.app.Core.Localization.StringsGamesFlagTerritoryBlindmap
@@ -216,6 +217,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
     var correct by remember { mutableStateOf(false) }
     var won by remember { mutableStateOf(false) }
     var showResults by remember { mutableStateOf(false) }
+    var resumedAlreadyDone by remember { mutableStateOf(false) }
 
     var pendingChampion by remember { mutableStateOf<TerritoryCountry?>(null) }
     var pendingChallenger by remember { mutableStateOf<TerritoryCountry?>(null) }
@@ -237,6 +239,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
             round = state.round
             won = state.won
             showResults = state.finished
+            resumedAlreadyDone = state.finished
             history.addAll(state.history)
         } else {
             queue.addAll(buildClusteredQueue(pool, dailyRandom))
@@ -270,7 +273,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
             val ch = challenger
             when {
                 c == null || ch == null -> CircularProgressIndicator()
-                showResults -> TerritoryResults(
+                showResults && resumedAlreadyDone -> TerritoryResults(
                     won = won,
                     history = history,
                     allCountries = allCountries,
@@ -279,6 +282,17 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
                     remainingQueue = queue.toList(),
                     onBack = onBack
                 )
+                showResults -> AdGatedResults {
+                    TerritoryResults(
+                        won = won,
+                        history = history,
+                        allCountries = allCountries,
+                        lastChampion = c,
+                        lastChallenger = ch,
+                        remainingQueue = queue.toList(),
+                        onBack = onBack
+                    )
+                }
                 else -> TerritoryQuestion(
                     champion = c,
                     challenger = ch,

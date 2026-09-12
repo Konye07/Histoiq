@@ -10,6 +10,7 @@ object SettingsStore {
     private const val KEY_HAPTICS_ENABLED = "hapticsEnabled"
     private const val KEY_DAILY_REMINDER_ENABLED = "dailyReminderEnabled"
     private const val KEY_GUEST_MODE = "guestMode"
+    private const val KEY_AD_FREE_SUBSCRIPTION = "adFreeSubscription"
 
     const val LANGUAGE_ENGLISH = "en"
 
@@ -36,5 +37,13 @@ object SettingsStore {
 
     fun setDailyReminderEnabled(enabled: Boolean) {
         settings.putBoolean(KEY_DAILY_REMINDER_ENABLED, enabled)
+    }
+
+    /** No real payment/subscription backend yet (see Core/Ads/InterstitialAd.kt) — this flag is
+     * the seam a future RevenueCat/Play-Billing/StoreKit integration will set once purchased. */
+    fun hasAdFreeSubscription(): Boolean = settings.getBoolean(KEY_AD_FREE_SUBSCRIPTION, false)
+
+    fun setAdFreeSubscription(enabled: Boolean) {
+        settings.putBoolean(KEY_AD_FREE_SUBSCRIPTION, enabled)
     }
 }
