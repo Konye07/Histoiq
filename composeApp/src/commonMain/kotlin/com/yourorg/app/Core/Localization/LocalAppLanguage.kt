@@ -12,3 +12,10 @@ import androidx.compose.runtime.compositionLocalOf
  * string-reading composable needs to recompose when it does.
  */
 val LocalAppLanguage = compositionLocalOf { AppLanguage.EN }
+
+/**
+ * Paired with [LocalAppLanguage] at the same provider site (see `App.kt`) so a deeply nested
+ * composable (the language picker in `SettingsScreen`) can change the app-wide language without
+ * threading a callback parameter through every intermediate screen/nav-host signature.
+ */
+val LocalOnLanguageChange = compositionLocalOf<(AppLanguage) -> Unit> { {} }

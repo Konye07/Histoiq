@@ -39,23 +39,17 @@ object DailyClock {
         return ((now - startOfDay).inWholeSeconds.toDouble() / 86400.0).coerceIn(0.0, 1.0)
     }
 
-    /**
-     * Today's date for display, e.g. "Wednesday, September 10". [weekdayNames] is Monday-first
-     * (index 0 = Monday ... 6 = Sunday) and [monthNames] is January-first (index 0 = January ...
-     * 11 = December) — callers supply these from the app's own string table (java.time's
-     * locale-aware formatter doesn't exist on Kotlin/Native, so this can no longer resolve names
-     * from the platform locale database itself). Word order/punctuation here is English's
-     * "Weekday, Month Day" — other languages' own templates arrive with the rest of the
-     * string-table system.
-     */
-    fun todayDisplay(weekdayNames: List<String>, monthNames: List<String>): String {
+    /** Today's date as raw, presentation-agnostic components — see [com.yourorg.app.Core.Localization.todayDisplay]
+     * for the actual per-language display string built from these. */
+    fun todayComponents(): DateComponents {
         val date = today()
         // .ordinal rather than a named "number"/"isoDayNumber" accessor: DayOfWeek/Month are plain
         // enums declared Monday-first / January-first, and that ordinal has stayed stable across
         // kotlinx-datetime's own churn on what to name the convenience property (monthNumber ->
         // month.number, etc. between 0.6.x and 0.7.x) — this sidesteps that entirely.
-        val weekday = weekdayNames[date.dayOfWeek.ordinal]
-        val month = monthNames[date.month.ordinal]
-        return "$weekday, $month ${date.day}"
+        return DateComponents(weekdayIndex = date.dayOfWeek.ordinal, monthIndex = date.month.ordinal, day = date.day)
     }
 }
+
+/** [weekdayIndex] is Monday-first (0-6), [monthIndex] is January-first (0-11). */
+data class DateComponents(val weekdayIndex: Int, val monthIndex: Int, val day: Int)

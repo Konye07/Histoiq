@@ -68,9 +68,12 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 // NOT compose.materialIconsExtended: that artifact is permanently pinned to Compose
-                // 1.7.3 (a pre-iOS-stability release) and won't resolve for the iOS target at all —
-                // JetBrains' own deprecation note recommends Material Symbols (vector resources)
-                // instead. Revisit when icons are actually needed (Phase 6 UI port).
+                // 1.7.3 (a pre-iOS-stability release) and won't resolve for the iOS target at all.
+                // There's no smaller "core" icon set exposed by the CMP Gradle plugin either
+                // (confirmed by reading its own Dependencies source — materialIconsExtended is the
+                // only icon accessor it has). The app only uses 4 distinct icons app-wide, bundled
+                // instead as vector drawable resources (commonMain/composeResources/drawable/) per
+                // JetBrains' own deprecation note ("migrate to Material Symbols / vector resources").
                 implementation(compose.ui)
                 implementation(compose.components.resources)
                 // NOT Google's androidx.navigation:navigation-compose — that artifact's transitive
