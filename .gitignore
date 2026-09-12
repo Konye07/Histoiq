@@ -11,3 +11,8 @@ captures/
 .externalNativeBuild
 .cxx
 .claude/*.lock
+
+# iosApp.xcodeproj is generated from iosApp/project.yml by `xcodegen generate` (CI does this
+# itself before building) — project.yml is the source of truth, not the generated project.
+iosApp/iosApp.xcodeproj/
+iosApp/*.xcworkspace/

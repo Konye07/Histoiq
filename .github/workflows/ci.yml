@@ -29,7 +29,7 @@ jobs:
         run: ./gradlew :composeApp:compileIosMainKotlinMetadata --stacktrace
 
   ios:
-    name: iOS Kotlin/Native compile
+    name: iOS Kotlin/Native compile + Xcode app build
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,8 +43,21 @@ jobs:
           echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> local.properties
           echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> local.properties
       # Real Kotlin/Native compilation for both iOS targets — this is the check that can only
-      # run on macOS, and doesn't need an Xcode project/iosApp shell to exist yet.
+      # run on macOS.
       - name: Link iOS frameworks (arm64 device + Apple Silicon simulator)
         run: |
           ./gradlew :composeApp:linkDebugFrameworkIosArm64 --stacktrace
           ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64 --stacktrace
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate iosApp.xcodeproj
+        run: xcodegen generate
+        working-directory: iosApp
+      # Simulator build only — no distribution/signing certificate exists, and none is needed to
+      # verify the Xcode project + Swift/Kotlin framework integration actually builds.
+      - name: Build iosApp (Simulator)
+        run: |
+          xcodebuild -project iosApp.xcodeproj -scheme iosApp \
+            -sdk iphonesimulator -destination "generic/platform=iOS Simulator" \
+            CODE_SIGNING_ALLOWED=NO build
+        working-directory: iosApp
