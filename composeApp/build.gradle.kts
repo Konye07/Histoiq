@@ -128,8 +128,8 @@ kotlin {
 }
 
 compose.resources {
-    // Otherwise auto-derived from rootProject.name ("YourApp") + module name into an awkward
-    // "yourapp.composeapp.generated.resources" — this matches the rest of the app's package style.
+    // Otherwise auto-derived from rootProject.name ("Historiq") + module name into an awkward
+    // "historiq.composeapp.generated.resources" — this matches the rest of the app's package style.
     packageOfResClass = "com.yourorg.app.generated.resources"
 }
 

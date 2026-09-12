@@ -1,4 +1,4 @@
-# Today in History
+# Historiq
 
 An Android history-trivia app built with Kotlin and Jetpack Compose. Six daily quiz games test
 different kinds of historical knowledge, each playable once per day and resumable mid-round.

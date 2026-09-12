@@ -3,9 +3,9 @@ package com.yourorg.app.Core.Localization
 /** English-only by design — never translated, per project convention. */
 object StringsPrivacyPolicy {
     const val privacy_effective_date: String = "Effective September 11, 2026"
-    const val privacy_lede: String = "This page explains, in full, what Today in History collects, why, where it's stored, and what control you have over it."
+    const val privacy_lede: String = "This page explains, in full, what Historiq collects, why, where it's stored, and what control you have over it."
     const val privacy_section_overview_title: String = "1. Overview"
-    const val privacy_overview_body: String = "Today in History is a daily history-trivia app with six quiz modes, a friends list, and per-game stats. What data exists about you depends entirely on how you use the app:"
+    const val privacy_overview_body: String = "Historiq is a daily history-trivia app with six quiz modes, a friends list, and per-game stats. What data exists about you depends entirely on how you use the app:"
     const val privacy_card_signed_in_label: String = "Signed in"
     const val privacy_card_signed_in_body: String = "(mock Google/Apple sign-in): your account, gameplay, and friends data are stored in a hosted database so your stats and friend leaderboards work the same across every device you sign into."
     const val privacy_card_guest_label: String = "Continue without login (guest)"
@@ -45,7 +45,7 @@ object StringsPrivacyPolicy {
     const val privacy_choices_item_delete: String = "Delete your account from Settings → Account → Delete Account. This permanently removes your profile, friends, stats, progress, and score history. This cannot be undone."
     const val privacy_choices_item_guest: String = "Guests have nothing server-side to delete; uninstalling the app removes the local data guest mode stored on your device."
     const val privacy_section_children_title: String = "11. Children's privacy"
-    const val privacy_children_body: String = "Today in History is a general-audience trivia app and isn't directed at children under 13. The app doesn't knowingly collect personal information from children under 13. If you believe a child has provided personal information through the app, contact us using the details below and it will be removed."
+    const val privacy_children_body: String = "Historiq is a general-audience trivia app and isn't directed at children under 13. The app doesn't knowingly collect personal information from children under 13. If you believe a child has provided personal information through the app, contact us using the details below and it will be removed."
     const val privacy_section_changes_title: String = "12. Changes to this policy"
     const val privacy_changes_body: String = "If what the app collects or how it's used changes, this screen will be updated and the effective date above will change accordingly."
     const val privacy_section_contact_title: String = "13. Contact"

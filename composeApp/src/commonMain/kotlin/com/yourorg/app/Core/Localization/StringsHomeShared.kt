@@ -5,11 +5,11 @@ import androidx.compose.runtime.Composable
 object StringsHomeShared {
     val home_title: String
         @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Today in History"
-            AppLanguage.ES -> "Hoy en la Historia"
-            AppLanguage.FR -> "Aujourd'hui dans l'Histoire"
-            AppLanguage.DE -> "Heute in der Geschichte"
-            AppLanguage.IT -> "Oggi nella Storia"
+            AppLanguage.EN -> "Historiq"
+            AppLanguage.ES -> "Historiq"
+            AppLanguage.FR -> "Historiq"
+            AppLanguage.DE -> "Historiq"
+            AppLanguage.IT -> "Historiq"
         }
 
     val home_desc_year_guess: String

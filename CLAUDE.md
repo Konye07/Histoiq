@@ -1,4 +1,4 @@
-# Today in History
+# Historiq
 
 Android app (Kotlin, Jetpack Compose, Material3). Six daily history-trivia quiz games, each
 playable once per day, resumable mid-round, with a real friends/profile layer backed by Supabase.
