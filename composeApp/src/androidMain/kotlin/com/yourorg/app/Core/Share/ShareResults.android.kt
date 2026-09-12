@@ -1,10 +1,8 @@
 package com.yourorg.app.Core.Share
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.util.Log
 import com.yourorg.app.Core.Platform.AndroidPlatformContext
-import java.io.ByteArrayOutputStream
 
 private const val TAG = "ShareResults"
 
@@ -21,7 +19,7 @@ actual fun shareResults(
     footerText: String
 ) {
     try {
-        val bitmap = ShareCardRenderer.render(
+        val pngBytes = ShareCardRenderer.renderPng(
             appName = appName,
             roleName = roleName,
             gameTitle = gameTitle,
@@ -31,12 +29,6 @@ actual fun shareResults(
             accentColorArgb = accentColorArgb,
             footerText = footerText
         )
-
-        val pngBytes = ByteArrayOutputStream().use { out ->
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
-            out.toByteArray()
-        }
-        bitmap.recycle()
 
         val context = AndroidPlatformContext.app
         val uri = InMemoryShareImageProvider.put(context, pngBytes)

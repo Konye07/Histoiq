@@ -5,22 +5,12 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.TextPaint
+import java.io.ByteArrayOutputStream
 
 private const val CARD_SIZE = 1080
 
-/**
- * Draws a square, purpose-made "share card" (app name, role, score, ranking) rather than
- * screenshotting the live UI — a raw capture would include the status bar/back button/nav bar,
- * and different games' result layouts vary in height, so a dedicated render is both simpler and
- * more consistent to share.
- *
- * Android-only for now (not an expect/actual): this uses android.graphics.Canvas/Bitmap directly.
- * Porting it to common code via Compose Multiplatform's own Canvas/ImageBitmap + Skia's PNG encode
- * is a real possibility (both are confirmed viable APIs) but needs verifying on an actual iOS
- * build before trusting it, alongside the other isolated platform-specific concerns.
- */
-object ShareCardRenderer {
-    fun render(
+actual object ShareCardRenderer {
+    actual fun renderPng(
         appName: String,
         roleName: String,
         gameTitle: String,
@@ -29,7 +19,7 @@ object ShareCardRenderer {
         rankingText: String,
         accentColorArgb: Int,
         footerText: String
-    ): Bitmap {
+    ): ByteArray {
         val bitmap = Bitmap.createBitmap(CARD_SIZE, CARD_SIZE, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.drawColor(accentColorArgb)
@@ -73,6 +63,11 @@ object ShareCardRenderer {
 
         drawFitted(footerText, 940f, textPaint(30f, bold = false, color = translucentWhite))
 
-        return bitmap
+        val pngBytes = ByteArrayOutputStream().use { out ->
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+            out.toByteArray()
+        }
+        bitmap.recycle()
+        return pngBytes
     }
 }
