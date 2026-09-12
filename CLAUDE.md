@@ -35,7 +35,9 @@ Supabase at all; it stays fully device-local (SharedPreferences), same as before
 **Schema** (all in `public`, RLS enabled on every table):
 - `profiles` — one row per `auth.uid()`, mirrors `UserAccount`. Friend-code lookup by another user
   goes through the `lookup_friend_code(code)` SECURITY DEFINER function (never a direct SELECT —
-  that would leak emails to strangers).
+  that would leak emails to strangers), which is rate-limited (20 lookups/hour per caller) via
+  `friend_code_lookup_attempts` (`caller_id`, `attempted_at`) — RLS enabled, no policies, same
+  zero-direct-client-access shape as `device_audit_log` below.
 - `friendships` — real friend requests/acceptances between real accounts (`FriendsRepository.kt`,
   `FriendsStore.kt`). Replaced the old hardcoded `FriendDirectory` demo directory and
   `demoScoreFor`'s synthetic scores entirely — deleted, not kept as fallback.

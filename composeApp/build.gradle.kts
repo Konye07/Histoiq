@@ -133,6 +133,14 @@ compose.resources {
     packageOfResClass = "com.yourorg.app.generated.resources"
 }
 
+// Play Console requires a signed .aab to upload a release — there's no real keystore yet, so this
+// stays inert (no signingConfig applied to the release build type) until one exists. To enable it:
+// generate a keystore (e.g. `keytool -genkeypair -v -keystore release.jks -keyalg RSA -keysize 2048
+// -validity 10000 -alias historiq`), then add RELEASE_STORE_FILE/RELEASE_STORE_PASSWORD/
+// RELEASE_KEY_ALIAS/RELEASE_KEY_PASSWORD to local.properties (already gitignored, same as the
+// Supabase keys above — never commit the keystore file or these values).
+val hasReleaseSigning = localProperty("RELEASE_STORE_FILE").isNotBlank()
+
 android {
     namespace = "com.yourorg.app"
     compileSdk = 36
@@ -148,6 +156,17 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(localProperty("RELEASE_STORE_FILE"))
+                storePassword = localProperty("RELEASE_STORE_PASSWORD")
+                keyAlias = localProperty("RELEASE_KEY_ALIAS")
+                keyPassword = localProperty("RELEASE_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
@@ -156,6 +175,9 @@ android {
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
