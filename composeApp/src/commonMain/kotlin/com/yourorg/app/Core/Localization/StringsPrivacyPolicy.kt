@@ -50,4 +50,5 @@ object StringsPrivacyPolicy {
     const val privacy_changes_body: String = "If what the app collects or how it's used changes, this screen will be updated and the effective date above will change accordingly."
     const val privacy_section_contact_title: String = "13. Contact"
     const val privacy_contact_body: String = "Questions about this policy, or requests to access or delete your data, can be sent to:"
+    const val privacy_view_online_label: String = "This policy is also available online at:"
 }

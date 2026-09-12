@@ -30,12 +30,14 @@ import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Localization.StringsAuthSettings
 import com.yourorg.app.Core.Localization.StringsPrivacyPolicy
 import com.yourorg.app.Core.Platform.openEmailComposer
+import com.yourorg.app.Core.Platform.openUrl
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.generated.resources.Res
 import com.yourorg.app.generated.resources.ic_arrow_back
 import org.jetbrains.compose.resources.painterResource
 
 private const val CONTACT_EMAIL = "mate.konye@gmail.com"
+private const val PRIVACY_POLICY_URL = "https://historiq-privacy.mate-konye.workers.dev/privacy-policy.html"
 
 /**
  * A real, full screen rather than a dialog — this content is long enough (13 sections) that a
@@ -169,6 +171,16 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                     textDecoration = TextDecoration.Underline,
                     modifier = Modifier.clickable {
                         openEmailComposer(CONTACT_EMAIL)
+                    }
+                )
+                BodyText(StringsPrivacyPolicy.privacy_view_online_label)
+                Text(
+                    PRIVACY_POLICY_URL,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    textDecoration = TextDecoration.Underline,
+                    modifier = Modifier.clickable {
+                        openUrl(PRIVACY_POLICY_URL)
                     }
                 )
             }
