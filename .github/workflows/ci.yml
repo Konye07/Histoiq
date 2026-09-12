@@ -64,6 +64,19 @@ jobs:
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO build
         working-directory: iosApp
+      # Compose Multiplatform crashes at launch if this key isn't baked into the *built* app's
+      # Info.plist as true — catching that here means a bad build fails CI instead of only
+      # surfacing later on a real device/simulator.
+      - name: Verify CADisableMinimumFrameDurationOnPhone survived into the built app
+        run: |
+          PLIST=build/Build/Products/Debug-iphonesimulator/iosApp.app/Info.plist
+          plutil -p "$PLIST"
+          VALUE=$(/usr/libexec/PlistBuddy -c "Print :CADisableMinimumFrameDurationOnPhone" "$PLIST")
+          if [ "$VALUE" != "true" ]; then
+            echo "::error::CADisableMinimumFrameDurationOnPhone is '$VALUE' in the built Info.plist, expected 'true' — the app will crash at launch."
+            exit 1
+          fi
+        working-directory: iosApp
       # Lets you download iosApp.app from this run's Actions summary page and upload it straight to
       # appetize.io (or any other simulator-based tester) without a Mac — arm64-only, which matches
       # what Appetize's own docs currently recommend uploading.
