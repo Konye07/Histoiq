@@ -11,20 +11,21 @@ targets:
       - path: iosApp
         excludes:
           - Info.plist
-    info:
-      path: iosApp/Info.plist
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.yourorg.app
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         TARGETED_DEVICE_FAMILY: "1,2"
         SWIFT_VERSION: "5.0"
-        # Xcode 13+ defaults new targets to synthesizing Info.plist from INFOPLIST_KEY_* build
-        # settings (merging it with, or entirely overriding parts of, the physical file below) —
-        # without this, CADisableMinimumFrameDurationOnPhone silently didn't make it into the
-        # built app despite being present in iosApp/Info.plist on disk. Forcing this to NO makes
-        # that file the single, un-merged source of truth for the app's Info.plist.
+        # The top-level `info: path:` YAML key (tried previously, now removed) tells XcodeGen to
+        # *generate* a plist from that file rather than reference it directly, and fighting it
+        # with GENERATE_INFOPLIST_FILE: NO produced a build using neither — Xcode fell back to a
+        # bare synthesized Info.plist with none of this file's keys at all (confirmed by CI's
+        # verify step: no CADisableMinimumFrameDurationOnPhone, no CFBundleDisplayName, wrong
+        # CFBundleShortVersionString). Setting INFOPLIST_FILE directly as a build setting is what
+        # XcodeGen's own docs say won't get overwritten by its generation logic.
         GENERATE_INFOPLIST_FILE: "NO"
+        INFOPLIST_FILE: "iosApp/Info.plist"
         # Points at the debug framework linkDebugFrameworkIosSimulatorArm64 already produces —
         # CI runs that Gradle task before `xcodegen generate`/`xcodebuild`, so this only needs to
         # locate the output, not build it itself (no Run Script phase needed for a CI build check).

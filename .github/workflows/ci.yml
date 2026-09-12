@@ -53,6 +53,13 @@ jobs:
       - name: Generate iosApp.xcodeproj
         run: xcodegen generate
         working-directory: iosApp
+      # Ground truth for what XcodeGen actually wrote, so a future Info.plist problem can be
+      # diagnosed from real resolved build settings instead of guessing at XcodeGen's YAML schema.
+      - name: Show resolved INFOPLIST build settings
+        run: |
+          xcodebuild -showBuildSettings -project iosApp.xcodeproj -scheme iosApp \
+            -sdk iphonesimulator | grep -i INFOPLIST
+        working-directory: iosApp
       # Simulator build only — no distribution/signing certificate exists, and none is needed to
       # verify the Xcode project + Swift/Kotlin framework integration actually builds.
       # -derivedDataPath pins the output location so the next step can find it (the default
