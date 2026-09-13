@@ -26,17 +26,28 @@ targets:
         # XcodeGen's own docs say won't get overwritten by its generation logic.
         GENERATE_INFOPLIST_FILE: "NO"
         INFOPLIST_FILE: "iosApp/Info.plist"
-        # Points at the debug framework linkDebugFrameworkIosSimulatorArm64 already produces —
-        # CI runs that Gradle task before `xcodegen generate`/`xcodebuild`, so this only needs to
-        # locate the output, not build it itself (no Run Script phase needed for a CI build check).
+        # Lets Xcode's Swift compiler resolve/link ComposeApp.framework at compile time. Actually
+        # *embedding* the framework into the built app is handled separately by the
+        # embedAndSignAppleFrameworkForXcode Run Script phase below, not by this search path.
         FRAMEWORK_SEARCH_PATHS: "$(inherited) $(SRCROOT)/../composeApp/build/bin/iosSimulatorArm64/debugFramework"
         # ComposeApp.framework is arm64-only (no iosX64/Intel-simulator Kotlin target exists — see
-        # composeApp/build.gradle.kts), but Xcode's default simulator ARCHS still includes x86_64,
-        # so an unconstrained build tries to link an x86_64 slice of ComposeApp that was never
-        # built, failing with "found architecture 'arm64', required architecture 'x86_64'" on
-        # every object file. Excluding x86_64 for the simulator SDK specifically matches this to
-        # what actually gets built.
+        # composeApp/build.gradle.kts), but Xcode's default simulator ARCHS still includes x86_64.
+        # Both the framework linking above and the embedAndSignAppleFrameworkForXcode task below
+        # would otherwise try to produce/find an x86_64 slice that was never built.
         "EXCLUDED_ARCHS[sdk=iphonesimulator*]": x86_64
-    dependencies:
-      - framework: ../composeApp/build/bin/iosSimulatorArm64/debugFramework/ComposeApp.framework
-        embed: true
+    # A previous attempt statically referenced the prebuilt ComposeApp.framework directly
+    # (`dependencies: - framework: ...`, embedding it as-is). That links and runs the Kotlin code
+    # fine, but Compose Multiplatform's resource reader looks up images/icons relative to the
+    # *app's own* bundle root (NSBundle.mainBundle), not the embedded framework's bundle — so
+    # every drawable/resource lookup crashed with MissingResourceException, confirmed live via
+    # Appetize (`compose-resources/composeResources/.../ic_play_arrow.xml` not found). Manual
+    # framework embedding isn't a supported configuration for Compose resources at all (see
+    # JetBrains/compose-multiplatform#3800) — embedAndSignAppleFrameworkForXcode is the officially
+    # supported task and is what every JetBrains-generated CMP iOS project actually uses; it copies,
+    # code-signs, *and* places compose-resources correctly in one step.
+    postCompileScripts:
+      - name: Compile Kotlin Framework
+        script: |
+          cd "$SRCROOT/.."
+          ./gradlew :composeApp:embedAndSignAppleFrameworkForXcode
+        basedOnDependencyAnalysis: false

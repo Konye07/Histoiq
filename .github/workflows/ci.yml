@@ -84,6 +84,24 @@ jobs:
             exit 1
           fi
         working-directory: iosApp
+      # Compose resources (icons/images) are only correctly copied into the app bundle by the
+      # embedAndSignAppleFrameworkForXcode Run Script phase in project.yml — a prior static
+      # framework-reference approach linked and ran fine but silently produced an app with no
+      # compose-resources at all, crashing at runtime on the first icon/image load (confirmed live
+      # via Appetize: MissingResourceException). Catching the missing directory here means CI fails
+      # instead of another round-trip through a simulator.
+      - name: Verify compose-resources landed in the built app
+        run: |
+          APP=build/Build/Products/Debug-iphonesimulator/iosApp.app
+          RES="$APP/compose-resources"
+          if [ ! -d "$RES" ]; then
+            echo "::error::compose-resources is missing from the built app at $RES — Compose image/icon loads will crash at runtime (MissingResourceException)."
+            echo "Contents of $APP:"
+            find "$APP" -maxdepth 2
+            exit 1
+          fi
+          find "$RES" -maxdepth 4
+        working-directory: iosApp
       # Lets you download iosApp.app from this run's Actions summary page and upload it straight to
       # appetize.io (or any other simulator-based tester) without a Mac — arm64-only, which matches
       # what Appetize's own docs currently recommend uploading.
