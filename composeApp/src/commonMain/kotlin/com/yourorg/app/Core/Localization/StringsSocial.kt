@@ -279,4 +279,13 @@ object StringsSocial {
             AppLanguage.IT -> "Partite Perfette"
         }
 
+    val profile_guest_notice: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Sign in to start tracking your statistics. Playing as a guest, today's games still count toward the daily results, but nothing is kept long-term."
+            AppLanguage.ES -> "Inicia sesión para empezar a registrar tus estadísticas. Como invitado, las partidas de hoy siguen contando para los resultados diarios, pero nada se conserva a largo plazo."
+            AppLanguage.FR -> "Connecte-toi pour commencer à suivre tes statistiques. En tant qu'invité, les parties d'aujourd'hui comptent toujours pour les résultats du jour, mais rien n'est conservé à long terme."
+            AppLanguage.DE -> "Melde dich an, um deine Statistiken zu erfassen. Als Gast zählen die heutigen Spiele weiterhin für die Tagesergebnisse, aber nichts wird langfristig gespeichert."
+            AppLanguage.IT -> "Accedi per iniziare a registrare le tue statistiche. Come ospite, le partite di oggi contano comunque per i risultati giornalieri, ma nulla viene conservato a lungo termine."
+        }
+
 }

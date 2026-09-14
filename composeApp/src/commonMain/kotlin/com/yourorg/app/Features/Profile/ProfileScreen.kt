@@ -54,25 +54,33 @@ fun ProfileScreen() {
         HorizontalDivider()
         Text(StringsSocial.profile_statistics, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
 
-        GameKeys.ALL.forEach { key ->
-            val stats = statsByGame[key] ?: GameStats(0, 0.0, 0)
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = GameKeys.color(key).copy(alpha = 0.12f))
-            ) {
-                Column(Modifier.padding(16.dp)) {
-                    Text(
-                        StringsSocial.profile_role_title_format(GameKeys.roleName(key), GameKeys.title(key)),
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                    if (stats.gamesPlayed == 0) {
-                        Text(StringsSocial.profile_not_played_yet, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
-                    } else {
-                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            StatColumn(StringsSocial.profile_played, "${stats.gamesPlayed}")
-                            StatColumn(StringsSocial.profile_average, GameKeys.formatScore(key, stats.averageScore))
-                            StatColumn(StringsSocial.profile_perfect_runs, "${stats.perfectCount}")
+        if (account == null) {
+            Text(
+                StringsSocial.profile_guest_notice,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.outline
+            )
+        } else {
+            GameKeys.ALL.forEach { key ->
+                val stats = statsByGame[key] ?: GameStats(0, 0.0, 0)
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = GameKeys.color(key).copy(alpha = 0.12f))
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(
+                            StringsSocial.profile_role_title_format(GameKeys.roleName(key), GameKeys.title(key)),
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight.Bold
+                        )
+                        if (stats.gamesPlayed == 0) {
+                            Text(StringsSocial.profile_not_played_yet, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+                        } else {
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                StatColumn(StringsSocial.profile_played, "${stats.gamesPlayed}")
+                                StatColumn(StringsSocial.profile_average, GameKeys.formatScore(key, stats.averageScore))
+                                StatColumn(StringsSocial.profile_perfect_runs, "${stats.perfectCount}")
+                            }
                         }
                     }
                 }

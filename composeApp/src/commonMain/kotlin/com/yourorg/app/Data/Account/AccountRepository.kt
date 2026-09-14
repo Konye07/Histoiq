@@ -32,12 +32,23 @@ object AccountRepository {
         return fetchProfile(uid)?.also { cached = it }
     }
 
+    /**
+     * Ensures *any* device — guest or signed-in — has a real anonymous Supabase session, so
+     * day-scoped quiz data (score_history, quiz_progress) can be written under a real auth.uid()
+     * even for a guest who never attaches a display identity via [continueWithProvider]. Safe to
+     * call repeatedly: a no-op once a session (anonymous or real) already exists, and the same
+     * session is what [continueWithProvider] later attaches a profile to if the guest signs in.
+     */
+    suspend fun ensureAnonymousSession(): String {
+        val auth = SupabaseClient.client.auth
+        auth.awaitInitialization()
+        if (auth.currentUserOrNull() == null) auth.signInAnonymously()
+        return requireNotNull(auth.currentUserOrNull()?.id) { "Anonymous sign-in did not produce a session" }
+    }
+
     /** Creates the profile on first sign-in with this provider identity, otherwise reuses the existing one. */
     suspend fun continueWithProvider(provider: AuthProviderType): UserAccount {
-        val auth = SupabaseClient.client.auth
-        if (auth.currentUserOrNull() == null) auth.signInAnonymously()
-        val uid = requireNotNull(auth.currentUserOrNull()?.id) { "Anonymous sign-in did not produce a session" }
-
+        val uid = ensureAnonymousSession()
         val existing = fetchProfile(uid)
         val account = existing ?: run {
             val result = mockSignIn(provider)
@@ -62,9 +73,15 @@ object AccountRepository {
         cached = null
     }
 
-    /** Deletes the profile and everything tied to it (cascades to stats/history/progress/friendships). */
+    /**
+     * Deletes the profile (cascades to game_stats/friendships, which are still FK'd to it) plus
+     * score_history/quiz_progress explicitly, since those two are now FK'd to auth.users — not
+     * profiles — so a guest can write them without ever having a profile row.
+     */
     suspend fun deleteAccount() {
         val current = cached ?: return
+        SupabaseClient.client.postgrest.from("score_history").delete { filter { eq("user_id", current.id) } }
+        SupabaseClient.client.postgrest.from("quiz_progress").delete { filter { eq("user_id", current.id) } }
         SupabaseClient.client.postgrest.from("profiles").delete { filter { eq("id", current.id) } }
         runCatching { SupabaseClient.client.auth.signOut() }
         cached = null
