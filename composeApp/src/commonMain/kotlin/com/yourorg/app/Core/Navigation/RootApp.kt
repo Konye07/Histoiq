@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.yourorg.app.Core.Billing.SubscriptionRepository
 import com.yourorg.app.Data.Account.AccountRepository
 import com.yourorg.app.Data.Account.UserAccount
 import com.yourorg.app.Data.Settings.SettingsStore
@@ -30,6 +31,15 @@ fun RootApp() {
     LaunchedEffect(Unit) {
         account = AccountRepository.restoreSession()
         restoring = false
+    }
+
+    // Runs concurrently with the effect above rather than gating `restoring` on it — a brand-new
+    // device's ensureAnonymousSession() call is a network round-trip, and startup shouldn't wait on
+    // subscription setup to show its first screen.
+    LaunchedEffect(Unit) {
+        val uid = AccountRepository.ensureAnonymousSession()
+        SubscriptionRepository.configure(uid)
+        SubscriptionRepository.refreshEntitlement()
     }
 
     when {

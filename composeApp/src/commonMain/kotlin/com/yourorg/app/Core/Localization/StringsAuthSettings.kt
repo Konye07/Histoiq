@@ -285,4 +285,76 @@ object StringsAuthSettings {
             AppLanguage.IT -> "Annulla"
         }
 
+    val settings_subscription_title: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Ad-Free Subscription"
+            AppLanguage.ES -> "Suscripción Sin Anuncios"
+            AppLanguage.FR -> "Abonnement Sans Publicité"
+            AppLanguage.DE -> "Werbefreies Abo"
+            AppLanguage.IT -> "Abbonamento Senza Pubblicità"
+        }
+
+    val settings_subscription_active: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "You're ad-free — thanks for supporting Historiq!"
+            AppLanguage.ES -> "Ya no ves anuncios — ¡gracias por apoyar a Historiq!"
+            AppLanguage.FR -> "Tu es sans publicité — merci de soutenir Historiq !"
+            AppLanguage.DE -> "Du bist werbefrei — danke, dass du Historiq unterstützt!"
+            AppLanguage.IT -> "Non vedi più pubblicità — grazie per supportare Historiq!"
+        }
+
+    val settings_subscription_inactive_subtitle: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Remove the ad shown after each finished game."
+            AppLanguage.ES -> "Elimina el anuncio que aparece al terminar cada partida."
+            AppLanguage.FR -> "Supprime la publicité affichée après chaque partie terminée."
+            AppLanguage.DE -> "Entfernt die Werbung, die nach jedem beendeten Spiel erscheint."
+            AppLanguage.IT -> "Rimuove la pubblicità mostrata dopo ogni partita conclusa."
+        }
+
+    val settings_subscription_subscribe_button: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Remove Ads"
+            AppLanguage.ES -> "Eliminar Anuncios"
+            AppLanguage.FR -> "Supprimer les Publicités"
+            AppLanguage.DE -> "Werbung Entfernen"
+            AppLanguage.IT -> "Rimuovi Pubblicità"
+        }
+
+    val settings_subscription_restore_button: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Restore Purchases"
+            AppLanguage.ES -> "Restaurar Compras"
+            AppLanguage.FR -> "Restaurer les Achats"
+            AppLanguage.DE -> "Käufe Wiederherstellen"
+            AppLanguage.IT -> "Ripristina Acquisti"
+        }
+
+    val settings_subscription_unavailable: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Not available yet."
+            AppLanguage.ES -> "Aún no disponible."
+            AppLanguage.FR -> "Pas encore disponible."
+            AppLanguage.DE -> "Noch nicht verfügbar."
+            AppLanguage.IT -> "Non ancora disponibile."
+        }
+
+    val settings_subscription_purchase_failed: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Purchase failed. Please try again."
+            AppLanguage.ES -> "La compra falló. Inténtalo de nuevo."
+            AppLanguage.FR -> "Échec de l'achat. Veuillez réessayer."
+            AppLanguage.DE -> "Kauf fehlgeschlagen. Bitte versuche es erneut."
+            AppLanguage.IT -> "Acquisto non riuscito. Riprova."
+        }
+
+    val settings_subscription_restore_none_found: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "No active subscription found for this account."
+            AppLanguage.ES -> "No se encontró ninguna suscripción activa para esta cuenta."
+            AppLanguage.FR -> "Aucun abonnement actif trouvé pour ce compte."
+            AppLanguage.DE -> "Kein aktives Abo für dieses Konto gefunden."
+            AppLanguage.IT -> "Nessun abbonamento attivo trovato per questo account."
+        }
+
 }

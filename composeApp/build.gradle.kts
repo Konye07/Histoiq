@@ -36,6 +36,58 @@ File(generatedConfigDir, "SupabaseConfig.kt").writeText(
     """.trimIndent()
 )
 
+/**
+ * AdMob App ID + ad unit IDs, RevenueCat API keys: same local.properties/generated-object pattern
+ * as Supabase above. AdMob values default to Google's own public test IDs (safe to ship, always
+ * fill and never charge real advertisers) so the app builds and shows real (test) ads with zero
+ * setup — replace the ADMOB_ and REVENUECAT_ keys in local.properties with real values before
+ * publishing. RevenueCat has no equivalent universal test key, so its default is blank:
+ * SubscriptionRepository skips configuring the SDK entirely when blank (fails safe to "not
+ * subscribed", never crashes).
+ */
+fun localPropertyOrDefault(key: String, default: String): String =
+    localProperty(key).ifBlank { default }
+
+val admobAppId = localPropertyOrDefault("ADMOB_APP_ID_ANDROID", "ca-app-pub-3940256099942544~3347511713")
+val admobInterstitialUnitId = localPropertyOrDefault("ADMOB_INTERSTITIAL_UNIT_ID_ANDROID", "ca-app-pub-3940256099942544/1033173712")
+val admobRewardedUnitId = localPropertyOrDefault("ADMOB_REWARDED_UNIT_ID_ANDROID", "ca-app-pub-3940256099942544/5224354917")
+
+File(generatedConfigDir, "AdsConfig.kt").writeText(
+    """
+    package com.yourorg.app.Core.Ads
+
+    /**
+     * Generated at Gradle configuration time from local.properties. Defaults are Google's public
+     * test IDs (see https://developers.google.com/admob/android/test-ads) — real (test-only) ads
+     * that never charge advertisers, safe to ship. Replace ADMOB_APP_ID_ANDROID/
+     * ADMOB_INTERSTITIAL_UNIT_ID_ANDROID/ADMOB_REWARDED_UNIT_ID_ANDROID in local.properties with
+     * your own AdMob console's real IDs before publishing.
+     */
+    internal object AdsConfig {
+        const val INTERSTITIAL_UNIT_ID = "$admobInterstitialUnitId"
+        const val REWARDED_UNIT_ID = "$admobRewardedUnitId"
+    }
+    """.trimIndent()
+)
+
+File(generatedConfigDir, "RevenueCatConfig.kt").writeText(
+    """
+    package com.yourorg.app.Core.Billing
+
+    /**
+     * Generated at Gradle configuration time from local.properties — blank until you create a
+     * RevenueCat account/project and add REVENUECAT_API_KEY_ANDROID (and, once iOS ads/billing are
+     * revisited, REVENUECAT_API_KEY_IOS). SubscriptionRepository treats a blank key as "not
+     * configured" and skips SDK init rather than crashing.
+     */
+    internal object RevenueCatConfig {
+        const val API_KEY_ANDROID = "${localProperty("REVENUECAT_API_KEY_ANDROID")}"
+        const val API_KEY_IOS = "${localProperty("REVENUECAT_API_KEY_IOS")}"
+        const val AD_FREE_ENTITLEMENT_ID = "ad_free"
+    }
+    """.trimIndent()
+)
+
 kotlin {
     applyDefaultHierarchyTemplate()
 
@@ -107,6 +159,10 @@ kotlin {
                 // 0.7.1 (confirmed via dependencyInsight) — declaring that version directly instead
                 // of an older one that Gradle would silently override anyway.
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
+                // Official RevenueCat Kotlin Multiplatform SDK: wraps Play Billing (Android) and
+                // StoreKit (iOS) behind one shared API, called from commonMain's
+                // Core/Billing/SubscriptionRepository.kt.
+                implementation("com.revenuecat.purchases:purchases-kmp-core:3.8.0")
             }
         }
         val androidMain by getting {
@@ -114,6 +170,9 @@ kotlin {
                 implementation("androidx.activity:activity-compose:1.9.2")
                 implementation("androidx.core:core-ktx:1.13.1")
                 implementation("io.ktor:ktor-client-android:3.3.0")
+                // Real interstitial/rewarded ads on Android (see Core/Ads/InterstitialAd.android.kt,
+                // Core/Ads/RewardedAd.android.kt) — iOS ads are deferred, still the mock-now stub.
+                implementation("com.google.android.gms:play-services-ads:25.4.0")
             }
         }
         // iosMain is auto-created (and already dependsOn(commonMain) / has iosArm64Main and
@@ -151,6 +210,7 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "0.1"
+        manifestPlaceholders["admobApplicationId"] = admobAppId
     }
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")

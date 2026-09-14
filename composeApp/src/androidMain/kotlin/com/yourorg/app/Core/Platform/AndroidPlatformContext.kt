@@ -1,5 +1,6 @@
 package com.yourorg.app.Core.Platform
 
+import android.app.Activity
 import android.app.Application
 
 /**
@@ -10,4 +11,11 @@ import android.app.Application
  */
 internal object AndroidPlatformContext {
     lateinit var app: Application
+
+    /**
+     * Kept in sync with [com.yourorg.app.Shared.MainActivity]'s lifecycle (set in onCreate, cleared
+     * in onDestroy) — this app is single-Activity, so there's at most one to track. AdMob's
+     * InterstitialAd/RewardedAd.show() needs a live Activity, not just an Application Context.
+     */
+    var currentActivity: Activity? = null
 }

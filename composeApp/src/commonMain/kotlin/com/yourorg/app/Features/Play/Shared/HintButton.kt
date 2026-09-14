@@ -17,16 +17,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.yourorg.app.Core.Ads.showRewardedAd
 import com.yourorg.app.Core.Localization.StringsHomeShared
 import com.yourorg.app.generated.resources.Res
 import com.yourorg.app.generated.resources.ic_lightbulb
 import org.jetbrains.compose.resources.painterResource
 
 /**
- * Top-right "Hint" action for a question screen: tapping it asks to watch an ad, and on
- * confirmation reveals [hint] (there's no real ad SDK yet, so "watching" completes immediately —
- * the same mock-now pattern used elsewhere in this app). Once revealed for the current question,
- * the button no longer opens the dialog — callers should hide it entirely once [hintText] is showing.
+ * Top-right "Hint" action for a question screen: tapping it asks to watch a rewarded ad, and only
+ * once the reward is actually earned calls [onWatchAd] to reveal the hint (Android: a real AdMob
+ * rewarded ad; iOS: still the mock-now stub — see Core/Ads/RewardedAd.kt). Once revealed for the
+ * current question, the button no longer opens the dialog — callers should hide it entirely once
+ * [hintText] is showing.
  */
 @Composable
 fun HintAction(onWatchAd: () -> Unit) {
@@ -55,7 +57,7 @@ fun HintAction(onWatchAd: () -> Unit) {
             confirmButton = {
                 TextButton(onClick = {
                     showDialog = false
-                    onWatchAd()
+                    showRewardedAd(onRewarded = onWatchAd)
                 }) { Text(StringsHomeShared.hint_watch_ad, color = MaterialTheme.colorScheme.onSurface) }
             },
             dismissButton = {

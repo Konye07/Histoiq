@@ -20,6 +20,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +30,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.revenuecat.purchases.kmp.models.Offering
+import com.yourorg.app.Core.Billing.PurchaseOutcome
+import com.yourorg.app.Core.Billing.SubscriptionRepository
 import com.yourorg.app.Core.Localization.AppLanguage
 import com.yourorg.app.Core.Localization.LocalAppLanguage
 import com.yourorg.app.Core.Localization.LocalOnLanguageChange
@@ -183,6 +187,12 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
 
         HorizontalDivider()
 
+        // Subscription
+        SectionTitle(StringsAuthSettings.settings_subscription_title)
+        SubscriptionSection()
+
+        HorizontalDivider()
+
         // Account
         SectionTitle(StringsAuthSettings.settings_account_title)
         if (account != null) {
@@ -256,6 +266,79 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
 @Composable
 private fun SectionTitle(text: String) {
     Text(text, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+}
+
+@Composable
+private fun SubscriptionSection() {
+    val scope = rememberCoroutineScope()
+    var isSubscribed by remember { mutableStateOf(SettingsStore.hasAdFreeSubscription()) }
+    var offering by remember { mutableStateOf<Offering?>(null) }
+    var statusMessage by remember { mutableStateOf<String?>(null) }
+    var isBusy by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        offering = SubscriptionRepository.currentOffering()
+    }
+
+    // Read once here, in a @Composable context — scope.launch {} below is a plain suspend lambda
+    // and can't read a @Composable string property itself.
+    val purchaseFailedMessage = StringsAuthSettings.settings_subscription_purchase_failed
+    val restoreNoneFoundMessage = StringsAuthSettings.settings_subscription_restore_none_found
+
+    if (isSubscribed) {
+        Text(StringsAuthSettings.settings_subscription_active, style = MaterialTheme.typography.bodyMedium)
+    } else {
+        Text(
+            StringsAuthSettings.settings_subscription_inactive_subtitle,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.outline
+        )
+        val availablePackage = offering?.availablePackages?.firstOrNull()
+        if (availablePackage != null) {
+            Button(
+                onClick = {
+                    isBusy = true
+                    statusMessage = null
+                    scope.launch {
+                        when (SubscriptionRepository.purchase(availablePackage)) {
+                            is PurchaseOutcome.Success -> isSubscribed = true
+                            is PurchaseOutcome.Cancelled -> {}
+                            is PurchaseOutcome.Failed -> statusMessage = purchaseFailedMessage
+                        }
+                        isBusy = false
+                    }
+                },
+                enabled = !isBusy,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(StringsAuthSettings.settings_subscription_subscribe_button)
+            }
+        } else {
+            Text(
+                StringsAuthSettings.settings_subscription_unavailable,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.outline
+            )
+        }
+        TextButton(
+            onClick = {
+                isBusy = true
+                statusMessage = null
+                scope.launch {
+                    val restored = SubscriptionRepository.restorePurchases()
+                    isSubscribed = restored
+                    if (!restored) statusMessage = restoreNoneFoundMessage
+                    isBusy = false
+                }
+            },
+            enabled = !isBusy
+        ) {
+            Text(StringsAuthSettings.settings_subscription_restore_button)
+        }
+        statusMessage?.let {
+            Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
+        }
+    }
 }
 
 @Composable
