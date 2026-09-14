@@ -3,8 +3,6 @@ package com.yourorg.app.Core.Billing
 import com.revenuecat.purchases.kmp.Purchases
 import com.revenuecat.purchases.kmp.configure
 import com.revenuecat.purchases.kmp.models.CustomerInfo
-import com.revenuecat.purchases.kmp.models.Offering
-import com.revenuecat.purchases.kmp.models.Package
 import com.yourorg.app.Data.Settings.SettingsStore
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -16,9 +14,16 @@ import kotlin.coroutines.resume
  * project yet, so every check below just reports "not subscribed" instead of crashing. Once real,
  * SettingsStore.hasAdFreeSubscription() (the flag Core/Ads/ResultsAdGate.kt already gates on) is
  * kept in sync with RevenueCat's own entitlement, not treated as the source of truth itself.
+ *
+ * Deliberately does not wrap purchase/offering/restore calls itself — the Settings screen presents
+ * RevenueCat's own Paywall and CustomerCenter Compose screens (purchases-kmp-ui) for that, which
+ * own the whole pick-a-plan/purchase/manage/cancel/restore flow already. [isConfigured] is what
+ * gates whether the Settings screen can safely show either one at all: calling
+ * Purchases.sharedInstance before [configure] succeeds throws ("no singleton instance").
  */
 object SubscriptionRepository {
-    private var configured = false
+    var isConfigured = false
+        private set
 
     /** Call once at app start with a stable id — this app uses the same Supabase auth.uid() every
      * device already has (guest or signed-in; see AccountRepository.ensureAnonymousSession). */
@@ -28,55 +33,21 @@ object SubscriptionRepository {
         Purchases.configure(apiKey = apiKey) {
             this.appUserId = appUserId
         }
-        configured = true
+        isConfigured = true
     }
 
-    /** Refreshes SettingsStore.hasAdFreeSubscription() from RevenueCat's real entitlement status. */
+    /** Refreshes SettingsStore.hasAdFreeSubscription() from RevenueCat's real entitlement status —
+     * call at app start and again whenever the Paywall/CustomerCenter screen is dismissed. */
     suspend fun refreshEntitlement() {
-        if (!configured) return
+        if (!isConfigured) return
         val info = customerInfoOrNull() ?: return
+        applyCustomerInfo(info)
+    }
+
+    /** Applies a CustomerInfo already handed to us by a Paywall/CustomerCenter callback, without a
+     * redundant getCustomerInfo() round-trip. */
+    fun applyCustomerInfo(info: CustomerInfo) {
         SettingsStore.setAdFreeSubscription(isAdFreeActive(info))
-    }
-
-    suspend fun currentOffering(): Offering? {
-        if (!configured) return null
-        return suspendCancellableCoroutine { cont ->
-            Purchases.sharedInstance.getOfferings(
-                onError = { cont.resume(null) },
-                onSuccess = { offerings -> cont.resume(offerings.current) }
-            )
-        }
-    }
-
-    suspend fun purchase(pkg: Package): PurchaseOutcome {
-        if (!configured) return PurchaseOutcome.Failed("RevenueCat is not configured")
-        return suspendCancellableCoroutine { cont ->
-            Purchases.sharedInstance.purchase(
-                packageToPurchase = pkg,
-                onError = { error, userCancelled ->
-                    cont.resume(if (userCancelled) PurchaseOutcome.Cancelled else PurchaseOutcome.Failed(error.message))
-                },
-                onSuccess = { _, customerInfo ->
-                    SettingsStore.setAdFreeSubscription(isAdFreeActive(customerInfo))
-                    cont.resume(PurchaseOutcome.Success)
-                }
-            )
-        }
-    }
-
-    /** True if the restore actually found and applied an active ad-free entitlement. */
-    suspend fun restorePurchases(): Boolean {
-        if (!configured) return false
-        return suspendCancellableCoroutine { cont ->
-            Purchases.sharedInstance.restorePurchases(
-                onError = { cont.resume(false) },
-                onSuccess = { customerInfo ->
-                    val active = isAdFreeActive(customerInfo)
-                    SettingsStore.setAdFreeSubscription(active)
-                    cont.resume(active)
-                }
-            )
-        }
     }
 
     private suspend fun customerInfoOrNull(): CustomerInfo? = suspendCancellableCoroutine { cont ->
@@ -88,10 +59,4 @@ object SubscriptionRepository {
 
     private fun isAdFreeActive(info: CustomerInfo): Boolean =
         info.entitlements[RevenueCatConfig.AD_FREE_ENTITLEMENT_ID]?.isActive == true
-}
-
-sealed class PurchaseOutcome {
-    object Success : PurchaseOutcome()
-    object Cancelled : PurchaseOutcome()
-    data class Failed(val message: String) : PurchaseOutcome()
 }

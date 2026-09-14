@@ -83,7 +83,9 @@ File(generatedConfigDir, "RevenueCatConfig.kt").writeText(
     internal object RevenueCatConfig {
         const val API_KEY_ANDROID = "${localProperty("REVENUECAT_API_KEY_ANDROID")}"
         const val API_KEY_IOS = "${localProperty("REVENUECAT_API_KEY_IOS")}"
-        const val AD_FREE_ENTITLEMENT_ID = "ad_free"
+        // Matches the entitlement identifier configured in the RevenueCat dashboard, not a name
+        // we chose freely — must stay in sync if it's ever renamed there.
+        const val AD_FREE_ENTITLEMENT_ID = "historiq_pro"
     }
     """.trimIndent()
 )
@@ -163,6 +165,10 @@ kotlin {
                 // StoreKit (iOS) behind one shared API, called from commonMain's
                 // Core/Billing/SubscriptionRepository.kt.
                 implementation("com.revenuecat.purchases:purchases-kmp-core:3.8.0")
+                // Ready-made, dashboard-configured Paywall + Customer Center Compose screens —
+                // Core/Billing/SubscriptionRepository.kt only needs to know current entitlement
+                // status; these own the whole purchase/manage/cancel/restore UI and flow.
+                implementation("com.revenuecat.purchases:purchases-kmp-ui:3.8.0")
             }
         }
         val androidMain by getting {

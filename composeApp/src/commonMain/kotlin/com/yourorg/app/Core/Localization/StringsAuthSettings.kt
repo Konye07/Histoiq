@@ -321,15 +321,6 @@ object StringsAuthSettings {
             AppLanguage.IT -> "Rimuovi Pubblicità"
         }
 
-    val settings_subscription_restore_button: String
-        @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Restore Purchases"
-            AppLanguage.ES -> "Restaurar Compras"
-            AppLanguage.FR -> "Restaurer les Achats"
-            AppLanguage.DE -> "Käufe Wiederherstellen"
-            AppLanguage.IT -> "Ripristina Acquisti"
-        }
-
     val settings_subscription_unavailable: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Not available yet."
@@ -339,22 +330,13 @@ object StringsAuthSettings {
             AppLanguage.IT -> "Non ancora disponibile."
         }
 
-    val settings_subscription_purchase_failed: String
+    val settings_subscription_manage_button: String
         @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Purchase failed. Please try again."
-            AppLanguage.ES -> "La compra falló. Inténtalo de nuevo."
-            AppLanguage.FR -> "Échec de l'achat. Veuillez réessayer."
-            AppLanguage.DE -> "Kauf fehlgeschlagen. Bitte versuche es erneut."
-            AppLanguage.IT -> "Acquisto non riuscito. Riprova."
-        }
-
-    val settings_subscription_restore_none_found: String
-        @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "No active subscription found for this account."
-            AppLanguage.ES -> "No se encontró ninguna suscripción activa para esta cuenta."
-            AppLanguage.FR -> "Aucun abonnement actif trouvé pour ce compte."
-            AppLanguage.DE -> "Kein aktives Abo für dieses Konto gefunden."
-            AppLanguage.IT -> "Nessun abbonamento attivo trovato per questo account."
+            AppLanguage.EN -> "Manage Subscription"
+            AppLanguage.ES -> "Gestionar Suscripción"
+            AppLanguage.FR -> "Gérer l'Abonnement"
+            AppLanguage.DE -> "Abo Verwalten"
+            AppLanguage.IT -> "Gestisci Abbonamento"
         }
 
 }
