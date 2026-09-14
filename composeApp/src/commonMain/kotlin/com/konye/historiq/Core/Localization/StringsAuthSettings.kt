@@ -68,11 +68,11 @@ object StringsAuthSettings {
 
     val auth_mock_notice: String
         @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Mock sign-in for now — creates a local test account. Real Google/Apple sign-in needs OAuth credentials that aren't set up yet."
-            AppLanguage.ES -> "Por ahora es un inicio de sesión simulado: crea una cuenta de prueba local. El inicio de sesión real con Google/Apple necesita credenciales OAuth que aún no están configuradas."
-            AppLanguage.FR -> "Pour l'instant, il s'agit d'une connexion simulée qui crée un compte de test local. La vraie connexion Google/Apple nécessite des identifiants OAuth qui ne sont pas encore configurés."
-            AppLanguage.DE -> "Vorerst nur eine simulierte Anmeldung — sie erstellt ein lokales Testkonto. Die echte Google-/Apple-Anmeldung benötigt OAuth-Zugangsdaten, die noch nicht eingerichtet sind."
-            AppLanguage.IT -> "Per ora è un accesso simulato, che crea un account di prova locale. L'accesso reale con Google/Apple richiede credenziali OAuth non ancora configurate."
+            AppLanguage.EN -> "Apple sign-in is a placeholder for now — it creates a local test identity, since real Apple OAuth isn't set up yet."
+            AppLanguage.ES -> "El inicio de sesión con Apple es aún un marcador de posición: crea una identidad de prueba local, ya que las credenciales OAuth reales de Apple todavía no están configuradas."
+            AppLanguage.FR -> "La connexion Apple est encore un espace réservé : elle crée une identité de test locale, car les identifiants OAuth Apple réels ne sont pas encore configurés."
+            AppLanguage.DE -> "Die Apple-Anmeldung ist vorerst nur ein Platzhalter — sie erstellt eine lokale Testidentität, da noch keine echten Apple-OAuth-Zugangsdaten eingerichtet sind."
+            AppLanguage.IT -> "L'accesso con Apple è ancora un segnaposto: crea un'identità di prova locale, poiché le credenziali OAuth reali di Apple non sono ancora configurate."
         }
 
     val settings_title: String

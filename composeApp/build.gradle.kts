@@ -90,6 +90,17 @@ File(generatedConfigDir, "RevenueCatConfig.kt").writeText(
     """.trimIndent()
 )
 
+File(generatedConfigDir, "GoogleAuthConfig.kt").writeText(
+    """
+    package com.konye.historiq.Core.Auth
+
+    /** Generated at Gradle configuration time from local.properties — see GoogleSignIn.android.kt. */
+    internal object GoogleAuthConfig {
+        const val WEB_CLIENT_ID = "${localProperty("GOOGLE_WEB_CLIENT_ID")}"
+    }
+    """.trimIndent()
+)
+
 kotlin {
     applyDefaultHierarchyTemplate()
 
@@ -179,6 +190,11 @@ kotlin {
                 // Real interstitial/rewarded ads on Android (see Core/Ads/InterstitialAd.android.kt,
                 // Core/Ads/RewardedAd.android.kt) — iOS ads are deferred, still the mock-now stub.
                 implementation("com.google.android.gms:play-services-ads:25.4.0")
+                // Real "Continue with Google" on Android (Core/Auth/GoogleSignIn.android.kt) via
+                // Credential Manager — iOS Google sign-in is deferred, still the mock-now stub.
+                implementation("androidx.credentials:credentials:1.6.0")
+                implementation("androidx.credentials:credentials-play-services-auth:1.6.0")
+                implementation("com.google.android.libraries.identity.googleid:googleid:1.2.0")
             }
         }
         // iosMain is auto-created (and already dependsOn(commonMain) / has iosArm64Main and

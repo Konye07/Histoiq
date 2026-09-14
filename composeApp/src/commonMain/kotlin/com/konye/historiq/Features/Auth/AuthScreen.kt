@@ -38,13 +38,24 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
     var errorMessage by remember { mutableStateOf<String?>(null) }
     val signInFailedMessage = StringsAuthSettings.auth_sign_in_failed
 
-    fun continueWith(provider: AuthProviderType) {
+    fun continueWithGoogle() {
         if (loadingProvider != null) return
-        loadingProvider = provider
+        loadingProvider = AuthProviderType.GOOGLE
+        errorMessage = null
+        scope.launch {
+            val account = AccountRepository.continueWithGoogle()
+            loadingProvider = null
+            if (account != null) onAuthenticated() else errorMessage = signInFailedMessage
+        }
+    }
+
+    fun continueWithApple() {
+        if (loadingProvider != null) return
+        loadingProvider = AuthProviderType.APPLE
         errorMessage = null
         scope.launch {
             try {
-                AccountRepository.continueWithProvider(provider)
+                AccountRepository.continueWithProvider(AuthProviderType.APPLE)
                 loadingProvider = null
                 onAuthenticated()
             } catch (e: Exception) {
@@ -80,7 +91,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
             Spacer(Modifier.height(32.dp))
 
             Button(
-                onClick = { continueWith(AuthProviderType.GOOGLE) },
+                onClick = { continueWithGoogle() },
                 enabled = loadingProvider == null,
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -94,7 +105,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
             Spacer(Modifier.height(12.dp))
 
             OutlinedButton(
-                onClick = { continueWith(AuthProviderType.APPLE) },
+                onClick = { continueWithApple() },
                 enabled = loadingProvider == null,
                 modifier = Modifier.fillMaxWidth()
             ) {

@@ -1,5 +1,7 @@
 package com.konye.historiq.Data.Account
 
+import com.konye.historiq.Core.Auth.GoogleAuthOutcome
+import com.konye.historiq.Core.Auth.signInWithGoogle
 import com.konye.historiq.Data.Remote.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
@@ -54,6 +56,32 @@ object AccountRepository {
             val result = mockSignIn(provider)
             insertProfileWithRetry(uid, provider, result)
         }
+        cached = account
+        runCatching { logDeviceEvent("sign_in") }
+        return account
+    }
+
+    /**
+     * Real "Continue with Google" — see [com.konye.historiq.Core.Auth.signInWithGoogle]. Returns
+     * null on cancellation/failure (caller shows the generic sign-in-failed message; never falls
+     * back to a mock identity for a real attempt that didn't complete) — [GoogleAuthOutcome.
+     * NotImplementedOnThisPlatform] is the one case that still does, same as before this existed.
+     */
+    suspend fun continueWithGoogle(): UserAccount? {
+        val uid = ensureAnonymousSession()
+        val existing = fetchProfile(uid)
+        if (existing != null) {
+            cached = existing
+            runCatching { logDeviceEvent("sign_in") }
+            return existing
+        }
+
+        val result = when (val outcome = signInWithGoogle()) {
+            is GoogleAuthOutcome.SignedIn -> outcome.result
+            GoogleAuthOutcome.NotImplementedOnThisPlatform -> mockSignIn(AuthProviderType.GOOGLE)
+            GoogleAuthOutcome.CancelledOrFailed -> return null
+        }
+        val account = insertProfileWithRetry(uid, AuthProviderType.GOOGLE, result)
         cached = account
         runCatching { logDeviceEvent("sign_in") }
         return account
