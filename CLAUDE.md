@@ -115,11 +115,14 @@ Project "HistoryTrivia" (`xolybjypkkpeymsvfimr`). `Data/Remote/SupabaseClient.kt
 **Auth**: every device signs in anonymously (`client.auth.signInAnonymously()` — no real
 Google/Apple OAuth credentials exist) to get a real, verifiable `auth.uid()`. "Continue with
 Google/Apple" (`AuthProvider.kt`'s `mockSignIn`) just attaches a display identity (provider, mock
-email/name) to that one real session — see `AccountRepository.kt`. Guest mode never touches
-Supabase at all; it stays fully device-local (multiplatform-settings), same as before. Note for
-an eventual real App Store submission: Apple's Guideline 4.8 requires offering Sign in with Apple
-if any other third-party login is offered — structurally already satisfied since Apple is one of
-the two options here, but both need to become real OAuth (not mock) before that actually counts.
+email/name) to that one real session — see `AccountRepository.kt`. Guest mode gets this same
+anonymous session too, via `AccountRepository.ensureAnonymousSession()` — it only skips attaching
+a display identity. So a guest is *not* fully local: `score_history`/`quiz_progress` still write to
+Supabase under that anonymous `auth.uid()` (see the schema note below); only the `profiles` row,
+`game_stats` lifetime aggregates, and Friends are gated to a real attached identity. Note for an
+eventual real App Store submission: Apple's Guideline 4.8 requires offering Sign in with Apple if
+any other third-party login is offered — structurally already satisfied since Apple is one of the
+two options here, but both need to become real OAuth (not mock) before that actually counts.
 
 **Schema** (all in `public`, RLS enabled on every table):
 - `profiles` — one row per `auth.uid()`, mirrors `UserAccount`. Friend-code lookup by another user
@@ -132,9 +135,15 @@ the two options here, but both need to become real OAuth (not mock) before that 
   `demoScoreFor`'s synthetic scores entirely — deleted, not kept as fallback.
 - `game_stats`, `score_history`, `quiz_progress` — one row per `(user_id, game_key[, date_key])`,
   owner-only RLS except `score_history`'s SELECT policy, which also allows an *accepted friend* to
-  read it (that's what makes the Friends leaderboard real). A signed-in account's data lives here;
-  a guest's stays in the local settings-store path — every one of these three stores branches on
-  `AccountRepository.currentAccount()` being null.
+  read it (that's what makes the Friends leaderboard real). Only `game_stats` (`StatsStore`) is
+  actually gated to real accounts (`AccountRepository.currentAccount() == null` short-circuits to a
+  no-op/empty result). `score_history`/`quiz_progress` write under *any* device's anonymous
+  `auth.uid()` — guest or signed-in alike, via `AccountRepository.ensureAnonymousSession()` — so a
+  guest's daily score/progress is just as real server-side as a signed-in account's: it counts
+  toward the same day's rank/"total players" (`get_final_scores`, below) alongside every signed-in
+  player, and "once per game per day" is server-enforced for a guest too, not just a device-local
+  flag. What a guest never gets is a `profiles` row, lifetime `game_stats`, or Friends — those three
+  specifically require a real attached display identity.
 - `daily_quizzes` — the fix for "same quiz everywhere on a given date": `(game_key, date_key) ->
   item_ids`, publicly readable, writable only through `get_or_create_daily_quiz(game_key, date,
   count)` (SECURITY DEFINER). That function is the *only* place the 15-day cross-day cooldown
@@ -201,7 +210,8 @@ this palette without asking.
 - True/false statements and other bulk trivia content must be genuinely distinct facts — an earlier
   batch turned out to be ~90 real facts reworded into 1700 near-duplicates via templated lead-in
   phrases, which defeats the 15-day repeat cooldown. Dedupe by underlying fact, not by exact string.
-- Guest mode (no account) is the only place "mock-now/local-only" still applies by design — a
-  deliberate trade-off (no friends, no cross-device sync), not a placeholder for something not yet
-  built. Everywhere else, prefer the real Supabase-backed path; don't reintroduce a synthetic/local
-  fallback for a signed-in account.
+- Guest mode (no account) is real Supabase-backed for day-scoped data (score/progress/rank — see
+  the Auth section above), not "mock-now/local-only" — the only things it deliberately lacks are a
+  profile, lifetime stats, and Friends (no portable credential to sync a second device against, by
+  design), not a placeholder for something not yet built. Everywhere else, prefer the real
+  Supabase-backed path; don't reintroduce a synthetic/local fallback for a signed-in account.
