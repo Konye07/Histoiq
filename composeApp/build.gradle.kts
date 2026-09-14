@@ -26,7 +26,7 @@ val generatedConfigDir = layout.buildDirectory.dir("generated/supabaseConfig/com
 generatedConfigDir.mkdirs()
 File(generatedConfigDir, "SupabaseConfig.kt").writeText(
     """
-    package com.yourorg.app.Data.Remote
+    package com.konye.historiq.Data.Remote
 
     /** Generated at Gradle configuration time from local.properties — never commit real values. */
     internal object SupabaseConfig {
@@ -54,7 +54,7 @@ val admobRewardedUnitId = localPropertyOrDefault("ADMOB_REWARDED_UNIT_ID_ANDROID
 
 File(generatedConfigDir, "AdsConfig.kt").writeText(
     """
-    package com.yourorg.app.Core.Ads
+    package com.konye.historiq.Core.Ads
 
     /**
      * Generated at Gradle configuration time from local.properties. Defaults are Google's public
@@ -72,7 +72,7 @@ File(generatedConfigDir, "AdsConfig.kt").writeText(
 
 File(generatedConfigDir, "RevenueCatConfig.kt").writeText(
     """
-    package com.yourorg.app.Core.Billing
+    package com.konye.historiq.Core.Billing
 
     /**
      * Generated at Gradle configuration time from local.properties — blank until you create a
@@ -195,7 +195,7 @@ kotlin {
 compose.resources {
     // Otherwise auto-derived from rootProject.name ("Historiq") + module name into an awkward
     // "historiq.composeapp.generated.resources" — this matches the rest of the app's package style.
-    packageOfResClass = "com.yourorg.app.generated.resources"
+    packageOfResClass = "com.konye.historiq.generated.resources"
 }
 
 // Play Console requires a signed .aab to upload a release — there's no real keystore yet, so this
@@ -207,11 +207,11 @@ compose.resources {
 val hasReleaseSigning = localProperty("RELEASE_STORE_FILE").isNotBlank()
 
 android {
-    namespace = "com.yourorg.app"
+    namespace = "com.konye.historiq"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.yourorg.app"
+        applicationId = "com.konye.historiq"
         minSdk = 26
         targetSdk = 36
         versionCode = 1

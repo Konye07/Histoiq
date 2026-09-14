@@ -43,7 +43,7 @@ for the simulator) before building/running from Xcode.
 
 ## Project layout
 
-- `composeApp/src/commonMain/kotlin/com/yourorg/app/` — shared Kotlin source (screens, data layer,
+- `composeApp/src/commonMain/kotlin/com/konye/historiq/` — shared Kotlin source (screens, data layer,
   navigation, string tables) compiled for both platforms.
   - `Features/Play/` — one package per game, plus `Features/Play/Shared/` for cross-game UI
     (results header, guess-distribution axis, hint/ad dialog).

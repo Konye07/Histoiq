@@ -7,10 +7,10 @@
 # generated serializer needs, only surfacing as a runtime crash the first time a real user hits a
 # Supabase call (never in a debug build, since isMinifyEnabled is false there).
 -keepattributes *Annotation*, InnerClasses, Signature, RuntimeVisibleAnnotations
--keep,includedescriptorclasses class com.yourorg.app.**$$serializer { *; }
--keepclassmembers class com.yourorg.app.** {
+-keep,includedescriptorclasses class com.konye.historiq.**$$serializer { *; }
+-keepclassmembers class com.konye.historiq.** {
     *** Companion;
 }
--keepclasseswithmembers class com.yourorg.app.** {
+-keepclasseswithmembers class com.konye.historiq.** {
     kotlinx.serialization.KSerializer serializer(...);
 }
