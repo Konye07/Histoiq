@@ -327,6 +327,72 @@ object StringsHomeShared {
             AppLanguage.IT -> "Nessuna connessione internet"
         }
 
+    val results_you_guessed_label: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "You Guessed"
+            AppLanguage.ES -> "Adivinaste"
+            AppLanguage.FR -> "Tu as Deviné"
+            AppLanguage.DE -> "Du hast geraten"
+            AppLanguage.IT -> "Hai Indovinato"
+        }
+
+    val results_answer_label: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Answer"
+            AppLanguage.ES -> "Respuesta"
+            AppLanguage.FR -> "Réponse"
+            AppLanguage.DE -> "Antwort"
+            AppLanguage.IT -> "Risposta"
+        }
+
+    val results_you_landed_label: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "You Landed"
+            AppLanguage.ES -> "Quedaste"
+            AppLanguage.FR -> "Tu es Tombé"
+            AppLanguage.DE -> "Du bist gelandet"
+            AppLanguage.IT -> "Sei Arrivato"
+        }
+
+    val results_how_everyone_guessed_label: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "How Everyone Guessed"
+            AppLanguage.ES -> "Cómo Adivinó Todo el Mundo"
+            AppLanguage.FR -> "Comment Tout le Monde a Deviné"
+            AppLanguage.DE -> "Wie alle geraten haben"
+            AppLanguage.IT -> "Come Hanno Indovinato Tutti"
+        }
+
+    @Composable
+    fun results_closer_than_percent(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "closer than %1\$s% of players"
+            AppLanguage.ES -> "más cerca que el %1\$s% de los jugadores"
+            AppLanguage.FR -> "plus proche que %1\$s% des joueurs"
+            AppLanguage.DE -> "näher dran als %1\$s% der Spieler"
+            AppLanguage.IT -> "più vicino del %1\$s% dei giocatori"
+        }
+        return formatTemplate(template, arg1)
+    }
+
+    val results_landed_exact: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Nailed It!"
+            AppLanguage.ES -> "¡En el Blanco!"
+            AppLanguage.FR -> "Dans le Mille !"
+            AppLanguage.DE -> "Volltreffer!"
+            AppLanguage.IT -> "Centrato!"
+        }
+
+    val results_you_chip: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "You"
+            AppLanguage.ES -> "Tú"
+            AppLanguage.FR -> "Toi"
+            AppLanguage.DE -> "Du"
+            AppLanguage.IT -> "Tu"
+        }
+
     val no_connection_body: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Today's quizzes need a connection to load — connect to Wi-Fi or mobile data and this screen will move on by itself."

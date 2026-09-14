@@ -34,6 +34,13 @@ object DailyDistribution {
         return rank to total
     }
 
+    /** Percent of [otherDistances] farther from correct than [yourDistance] (lower distance is always better). */
+    fun closerThanPercent(yourDistance: Double, otherDistances: List<Double>): Int {
+        if (otherDistances.isEmpty()) return 100
+        val beaten = otherDistances.count { it > yourDistance }
+        return ((beaten * 100.0) / otherDistances.size).roundToInt().coerceIn(0, 100)
+    }
+
     suspend fun yearGuesses(gameKey: String, dateKey: String, questionId: String): List<Int> =
         rawGuesses(gameKey, dateKey, questionId).mapNotNull { it.jsonPrimitive.longOrNull?.toInt() }
 

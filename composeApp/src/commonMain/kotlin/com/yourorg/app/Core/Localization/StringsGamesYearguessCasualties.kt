@@ -72,42 +72,6 @@ object StringsGamesYearguessCasualties {
             AppLanguage.IT -> "Invia"
         }
 
-    @Composable
-    fun yearguess_correct(arg1: Any): String {
-        val template = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Correct: %1\$s"
-            AppLanguage.ES -> "Correcto: %1\$s"
-            AppLanguage.FR -> "Correct : %1\$s"
-            AppLanguage.DE -> "Richtig: %1\$s"
-            AppLanguage.IT -> "Corretto: %1\$s"
-        }
-        return formatTemplate(template, arg1)
-    }
-
-    @Composable
-    fun yearguess_score_points(arg1: Any): String {
-        val template = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "You scored %1\$s points"
-            AppLanguage.ES -> "Obtuviste %1\$s puntos"
-            AppLanguage.FR -> "Tu as marqué %1\$s points"
-            AppLanguage.DE -> "Du hast %1\$s Punkte erzielt"
-            AppLanguage.IT -> "Hai ottenuto %1\$s punti"
-        }
-        return formatTemplate(template, arg1)
-    }
-
-    @Composable
-    fun yearguess_you_label(arg1: Any): String {
-        val template = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "You: %1\$s"
-            AppLanguage.ES -> "Tú: %1\$s"
-            AppLanguage.FR -> "Toi : %1\$s"
-            AppLanguage.DE -> "Du: %1\$s"
-            AppLanguage.IT -> "Tu: %1\$s"
-        }
-        return formatTemplate(template, arg1)
-    }
-
     val yearguess_see_results: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "See Results"
@@ -143,6 +107,42 @@ object StringsGamesYearguessCasualties {
             AppLanguage.DE -> "v. Chr."
             AppLanguage.IT -> "a.C."
         }
+
+    @Composable
+    fun yearguess_landed_too_high(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "%1\$s yrs too high"
+            AppLanguage.ES -> "%1\$s años demasiado alto"
+            AppLanguage.FR -> "%1\$s ans trop tard"
+            AppLanguage.DE -> "%1\$s Jahre zu spät"
+            AppLanguage.IT -> "%1\$s anni troppo avanti"
+        }
+        return formatTemplate(template, arg1)
+    }
+
+    @Composable
+    fun yearguess_landed_too_low(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "%1\$s yrs too low"
+            AppLanguage.ES -> "%1\$s años demasiado bajo"
+            AppLanguage.FR -> "%1\$s ans trop tôt"
+            AppLanguage.DE -> "%1\$s Jahre zu früh"
+            AppLanguage.IT -> "%1\$s anni troppo indietro"
+        }
+        return formatTemplate(template, arg1)
+    }
+
+    @Composable
+    fun yearguess_points_badge(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "%1\$s pts"
+            AppLanguage.ES -> "%1\$s pts"
+            AppLanguage.FR -> "%1\$s pts"
+            AppLanguage.DE -> "%1\$s Pkt."
+            AppLanguage.IT -> "%1\$s pt"
+        }
+        return formatTemplate(template, arg1)
+    }
 
     val yearguess_back_to_menu: String
         @Composable get() = when (LocalAppLanguage.current) {
@@ -223,42 +223,6 @@ object StringsGamesYearguessCasualties {
         }
 
     @Composable
-    fun casualties_actual_casualties(arg1: Any): String {
-        val template = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Actual casualties: %1\$s"
-            AppLanguage.ES -> "Bajas reales: %1\$s"
-            AppLanguage.FR -> "Pertes réelles : %1\$s"
-            AppLanguage.DE -> "Tatsächliche Verluste: %1\$s"
-            AppLanguage.IT -> "Vittime reali: %1\$s"
-        }
-        return formatTemplate(template, arg1)
-    }
-
-    @Composable
-    fun casualties_earned_multiplier(arg1: Any): String {
-        val template = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "You earned %1\$s"
-            AppLanguage.ES -> "Ganaste %1\$s"
-            AppLanguage.FR -> "Tu as gagné %1\$s"
-            AppLanguage.DE -> "Du hast %1\$s erzielt"
-            AppLanguage.IT -> "Hai ottenuto %1\$s"
-        }
-        return formatTemplate(template, arg1)
-    }
-
-    @Composable
-    fun casualties_actual_label(arg1: Any): String {
-        val template = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Actual: %1\$s"
-            AppLanguage.ES -> "Real: %1\$s"
-            AppLanguage.FR -> "Réel : %1\$s"
-            AppLanguage.DE -> "Tatsächlich: %1\$s"
-            AppLanguage.IT -> "Reale: %1\$s"
-        }
-        return formatTemplate(template, arg1)
-    }
-
-    @Composable
     fun casualties_you_label(arg1: Any): String {
         val template = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "You: %1\$s"
@@ -287,6 +251,30 @@ object StringsGamesYearguessCasualties {
             AppLanguage.DE -> "Nächste Frage"
             AppLanguage.IT -> "Domanda Successiva"
         }
+
+    @Composable
+    fun casualties_landed_too_high(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "%1\$s too high"
+            AppLanguage.ES -> "%1\$s demasiado alto"
+            AppLanguage.FR -> "%1\$s trop élevé"
+            AppLanguage.DE -> "%1\$s zu hoch"
+            AppLanguage.IT -> "%1\$s troppo alto"
+        }
+        return formatTemplate(template, arg1)
+    }
+
+    @Composable
+    fun casualties_landed_too_low(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "%1\$s too low"
+            AppLanguage.ES -> "%1\$s demasiado bajo"
+            AppLanguage.FR -> "%1\$s trop bas"
+            AppLanguage.DE -> "%1\$s zu niedrig"
+            AppLanguage.IT -> "%1\$s troppo basso"
+        }
+        return formatTemplate(template, arg1)
+    }
 
     val casualties_final_multiplier_caption: String
         @Composable get() = when (LocalAppLanguage.current) {

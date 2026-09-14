@@ -34,9 +34,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 import com.yourorg.app.Core.Ads.AdGatedResults
 import com.yourorg.app.Core.Formatting.formatFixed
 import com.yourorg.app.Core.Localization.StringsGamesYearguessCasualties
+import com.yourorg.app.Core.Localization.StringsHomeShared
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.BattleCasualty
@@ -54,6 +56,7 @@ import com.yourorg.app.Data.Quiz.recordAndRank
 import com.yourorg.app.Data.Quiz.resumeOrStartQuiz
 import com.yourorg.app.Features.Play.Shared.GuessDistributionAxis
 import com.yourorg.app.Features.Play.Shared.HintAction
+import com.yourorg.app.Features.Play.Shared.QuestionResultCard
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
 import com.yourorg.app.generated.resources.Res
@@ -65,6 +68,48 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import org.jetbrains.compose.resources.painterResource
+
+/** "Actual: 20,000" -> guess/answer/landed-vs-answer pieces shared by the reveal and results list. */
+@Composable
+private fun CasualtiesResult(
+    correctCasualties: Long,
+    guess: Long,
+    guessDist: List<Long>,
+    accentColor: Color,
+    modifier: Modifier = Modifier
+) {
+    val logMin = ln((guessDist + correctCasualties + listOf(guess)).min().coerceAtLeast(1).toDouble())
+    val logMax = ln((guessDist + correctCasualties + listOf(guess)).max().coerceAtLeast(1).toDouble())
+    val logSpan = (logMax - logMin).coerceAtLeast(0.01)
+    fun logPos(v: Long): Float = ((ln(v.coerceAtLeast(1).toDouble()) - logMin) / logSpan).toFloat().coerceIn(0f, 1f)
+
+    val multiplier = casualtyMultiplier(guess, correctCasualties)
+    val isExact = guess == correctCasualties
+    val landedText = when {
+        isExact -> StringsHomeShared.results_landed_exact
+        guess > correctCasualties -> StringsGamesYearguessCasualties.casualties_landed_too_high("x" + formatFixed(multiplier, 2))
+        else -> StringsGamesYearguessCasualties.casualties_landed_too_low("x" + formatFixed(multiplier, 2))
+    }
+    val otherDistances = guessDist.map { casualtyMultiplier(it, correctCasualties) }
+    val closerPct = DailyDistribution.closerThanPercent(multiplier, otherDistances)
+
+    QuestionResultCard(
+        accentColor = accentColor,
+        guessedLabel = StringsHomeShared.results_you_guessed_label,
+        guessedValue = formatThousands(guess),
+        answerLabel = StringsHomeShared.results_answer_label,
+        answerValue = formatThousands(correctCasualties),
+        landedText = landedText,
+        landedIsExact = isExact,
+        closerThanText = StringsHomeShared.results_closer_than_percent(closerPct),
+        distribution = guessDist.map { logPos(it) },
+        correctPosition = logPos(correctCasualties),
+        guessPosition = logPos(guess),
+        minLabel = formatThousands((guessDist + correctCasualties + listOf(guess)).min()),
+        maxLabel = formatThousands((guessDist + correctCasualties + listOf(guess)).max()),
+        modifier = modifier
+    )
+}
 
 private const val QUESTIONS_PER_ROUND = 5
 private const val PROGRESS_KEY = GameKeys.CASUALTIES_MULTIPLIER
@@ -225,28 +270,29 @@ private fun CasualtiesQuestion(
                 Text(StringsGamesYearguessCasualties.casualties_submit)
             }
         } else {
-            Text(StringsGamesYearguessCasualties.casualties_actual_casualties(formatThousands(battle.correctCasualties)), style = MaterialTheme.typography.bodyLarge)
-            Text(
-                StringsGamesYearguessCasualties.casualties_earned_multiplier("x" + formatFixed(lastMultiplier ?: 1.0, 2)),
-                style = MaterialTheme.typography.bodyLarge
-            )
             var guessDist by remember(battle.id) { mutableStateOf<List<Long>>(emptyList()) }
             LaunchedEffect(battle.id) {
                 guessDist = DailyDistribution.casualtyGuesses(GameKeys.CASUALTIES_MULTIPLIER, DailyClock.todayKey(), battle.id)
             }
-            val logMin = ln((guessDist + battle.correctCasualties + listOfNotNull(lastGuess)).min().coerceAtLeast(1).toDouble())
-            val logMax = ln((guessDist + battle.correctCasualties + listOfNotNull(lastGuess)).max().coerceAtLeast(1).toDouble())
-            val logSpan = (logMax - logMin).coerceAtLeast(0.01)
-            fun logPos(v: Long): Float = ((ln(v.coerceAtLeast(1).toDouble()) - logMin) / logSpan).toFloat().coerceIn(0f, 1f)
-            GuessDistributionAxis(
-                distribution = guessDist.map { logPos(it) },
-                correctPosition = logPos(battle.correctCasualties),
-                guessPosition = lastGuess?.let { logPos(it) },
-                accentColor = MaterialTheme.colorScheme.primary,
-                correctLabel = StringsGamesYearguessCasualties.casualties_actual_label(formatThousands(battle.correctCasualties)),
-                guessLabel = lastGuess?.let { StringsGamesYearguessCasualties.casualties_you_label(formatThousands(it)) },
-                modifier = Modifier.fillMaxWidth()
-            )
+            if (!hintRevealed) {
+                battle.hint?.let {
+                    Text(
+                        StringsGamesYearguessCasualties.casualties_hint_prefix(it),
+                        style = MaterialTheme.typography.bodySmall,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                    )
+                }
+            }
+            lastGuess?.let { guess ->
+                CasualtiesResult(
+                    correctCasualties = battle.correctCasualties,
+                    guess = guess,
+                    guessDist = guessDist,
+                    accentColor = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
             Button(onClick = onNext) {
                 Text(if (questionNumber == totalQuestions) StringsGamesYearguessCasualties.casualties_see_results else StringsGamesYearguessCasualties.casualties_next_question)
             }
@@ -312,24 +358,24 @@ private fun CasualtiesResults(
         }
         HorizontalDivider()
         battles.forEachIndexed { i, battle ->
-            val guessValue = guesses.getOrNull(i)
             val guessDist = guessDistByBattleId[battle.id] ?: emptyList()
-            val logMin = ln((guessDist + battle.correctCasualties + listOfNotNull(guessValue)).min().coerceAtLeast(1).toDouble())
-            val logMax = ln((guessDist + battle.correctCasualties + listOfNotNull(guessValue)).max().coerceAtLeast(1).toDouble())
-            val logSpan = (logMax - logMin).coerceAtLeast(0.01)
-            fun logPos(v: Long): Float = ((ln(v.coerceAtLeast(1).toDouble()) - logMin) / logSpan).toFloat().coerceIn(0f, 1f)
-
-            Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(battle.battle, style = MaterialTheme.typography.bodyMedium)
-                Text("x" + formatFixed(multipliers.getOrNull(i) ?: 1.0, 2), style = MaterialTheme.typography.bodySmall)
-                GuessDistributionAxis(
-                    distribution = guessDist.map { logPos(it) },
-                    correctPosition = logPos(battle.correctCasualties),
-                    guessPosition = guessValue?.let { logPos(it) },
-                    accentColor = MaterialTheme.colorScheme.primary,
-                    correctLabel = StringsGamesYearguessCasualties.casualties_actual_label(formatThousands(battle.correctCasualties)),
-                    guessLabel = guessValue?.let { StringsGamesYearguessCasualties.casualties_you_label(formatThousands(it)) }
-                )
+            guesses.getOrNull(i)?.let { guessValue ->
+                Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(battle.battle, style = MaterialTheme.typography.bodyMedium)
+                    battle.hint?.let {
+                        Text(
+                            StringsGamesYearguessCasualties.casualties_hint_prefix(it),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                        )
+                    }
+                    CasualtiesResult(
+                        correctCasualties = battle.correctCasualties,
+                        guess = guessValue,
+                        guessDist = guessDist,
+                        accentColor = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
         Button(onClick = onBack) { Text(StringsGamesYearguessCasualties.casualties_back_to_menu) }

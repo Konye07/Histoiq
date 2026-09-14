@@ -36,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import com.yourorg.app.Core.Ads.AdGatedResults
 import com.yourorg.app.Core.Formatting.formatFixed
 import com.yourorg.app.Core.Localization.StringsGamesYearguessCasualties
+import com.yourorg.app.Core.Localization.StringsHomeShared
 import com.yourorg.app.Core.Theme.AppColors
 import com.yourorg.app.Core.Theme.gameColorScheme
 import com.yourorg.app.Data.Quiz.DailyClock
@@ -59,12 +61,13 @@ import com.yourorg.app.Data.Quiz.recordAndRank
 import com.yourorg.app.Data.Quiz.resumeOrStartQuiz
 import com.yourorg.app.Data.Quiz.tryLoadImageBitmap
 import com.yourorg.app.Data.Quiz.yearGuessScore
-import com.yourorg.app.Features.Play.Shared.GuessDistributionAxis
 import com.yourorg.app.Features.Play.Shared.HintAction
+import com.yourorg.app.Features.Play.Shared.QuestionResultCard
 import com.yourorg.app.Features.Play.Shared.ResultsHeader
 import com.yourorg.app.Features.Play.Shared.rankingText
 import com.yourorg.app.generated.resources.Res
 import com.yourorg.app.generated.resources.ic_arrow_back
+import kotlin.math.abs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonArray
@@ -72,6 +75,48 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import org.jetbrains.compose.resources.painterResource
+
+/** "Correct: 1969 AD" -> guess/correct/landed-vs-correct pieces shared by the reveal and results list. */
+@Composable
+private fun YearResult(
+    correctYear: Int,
+    guess: Int,
+    score: Double,
+    guessDist: List<Int>,
+    accentColor: Color,
+    modifier: Modifier = Modifier
+) {
+    val minV = (guessDist + correctYear + listOf(guess)).min()
+    val maxV = (guessDist + correctYear + listOf(guess)).max()
+    val span = (maxV - minV).coerceAtLeast(1)
+    val diff = guess - correctYear
+    val isExact = diff == 0
+    val landedText = when {
+        isExact -> StringsHomeShared.results_landed_exact
+        diff > 0 -> StringsGamesYearguessCasualties.yearguess_landed_too_high(diff)
+        else -> StringsGamesYearguessCasualties.yearguess_landed_too_low(-diff)
+    }
+    val otherDistances = guessDist.map { abs(it - correctYear).toDouble() }
+    val closerPct = DailyDistribution.closerThanPercent(abs(diff).toDouble(), otherDistances)
+
+    QuestionResultCard(
+        accentColor = accentColor,
+        guessedLabel = StringsHomeShared.results_you_guessed_label,
+        guessedValue = formatEraYear(guess),
+        answerLabel = StringsHomeShared.results_answer_label,
+        answerValue = formatEraYear(correctYear),
+        landedText = landedText,
+        landedIsExact = isExact,
+        closerThanText = StringsHomeShared.results_closer_than_percent(closerPct),
+        distribution = guessDist.map { (it - minV).toFloat() / span.toFloat() },
+        correctPosition = (correctYear - minV).toFloat() / span.toFloat(),
+        guessPosition = (guess - minV).toFloat() / span.toFloat(),
+        minLabel = formatEraYear(minV),
+        maxLabel = formatEraYear(maxV),
+        scoreBadgeText = StringsGamesYearguessCasualties.yearguess_points_badge(formatFixed(score, 0)),
+        modifier = modifier
+    )
+}
 
 private const val QUESTIONS_PER_ROUND = 5
 private const val PROGRESS_KEY = GameKeys.YEAR_GUESS
@@ -260,27 +305,30 @@ private fun YearGuessQuestion(
                 Text(StringsGamesYearguessCasualties.yearguess_submit)
             }
         } else {
-            Text(StringsGamesYearguessCasualties.yearguess_correct(formatEraYear(event.correctYear)), style = MaterialTheme.typography.bodyLarge)
-            Text(
-                StringsGamesYearguessCasualties.yearguess_score_points(formatFixed(lastScore ?: 0.0, 2)),
-                style = MaterialTheme.typography.bodyLarge
-            )
             var guessDist by remember(event.id) { mutableStateOf<List<Int>>(emptyList()) }
             LaunchedEffect(event.id) {
                 guessDist = DailyDistribution.yearGuesses(GameKeys.YEAR_GUESS, DailyClock.todayKey(), event.id)
             }
-            val minV = (guessDist + event.correctYear + listOfNotNull(lastGuess)).min()
-            val maxV = (guessDist + event.correctYear + listOfNotNull(lastGuess)).max()
-            val span = (maxV - minV).coerceAtLeast(1)
-            GuessDistributionAxis(
-                distribution = guessDist.map { (it - minV).toFloat() / span.toFloat() },
-                correctPosition = (event.correctYear - minV).toFloat() / span.toFloat(),
-                guessPosition = lastGuess?.let { (it - minV).toFloat() / span.toFloat() },
-                accentColor = MaterialTheme.colorScheme.primary,
-                correctLabel = StringsGamesYearguessCasualties.yearguess_correct(formatEraYear(event.correctYear)),
-                guessLabel = lastGuess?.let { StringsGamesYearguessCasualties.yearguess_you_label(formatEraYear(it)) },
-                modifier = Modifier.fillMaxWidth()
-            )
+            if (!hintRevealed) {
+                event.hint?.let {
+                    Text(
+                        StringsGamesYearguessCasualties.yearguess_hint_prefix(it),
+                        style = MaterialTheme.typography.bodySmall,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                    )
+                }
+            }
+            lastGuess?.let { guess ->
+                YearResult(
+                    correctYear = event.correctYear,
+                    guess = guess,
+                    score = lastScore ?: 0.0,
+                    guessDist = guessDist,
+                    accentColor = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
             Button(onClick = onNext) {
                 Text(if (questionNumber == totalQuestions) StringsGamesYearguessCasualties.yearguess_see_results else StringsGamesYearguessCasualties.yearguess_next_question)
             }
@@ -346,22 +394,25 @@ private fun YearGuessResults(
         )
         HorizontalDivider()
         events.forEachIndexed { i, event ->
-            val guessValue = guesses.getOrNull(i)
             val guessDist = guessDistByEventId[event.id] ?: emptyList()
-            val minV = (guessDist + event.correctYear + listOfNotNull(guessValue)).min()
-            val maxV = (guessDist + event.correctYear + listOfNotNull(guessValue)).max()
-            val span = (maxV - minV).coerceAtLeast(1)
-            Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(event.event, style = MaterialTheme.typography.bodyMedium)
-                Text("${formatFixed(scores.getOrNull(i) ?: 0.0, 2)} pts", style = MaterialTheme.typography.bodySmall)
-                GuessDistributionAxis(
-                    distribution = guessDist.map { (it - minV).toFloat() / span.toFloat() },
-                    correctPosition = (event.correctYear - minV).toFloat() / span.toFloat(),
-                    guessPosition = guessValue?.let { (it - minV).toFloat() / span.toFloat() },
-                    accentColor = MaterialTheme.colorScheme.primary,
-                    correctLabel = StringsGamesYearguessCasualties.yearguess_correct(formatEraYear(event.correctYear)),
-                    guessLabel = guessValue?.let { StringsGamesYearguessCasualties.yearguess_you_label(formatEraYear(it)) }
-                )
+            guesses.getOrNull(i)?.let { guessValue ->
+                Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(event.event, style = MaterialTheme.typography.bodyMedium)
+                    event.hint?.let {
+                        Text(
+                            StringsGamesYearguessCasualties.yearguess_hint_prefix(it),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                        )
+                    }
+                    YearResult(
+                        correctYear = event.correctYear,
+                        guess = guessValue,
+                        score = scores.getOrNull(i) ?: 0.0,
+                        guessDist = guessDist,
+                        accentColor = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
         Button(onClick = onBack) { Text(StringsGamesYearguessCasualties.yearguess_back_to_menu) }
