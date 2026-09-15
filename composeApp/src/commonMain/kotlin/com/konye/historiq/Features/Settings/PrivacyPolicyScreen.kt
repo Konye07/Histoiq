@@ -40,7 +40,7 @@ private const val CONTACT_EMAIL = "mate.konye@gmail.com"
 private const val PRIVACY_POLICY_URL = "https://historiq-privacy.mate-konye.workers.dev/privacy-policy.html"
 
 /**
- * A real, full screen rather than a dialog — this content is long enough (13 sections) that a
+ * A real, full screen rather than a dialog — this content is long enough (15 sections) that a
  * dialog would cram it, and nested-in-Settings navigation (not a deep link, not an exported
  * intent) is the whole point: this is reachable only by tapping the row in SettingsScreen.
  */
@@ -99,9 +99,15 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                 BulletList(
                     StringsPrivacyPolicy.privacy_account_item_name,
                     StringsPrivacyPolicy.privacy_account_item_email,
+                    StringsPrivacyPolicy.privacy_account_item_avatar,
                     StringsPrivacyPolicy.privacy_account_item_provider,
                     StringsPrivacyPolicy.privacy_account_item_code,
                     StringsPrivacyPolicy.privacy_account_item_id
+                )
+                InfoCard(
+                    label = StringsPrivacyPolicy.privacy_account_google_label,
+                    body = StringsPrivacyPolicy.privacy_account_google_body,
+                    accent = AppColors.Success
                 )
                 InfoCard(
                     label = StringsPrivacyPolicy.privacy_account_mock_label,
@@ -114,14 +120,23 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                 BodyText(StringsPrivacyPolicy.privacy_gameplay_intro)
                 BulletList(
                     StringsPrivacyPolicy.privacy_gameplay_item_progress,
-                    StringsPrivacyPolicy.privacy_gameplay_item_score,
-                    StringsPrivacyPolicy.privacy_gameplay_item_stats
+                    StringsPrivacyPolicy.privacy_gameplay_item_score
                 )
                 BodyText(StringsPrivacyPolicy.privacy_gameplay_footer)
             }
 
             Section(StringsPrivacyPolicy.privacy_section_friends_title) {
                 BodyText(StringsPrivacyPolicy.privacy_friends_body)
+            }
+
+            Section(StringsPrivacyPolicy.privacy_section_advertising_title) {
+                BodyText(StringsPrivacyPolicy.privacy_advertising_body1)
+                BodyText(StringsPrivacyPolicy.privacy_advertising_body2)
+                BodyText(StringsPrivacyPolicy.privacy_advertising_body3)
+            }
+
+            Section(StringsPrivacyPolicy.privacy_section_subscription_title) {
+                BodyText(StringsPrivacyPolicy.privacy_subscription_body)
             }
 
             Section(StringsPrivacyPolicy.privacy_section_security_title) {
@@ -139,6 +154,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
             Section(StringsPrivacyPolicy.privacy_section_sharing_title) {
                 BodyText(StringsPrivacyPolicy.privacy_sharing_body1)
                 BodyText(StringsPrivacyPolicy.privacy_sharing_body2)
+                BodyText(StringsPrivacyPolicy.privacy_sharing_body3)
             }
 
             Section(StringsPrivacyPolicy.privacy_section_storage_title) {
@@ -149,6 +165,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                 BulletList(
                     StringsPrivacyPolicy.privacy_choices_item_name,
                     StringsPrivacyPolicy.privacy_choices_item_toggles,
+                    StringsPrivacyPolicy.privacy_choices_item_subscription,
                     StringsPrivacyPolicy.privacy_choices_item_delete,
                     StringsPrivacyPolicy.privacy_choices_item_guest
                 )

@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.konye.historiq.Core.Auth.showAppleSignInButton
 import com.konye.historiq.Core.Localization.StringsAuthSettings
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Account.AuthProviderType
@@ -102,17 +103,19 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
                 }
             }
 
-            Spacer(Modifier.height(12.dp))
+            if (showAppleSignInButton) {
+                Spacer(Modifier.height(12.dp))
 
-            OutlinedButton(
-                onClick = { continueWithApple() },
-                enabled = loadingProvider == null,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                if (loadingProvider == AuthProviderType.APPLE) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
-                } else {
-                    Text(StringsAuthSettings.auth_continue_with_apple)
+                OutlinedButton(
+                    onClick = { continueWithApple() },
+                    enabled = loadingProvider == null,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    if (loadingProvider == AuthProviderType.APPLE) {
+                        CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                    } else {
+                        Text(StringsAuthSettings.auth_continue_with_apple)
+                    }
                 }
             }
 
@@ -145,14 +148,16 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
                 textAlign = TextAlign.Center
             )
 
-            Spacer(Modifier.height(20.dp))
+            if (showAppleSignInButton) {
+                Spacer(Modifier.height(20.dp))
 
-            Text(
-                StringsAuthSettings.auth_mock_notice,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.outline,
-                textAlign = TextAlign.Center
-            )
+                Text(
+                    StringsAuthSettings.auth_mock_notice,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.outline,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
