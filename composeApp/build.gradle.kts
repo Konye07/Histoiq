@@ -214,12 +214,13 @@ compose.resources {
     packageOfResClass = "com.konye.historiq.generated.resources"
 }
 
-// Play Console requires a signed .aab to upload a release — there's no real keystore yet, so this
-// stays inert (no signingConfig applied to the release build type) until one exists. To enable it:
-// generate a keystore (e.g. `keytool -genkeypair -v -keystore release.jks -keyalg RSA -keysize 2048
-// -validity 10000 -alias historiq`), then add RELEASE_STORE_FILE/RELEASE_STORE_PASSWORD/
-// RELEASE_KEY_ALIAS/RELEASE_KEY_PASSWORD to local.properties (already gitignored, same as the
-// Supabase keys above — never commit the keystore file or these values).
+// Play Console requires a signed .aab to upload a release. A real keystore already exists at
+// composeApp/release.jks (gitignored, generated 2026-09-15) with RELEASE_STORE_FILE/
+// RELEASE_STORE_PASSWORD/RELEASE_KEY_ALIAS/RELEASE_KEY_PASSWORD in local.properties (also
+// gitignored, same as the Supabase keys above) — back both up somewhere durable, since losing
+// either means never being able to publish an update to this app under the same listing again.
+// This still stays conditionally inert (no signingConfig applied) so the project keeps building
+// for anyone who clones it without that keystore.
 val hasReleaseSigning = localProperty("RELEASE_STORE_FILE").isNotBlank()
 
 android {
@@ -230,8 +231,8 @@ android {
         applicationId = "com.konye.historiq"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1"
+        versionCode = 2
+        versionName = "0.2"
         manifestPlaceholders["admobApplicationId"] = admobAppId
     }
 
