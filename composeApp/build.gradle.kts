@@ -37,13 +37,10 @@ File(generatedConfigDir, "SupabaseConfig.kt").writeText(
 )
 
 /**
- * AdMob App ID + ad unit IDs, RevenueCat API keys: same local.properties/generated-object pattern
- * as Supabase above. AdMob values default to Google's own public test IDs (safe to ship, always
- * fill and never charge real advertisers) so the app builds and shows real (test) ads with zero
- * setup — replace the ADMOB_ and REVENUECAT_ keys in local.properties with real values before
- * publishing. RevenueCat has no equivalent universal test key, so its default is blank:
- * SubscriptionRepository skips configuring the SDK entirely when blank (fails safe to "not
- * subscribed", never crashes).
+ * AdMob App ID + ad unit IDs: same local.properties/generated-object pattern as Supabase above.
+ * Defaults to Google's own public test IDs (safe to ship, always fill, never charge real
+ * advertisers) when the ADMOB_ keys aren't set in local.properties — real values are set there
+ * once a real AdMob account/app/ad units exist.
  */
 fun localPropertyOrDefault(key: String, default: String): String =
     localProperty(key).ifBlank { default }
@@ -66,26 +63,6 @@ File(generatedConfigDir, "AdsConfig.kt").writeText(
     internal object AdsConfig {
         const val INTERSTITIAL_UNIT_ID = "$admobInterstitialUnitId"
         const val REWARDED_UNIT_ID = "$admobRewardedUnitId"
-    }
-    """.trimIndent()
-)
-
-File(generatedConfigDir, "RevenueCatConfig.kt").writeText(
-    """
-    package com.konye.historiq.Core.Billing
-
-    /**
-     * Generated at Gradle configuration time from local.properties — blank until you create a
-     * RevenueCat account/project and add REVENUECAT_API_KEY_ANDROID (and, once iOS ads/billing are
-     * revisited, REVENUECAT_API_KEY_IOS). SubscriptionRepository treats a blank key as "not
-     * configured" and skips SDK init rather than crashing.
-     */
-    internal object RevenueCatConfig {
-        const val API_KEY_ANDROID = "${localProperty("REVENUECAT_API_KEY_ANDROID")}"
-        const val API_KEY_IOS = "${localProperty("REVENUECAT_API_KEY_IOS")}"
-        // Matches the entitlement identifier configured in the RevenueCat dashboard, not a name
-        // we chose freely — must stay in sync if it's ever renamed there.
-        const val AD_FREE_ENTITLEMENT_ID = "historiq_pro"
     }
     """.trimIndent()
 )
@@ -172,14 +149,6 @@ kotlin {
                 // 0.7.1 (confirmed via dependencyInsight) — declaring that version directly instead
                 // of an older one that Gradle would silently override anyway.
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
-                // Official RevenueCat Kotlin Multiplatform SDK: wraps Play Billing (Android) and
-                // StoreKit (iOS) behind one shared API, called from commonMain's
-                // Core/Billing/SubscriptionRepository.kt.
-                implementation("com.revenuecat.purchases:purchases-kmp-core:3.8.0")
-                // Ready-made, dashboard-configured Paywall + Customer Center Compose screens —
-                // Core/Billing/SubscriptionRepository.kt only needs to know current entitlement
-                // status; these own the whole purchase/manage/cancel/restore UI and flow.
-                implementation("com.revenuecat.purchases:purchases-kmp-ui:3.8.0")
             }
         }
         val androidMain by getting {
@@ -231,8 +200,8 @@ android {
         applicationId = "com.konye.historiq"
         minSdk = 26
         targetSdk = 36
-        versionCode = 4
-        versionName = "0.4"
+        versionCode = 5
+        versionName = "0.5"
         manifestPlaceholders["admobApplicationId"] = admobAppId
     }
 

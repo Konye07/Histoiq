@@ -40,7 +40,7 @@ private const val CONTACT_EMAIL = "mate.konye@gmail.com"
 private const val PRIVACY_POLICY_URL = "https://historiq-privacy.mate-konye.workers.dev/privacy-policy.html"
 
 /**
- * A real, full screen rather than a dialog — this content is long enough (15 sections) that a
+ * A real, full screen rather than a dialog — this content is long enough (14 sections) that a
  * dialog would cram it, and nested-in-Settings navigation (not a deep link, not an exported
  * intent) is the whole point: this is reachable only by tapping the row in SettingsScreen.
  */
@@ -135,10 +135,6 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                 BodyText(StringsPrivacyPolicy.privacy_advertising_body3)
             }
 
-            Section(StringsPrivacyPolicy.privacy_section_subscription_title) {
-                BodyText(StringsPrivacyPolicy.privacy_subscription_body)
-            }
-
             Section(StringsPrivacyPolicy.privacy_section_security_title) {
                 BodyText(StringsPrivacyPolicy.privacy_security_body)
             }
@@ -165,7 +161,6 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                 BulletList(
                     StringsPrivacyPolicy.privacy_choices_item_name,
                     StringsPrivacyPolicy.privacy_choices_item_toggles,
-                    StringsPrivacyPolicy.privacy_choices_item_subscription,
                     StringsPrivacyPolicy.privacy_choices_item_delete,
                     StringsPrivacyPolicy.privacy_choices_item_guest
                 )

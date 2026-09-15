@@ -29,15 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
-import com.revenuecat.purchases.kmp.models.CustomerInfo
-import com.revenuecat.purchases.kmp.models.StoreTransaction
-import com.revenuecat.purchases.kmp.ui.revenuecatui.CustomerCenter
-import com.revenuecat.purchases.kmp.ui.revenuecatui.Paywall
-import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallListener
-import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallOptions
-import com.konye.historiq.Core.Billing.SubscriptionRepository
 import com.konye.historiq.Core.Localization.AppLanguage
 import com.konye.historiq.Core.Localization.LocalAppLanguage
 import com.konye.historiq.Core.Localization.LocalOnLanguageChange
@@ -192,12 +183,6 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
 
         HorizontalDivider()
 
-        // Subscription
-        SectionTitle(StringsAuthSettings.settings_subscription_title)
-        SubscriptionSection()
-
-        HorizontalDivider()
-
         // Account
         SectionTitle(StringsAuthSettings.settings_account_title)
         if (account != null) {
@@ -271,94 +256,6 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
 @Composable
 private fun SectionTitle(text: String) {
     Text(text, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-}
-
-private enum class SubscriptionOverlay { Paywall, CustomerCenter }
-
-/**
- * Paywall/CustomerCenter own the entire pick-a-plan/purchase/manage/cancel/restore flow — this
- * only decides which one to show (a full-bleed Dialog, since neither is a NavHost destination)
- * and refreshes SettingsStore.hasAdFreeSubscription() once whichever one is dismissed.
- */
-@Composable
-private fun SubscriptionSection() {
-    val scope = rememberCoroutineScope()
-    var isSubscribed by remember { mutableStateOf(SettingsStore.hasAdFreeSubscription()) }
-    var activeOverlay by remember { mutableStateOf<SubscriptionOverlay?>(null) }
-
-    fun refreshFromStore() {
-        scope.launch {
-            SubscriptionRepository.refreshEntitlement()
-            isSubscribed = SettingsStore.hasAdFreeSubscription()
-        }
-    }
-
-    if (isSubscribed) {
-        Text(StringsAuthSettings.settings_subscription_active, style = MaterialTheme.typography.bodyMedium)
-        TextButton(onClick = { activeOverlay = SubscriptionOverlay.CustomerCenter }) {
-            Text(StringsAuthSettings.settings_subscription_manage_button)
-        }
-    } else {
-        Text(
-            StringsAuthSettings.settings_subscription_inactive_subtitle,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.outline
-        )
-        if (SubscriptionRepository.isConfigured) {
-            Button(
-                onClick = { activeOverlay = SubscriptionOverlay.Paywall },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(StringsAuthSettings.settings_subscription_subscribe_button)
-            }
-        } else {
-            Text(
-                StringsAuthSettings.settings_subscription_unavailable,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.outline
-            )
-        }
-    }
-
-    when (activeOverlay) {
-        SubscriptionOverlay.Paywall -> Dialog(
-            onDismissRequest = { activeOverlay = null },
-            properties = DialogProperties(usePlatformDefaultWidth = false)
-        ) {
-            Paywall(
-                options = PaywallOptions(
-                    dismissRequest = {
-                        activeOverlay = null
-                        refreshFromStore()
-                    }
-                ) {
-                    listener = object : PaywallListener {
-                        override fun onPurchaseCompleted(customerInfo: CustomerInfo, storeTransaction: StoreTransaction) {
-                            SubscriptionRepository.applyCustomerInfo(customerInfo)
-                            isSubscribed = true
-                        }
-
-                        override fun onRestoreCompleted(customerInfo: CustomerInfo) {
-                            SubscriptionRepository.applyCustomerInfo(customerInfo)
-                            isSubscribed = SettingsStore.hasAdFreeSubscription()
-                        }
-                    }
-                }
-            )
-        }
-        SubscriptionOverlay.CustomerCenter -> Dialog(
-            onDismissRequest = { activeOverlay = null },
-            properties = DialogProperties(usePlatformDefaultWidth = false)
-        ) {
-            CustomerCenter(
-                onDismiss = {
-                    activeOverlay = null
-                    refreshFromStore()
-                }
-            )
-        }
-        null -> {}
-    }
 }
 
 @Composable
