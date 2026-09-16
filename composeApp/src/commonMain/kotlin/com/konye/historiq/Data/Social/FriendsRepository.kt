@@ -20,7 +20,11 @@ private data class FriendCodeLookup(val id: String, @SerialName("display_name") 
 private data class FriendshipInsert(
     @SerialName("requester_id") val requesterId: String,
     @SerialName("addressee_id") val addresseeId: String,
-    val status: String = "pending"
+    // Not a default parameter: kotlinx.serialization's Json (encodeDefaults=false, the
+    // supabase-kt default) omits properties equal to their default value entirely from the
+    // encoded body, and friendships.status is NOT NULL with no DB-side default — a default here
+    // silently produced a body with no "status" key at all, hard-failing the insert with 23502.
+    val status: String
 )
 
 @Serializable
@@ -43,7 +47,7 @@ object FriendsRepository {
         if (existing) return AddFriendResult.ALREADY_CONNECTED
 
         SupabaseClient.client.postgrest.from("friendships").insert(
-            FriendshipInsert(requesterId = myAccount.id, addresseeId = match.id)
+            FriendshipInsert(requesterId = myAccount.id, addresseeId = match.id, status = "pending")
         )
         return AddFriendResult.ADDED
     }
