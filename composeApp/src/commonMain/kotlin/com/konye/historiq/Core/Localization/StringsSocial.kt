@@ -279,6 +279,15 @@ object StringsSocial {
             AppLanguage.IT -> "Partite Perfette"
         }
 
+    val profile_best_score: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Best"
+            AppLanguage.ES -> "Mejor"
+            AppLanguage.FR -> "Meilleur"
+            AppLanguage.DE -> "Beste"
+            AppLanguage.IT -> "Migliore"
+        }
+
     val profile_guest_notice: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Sign in to start tracking your statistics. Playing as a guest, today's games still count toward the daily results, but nothing is kept long-term."

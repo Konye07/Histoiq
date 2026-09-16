@@ -3,6 +3,7 @@ package com.konye.historiq.Data.Quiz
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Remote.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -33,6 +34,25 @@ object ScoreHistoryStore {
                     eq("game_key", quizKey)
                     eq("date_key", dateKey)
                 }
+            }
+            .decodeSingleOrNull<ScoreHistoryRow>()?.score
+    }
+
+    /**
+     * The signed-in account's single best-ever score for a game, across every day it's been
+     * played — null for a guest (no account) or a game never played. [lowerIsBetter] picks MIN
+     * instead of MAX (e.g. CASUALTIES_MULTIPLIER, where a lower multiplier is the better result).
+     */
+    suspend fun bestFor(quizKey: String, lowerIsBetter: Boolean): Double? {
+        val userId = AccountRepository.currentAccount()?.id ?: return null
+        return SupabaseClient.client.postgrest.from("score_history")
+            .select {
+                filter {
+                    eq("user_id", userId)
+                    eq("game_key", quizKey)
+                }
+                order("score", if (lowerIsBetter) Order.ASCENDING else Order.DESCENDING)
+                limit(1)
             }
             .decodeSingleOrNull<ScoreHistoryRow>()?.score
     }

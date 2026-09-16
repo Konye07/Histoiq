@@ -242,6 +242,16 @@ private fun MapQuestion(
         var scale by remember(questionNumber) { mutableStateOf(MIN_SCALE) }
         var panOffset by remember(questionNumber) { mutableStateOf(Offset.Zero) }
 
+        // Reset to fully zoomed-out once the answer is revealed, so both the guess and the
+        // correct pin are visible even if the player was zoomed in on a small region to place
+        // their tap precisely — otherwise the correct location could be off-screen entirely.
+        LaunchedEffect(revealed) {
+            if (revealed) {
+                scale = MIN_SCALE
+                panOffset = Offset.Zero
+            }
+        }
+
         fun clampPan(pan: Offset, currentScale: Float, size: IntSize): Offset {
             val minX = size.width * (1f - currentScale)
             val minY = size.height * (1f - currentScale)

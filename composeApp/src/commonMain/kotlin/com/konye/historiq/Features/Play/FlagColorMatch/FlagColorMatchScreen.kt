@@ -86,6 +86,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlin.math.roundToInt
+import kotlin.random.Random
 import org.jetbrains.compose.resources.painterResource
 
 private const val QUESTIONS_PER_ROUND = 5
@@ -148,7 +149,8 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
             questionIndex = scores.size
             resumedAlreadyDone = questionIndex >= chosen.size
         } else {
-            val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, DailyClock.todayKey(), QUESTIONS_PER_ROUND)
+            val todayKey = DailyClock.todayKey()
+            val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, todayKey, QUESTIONS_PER_ROUND)
             val rows = loadFlagColors(ids)
             val newlyChosen = ids.mapNotNull { id -> rows.find { it.id == id } }
             chosen = newlyChosen
@@ -156,7 +158,13 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
                 newlyChosen.map { flag ->
                     val bitmap = tryLoadImageBitmap(flag.imageAsset)
                     requireNotNull(bitmap) { "Could not decode flag asset: ${flag.imageAsset}" }
-                    findFlagColorCandidates(bitmap).random()
+                    val candidates = findFlagColorCandidates(bitmap)
+                    // Seeded by (date, flag id) rather than plain .random(), so every player gets
+                    // the same target color for the same flag on the same day — an unseeded pick
+                    // here previously let two devices land on different candidate colors (e.g. one
+                    // player asked to match red, another green) for the identical daily flag.
+                    val seed = "$todayKey:${flag.id}".hashCode().toLong()
+                    candidates[Random(seed).nextInt(candidates.size)]
                 }
             }
             persist(

@@ -27,15 +27,25 @@ import com.konye.historiq.Core.Localization.StringsSocial
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.GameStats
+import com.konye.historiq.Data.Quiz.ScoreHistoryStore
 import com.konye.historiq.Data.Quiz.StatsStore
+
+/** Games with a personal-best display in Profile — the point-scale games only, not the two sudden-death survival games. */
+private val BEST_SCORE_GAMES = listOf(GameKeys.YEAR_GUESS, GameKeys.CASUALTIES_MULTIPLIER, GameKeys.FLAG_COLOR_MATCH, GameKeys.BLIND_MAP_BATTLE)
 
 @Composable
 fun ProfileScreen() {
     val account = remember { AccountRepository.currentAccount() }
     var statsByGame by remember { mutableStateOf<Map<String, GameStats>>(emptyMap()) }
+    var bestByGame by remember { mutableStateOf<Map<String, Double?>>(emptyMap()) }
 
     LaunchedEffect(Unit) {
         statsByGame = GameKeys.ALL.associateWith { key -> StatsStore.statsFor(key) }
+        if (account != null) {
+            bestByGame = BEST_SCORE_GAMES.associateWith { key ->
+                ScoreHistoryStore.bestFor(key, lowerIsBetter = key == GameKeys.CASUALTIES_MULTIPLIER)
+            }
+        }
     }
 
     Column(
@@ -80,6 +90,10 @@ fun ProfileScreen() {
                                 StatColumn(StringsSocial.profile_played, "${stats.gamesPlayed}")
                                 StatColumn(StringsSocial.profile_average, GameKeys.formatScore(key, stats.averageScore))
                                 StatColumn(StringsSocial.profile_perfect_runs, "${stats.perfectCount}")
+                                val best = bestByGame[key]
+                                if (key in BEST_SCORE_GAMES && best != null) {
+                                    StatColumn(StringsSocial.profile_best_score, GameKeys.formatScore(key, best))
+                                }
                             }
                         }
                     }
