@@ -4,6 +4,9 @@ import com.konye.historiq.Data.Remote.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.add
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.putJsonArray
 
 @Serializable
 private data class FriendshipRow(
@@ -46,8 +49,14 @@ object FriendsStore {
         if (rows.isEmpty()) return emptyList()
 
         val otherIds = rows.map { if (it.requesterId == myId) it.addresseeId else it.requesterId }.distinct()
-        val names = SupabaseClient.client.postgrest.from("profiles")
-            .select { filter { isIn("id", otherIds) } }
+        // profiles' RLS only allows reading your own row (see CLAUDE.md) — a direct .select() for
+        // another user's id silently returns zero rows, not an error, which is what previously made
+        // every friend show up as "Unknown". This RPC is SECURITY DEFINER and only returns a name
+        // for an id that actually shares a friendships row with the caller.
+        val names = SupabaseClient.client.postgrest.rpc(
+            "get_friend_display_names",
+            buildJsonObject { putJsonArray("ids") { otherIds.forEach { add(it) } } }
+        )
             .decodeList<ProfileNameRow>()
             .associateBy({ it.id }, { it.displayName })
 

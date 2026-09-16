@@ -81,7 +81,17 @@ object AccountRepository {
             GoogleAuthOutcome.NotImplementedOnThisPlatform -> mockSignIn(AuthProviderType.GOOGLE)
             GoogleAuthOutcome.CancelledOrFailed -> return null
         }
-        val account = insertProfileWithRetry(uid, AuthProviderType.GOOGLE, result)
+
+        // signInWithGoogle() can switch the active session out from under `uid`: if this Google
+        // identity is already linked to a different existing account, linkIdentityWithIdToken
+        // fails and its fallback signs in as THAT account instead. Inserting a profile under the
+        // stale pre-sign-in uid then violates profiles' RLS (id must equal the CURRENT auth.uid())
+        // and crashes with an uncaught PostgrestRestException — re-read the uid post-sign-in and
+        // check for an existing profile again rather than assuming it's still the same session.
+        val currentUid = requireNotNull(SupabaseClient.client.auth.currentUserOrNull()?.id) {
+            "No session after Google sign-in"
+        }
+        val account = fetchProfile(currentUid) ?: insertProfileWithRetry(currentUid, AuthProviderType.GOOGLE, result)
         cached = account
         runCatching { logDeviceEvent("sign_in") }
         return account
