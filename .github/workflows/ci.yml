@@ -53,6 +53,13 @@ jobs:
       - name: Generate iosApp.xcodeproj
         run: xcodegen generate
         working-directory: iosApp
+      # GoogleSignIn/GoogleMobileAds (project.yml's `packages:`) need to be fetched before the real
+      # build — doing it as its own step gives a clear failure point/log if a package URL or
+      # version ever becomes unresolvable, instead of that error being buried inside the build step.
+      - name: Resolve Swift Package dependencies
+        run: |
+          xcodebuild -resolvePackageDependencies -project iosApp.xcodeproj -scheme iosApp
+        working-directory: iosApp
       # Ground truth for what XcodeGen actually wrote, so a future Info.plist problem can be
       # diagnosed from real resolved build settings instead of guessing at XcodeGen's YAML schema.
       - name: Show resolved INFOPLIST build settings

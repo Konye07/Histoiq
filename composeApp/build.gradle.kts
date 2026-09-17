@@ -49,20 +49,31 @@ val admobAppId = localPropertyOrDefault("ADMOB_APP_ID_ANDROID", "ca-app-pub-3940
 val admobInterstitialUnitId = localPropertyOrDefault("ADMOB_INTERSTITIAL_UNIT_ID_ANDROID", "ca-app-pub-3940256099942544/1033173712")
 val admobRewardedUnitId = localPropertyOrDefault("ADMOB_REWARDED_UNIT_ID_ANDROID", "ca-app-pub-3940256099942544/5224354917")
 
+// iOS ad unit IDs (Core/Ads/InterstitialAd.ios.kt, RewardedAd.ios.kt) — separate constants from the
+// Android ones above (never reused for both platforms, since real AdMob ad units are always
+// platform-specific). Defaults are Google's public test IDs for iOS, see
+// https://developers.google.com/admob/ios/test-ads. Replace ADMOB_INTERSTITIAL_UNIT_ID_IOS/
+// ADMOB_REWARDED_UNIT_ID_IOS in local.properties once a real iOS AdMob app/ad units exist.
+val admobInterstitialUnitIdIos = localPropertyOrDefault("ADMOB_INTERSTITIAL_UNIT_ID_IOS", "ca-app-pub-3940256099942544/4411468910")
+val admobRewardedUnitIdIos = localPropertyOrDefault("ADMOB_REWARDED_UNIT_ID_IOS", "ca-app-pub-3940256099942544/1712485313")
+
 File(generatedConfigDir, "AdsConfig.kt").writeText(
     """
     package com.konye.historiq.Core.Ads
 
     /**
      * Generated at Gradle configuration time from local.properties. Defaults are Google's public
-     * test IDs (see https://developers.google.com/admob/android/test-ads) — real (test-only) ads
-     * that never charge advertisers, safe to ship. Replace ADMOB_APP_ID_ANDROID/
-     * ADMOB_INTERSTITIAL_UNIT_ID_ANDROID/ADMOB_REWARDED_UNIT_ID_ANDROID in local.properties with
-     * your own AdMob console's real IDs before publishing.
+     * test IDs (see https://developers.google.com/admob/android/test-ads and
+     * https://developers.google.com/admob/ios/test-ads) — real (test-only) ads that never charge
+     * advertisers, safe to ship. Replace ADMOB_APP_ID_ANDROID/ADMOB_INTERSTITIAL_UNIT_ID_ANDROID/
+     * ADMOB_REWARDED_UNIT_ID_ANDROID/ADMOB_INTERSTITIAL_UNIT_ID_IOS/ADMOB_REWARDED_UNIT_ID_IOS in
+     * local.properties with your own AdMob console's real IDs before publishing.
      */
     internal object AdsConfig {
         const val INTERSTITIAL_UNIT_ID = "$admobInterstitialUnitId"
         const val REWARDED_UNIT_ID = "$admobRewardedUnitId"
+        const val INTERSTITIAL_UNIT_ID_IOS = "$admobInterstitialUnitIdIos"
+        const val REWARDED_UNIT_ID_IOS = "$admobRewardedUnitIdIos"
     }
     """.trimIndent()
 )

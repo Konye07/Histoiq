@@ -1,0 +1,62 @@
+import ComposeApp
+import GoogleMobileAds
+
+/// Real AdMob interstitial/rewarded ads on iOS. Registered once at launch (see iOSApp.swift) as
+/// IosNativeBridges.shared.ads — see Core/Platform/IosNativeBridges.kt for why this SDK call has
+/// to live in Swift rather than being called directly from Kotlin.
+class AdsBridgeImpl: NSObject, AdsBridge {
+    private var interstitial: GADInterstitialAd?
+    private var rewarded: GADRewardedAd?
+    private var onInterstitialDismissed: (() -> Void)?
+
+    func showInterstitial(adUnitId: String, onDismissed: @escaping () -> Void) {
+        GADInterstitialAd.load(withAdUnitID: adUnitId, request: GADRequest()) { [weak self] ad, error in
+            guard let self = self, let ad = ad, error == nil, let presenter = RootViewController.current() else {
+                onDismissed()
+                return
+            }
+            self.interstitial = ad
+            self.onInterstitialDismissed = onDismissed
+            ad.fullScreenContentDelegate = self
+            ad.present(fromRootViewController: presenter)
+        }
+    }
+
+    func showRewarded(adUnitId: String, onRewarded: @escaping () -> Void) {
+        GADRewardedAd.load(withAdUnitID: adUnitId, request: GADRequest()) { [weak self] ad, error in
+            guard let self = self, let ad = ad, error == nil, let presenter = RootViewController.current() else {
+                return
+            }
+            self.rewarded = ad
+            ad.fullScreenContentDelegate = self
+            ad.present(fromRootViewController: presenter) {
+                onRewarded()
+            }
+        }
+    }
+}
+
+extension AdsBridgeImpl: GADFullScreenContentDelegate {
+    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        // Only the interstitial needs an explicit dismissal callback — the rewarded ad's own
+        // present(fromRootViewController:userDidEarnRewardHandler:) already tells the caller
+        // whether the reward was earned; nothing else needs to happen when it closes.
+        if ad === interstitial {
+            onInterstitialDismissed?()
+            onInterstitialDismissed = nil
+            interstitial = nil
+        } else if ad === rewarded {
+            rewarded = nil
+        }
+    }
+
+    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+        if ad === interstitial {
+            onInterstitialDismissed?()
+            onInterstitialDismissed = nil
+            interstitial = nil
+        } else if ad === rewarded {
+            rewarded = nil
+        }
+    }
+}

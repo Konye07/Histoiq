@@ -2,6 +2,18 @@ name: iosApp
 options:
   bundleIdPrefix: com.konye
 
+packages:
+  # Real "Continue with Google" (Core/Auth/GoogleSignInBridge.swift) — Kotlin/Native can't cinterop
+  # against an SPM-only package directly, so the actual SDK call lives in Swift; see
+  # Core/Platform/IosNativeBridges.kt for why.
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    from: 10.0.0
+  # Real AdMob ads (Core/Ads/AdsBridge.swift) — same Swift-bridge reasoning as GoogleSignIn above.
+  GoogleMobileAds:
+    url: https://github.com/googleads/swift-package-manager-google-mobile-ads.git
+    from: 13.9.0
+
 targets:
   iosApp:
     type: application
@@ -11,12 +23,20 @@ targets:
       - path: iosApp
         excludes:
           - Info.plist
+          - iosApp.entitlements
+    dependencies:
+      - package: GoogleSignIn
+        product: GoogleSignIn
+      - package: GoogleMobileAds
+        product: GoogleMobileAds
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.konye.historiq
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         TARGETED_DEVICE_FAMILY: "1,2"
         SWIFT_VERSION: "5.0"
+        # Real Sign in with Apple (Core/Auth/AppleSignIn.ios.kt) needs this capability's entitlement.
+        CODE_SIGN_ENTITLEMENTS: "iosApp/iosApp.entitlements"
         # The top-level `info: path:` YAML key (tried previously, now removed) tells XcodeGen to
         # *generate* a plist from that file rather than reference it directly, and fighting it
         # with GENERATE_INFOPLIST_FILE: NO produced a build using neither — Xcode fell back to a

@@ -55,14 +55,9 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
         loadingProvider = AuthProviderType.APPLE
         errorMessage = null
         scope.launch {
-            try {
-                AccountRepository.continueWithProvider(AuthProviderType.APPLE)
-                loadingProvider = null
-                onAuthenticated()
-            } catch (e: Exception) {
-                loadingProvider = null
-                errorMessage = signInFailedMessage
-            }
+            val account = AccountRepository.continueWithApple()
+            loadingProvider = null
+            if (account != null) onAuthenticated() else errorMessage = signInFailedMessage
         }
     }
 
@@ -147,17 +142,6 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
                 color = MaterialTheme.colorScheme.outline,
                 textAlign = TextAlign.Center
             )
-
-            if (showAppleSignInButton) {
-                Spacer(Modifier.height(20.dp))
-
-                Text(
-                    StringsAuthSettings.auth_mock_notice,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.outline,
-                    textAlign = TextAlign.Center
-                )
-            }
         }
     }
 }

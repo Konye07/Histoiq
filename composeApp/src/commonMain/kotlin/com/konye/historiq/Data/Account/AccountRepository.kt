@@ -1,6 +1,8 @@
 package com.konye.historiq.Data.Account
 
+import com.konye.historiq.Core.Auth.AppleAuthOutcome
 import com.konye.historiq.Core.Auth.GoogleAuthOutcome
+import com.konye.historiq.Core.Auth.signInWithApple
 import com.konye.historiq.Core.Auth.signInWithGoogle
 import com.konye.historiq.Data.Remote.SupabaseClient
 import io.github.jan.supabase.auth.auth
@@ -12,9 +14,9 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
 /**
- * Real accounts backed by Supabase: every device gets an anonymous auth.uid() (no Google/Apple
- * OAuth credentials exist yet, per CLAUDE.md), and "Continue with Google/Apple" just attaches a
- * display identity (provider, mock email/name) to that one real session — see [continueWithProvider].
+ * Real accounts backed by Supabase: every device gets an anonymous auth.uid(), and real
+ * "Continue with Google/Apple" (see [continueWithGoogle]/[continueWithApple]) attaches a real
+ * OAuth identity to that one same session, preserving any guest progress already on it.
  * Guest mode never calls any of this; it stays fully local, as before.
  *
  * [currentAccount] is a synchronous read of the last-fetched profile so existing call sites
@@ -37,28 +39,15 @@ object AccountRepository {
     /**
      * Ensures *any* device — guest or signed-in — has a real anonymous Supabase session, so
      * day-scoped quiz data (score_history, quiz_progress) can be written under a real auth.uid()
-     * even for a guest who never attaches a display identity via [continueWithProvider]. Safe to
-     * call repeatedly: a no-op once a session (anonymous or real) already exists, and the same
-     * session is what [continueWithProvider] later attaches a profile to if the guest signs in.
+     * even for a guest who never attaches a display identity. Safe to call repeatedly: a no-op
+     * once a session (anonymous or real) already exists, and the same session is what
+     * [continueWithGoogle]/[continueWithApple] later attach a profile to if the guest signs in.
      */
     suspend fun ensureAnonymousSession(): String {
         val auth = SupabaseClient.client.auth
         auth.awaitInitialization()
         if (auth.currentUserOrNull() == null) auth.signInAnonymously()
         return requireNotNull(auth.currentUserOrNull()?.id) { "Anonymous sign-in did not produce a session" }
-    }
-
-    /** Creates the profile on first sign-in with this provider identity, otherwise reuses the existing one. */
-    suspend fun continueWithProvider(provider: AuthProviderType): UserAccount {
-        val uid = ensureAnonymousSession()
-        val existing = fetchProfile(uid)
-        val account = existing ?: run {
-            val result = mockSignIn(provider)
-            insertProfileWithRetry(uid, provider, result)
-        }
-        cached = account
-        runCatching { logDeviceEvent("sign_in") }
-        return account
     }
 
     /**
@@ -92,6 +81,31 @@ object AccountRepository {
             "No session after Google sign-in"
         }
         val account = fetchProfile(currentUid) ?: insertProfileWithRetry(currentUid, AuthProviderType.GOOGLE, result)
+        cached = account
+        runCatching { logDeviceEvent("sign_in") }
+        return account
+    }
+
+    /** Real "Continue with Apple" — mirrors [continueWithGoogle], see there for the stale-session-after-fallback caveat. */
+    suspend fun continueWithApple(): UserAccount? {
+        val uid = ensureAnonymousSession()
+        val existing = fetchProfile(uid)
+        if (existing != null) {
+            cached = existing
+            runCatching { logDeviceEvent("sign_in") }
+            return existing
+        }
+
+        val result = when (val outcome = signInWithApple()) {
+            is AppleAuthOutcome.SignedIn -> outcome.result
+            AppleAuthOutcome.NotImplementedOnThisPlatform -> mockSignIn(AuthProviderType.APPLE)
+            AppleAuthOutcome.CancelledOrFailed -> return null
+        }
+
+        val currentUid = requireNotNull(SupabaseClient.client.auth.currentUserOrNull()?.id) {
+            "No session after Apple sign-in"
+        }
+        val account = fetchProfile(currentUid) ?: insertProfileWithRetry(currentUid, AuthProviderType.APPLE, result)
         cached = account
         runCatching { logDeviceEvent("sign_in") }
         return account

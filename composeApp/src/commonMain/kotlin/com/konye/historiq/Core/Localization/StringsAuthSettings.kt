@@ -66,15 +66,6 @@ object StringsAuthSettings {
             AppLanguage.IT -> "Senza un account, i tuoi punteggi e le tue statistiche contano comunque e il limite giornaliero si applica lo stesso — semplicemente non avrai un codice amico da condividere né potrai sincronizzare tra dispositivi."
         }
 
-    val auth_mock_notice: String
-        @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Apple sign-in is a placeholder for now — it creates a local test identity, since real Apple OAuth isn't set up yet."
-            AppLanguage.ES -> "El inicio de sesión con Apple es aún un marcador de posición: crea una identidad de prueba local, ya que las credenciales OAuth reales de Apple todavía no están configuradas."
-            AppLanguage.FR -> "La connexion Apple est encore un espace réservé : elle crée une identité de test locale, car les identifiants OAuth Apple réels ne sont pas encore configurés."
-            AppLanguage.DE -> "Die Apple-Anmeldung ist vorerst nur ein Platzhalter — sie erstellt eine lokale Testidentität, da noch keine echten Apple-OAuth-Zugangsdaten eingerichtet sind."
-            AppLanguage.IT -> "L'accesso con Apple è ancora un segnaposto: crea un'identità di prova locale, poiché le credenziali OAuth reali di Apple non sono ancora configurate."
-        }
-
     val settings_title: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Settings"
