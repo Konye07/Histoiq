@@ -48,13 +48,13 @@ fun casualtyMultiplier(guess: Long, correctCasualties: Long): Double {
 }
 
 /**
- * Being in the wrong color family entirely (e.g. blue instead of red) is judged as its own,
- * dominant penalty rather than being averaged in with saturation/brightness — the old plain
- * weighted-linear-distance version let a completely wrong hue still score 7-8/10 as long as
- * saturation/brightness happened to match, since hue was only half the total weight and moved
- * linearly. Hue error is now: (a) the large majority of the weight, and (b) squared once past a
- * small tolerance window, so a near-miss on hue is barely penalized but a different-color guess
- * collapses toward the 1.0 floor regardless of how well saturation/brightness were matched.
+ * Hue, saturation and brightness are weighted equally — an earlier version made hue ~80% of the
+ * penalty on its own, which meant a guess that happened to land near the right hue could still
+ * score 8-9/10 even with saturation/brightness wildly off (e.g. dragging brightness to near zero,
+ * making the swatch read as black instead of the target color, barely moved the score at all
+ * because hue alone had already "paid for" most of the 10 points). Each of the three axes now
+ * contributes exactly 1/3 of the distance, so a guess that's badly wrong on any one of them — not
+ * just hue — is punished the same amount.
  */
 fun colorMatchScore(
     guessHue: Int,
@@ -64,14 +64,11 @@ fun colorMatchScore(
     correctSaturation: Int,
     correctBrightness: Int
 ): Double {
-    val hueDegrees = abs(guessHue - correctHue).let { min(it, 360 - it) }.toDouble()
+    val hueDiff = abs(guessHue - correctHue).let { min(it, 360 - it) } / 180.0
     val satDiff = abs(guessSaturation - correctSaturation) / 100.0
     val brightDiff = abs(guessBrightness - correctBrightness) / 100.0
 
-    val hueTolerance = 40.0
-    val huePenalty = (hueDegrees / hueTolerance).coerceAtMost(1.0).let { it * it }
-    val fineDiff = satDiff * 0.3 + brightDiff * 0.3 + (hueDegrees / 180.0) * 0.4
-    val distance = (huePenalty * 0.8 + fineDiff * 0.2).coerceIn(0.0, 1.0)
+    val distance = (hueDiff + satDiff + brightDiff) / 3.0
     return (10.0 - distance * 9.0).coerceIn(1.0, 10.0).roundTo2()
 }
 
