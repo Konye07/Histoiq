@@ -73,7 +73,7 @@ import com.konye.historiq.Data.Quiz.getDoubleList
 import com.konye.historiq.Data.Quiz.getIntList
 import com.konye.historiq.Data.Quiz.getStringList
 import com.konye.historiq.Data.Quiz.loadFlagColors
-import com.konye.historiq.Data.Quiz.recordAndRank
+import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
 import com.konye.historiq.Features.Play.Shared.rankingText
@@ -504,13 +504,7 @@ private fun FlagColorResults(
 ) {
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 10.0 }
-    var rank by remember { mutableStateOf(1) }
-    var totalPlayers by remember { mutableStateOf(1) }
-    LaunchedEffect(Unit) {
-        val result = recordAndRank(PROGRESS_KEY, GameKeys.FLAG_COLOR_MATCH, total, isPerfect)
-        rank = result.rank
-        totalPlayers = result.totalPlayers
-    }
+    val (rank, totalPlayers) = rememberLiveRank(PROGRESS_KEY, GameKeys.FLAG_COLOR_MATCH, total, isPerfect)
 
     Column(
         Modifier

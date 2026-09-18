@@ -57,7 +57,7 @@ import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.getDoubleList
 import com.konye.historiq.Data.Quiz.getIntList
 import com.konye.historiq.Data.Quiz.loadHistoricalEvents
-import com.konye.historiq.Data.Quiz.recordAndRank
+import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
 import com.konye.historiq.Data.Quiz.yearGuessScore
@@ -364,15 +364,10 @@ private fun YearGuessResults(
 ) {
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 1000.0 }
-    var rank by remember { mutableStateOf(1) }
-    var totalPlayers by remember { mutableStateOf(1) }
+    val (rank, totalPlayers) = rememberLiveRank(PROGRESS_KEY, GameKeys.YEAR_GUESS, total, isPerfect)
     var guessDistByEventId by remember { mutableStateOf<Map<String, List<Int>>>(emptyMap()) }
 
     LaunchedEffect(Unit) {
-        val result = recordAndRank(PROGRESS_KEY, GameKeys.YEAR_GUESS, total, isPerfect)
-        rank = result.rank
-        totalPlayers = result.totalPlayers
-
         val dateKey = DailyClock.todayKey()
         guessDistByEventId = events.associate { it.id to DailyDistribution.yearGuesses(GameKeys.YEAR_GUESS, dateKey, it.id) }
     }

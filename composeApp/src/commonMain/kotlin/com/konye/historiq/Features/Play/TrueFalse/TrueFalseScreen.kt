@@ -40,7 +40,7 @@ import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.TrueFalseStatement
 import com.konye.historiq.Data.Quiz.getBooleanList
 import com.konye.historiq.Data.Quiz.loadTrueFalseStatements
-import com.konye.historiq.Data.Quiz.recordAndRank
+import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Data.Settings.SettingsStore
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
@@ -205,13 +205,7 @@ private fun TrueFalseResults(
     val language = SettingsStore.language()
     val trueCaps = StringsGamesTruefalse.tf_true_caps
     val falseCaps = StringsGamesTruefalse.tf_false_caps
-    var rank by remember { mutableStateOf(1) }
-    var totalPlayers by remember { mutableStateOf(1) }
-    LaunchedEffect(Unit) {
-        val result = recordAndRank(PROGRESS_KEY, GameKeys.TRUE_FALSE, score.toDouble(), score == ROUNDS_TO_WIN)
-        rank = result.rank
-        totalPlayers = result.totalPlayers
-    }
+    val (rank, totalPlayers) = rememberLiveRank(PROGRESS_KEY, GameKeys.TRUE_FALSE, score.toDouble(), score == ROUNDS_TO_WIN)
 
     Column(
         Modifier

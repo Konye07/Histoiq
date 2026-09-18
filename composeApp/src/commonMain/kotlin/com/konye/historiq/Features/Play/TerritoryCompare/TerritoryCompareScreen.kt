@@ -47,7 +47,7 @@ import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.TerritoryCountry
 import com.konye.historiq.Data.Quiz.loadTerritories
-import com.konye.historiq.Data.Quiz.recordAndRank
+import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
 import com.konye.historiq.Features.Play.Shared.rankingText
 import com.konye.historiq.generated.resources.Res
@@ -458,13 +458,7 @@ private fun TerritoryResults(
     onBack: () -> Unit
 ) {
     val score = history.count { it.correct }
-    var rank by remember { mutableStateOf(1) }
-    var totalPlayers by remember { mutableStateOf(1) }
-    LaunchedEffect(Unit) {
-        val result = recordAndRank(PROGRESS_KEY, GameKeys.TERRITORY_COMPARE, score.toDouble(), score == ROUNDS_TO_WIN)
-        rank = result.rank
-        totalPlayers = result.totalPlayers
-    }
+    val (rank, totalPlayers) = rememberLiveRank(PROGRESS_KEY, GameKeys.TERRITORY_COMPARE, score.toDouble(), score == ROUNDS_TO_WIN)
     val unplayedMatchups = remember(won, lastChampion, lastChallenger, remainingQueue) {
         if (won) emptyList() else buildUnplayedRounds(lastChampion, lastChallenger, remainingQueue, history.size + 1, ROUNDS_TO_WIN)
     }

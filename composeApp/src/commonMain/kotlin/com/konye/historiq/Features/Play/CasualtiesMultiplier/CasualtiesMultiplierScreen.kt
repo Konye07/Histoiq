@@ -52,7 +52,7 @@ import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.getDoubleList
 import com.konye.historiq.Data.Quiz.getLongList
 import com.konye.historiq.Data.Quiz.loadBattleCasualties
-import com.konye.historiq.Data.Quiz.recordAndRank
+import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Features.Play.Shared.GuessDistributionAxis
 import com.konye.historiq.Features.Play.Shared.HintAction
@@ -309,17 +309,10 @@ private fun CasualtiesResults(
 ) {
     val total = multipliers.fold(1.0) { acc, m -> acc * m }
     val isPerfect = multipliers.isNotEmpty() && multipliers.all { it == 1.0 }
-    var rank by remember { mutableStateOf(1) }
-    var totalPlayers by remember { mutableStateOf(1) }
-    var finalDistribution by remember { mutableStateOf<List<Double>>(emptyList()) }
+    val (rank, totalPlayers, finalDistribution) = rememberLiveRank(PROGRESS_KEY, GameKeys.CASUALTIES_MULTIPLIER, total, isPerfect, higherIsBetter = false)
     var guessDistByBattleId by remember { mutableStateOf<Map<String, List<Long>>>(emptyMap()) }
 
     LaunchedEffect(Unit) {
-        val result = recordAndRank(PROGRESS_KEY, GameKeys.CASUALTIES_MULTIPLIER, total, isPerfect, higherIsBetter = false)
-        rank = result.rank
-        totalPlayers = result.totalPlayers
-        finalDistribution = result.distribution
-
         val dateKey = DailyClock.todayKey()
         guessDistByBattleId = battles.associate {
             it.id to DailyDistribution.casualtyGuesses(GameKeys.CASUALTIES_MULTIPLIER, dateKey, it.id)

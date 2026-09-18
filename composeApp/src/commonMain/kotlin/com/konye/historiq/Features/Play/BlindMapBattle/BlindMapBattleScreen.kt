@@ -54,7 +54,7 @@ import com.konye.historiq.Data.Quiz.getDoubleList
 import com.konye.historiq.Data.Quiz.haversineKm
 import com.konye.historiq.Data.Quiz.loadBattleLocations
 import com.konye.historiq.Data.Quiz.mapPinpointScore
-import com.konye.historiq.Data.Quiz.recordAndRank
+import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
@@ -339,13 +339,7 @@ private fun MapResults(
 ) {
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 1000.0 }
-    var rank by remember { mutableStateOf(1) }
-    var totalPlayers by remember { mutableStateOf(1) }
-    LaunchedEffect(Unit) {
-        val result = recordAndRank(PROGRESS_KEY, GameKeys.BLIND_MAP_BATTLE, total, isPerfect)
-        rank = result.rank
-        totalPlayers = result.totalPlayers
-    }
+    val (rank, totalPlayers) = rememberLiveRank(PROGRESS_KEY, GameKeys.BLIND_MAP_BATTLE, total, isPerfect)
 
     Column(
         Modifier
