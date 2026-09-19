@@ -156,20 +156,22 @@ private fun drawNext(
 }
 
 /**
- * Which side wins a round is ground truth (territory size), independent of what the player
- * guessed — so the matchups that would have followed a loss are fully determined: the actually
- * bigger side of the failed round advances as champion, paired against the next challenger already
- * queued in the shared daily order. Used to show "what would have come next" on a failed run.
+ * Mirrors the live game's own progression rule exactly (see the `onPick` correct-answer branch in
+ * [TerritoryCompareScreen]): the champion is always retired after one round *regardless of area*,
+ * and the challenger it just faced advances — not "whichever side is actually bigger survives".
+ * Getting this wrong previously let a genuinely huge empire (e.g. the Umayyad Caliphate) stay
+ * champion for many consecutive projected rounds, since it really is bigger than most opponents;
+ * the always-retire rule is what caps any country at two consecutive appearances in real play, and
+ * this preview of "what would have come next" on a failed run must honor the same cap.
  */
 private fun buildUnplayedRounds(
-    lastChampion: TerritoryCountry,
     lastChallenger: TerritoryCountry,
     remainingQueue: List<TerritoryCountry>,
     startRound: Int,
     roundsToWin: Int
 ): List<Pair<TerritoryCountry, TerritoryCountry>> {
     val result = mutableListOf<Pair<TerritoryCountry, TerritoryCountry>>()
-    var champion = if (lastChampion.areaKm2 >= lastChallenger.areaKm2) lastChampion else lastChallenger
+    var champion = lastChallenger
     val queue = remainingQueue.toMutableList()
     var round = startRound
     while (round <= roundsToWin && queue.isNotEmpty()) {
@@ -182,7 +184,7 @@ private fun buildUnplayedRounds(
         }
         if (isTie(next, champion)) break
         result.add(champion to next)
-        champion = if (champion.areaKm2 >= next.areaKm2) champion else next
+        champion = next
         round++
     }
     return result
@@ -277,7 +279,6 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
                     won = won,
                     history = history,
                     allCountries = allCountries,
-                    lastChampion = c,
                     lastChallenger = ch,
                     remainingQueue = queue.toList(),
                     onBack = onBack
@@ -287,7 +288,6 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
                         won = won,
                         history = history,
                         allCountries = allCountries,
-                        lastChampion = c,
                         lastChallenger = ch,
                         remainingQueue = queue.toList(),
                         onBack = onBack
@@ -452,15 +452,14 @@ private fun TerritoryResults(
     won: Boolean,
     history: List<HistoryEntry>,
     allCountries: List<TerritoryCountry>,
-    lastChampion: TerritoryCountry,
     lastChallenger: TerritoryCountry,
     remainingQueue: List<TerritoryCountry>,
     onBack: () -> Unit
 ) {
     val score = history.count { it.correct }
     val (rank, totalPlayers) = rememberLiveRank(PROGRESS_KEY, GameKeys.TERRITORY_COMPARE, score.toDouble(), score == ROUNDS_TO_WIN)
-    val unplayedMatchups = remember(won, lastChampion, lastChallenger, remainingQueue) {
-        if (won) emptyList() else buildUnplayedRounds(lastChampion, lastChallenger, remainingQueue, history.size + 1, ROUNDS_TO_WIN)
+    val unplayedMatchups = remember(won, lastChallenger, remainingQueue) {
+        if (won) emptyList() else buildUnplayedRounds(lastChallenger, remainingQueue, history.size + 1, ROUNDS_TO_WIN)
     }
 
     Column(
