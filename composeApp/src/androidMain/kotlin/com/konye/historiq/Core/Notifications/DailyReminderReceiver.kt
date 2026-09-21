@@ -12,7 +12,11 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.konye.historiq.Data.Quiz.StreakStore
 import com.konye.historiq.Shared.MainActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val CHANNEL_ID = "daily_reminder"
 private const val NOTIFICATION_ID = 1001
@@ -27,6 +31,19 @@ class DailyReminderReceiver : BroadcastReceiver() {
             return
         }
 
+        // Needs a network round-trip (score_history) to decide whether today's already fully
+        // played, so this can't stay synchronous within onReceive's normal lifetime - goAsync()
+        // keeps the receiver alive for that. Any failure (no network, etc.) fails open and shows
+        // the reminder anyway, same as before this check existed, rather than silently going quiet.
+        val pendingResult = goAsync()
+        CoroutineScope(Dispatchers.IO).launch {
+            val shouldNotify = runCatching { StreakStore.hasUnfinishedGameToday() }.getOrDefault(true)
+            if (shouldNotify) showNotification(context)
+            pendingResult.finish()
+        }
+    }
+
+    private fun showNotification(context: Context) {
         val openAppIntent = Intent(context, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             context, 0, openAppIntent,
