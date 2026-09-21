@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -226,7 +227,7 @@ private fun MapQuestion(
     onNext: () -> Unit
 ) {
     Column(
-        Modifier.fillMaxWidth().padding(24.dp),
+        Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -262,17 +263,22 @@ private fun MapQuestion(
             Modifier
                 .fillMaxWidth()
                 .aspectRatio(2f)
+                .clipToBounds()
                 .onGloballyPositioned {
                     boxSize = it.size
                     onCanvasSized(it.size)
                 }
                 .pointerInput(revealed, boxSize) {
                     if (!revealed) {
-                        detectTransformGestures { _, pan, zoom, _ ->
+                        detectTransformGestures { centroid, pan, zoom, _ ->
                             val newScale = (scale * zoom).coerceIn(MIN_SCALE, MAX_SCALE)
-                            val newPan = clampPan(panOffset + pan, newScale, boxSize)
+                            // Keep the content point under the pinch centroid fixed on screen,
+                            // instead of always scaling from the (0,0) origin — otherwise zooming
+                            // visibly drifts toward the top-left corner instead of where you pinch.
+                            val contentAtCentroid = (centroid - panOffset) / scale
+                            val zoomAdjustedPan = centroid + pan - contentAtCentroid * newScale
                             scale = newScale
-                            panOffset = newPan
+                            panOffset = clampPan(zoomAdjustedPan, newScale, boxSize)
                         }
                     }
                 }
