@@ -6,8 +6,11 @@ import com.konye.historiq.Core.Auth.signInWithApple
 import com.konye.historiq.Core.Auth.signInWithGoogle
 import com.konye.historiq.Data.Remote.SupabaseClient
 import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.postgrest.exception.PostgrestRestException
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.buildJsonObject
@@ -26,6 +29,14 @@ import kotlinx.serialization.json.put
 object AccountRepository {
     private var cached: UserAccount? = null
 
+    // auth-kt's session state is a bare MutableStateFlow with no internal locking: two concurrent
+    // session-mutating calls (e.g. continueWithGoogle racing a background ensureAnonymousSession()
+    // from StreakStore/ScoreHistoryStore/QuizProgressStore) can interleave so the uid one of them
+    // captured is stale by the time it's actually used, tripping profiles' "id = auth.uid()" RLS
+    // policy. Every function here that reads or changes the session takes this lock so they run
+    // atomically with respect to each other.
+    private val sessionMutex = Mutex()
+
     fun currentAccount(): UserAccount? = cached
 
     /** Call once at app start: resumes a previously-persisted anonymous session, if any. */
@@ -42,8 +53,13 @@ object AccountRepository {
      * even for a guest who never attaches a display identity. Safe to call repeatedly: a no-op
      * once a session (anonymous or real) already exists, and the same session is what
      * [continueWithGoogle]/[continueWithApple] later attach a profile to if the guest signs in.
+     * Safe to call concurrently: [sessionMutex] serializes it against every other session-touching
+     * call here, so two racing callers can't both see no session and each sign in anonymously as a
+     * *different* new user.
      */
-    suspend fun ensureAnonymousSession(): String {
+    suspend fun ensureAnonymousSession(): String = sessionMutex.withLock { ensureAnonymousSessionLocked() }
+
+    private suspend fun ensureAnonymousSessionLocked(): String {
         val auth = SupabaseClient.client.auth
         auth.awaitInitialization()
         if (auth.currentUserOrNull() == null) auth.signInAnonymously()
@@ -55,51 +71,52 @@ object AccountRepository {
      * null on cancellation/failure (caller shows the generic sign-in-failed message; never falls
      * back to a mock identity for a real attempt that didn't complete) — [GoogleAuthOutcome.
      * NotImplementedOnThisPlatform] is the one case that still does, same as before this existed.
+     * Runs under [sessionMutex] so no other call here can swap the session mid-flight.
      */
-    suspend fun continueWithGoogle(): UserAccount? {
-        val uid = ensureAnonymousSession()
+    suspend fun continueWithGoogle(): UserAccount? = sessionMutex.withLock {
+        val uid = ensureAnonymousSessionLocked()
         val existing = fetchProfile(uid)
         if (existing != null) {
             cached = existing
             runCatching { logDeviceEvent("sign_in") }
-            return existing
+            return@withLock existing
         }
 
         val result = when (val outcome = signInWithGoogle()) {
             is GoogleAuthOutcome.SignedIn -> outcome.result
             GoogleAuthOutcome.NotImplementedOnThisPlatform -> mockSignIn(AuthProviderType.GOOGLE)
-            GoogleAuthOutcome.CancelledOrFailed -> return null
+            GoogleAuthOutcome.CancelledOrFailed -> return@withLock null
         }
 
         // signInWithGoogle() can switch the active session out from under `uid`: if this Google
         // identity is already linked to a different existing account, linkIdentityWithIdToken
         // fails and its fallback signs in as THAT account instead. Inserting a profile under the
         // stale pre-sign-in uid then violates profiles' RLS (id must equal the CURRENT auth.uid())
-        // and crashes with an uncaught PostgrestRestException — re-read the uid post-sign-in and
-        // check for an existing profile again rather than assuming it's still the same session.
+        // — re-read the uid post-sign-in and check for an existing profile again rather than
+        // assuming it's still the same session.
         val currentUid = requireNotNull(SupabaseClient.client.auth.currentUserOrNull()?.id) {
             "No session after Google sign-in"
         }
         val account = fetchProfile(currentUid) ?: insertProfileWithRetry(currentUid, AuthProviderType.GOOGLE, result)
         cached = account
         runCatching { logDeviceEvent("sign_in") }
-        return account
+        account
     }
 
-    /** Real "Continue with Apple" — mirrors [continueWithGoogle], see there for the stale-session-after-fallback caveat. */
-    suspend fun continueWithApple(): UserAccount? {
-        val uid = ensureAnonymousSession()
+    /** Real "Continue with Apple" — mirrors [continueWithGoogle], see there for the stale-session-after-fallback caveat and [sessionMutex]. */
+    suspend fun continueWithApple(): UserAccount? = sessionMutex.withLock {
+        val uid = ensureAnonymousSessionLocked()
         val existing = fetchProfile(uid)
         if (existing != null) {
             cached = existing
             runCatching { logDeviceEvent("sign_in") }
-            return existing
+            return@withLock existing
         }
 
         val result = when (val outcome = signInWithApple()) {
             is AppleAuthOutcome.SignedIn -> outcome.result
             AppleAuthOutcome.NotImplementedOnThisPlatform -> mockSignIn(AuthProviderType.APPLE)
-            AppleAuthOutcome.CancelledOrFailed -> return null
+            AppleAuthOutcome.CancelledOrFailed -> return@withLock null
         }
 
         val currentUid = requireNotNull(SupabaseClient.client.auth.currentUserOrNull()?.id) {
@@ -108,7 +125,7 @@ object AccountRepository {
         val account = fetchProfile(currentUid) ?: insertProfileWithRetry(currentUid, AuthProviderType.APPLE, result)
         cached = account
         runCatching { logDeviceEvent("sign_in") }
-        return account
+        account
     }
 
     suspend fun updateDisplayName(newName: String): UserAccount? {
@@ -156,6 +173,11 @@ object AccountRepository {
             .select(Columns.ALL) { filter { eq("id", uid) } }
             .decodeSingleOrNull<UserAccount>()
 
+    /**
+     * Retries only a friend_code collision (Postgres 23505 on profiles_friend_code_key) with a
+     * freshly rolled code — any other failure (e.g. an RLS violation) can't be fixed by repeating
+     * the same insert, so it's rethrown immediately instead of retried 5x.
+     */
     private suspend fun insertProfileWithRetry(uid: String, provider: AuthProviderType, result: AuthResult): UserAccount {
         var lastError: Throwable? = null
         repeat(5) {
@@ -172,7 +194,11 @@ object AccountRepository {
                 SupabaseClient.client.postgrest.from("profiles").insert(candidate)
                 return candidate
             } catch (e: Throwable) {
-                lastError = e
+                if (e is PostgrestRestException && e.code == "23505") {
+                    lastError = e
+                } else {
+                    throw e
+                }
             }
         }
         throw lastError ?: IllegalStateException("Could not create profile")
