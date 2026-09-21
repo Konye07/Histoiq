@@ -1,6 +1,7 @@
 package com.konye.historiq.Features.Play
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -33,8 +35,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,6 +51,8 @@ import com.konye.historiq.Core.Localization.todayDisplay
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.GameKeys
+import com.konye.historiq.Data.Quiz.GameStreak
+import com.konye.historiq.Data.Quiz.StreakStore
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_info
@@ -54,6 +62,7 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.painterResource
 
 private data class QuizMode(
+    val key: String,
     val roleName: String,
     val title: String,
     val description: String,
@@ -73,9 +82,12 @@ fun PlayScreen(
     onSelectBlindMapBattle: () -> Unit = {}
 ) {
     var logos by remember { mutableStateOf<Map<String, ImageBitmap>>(emptyMap()) }
+    var torch by remember { mutableStateOf<ImageBitmap?>(null) }
+    var streaks by remember { mutableStateOf<Map<String, GameStreak>>(emptyMap()) }
 
     val modes = listOf(
         QuizMode(
+            key = GameKeys.YEAR_GUESS,
             roleName = GameKeys.roleName(GameKeys.YEAR_GUESS),
             title = GameKeys.title(GameKeys.YEAR_GUESS),
             description = StringsHomeShared.home_desc_year_guess,
@@ -85,6 +97,7 @@ fun PlayScreen(
             onClick = onSelectYearGuess
         ),
         QuizMode(
+            key = GameKeys.CASUALTIES_MULTIPLIER,
             roleName = GameKeys.roleName(GameKeys.CASUALTIES_MULTIPLIER),
             title = GameKeys.title(GameKeys.CASUALTIES_MULTIPLIER),
             description = StringsHomeShared.home_desc_casualties_multiplier,
@@ -94,6 +107,7 @@ fun PlayScreen(
             onClick = onSelectCasualtiesMultiplier
         ),
         QuizMode(
+            key = GameKeys.FLAG_COLOR_MATCH,
             roleName = GameKeys.roleName(GameKeys.FLAG_COLOR_MATCH),
             title = GameKeys.title(GameKeys.FLAG_COLOR_MATCH),
             description = StringsHomeShared.home_desc_flag_color_match,
@@ -103,6 +117,7 @@ fun PlayScreen(
             onClick = onSelectFlagColorMatch
         ),
         QuizMode(
+            key = GameKeys.TERRITORY_COMPARE,
             roleName = GameKeys.roleName(GameKeys.TERRITORY_COMPARE),
             title = GameKeys.title(GameKeys.TERRITORY_COMPARE),
             description = StringsHomeShared.home_desc_territory_compare,
@@ -112,6 +127,7 @@ fun PlayScreen(
             onClick = onSelectTerritoryCompare
         ),
         QuizMode(
+            key = GameKeys.TRUE_FALSE,
             roleName = GameKeys.roleName(GameKeys.TRUE_FALSE),
             title = GameKeys.title(GameKeys.TRUE_FALSE),
             description = StringsHomeShared.home_desc_true_false,
@@ -121,6 +137,7 @@ fun PlayScreen(
             onClick = onSelectTrueFalse
         ),
         QuizMode(
+            key = GameKeys.BLIND_MAP_BATTLE,
             roleName = GameKeys.roleName(GameKeys.BLIND_MAP_BATTLE),
             title = GameKeys.title(GameKeys.BLIND_MAP_BATTLE),
             description = StringsHomeShared.home_desc_blind_map_battle,
@@ -132,11 +149,18 @@ fun PlayScreen(
     )
 
     LaunchedEffect(Unit) {
-        logos = withContext(Dispatchers.Default) {
-            modes.mapNotNull { mode ->
+        val (loadedLogos, loadedTorch) = withContext(Dispatchers.Default) {
+            val loadedLogos = modes.mapNotNull { mode ->
                 tryLoadImageBitmap(mode.logoAsset)?.let { mode.logoAsset to it }
             }.toMap()
+            loadedLogos to tryLoadImageBitmap("images/streak_torch.png")
         }
+        logos = loadedLogos
+        torch = loadedTorch
+    }
+
+    LaunchedEffect(Unit) {
+        streaks = runCatching { StreakStore.computeAll() }.getOrDefault(emptyMap())
     }
 
     Column(Modifier.fillMaxWidth()) {
@@ -155,13 +179,13 @@ fun PlayScreen(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(modes) { mode -> QuizModeCard(mode, logos[mode.logoAsset]) }
+            items(modes) { mode -> QuizModeCard(mode, logos[mode.logoAsset], torch, streaks[mode.key]) }
         }
     }
 }
 
 @Composable
-private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?) {
+private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?, streak: GameStreak?) {
     var showInfo by remember { mutableStateOf(false) }
     val textColor = AppColors.Cream
 
@@ -177,6 +201,14 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?) {
         )
     ) {
         Box(Modifier.fillMaxWidth()) {
+            if (streak != null && streak.days > 0) {
+                StreakBadge(
+                    streak = streak,
+                    torch = torch,
+                    textColor = textColor,
+                    modifier = Modifier.align(Alignment.TopStart)
+                )
+            }
             Column(
                 Modifier
                     .fillMaxWidth()
@@ -241,6 +273,46 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?) {
             confirmButton = {
                 TextButton(onClick = { showInfo = false }) { Text(StringsHomeShared.home_close) }
             }
+        )
+    }
+}
+
+/**
+ * Lit (original colors) once today's entry for this game is in, grayed out otherwise — the streak
+ * count itself keeps showing the still-alive-but-at-risk value from yesterday either way, same as
+ * [StreakStore]'s own playedToday/days split.
+ */
+@Composable
+private fun StreakBadge(streak: GameStreak, torch: ImageBitmap?, textColor: Color, modifier: Modifier = Modifier) {
+    val contentDesc = StringsHomeShared.home_streak_content_desc(streak.days)
+    Row(
+        modifier = modifier
+            .padding(8.dp)
+            .background(Color.Black.copy(alpha = 0.28f), RoundedCornerShape(50))
+            .padding(horizontal = 10.dp, vertical = 6.dp)
+            .semantics {
+                contentDescription = contentDesc
+            },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+        if (torch != null) {
+            val aspect = torch.width.toFloat() / torch.height.toFloat()
+            Image(
+                bitmap = torch,
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                colorFilter = if (streak.playedToday) null else ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }),
+                modifier = Modifier
+                    .height(20.dp)
+                    .aspectRatio(aspect)
+            )
+        }
+        Text(
+            "${streak.days}",
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.Bold,
+            color = textColor
         )
     }
 }

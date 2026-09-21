@@ -88,6 +88,18 @@ object StringsHomeShared {
     }
 
     @Composable
+    fun home_streak_content_desc(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "%1\$s-day streak"
+            AppLanguage.ES -> "Racha de %1\$s días"
+            AppLanguage.FR -> "Série de %1\$s jours"
+            AppLanguage.DE -> "%1\$s-Tage-Serie"
+            AppLanguage.IT -> "Serie di %1\$s giorni"
+        }
+        return formatTemplate(template, arg1)
+    }
+
+    @Composable
     fun home_info_dialog_title(arg1: Any, arg2: Any): String {
         val template = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "%1\$s — %2\$s"
