@@ -126,14 +126,26 @@ object AccountRepository {
     }
 
     /**
-     * Deletes the profile (cascades to game_stats/friendships, which are still FK'd to it) plus
-     * score_history/quiz_progress explicitly, since those two are now FK'd to auth.users — not
-     * profiles — so a guest can write them without ever having a profile row.
+     * Deletes every row this account owns explicitly, rather than trusting profiles' FK cascades
+     * to game_stats/friendships to do it: each of these tables has RLS enabled, and a cascading
+     * delete still has to satisfy the child table's own DELETE policy to actually remove rows, not
+     * just the FK's ON DELETE CASCADE action. score_history/quiz_progress are FK'd to auth.users —
+     * not profiles — so a guest can write them without ever having a profile row; they'd never be
+     * touched by any profiles cascade regardless.
      */
     suspend fun deleteAccount() {
         val current = cached ?: return
         SupabaseClient.client.postgrest.from("score_history").delete { filter { eq("user_id", current.id) } }
         SupabaseClient.client.postgrest.from("quiz_progress").delete { filter { eq("user_id", current.id) } }
+        SupabaseClient.client.postgrest.from("game_stats").delete { filter { eq("user_id", current.id) } }
+        SupabaseClient.client.postgrest.from("friendships").delete {
+            filter {
+                or {
+                    eq("requester_id", current.id)
+                    eq("addressee_id", current.id)
+                }
+            }
+        }
         SupabaseClient.client.postgrest.from("profiles").delete { filter { eq("id", current.id) } }
         runCatching { SupabaseClient.client.auth.signOut() }
         cached = null
