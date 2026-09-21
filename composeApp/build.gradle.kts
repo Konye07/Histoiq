@@ -168,10 +168,12 @@ kotlin {
                 implementation("androidx.core:core-ktx:1.13.1")
                 implementation("io.ktor:ktor-client-android:3.3.0")
                 // Real interstitial/rewarded ads on Android (see Core/Ads/InterstitialAd.android.kt,
-                // Core/Ads/RewardedAd.android.kt) — iOS ads are deferred, still the mock-now stub.
+                // Core/Ads/RewardedAd.android.kt) — iOS ads are real too, via a Swift bridge to the
+                // GoogleMobileAds SPM package (iosApp/iosApp/AdsBridge.swift), not this dependency.
                 implementation("com.google.android.gms:play-services-ads:25.4.0")
                 // Real "Continue with Google" on Android (Core/Auth/GoogleSignIn.android.kt) via
-                // Credential Manager — iOS Google sign-in is deferred, still the mock-now stub.
+                // Credential Manager — iOS Google sign-in is real too, via a Swift bridge to the
+                // GoogleSignIn SPM package (iosApp/iosApp/GoogleSignInBridge.swift), not this dependency.
                 implementation("androidx.credentials:credentials:1.6.0")
                 implementation("androidx.credentials:credentials-play-services-auth:1.6.0")
                 implementation("com.google.android.libraries.identity.googleid:googleid:1.2.0")

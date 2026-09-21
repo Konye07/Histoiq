@@ -91,8 +91,22 @@ platforms synthesize the identical sound from Float PCM samples), `ShareResults`
 `android.graphics.Canvas`, iOS via `UIGraphicsBeginImageContextWithOptions` — and the boundary is
 PNG bytes (`ShareCardRenderer.renderPng`), not a shared bitmap type, since there's no common way to
 represent a platform bitmap across both), `ReminderScheduler`, `rememberRequestNotificationPermission`,
-`openEmailComposer`, `openUrl`. All live under `Core/{Haptics,Audio,Share,Notifications,Platform}/`
-with `.android.kt`/`.ios.kt` suffixes alongside the common `expect` declaration.
+`openEmailComposer`, `openUrl`, `InterstitialAd`/`RewardedAd` (`Core/Ads/`), `signInWithGoogle`
+(`Core/Auth/GoogleSignIn.*.kt`), and `signInWithApple` (`Core/Auth/AppleSignIn.*.kt` — iOS only;
+Android's `actual` always returns `AppleAuthOutcome.NotImplementedOnThisPlatform` since the button
+itself is hidden there, see `showAppleSignInButton`). All live under
+`Core/{Haptics,Audio,Share,Notifications,Platform,Ads,Auth}/` with `.android.kt`/`.ios.kt` suffixes
+alongside the common `expect` declaration.
+
+Two different iOS integration strategies show up depending on the SDK. `signInWithApple` calls
+`AuthenticationServices` directly via Kotlin/Native cinterop, since it's a first-party Apple
+framework with a real module map. AdMob and Google Sign-In are both SPM-only distributions with no
+C/Objective-C module map for cinterop to bind against, so their real SDK calls instead live in
+native Swift (`iosApp/iosApp/AdsBridge.swift`, `GoogleSignInBridge.swift`), each implementing a
+plain callback-based Kotlin interface (`AdsBridge`, `GoogleSignInBridge` in
+`Core/Platform/IosNativeBridges.kt`) registered once at app launch in `iOSApp.swift`'s `init`. The
+SPM packages themselves are declared in `iosApp/project.yml`, not a Gradle file — currently
+`GoogleSignIn` (from `10.0.0`) and `GoogleMobileAds` (from `13.9.0`).
 
 ## String localization
 
@@ -112,17 +126,23 @@ Project "HistoryTrivia" (`xolybjypkkpeymsvfimr`). `Data/Remote/SupabaseClient.kt
 `Postgrest` and `Auth`; the Ktor engine is swapped per platform (`ktor-client-android` /
 `ktor-client-darwin`), everything else in this file is common code.
 
-**Auth**: every device signs in anonymously (`client.auth.signInAnonymously()` — no real
-Google/Apple OAuth credentials exist) to get a real, verifiable `auth.uid()`. "Continue with
-Google/Apple" (`AuthProvider.kt`'s `mockSignIn`) just attaches a display identity (provider, mock
-email/name) to that one real session — see `AccountRepository.kt`. Guest mode gets this same
-anonymous session too, via `AccountRepository.ensureAnonymousSession()` — it only skips attaching
-a display identity. So a guest is *not* fully local: `score_history`/`quiz_progress` still write to
-Supabase under that anonymous `auth.uid()` (see the schema note below); only the `profiles` row,
-`game_stats` lifetime aggregates, and Friends are gated to a real attached identity. Note for an
-eventual real App Store submission: Apple's Guideline 4.8 requires offering Sign in with Apple if
-any other third-party login is offered — structurally already satisfied since Apple is one of the
-two options here, but both need to become real OAuth (not mock) before that actually counts.
+**Auth**: every device signs in anonymously first (`client.auth.signInAnonymously()`) to get a
+real, verifiable `auth.uid()`. "Continue with Google" is real OAuth on both platforms — Android via
+Credential Manager (`GoogleSignIn.android.kt`), iOS via the native Google Sign-In SDK through a
+Swift bridge (`GoogleSignIn.ios.kt`, see "Platform-specific code" above) — and links a real Google
+identity token to that same anonymous session (`linkOrSignInWithIdToken`) rather than replacing it,
+so any guest-mode progress from earlier the same day carries over. "Continue with Apple" is real
+too, but iOS-only: native `AuthenticationServices` via direct cinterop (`AppleSignIn.ios.kt`) — the
+button is hidden entirely on Android (`showAppleSignInButton`), where `signInWithApple` is
+structurally unreachable. `AuthProvider.kt`'s `mockSignIn` still exists but is now only a defensive
+fallback for the `NotImplementedOnThisPlatform` outcome branches in `AccountRepository.kt` — not
+the live path behind either real button anymore. Guest mode gets this same anonymous session too,
+via `AccountRepository.ensureAnonymousSession()` — it only skips attaching a display identity. So a
+guest is *not* fully local: `score_history`/`quiz_progress` still write to Supabase under that
+anonymous `auth.uid()` (see the schema note below); only the `profiles` row, `game_stats` lifetime
+aggregates, and Friends are gated to a real attached identity. Apple's Guideline 4.8 (offer Sign in
+with Apple if any other third-party login is offered) is now genuinely satisfied on iOS, not just
+structurally — both buttons are real OAuth there.
 
 **Schema** (all in `public`, RLS enabled on every table):
 - `profiles` — one row per `auth.uid()`, mirrors `UserAccount`. Friend-code lookup by another user
