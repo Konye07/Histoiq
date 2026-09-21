@@ -23,11 +23,11 @@ object StringsHomeShared {
 
     val home_desc_casualties_multiplier: String
         @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "A battle is given — guess the casualties. The closer your guess, the bigger your multiplier."
-            AppLanguage.ES -> "Se muestra una batalla: adivina el número de bajas. Cuanto más te acerques, mayor será tu multiplicador."
-            AppLanguage.FR -> "Une bataille est donnée — devine le nombre de pertes. Plus ton estimation est proche, plus ton multiplicateur est élevé."
-            AppLanguage.DE -> "Eine Schlacht wird gezeigt — schätze die Verluste. Je näher deine Schätzung ist, desto größer dein Multiplikator."
-            AppLanguage.IT -> "Viene mostrata una battaglia: indovina il numero delle vittime. Più la tua stima è vicina, maggiore sarà il tuo moltiplicatore."
+            AppLanguage.EN -> "A battle is given — guess the casualties. The closer your guess, the smaller your multiplier. The goal is the lowest multiplier you can get."
+            AppLanguage.ES -> "Se muestra una batalla: adivina el número de bajas. Cuanto más te acerques, menor será tu multiplicador. El objetivo es conseguir el multiplicador más bajo posible."
+            AppLanguage.FR -> "Une bataille est donnée — devine le nombre de pertes. Plus ton estimation est proche, plus ton multiplicateur est bas. L'objectif est d'obtenir le multiplicateur le plus bas possible."
+            AppLanguage.DE -> "Eine Schlacht wird gezeigt — schätze die Verluste. Je näher deine Schätzung ist, desto kleiner dein Multiplikator. Ziel ist der niedrigstmögliche Multiplikator."
+            AppLanguage.IT -> "Viene mostrata una battaglia: indovina il numero delle vittime. Più la tua stima è vicina, minore sarà il tuo moltiplicatore. L'obiettivo è ottenere il moltiplicatore più basso possibile."
         }
 
     val home_desc_flag_color_match: String
