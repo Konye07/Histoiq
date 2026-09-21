@@ -99,6 +99,24 @@ object StringsHomeShared {
         return formatTemplate(template, arg1)
     }
 
+    val home_streak_dialog_title: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Daily Streak"
+            AppLanguage.ES -> "Racha diaria"
+            AppLanguage.FR -> "Série quotidienne"
+            AppLanguage.DE -> "Tages-Serie"
+            AppLanguage.IT -> "Serie giornaliera"
+        }
+
+    val home_streak_dialog_body: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "How many days in a row you've played this game. The torch lights up once today's game is done — it stays gray until then, and the streak resets if you miss a full day."
+            AppLanguage.ES -> "Cuántos días seguidos has jugado a este juego. La antorcha se enciende en cuanto completas el juego de hoy; permanece apagada hasta entonces, y la racha se pierde si te saltas un día entero."
+            AppLanguage.FR -> "Le nombre de jours consécutifs où tu as joué à ce jeu. La torche s'allume une fois la partie du jour terminée — elle reste éteinte jusque-là, et la série est perdue si tu sautes une journée entière."
+            AppLanguage.DE -> "Wie viele Tage in Folge du dieses Spiel gespielt hast. Die Fackel leuchtet, sobald du das heutige Spiel abgeschlossen hast — bis dahin bleibt sie grau, und die Serie reißt ab, wenn du einen ganzen Tag auslässt."
+            AppLanguage.IT -> "Per quanti giorni di fila hai giocato a questo gioco. La torcia si accende non appena completi la partita di oggi — resta spenta fino ad allora, e la serie si interrompe se salti un giorno intero."
+        }
+
     @Composable
     fun home_info_dialog_title(arg1: Any, arg2: Any): String {
         val template = when (LocalAppLanguage.current) {

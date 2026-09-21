@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
@@ -187,6 +188,7 @@ fun PlayScreen(
 @Composable
 private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?, streak: GameStreak?) {
     var showInfo by remember { mutableStateOf(false) }
+    var showStreakInfo by remember { mutableStateOf(false) }
     val textColor = AppColors.Cream
 
     Card(
@@ -206,6 +208,7 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?
                     streak = streak,
                     torch = torch,
                     textColor = textColor,
+                    onClick = { showStreakInfo = true },
                     modifier = Modifier.align(Alignment.TopStart)
                 )
             }
@@ -275,6 +278,17 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?
             }
         )
     }
+
+    if (showStreakInfo) {
+        AlertDialog(
+            onDismissRequest = { showStreakInfo = false },
+            title = { Text(StringsHomeShared.home_streak_dialog_title) },
+            text = { Text(StringsHomeShared.home_streak_dialog_body) },
+            confirmButton = {
+                TextButton(onClick = { showStreakInfo = false }) { Text(StringsHomeShared.home_close) }
+            }
+        )
+    }
 }
 
 /**
@@ -283,18 +297,26 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?
  * [StreakStore]'s own playedToday/days split.
  */
 @Composable
-private fun StreakBadge(streak: GameStreak, torch: ImageBitmap?, textColor: Color, modifier: Modifier = Modifier) {
+private fun StreakBadge(
+    streak: GameStreak,
+    torch: ImageBitmap?,
+    textColor: Color,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val contentDesc = StringsHomeShared.home_streak_content_desc(streak.days)
     Row(
         modifier = modifier
             .padding(8.dp)
-            .background(Color.Black.copy(alpha = 0.28f), RoundedCornerShape(50))
-            .padding(horizontal = 10.dp, vertical = 6.dp)
+            .clip(RoundedCornerShape(50))
+            .background(Color.Black.copy(alpha = 0.28f))
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 7.dp)
             .semantics {
                 contentDescription = contentDesc
             },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         if (torch != null) {
             val aspect = torch.width.toFloat() / torch.height.toFloat()
@@ -304,13 +326,13 @@ private fun StreakBadge(streak: GameStreak, torch: ImageBitmap?, textColor: Colo
                 contentScale = ContentScale.Fit,
                 colorFilter = if (streak.playedToday) null else ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }),
                 modifier = Modifier
-                    .height(20.dp)
+                    .height(32.dp)
                     .aspectRatio(aspect)
             )
         }
         Text(
             "${streak.days}",
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             color = textColor
         )
