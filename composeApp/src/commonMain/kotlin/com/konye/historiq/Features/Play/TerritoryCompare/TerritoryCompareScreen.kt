@@ -86,51 +86,15 @@ private data class TerritoryProgressState(
 )
 
 /**
- * Orders [pool] into runs of 3-4 similarly-sized countries (by area) separated by 1-2 "big jump"
- * countries pulled from far away in the size ranking. Keeps most rounds a close call while
- * occasionally throwing in a lopsided pair, instead of a pure shuffle. [random] is seeded by the
- * day's date so every player who gets the same [pool] (from get_or_create_daily_quiz) sees the
- * exact same match order — a pure function of (pool, date), not per-device randomness.
+ * Plain shuffle — no size-based ordering, so there's no trend to notice from one round to the
+ * next. [random] is seeded by the day's date so every player who gets the same [pool] (from
+ * get_or_create_daily_quiz) sees the exact same match order — a pure function of (pool, date),
+ * not per-device randomness. An earlier version deliberately clustered similarly-sized countries
+ * together, which in practice meant several consecutive rounds walked monotonically up a
+ * size-sorted run — a real, noticeable trend, not "random."
  */
-private fun buildClusteredQueue(pool: List<TerritoryCountry>, random: Random): MutableList<TerritoryCountry> {
-    if (pool.size < 6) return pool.shuffled(random).toMutableList()
-    val sorted = pool.sortedBy { it.areaKm2 }
-    val used = BooleanArray(sorted.size)
-    val result = mutableListOf<TerritoryCountry>()
-    var pointer = 0
-    var remaining = sorted.size
-
-    while (remaining > 0) {
-        while (pointer < sorted.size && used[pointer]) pointer++
-
-        val clusterSize = random.nextInt(3, 5).coerceAtMost(remaining)
-        var added = 0
-        var idx = pointer
-        while (added < clusterSize && idx < sorted.size) {
-            if (!used[idx]) {
-                result.add(sorted[idx])
-                used[idx] = true
-                added++
-                remaining--
-            }
-            idx++
-        }
-        pointer = idx
-        if (remaining == 0) break
-
-        val jumpCount = random.nextInt(1, 3).coerceAtMost(remaining)
-        val farOrder = sorted.indices.filter { !used[it] }.sortedByDescending { kotlin.math.abs(it - pointer) }
-        var jumps = 0
-        for (cand in farOrder) {
-            if (jumps >= jumpCount) break
-            result.add(sorted[cand])
-            used[cand] = true
-            jumps++
-            remaining--
-        }
-    }
-    return result
-}
+private fun buildShuffledQueue(pool: List<TerritoryCountry>, random: Random): MutableList<TerritoryCountry> =
+    pool.shuffled(random).toMutableList()
 
 /** True when two countries would make an unwinnable, ambiguous "which is bigger" round. */
 private fun isTie(a: TerritoryCountry, exclude: TerritoryCountry?): Boolean =
@@ -142,11 +106,11 @@ private fun drawNext(
     exclude: TerritoryCountry?,
     random: Random
 ): TerritoryCountry {
-    if (queue.isEmpty()) queue.addAll(buildClusteredQueue(fullList, random))
+    if (queue.isEmpty()) queue.addAll(buildShuffledQueue(fullList, random))
     var next = queue.removeAt(0)
     var attempts = 0
     while (isTie(next, exclude) && attempts < fullList.size) {
-        if (queue.isEmpty()) queue.addAll(buildClusteredQueue(fullList, random))
+        if (queue.isEmpty()) queue.addAll(buildShuffledQueue(fullList, random))
         if (queue.isEmpty()) break
         queue.add(next)
         next = queue.removeAt(0)
@@ -244,7 +208,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
             resumedAlreadyDone = state.finished
             history.addAll(state.history)
         } else {
-            queue.addAll(buildClusteredQueue(pool, dailyRandom))
+            queue.addAll(buildShuffledQueue(pool, dailyRandom))
             val champ = queue.removeAt(0)
             val chall = drawNext(pool, queue, champ, dailyRandom)
             champion = champ
