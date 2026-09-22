@@ -47,6 +47,7 @@ import com.konye.historiq.Core.Ads.AdGatedResults
 import com.konye.historiq.Core.Formatting.formatFixed
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.BattleLocation
 import com.konye.historiq.Data.Quiz.GameKeys
@@ -165,6 +166,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
                 .padding(padding),
             contentAlignment = Alignment.Center
         ) {
+            GameBackgroundArt("images/backgrounds/bg_blind_map_battle.png", MaterialTheme.colorScheme.onBackground)
             val map = worldMap
             if (battles.isEmpty() || map == null) {
                 CircularProgressIndicator()

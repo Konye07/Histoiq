@@ -34,6 +34,7 @@ import com.konye.historiq.Core.Ads.AdGatedResults
 import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsGamesTruefalse
 import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
@@ -107,6 +108,7 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
             Modifier.fillMaxSize().padding(padding),
             contentAlignment = Alignment.Center
         ) {
+            GameBackgroundArt("images/backgrounds/bg_true_false.png", MaterialTheme.colorScheme.onBackground)
             when {
                 statements.isEmpty() -> CircularProgressIndicator()
                 showResults && resumedAlreadyDone -> TrueFalseResults(statements, answers, failed, onBack)

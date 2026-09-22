@@ -58,6 +58,7 @@ import com.konye.historiq.Core.Ads.AdGatedResults
 import com.konye.historiq.Core.Formatting.formatFixed
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyQuizRepository
@@ -202,6 +203,7 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
             Modifier.fillMaxSize().padding(padding),
             contentAlignment = Alignment.Center
         ) {
+            GameBackgroundArt("images/backgrounds/bg_flag_color_match.png", MaterialTheme.colorScheme.onBackground)
             when {
                 flags.isEmpty() || analysisByFlagId.size < flags.size -> CircularProgressIndicator()
                 questionIndex >= flags.size -> {

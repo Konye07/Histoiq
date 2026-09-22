@@ -40,6 +40,7 @@ import com.konye.historiq.Core.Formatting.formatWithCommas
 import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyQuizRepository
@@ -235,6 +236,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
             Modifier.fillMaxSize().padding(padding),
             contentAlignment = Alignment.Center
         ) {
+            GameBackgroundArt("images/backgrounds/bg_territory_compare.png", MaterialTheme.colorScheme.onBackground)
             val c = champion
             val ch = challenger
             when {

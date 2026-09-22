@@ -47,6 +47,7 @@ import com.konye.historiq.Core.Formatting.formatFixed
 import com.konye.historiq.Core.Localization.StringsGamesYearguessCasualties
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyDistribution
@@ -178,6 +179,7 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
                     .padding(padding),
                 contentAlignment = Alignment.Center
             ) {
+                GameBackgroundArt("images/backgrounds/bg_year_guess.png", MaterialTheme.colorScheme.onBackground)
                 when {
                     events.isEmpty() -> CircularProgressIndicator()
                     questionIndex >= events.size -> {
