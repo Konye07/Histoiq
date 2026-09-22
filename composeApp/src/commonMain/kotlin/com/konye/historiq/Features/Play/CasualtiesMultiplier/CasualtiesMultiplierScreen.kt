@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -170,7 +171,11 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                     .padding(padding),
                 contentAlignment = Alignment.Center
             ) {
-                GameBackgroundArt("images/backgrounds/bg_casualties_multiplier.png", MaterialTheme.colorScheme.onBackground)
+                GameBackgroundArt(
+                    "images/backgrounds/bg_casualties_multiplier.png",
+                    MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.offset(y = (-90).dp)
+                )
                 when {
                     battles.isEmpty() -> CircularProgressIndicator()
                     questionIndex >= battles.size -> {

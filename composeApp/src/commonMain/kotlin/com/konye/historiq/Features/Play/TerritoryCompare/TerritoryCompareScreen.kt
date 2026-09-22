@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -236,7 +237,11 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
             Modifier.fillMaxSize().padding(padding),
             contentAlignment = Alignment.Center
         ) {
-            GameBackgroundArt("images/backgrounds/bg_territory_compare.png", MaterialTheme.colorScheme.onBackground)
+            GameBackgroundArt(
+                "images/backgrounds/bg_territory_compare.png",
+                MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.offset(y = (-90).dp)
+            )
             val c = champion
             val ch = challenger
             when {
