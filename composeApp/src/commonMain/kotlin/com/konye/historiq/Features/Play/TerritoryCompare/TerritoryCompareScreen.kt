@@ -65,8 +65,14 @@ import org.jetbrains.compose.resources.painterResource
 private const val ROUNDS_TO_WIN = 10
 private const val PROGRESS_KEY = GameKeys.TERRITORY_COMPARE
 
-/** Big enough to comfortably outlast a 10-round run (plus tie-skip retries) drawn from one day's shared pool. */
-private const val DAILY_POOL_SIZE = 60
+/**
+ * Exactly enough for one perfect run: the initial champion plus one new challenger per round
+ * (10). Tie-skip retries don't need extra headroom beyond this — [drawNext] reshuffles the same
+ * pool back into the queue once it empties rather than running out. Kept deliberately tight (not
+ * a large buffer like the old 60) so the 4-day no-repeat window in get_or_create_daily_quiz is
+ * actually honored: 11/day * 4 days = 44, comfortably under the 130-country catalog.
+ */
+private const val DAILY_POOL_SIZE = ROUNDS_TO_WIN + 1
 
 @Serializable
 private data class HistoryEntry(
@@ -202,11 +208,18 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
         if (pool.size < 2) return@LaunchedEffect
 
         val stored = QuizProgressStore.load(PROGRESS_KEY)
-        if (stored != null) {
-            val state = Json.decodeFromJsonElement<TerritoryProgressState>(stored)
+        val state = stored?.let { Json.decodeFromJsonElement<TerritoryProgressState>(it) }
+        val resumedChampion = state?.let { s -> pool.find { it.id == s.championId } }
+        val resumedChallenger = state?.let { s -> pool.find { it.id == s.challengerId } }
+        // Only trust stored progress if both ids still resolve against today's pool — under
+        // normal operation they always do (a day's pool never changes once created), but this
+        // guards against a manually-regenerated pool leaving stale progress pointing at ids that
+        // no longer exist, which otherwise leaves champion/challenger null forever (an infinite
+        // loading spinner, no way out) instead of just starting a fresh round.
+        if (state != null && resumedChampion != null && resumedChallenger != null) {
             queue.addAll(state.queueIds.mapNotNull { id -> pool.find { it.id == id } })
-            champion = pool.find { it.id == state.championId }
-            challenger = pool.find { it.id == state.challengerId }
+            champion = resumedChampion
+            challenger = resumedChallenger
             round = state.round
             won = state.won
             showResults = state.finished
