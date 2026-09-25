@@ -196,7 +196,10 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
         val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, dateKey, DAILY_POOL_SIZE)
         val pool = loadTerritories(ids)
         allCountries = pool
-        if (pool.isEmpty()) return@LaunchedEffect
+        // Below 2, no non-self matchup is possible at all — bail to the loading state instead of
+        // starting a trivially-tied round (this is what a degenerate get_or_create_daily_quiz pool
+        // looked like in practice: a real production incident, see the 2026-09-25 fix).
+        if (pool.size < 2) return@LaunchedEffect
 
         val stored = QuizProgressStore.load(PROGRESS_KEY)
         if (stored != null) {
