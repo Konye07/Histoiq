@@ -8,9 +8,12 @@ import kotlinx.serialization.json.put
 /**
  * The single source of truth for "today's quiz" for one game — replaces RecentlyUsedStore's
  * per-device random pick. The first player of the day to ask triggers get_or_create_daily_quiz
- * (a Postgres function) to assign it once, atomically, including the 15-day cooldown that used to
- * live in RecentlyUsedStore; everyone after just reads the same row, so every device sees the same
- * questions on the same date.
+ * (a Postgres function) to assign it once, atomically, including the repeat cooldown that used to
+ * live in RecentlyUsedStore (per-game now — 15 days by default, shorter for a few games where
+ * either the catalog can't support 15 days or it's just a deliberate choice; see that function's
+ * own comment for the exact per-game values, not duplicated here since it's the only place that
+ * should ever need editing); everyone after just reads the same row, so every device sees the
+ * same questions on the same date.
  */
 object DailyQuizRepository {
     suspend fun getOrCreate(gameKey: String, dateKey: String, count: Int): List<String> =
