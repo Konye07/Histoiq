@@ -13,6 +13,8 @@ object SettingsStore {
     private const val KEY_AD_FREE_SUBSCRIPTION = "adFreeSubscription"
     private const val KEY_DARK_MODE_ENABLED = "darkModeEnabled"
     private const val KEY_HAS_SEEN_TUTORIAL = "hasSeenTutorial"
+    private const val KEY_RATE_APP_DECIDED = "rateAppDecided"
+    private const val KEY_RATE_APP_NEXT_ELIGIBLE_AT = "rateAppNextEligibleAt"
 
     const val LANGUAGE_ENGLISH = "en"
 
@@ -63,5 +65,21 @@ object SettingsStore {
 
     fun setHasSeenTutorial(seen: Boolean) {
         settings.putBoolean(KEY_HAS_SEEN_TUTORIAL, seen)
+    }
+
+    /** True once the player has rated or permanently declined — see RateAppPrompt, the one place
+     * that reads/writes these two keys together. */
+    fun rateAppDecided(): Boolean = settings.getBoolean(KEY_RATE_APP_DECIDED, false)
+
+    fun setRateAppDecided(decided: Boolean) {
+        settings.putBoolean(KEY_RATE_APP_DECIDED, decided)
+    }
+
+    /** Epoch millis of the next time the rate-app prompt is allowed to show; null means it's never
+     * been scheduled yet (first app open). */
+    fun rateAppNextEligibleAt(): Long? = settings.getLongOrNull(KEY_RATE_APP_NEXT_ELIGIBLE_AT)
+
+    fun setRateAppNextEligibleAt(epochMillis: Long) {
+        settings.putLong(KEY_RATE_APP_NEXT_ELIGIBLE_AT, epochMillis)
     }
 }

@@ -45,10 +45,13 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.konye.historiq.Core.Feedback.RateAppPrompt
 import com.konye.historiq.Core.Formatting.formatTwoDigits
 import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsHomeShared
+import com.konye.historiq.Core.Localization.StringsRateApp
 import com.konye.historiq.Core.Localization.todayDisplay
+import com.konye.historiq.Core.Platform.openUrl
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.GameKeys
@@ -85,6 +88,7 @@ fun PlayScreen(
     var logos by remember { mutableStateOf<Map<String, ImageBitmap>>(emptyMap()) }
     var torch by remember { mutableStateOf<ImageBitmap?>(null) }
     var streaks by remember { mutableStateOf<Map<String, GameStreak>>(emptyMap()) }
+    var showRateDialog by remember { mutableStateOf(false) }
 
     val modes = listOf(
         QuizMode(
@@ -164,6 +168,10 @@ fun PlayScreen(
         streaks = runCatching { StreakStore.computeAll() }.getOrDefault(emptyMap())
     }
 
+    LaunchedEffect(Unit) {
+        showRateDialog = RateAppPrompt.shouldShow()
+    }
+
     Column(Modifier.fillMaxWidth()) {
         Row(
             Modifier
@@ -182,6 +190,36 @@ fun PlayScreen(
         ) {
             items(modes) { mode -> QuizModeCard(mode, logos[mode.logoAsset], torch, streaks[mode.key]) }
         }
+    }
+
+    if (showRateDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                showRateDialog = false
+                RateAppPrompt.onLater()
+            },
+            title = { Text(StringsRateApp.rate_app_title) },
+            text = { Text(StringsRateApp.rate_app_body) },
+            confirmButton = {
+                TextButton(onClick = {
+                    showRateDialog = false
+                    RateAppPrompt.onDecided()
+                    openUrl(RateAppPrompt.storeUrl())
+                }) { Text(StringsRateApp.rate_app_rate_now) }
+            },
+            dismissButton = {
+                Row {
+                    TextButton(onClick = {
+                        showRateDialog = false
+                        RateAppPrompt.onDecided()
+                    }) { Text(StringsRateApp.rate_app_never) }
+                    TextButton(onClick = {
+                        showRateDialog = false
+                        RateAppPrompt.onLater()
+                    }) { Text(StringsRateApp.rate_app_later) }
+                }
+            }
+        )
     }
 }
 
