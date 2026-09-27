@@ -177,6 +177,24 @@ object StringsAuthSettings {
             AppLanguage.IT -> "Un promemoria giornaliero per giocare ai quiz di oggi."
         }
 
+    val settings_dark_mode_title: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Dark Mode"
+            AppLanguage.ES -> "Modo Oscuro"
+            AppLanguage.FR -> "Mode Sombre"
+            AppLanguage.DE -> "Dunkelmodus"
+            AppLanguage.IT -> "Modalità Scura"
+        }
+
+    val settings_dark_mode_subtitle: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Follows your system setting until you switch it here."
+            AppLanguage.ES -> "Sigue el ajuste de tu sistema hasta que lo cambies aquí."
+            AppLanguage.FR -> "Suit le réglage de ton système jusqu'à ce que tu le changes ici."
+            AppLanguage.DE -> "Folgt deiner Systemeinstellung, bis du sie hier änderst."
+            AppLanguage.IT -> "Segue l'impostazione del sistema finché non la cambi qui."
+        }
+
     val settings_account_title: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Account"

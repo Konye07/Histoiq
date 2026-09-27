@@ -2,6 +2,7 @@ package com.konye.historiq.Core.Navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationBarItem
@@ -49,9 +50,13 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
             val backStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = backStackEntry?.destination?.route
             val gameColor = gameColorForRoute(currentRoute)
-            val barColor = gameColor ?: AppColors.Tan.lighten(0.35f)
-            val onBarColor = if (gameColor != null) contrastingOn(gameColor) else AppColors.EspressoDark
-            val indicatorColor = gameColor?.lighten(0.25f) ?: AppColors.Tan
+            // Falls back to the ambient AppTheme's own colors (not a hardcoded light-mode
+            // constant) so the bar still matches on Play/Friends/Profile/Settings when dark mode
+            // is on — no MaterialTheme override sits between AppTheme and this Scaffold, so these
+            // already reflect the current light/dark scheme correctly.
+            val barColor = gameColor ?: MaterialTheme.colorScheme.primaryContainer
+            val onBarColor = if (gameColor != null) contrastingOn(gameColor) else MaterialTheme.colorScheme.onPrimaryContainer
+            val indicatorColor = gameColor?.lighten(0.25f) ?: MaterialTheme.colorScheme.primary
 
             NavigationBar(containerColor = barColor) {
                 NavRoutes.bottomTabs.forEach { tab ->

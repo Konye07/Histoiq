@@ -35,6 +35,8 @@ import com.konye.historiq.Core.Localization.LocalOnLanguageChange
 import com.konye.historiq.Core.Localization.StringsAuthSettings
 import com.konye.historiq.Core.Notifications.ReminderScheduler
 import com.konye.historiq.Core.Notifications.rememberRequestNotificationPermission
+import com.konye.historiq.Core.Theme.LocalIsDarkTheme
+import com.konye.historiq.Core.Theme.LocalOnDarkModeChange
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Settings.SettingsStore
 import com.konye.historiq.Data.Social.formatFriendCode
@@ -58,6 +60,8 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
     var displayName by remember { mutableStateOf(account?.displayName ?: "") }
     val currentLanguage = LocalAppLanguage.current
     val onLanguageChange = LocalOnLanguageChange.current
+    val isDarkTheme = LocalIsDarkTheme.current
+    val onDarkModeChange = LocalOnDarkModeChange.current
     var hapticsEnabled by remember { mutableStateOf(SettingsStore.hapticsEnabled()) }
     var dailyReminderEnabled by remember { mutableStateOf(SettingsStore.dailyReminderEnabled()) }
 
@@ -179,6 +183,12 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
             subtitle = StringsAuthSettings.settings_daily_reminder_subtitle,
             checked = dailyReminderEnabled,
             onCheckedChange = ::onDailyReminderToggle
+        )
+        SettingToggleRow(
+            title = StringsAuthSettings.settings_dark_mode_title,
+            subtitle = StringsAuthSettings.settings_dark_mode_subtitle,
+            checked = isDarkTheme,
+            onCheckedChange = onDarkModeChange
         )
 
         HorizontalDivider()

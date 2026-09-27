@@ -11,6 +11,7 @@ object SettingsStore {
     private const val KEY_DAILY_REMINDER_ENABLED = "dailyReminderEnabled"
     private const val KEY_GUEST_MODE = "guestMode"
     private const val KEY_AD_FREE_SUBSCRIPTION = "adFreeSubscription"
+    private const val KEY_DARK_MODE_ENABLED = "darkModeEnabled"
 
     const val LANGUAGE_ENGLISH = "en"
 
@@ -45,5 +46,13 @@ object SettingsStore {
 
     fun setAdFreeSubscription(enabled: Boolean) {
         settings.putBoolean(KEY_AD_FREE_SUBSCRIPTION, enabled)
+    }
+
+    /** Null means the user has never overridden it — App.kt falls back to `isSystemInDarkTheme()`
+     * in that case, and keeps following the system live rather than freezing a one-time reading. */
+    fun darkModeOverride(): Boolean? = settings.getBooleanOrNull(KEY_DARK_MODE_ENABLED)
+
+    fun setDarkModeOverride(enabled: Boolean) {
+        settings.putBoolean(KEY_DARK_MODE_ENABLED, enabled)
     }
 }

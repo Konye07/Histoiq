@@ -2,6 +2,7 @@ package com.konye.historiq.Core.Theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -79,7 +80,30 @@ private val AppLightColors = lightColorScheme(
     onError = AppColors.Cream
 )
 
+/** Same palette as [AppLightColors], same roles — just the dark end of each color used for
+ * surfaces and the light end for content, instead of a separately invented dark palette. */
+private val AppDarkColors = darkColorScheme(
+    primary = AppColors.Tan,
+    onPrimary = AppColors.EspressoDark,
+    primaryContainer = AppColors.Tan.darken(0.45f),
+    onPrimaryContainer = AppColors.Cream,
+    secondary = AppColors.Mauve.lighten(0.2f),
+    onSecondary = AppColors.EspressoDark,
+    background = AppColors.EspressoDark,
+    onBackground = AppColors.Cream,
+    surface = AppColors.EspressoDark,
+    onSurface = AppColors.Cream,
+    surfaceVariant = AppColors.EspressoDark.lighten(0.18f),
+    onSurfaceVariant = AppColors.Cream,
+    outline = AppColors.Mauve.lighten(0.2f),
+    error = AppColors.Rust,
+    onError = AppColors.Cream
+)
+
+/** [darkTheme] picks between [AppLightColors]/[AppDarkColors] — only for the non-game screens
+ * (Play hub, Friends, Profile, Settings). Game screens use [gameColorScheme] instead, which is
+ * unaffected: each game's signature color is a fixed brand color, not a light/dark variant. */
 @Composable
-fun AppTheme(content: @Composable () -> Unit) {
-    MaterialTheme(colorScheme = AppLightColors, content = content)
+fun AppTheme(darkTheme: Boolean, content: @Composable () -> Unit) {
+    MaterialTheme(colorScheme = if (darkTheme) AppDarkColors else AppLightColors, content = content)
 }
