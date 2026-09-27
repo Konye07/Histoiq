@@ -12,6 +12,7 @@ object SettingsStore {
     private const val KEY_GUEST_MODE = "guestMode"
     private const val KEY_AD_FREE_SUBSCRIPTION = "adFreeSubscription"
     private const val KEY_DARK_MODE_ENABLED = "darkModeEnabled"
+    private const val KEY_HAS_SEEN_TUTORIAL = "hasSeenTutorial"
 
     const val LANGUAGE_ENGLISH = "en"
 
@@ -54,5 +55,13 @@ object SettingsStore {
 
     fun setDarkModeOverride(enabled: Boolean) {
         settings.putBoolean(KEY_DARK_MODE_ENABLED, enabled)
+    }
+
+    /** Gates the one-time onboarding tutorial in RootApp — false only until it's first
+     * completed or skipped, on whichever device that happens on (not synced). */
+    fun hasSeenTutorial(): Boolean = settings.getBoolean(KEY_HAS_SEEN_TUTORIAL, false)
+
+    fun setHasSeenTutorial(seen: Boolean) {
+        settings.putBoolean(KEY_HAS_SEEN_TUTORIAL, seen)
     }
 }

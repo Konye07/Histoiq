@@ -15,17 +15,20 @@ import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Account.UserAccount
 import com.konye.historiq.Data.Settings.SettingsStore
 import com.konye.historiq.Features.Auth.AuthScreen
+import com.konye.historiq.Features.Onboarding.TutorialScreen
 
 /**
  * Gates the main app behind sign-in: shows AuthScreen until a session exists or the player
- * chooses to continue as a guest, then AppNavHost either way — daily limits, scores, and stats
- * are stored per-device for guests (not synced), so guest play works identically except for friends.
+ * chooses to continue as a guest, then the one-time TutorialScreen if it hasn't been seen or
+ * skipped yet on this device, then AppNavHost — daily limits, scores, and stats are stored
+ * per-device for guests (not synced), so guest play works identically except for friends.
  */
 @Composable
 fun RootApp() {
     var account by remember { mutableStateOf<UserAccount?>(null) }
     var isGuest by remember { mutableStateOf(SettingsStore.guestMode()) }
     var restoring by remember { mutableStateOf(true) }
+    var hasSeenTutorial by remember { mutableStateOf(SettingsStore.hasSeenTutorial()) }
 
     LaunchedEffect(Unit) {
         account = AccountRepository.restoreSession()
@@ -43,6 +46,10 @@ fun RootApp() {
                 isGuest = true
             }
         )
+        !hasSeenTutorial -> TutorialScreen(onFinished = {
+            SettingsStore.setHasSeenTutorial(true)
+            hasSeenTutorial = true
+        })
         else -> AppNavHost(onSignedOut = {
             SettingsStore.setGuestMode(false)
             account = null
