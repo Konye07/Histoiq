@@ -4,12 +4,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -28,6 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Auth.showAppleSignInButton
 import com.konye.historiq.Core.Localization.StringsAuthSettings
+import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.darken
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Account.AuthProviderType
 import kotlinx.coroutines.launch
@@ -61,9 +67,21 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
         }
     }
 
+    fun continueWithFacebook() {
+        if (loadingProvider != null) return
+        loadingProvider = AuthProviderType.FACEBOOK
+        errorMessage = null
+        scope.launch {
+            val account = AccountRepository.continueWithFacebook()
+            loadingProvider = null
+            if (account != null) onAuthenticated() else errorMessage = signInFailedMessage
+        }
+    }
+
     Box(
         Modifier
             .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.safeDrawing)
             .padding(32.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -111,6 +129,30 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
                     } else {
                         Text(StringsAuthSettings.auth_continue_with_apple)
                     }
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            Button(
+                onClick = { continueWithFacebook() },
+                enabled = loadingProvider == null,
+                // A darkened AppColors.SlateBlue (already this app's Annalist-game color) reads as
+                // "Facebook blue" without introducing a hue outside the app's fixed historical palette.
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = AppColors.SlateBlue.darken(0.35f),
+                    contentColor = AppColors.Cream
+                ),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                if (loadingProvider == AuthProviderType.FACEBOOK) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(18.dp),
+                        strokeWidth = 2.dp,
+                        color = AppColors.Cream
+                    )
+                } else {
+                    Text(StringsAuthSettings.auth_continue_with_facebook)
                 }
             }
 

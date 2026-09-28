@@ -1,5 +1,6 @@
 package com.konye.historiq.Core.Navigation
 
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -88,7 +89,13 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
         NavHost(
             navController = navController,
             startDestination = NavRoutes.Play.route,
-            modifier = Modifier.padding(padding)
+            // consumeWindowInsets tells descendants (each game screen's own Scaffold+TopAppBar,
+            // see GameGate routes below) that this padding already accounts for the system bars,
+            // so they don't *also* reserve space for the status bar on top of it — without this,
+            // every nested TopAppBar double-counts the top inset once edge-to-edge is enabled.
+            modifier = Modifier
+                .consumeWindowInsets(padding)
+                .padding(padding)
         ) {
             composable(NavRoutes.Play.route) {
                 PlayScreen(

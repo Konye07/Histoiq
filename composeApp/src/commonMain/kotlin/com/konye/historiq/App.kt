@@ -11,6 +11,7 @@ import com.konye.historiq.Core.Localization.AppLanguage
 import com.konye.historiq.Core.Localization.LocalAppLanguage
 import com.konye.historiq.Core.Localization.LocalOnLanguageChange
 import com.konye.historiq.Core.Navigation.RootApp
+import com.konye.historiq.Core.Platform.ApplyStatusBarStyle
 import com.konye.historiq.Core.Theme.AppTheme
 import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.LocalOnDarkModeChange
@@ -37,6 +38,7 @@ fun App() {
             SettingsStore.setDarkModeOverride(newValue)
         }
     ) {
+        ApplyStatusBarStyle(isDarkTheme)
         AppTheme(darkTheme = isDarkTheme) {
             RootApp()
         }
