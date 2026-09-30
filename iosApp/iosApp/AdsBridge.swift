@@ -10,7 +10,7 @@ class AdsBridgeImpl: NSObject, AdsBridge {
     private var onInterstitialDismissed: (() -> Void)?
 
     func showInterstitial(adUnitId: String, onDismissed: @escaping () -> Void) {
-        InterstitialAd.load(withAdUnitID: adUnitId, request: GADRequest()) { [weak self] ad, error in
+        InterstitialAd.load(with: adUnitId, request: GADRequest()) { [weak self] ad, error in
             guard let self = self, let ad = ad, error == nil, let presenter = RootViewController.current() else {
                 onDismissed()
                 return
@@ -18,18 +18,18 @@ class AdsBridgeImpl: NSObject, AdsBridge {
             self.interstitial = ad
             self.onInterstitialDismissed = onDismissed
             ad.fullScreenContentDelegate = self
-            ad.present(fromRootViewController: presenter)
+            ad.present(from: presenter)
         }
     }
 
     func showRewarded(adUnitId: String, onRewarded: @escaping () -> Void) {
-        RewardedAd.load(withAdUnitID: adUnitId, request: GADRequest()) { [weak self] ad, error in
+        RewardedAd.load(with: adUnitId, request: GADRequest()) { [weak self] ad, error in
             guard let self = self, let ad = ad, error == nil, let presenter = RootViewController.current() else {
                 return
             }
             self.rewarded = ad
             ad.fullScreenContentDelegate = self
-            ad.present(fromRootViewController: presenter) {
+            ad.present(from: presenter) {
                 onRewarded()
             }
         }
@@ -39,8 +39,8 @@ class AdsBridgeImpl: NSObject, AdsBridge {
 extension AdsBridgeImpl: FullScreenContentDelegate {
     func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
         // Only the interstitial needs an explicit dismissal callback — the rewarded ad's own
-        // present(fromRootViewController:userDidEarnRewardHandler:) already tells the caller
-        // whether the reward was earned; nothing else needs to happen when it closes.
+        // present(from:userDidEarnRewardHandler:) already tells the caller whether the reward was
+        // earned; nothing else needs to happen when it closes.
         if ad === interstitial {
             onInterstitialDismissed?()
             onInterstitialDismissed = nil
