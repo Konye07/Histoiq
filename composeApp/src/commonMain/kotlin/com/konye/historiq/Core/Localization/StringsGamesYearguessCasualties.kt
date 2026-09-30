@@ -222,18 +222,6 @@ object StringsGamesYearguessCasualties {
             AppLanguage.IT -> "Invia"
         }
 
-    @Composable
-    fun casualties_you_label(arg1: Any): String {
-        val template = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "You: %1\$s"
-            AppLanguage.ES -> "Tú: %1\$s"
-            AppLanguage.FR -> "Toi : %1\$s"
-            AppLanguage.DE -> "Du: %1\$s"
-            AppLanguage.IT -> "Tu: %1\$s"
-        }
-        return formatTemplate(template, arg1)
-    }
-
     val casualties_see_results: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "See Results"

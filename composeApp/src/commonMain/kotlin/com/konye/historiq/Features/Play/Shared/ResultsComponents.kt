@@ -1,5 +1,6 @@
 package com.konye.historiq.Features.Play.Shared
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.Canvas
@@ -16,11 +17,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -32,7 +35,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -44,6 +46,8 @@ import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Share.shareResults
 import com.konye.historiq.Core.Share.storeUrl
 import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.contrastingOn
+import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.generated.resources.Res
@@ -51,19 +55,29 @@ import com.konye.historiq.generated.resources.ic_share
 import org.jetbrains.compose.resources.painterResource
 
 /**
- * The shared "score, then ranking below it" header every results screen opens with. [rankingText]
- * is expected to already be phrased (e.g. "Better than 82% of today's players").
+ * The shared "score, rank, and how you stack up" header every results screen opens with: a
+ * two-column score/rank stat pair, "Better than X%" always paired with the exact rank (never
+ * just one or the other), an optional today's-final-score distribution with a "You" marker, and
+ * the share button. [distribution]/[yourPosition] are left empty to skip the chart entirely
+ * (e.g. while it's still loading).
  */
 @Composable
 fun ResultsHeader(
     gameKey: String,
     scoreText: String,
     isPerfect: Boolean,
-    rankingText: String,
+    rank: Int,
+    totalPlayers: Int,
+    topPercent: Int,
     accentColor: Color,
     modifier: Modifier = Modifier,
     scoreLabel: String = StringsHomeShared.results_final_score,
-    subtitle: String? = null
+    maxScoreText: String? = null,
+    subtitle: String? = null,
+    distribution: List<Float> = emptyList(),
+    yourPosition: Float? = null,
+    distributionMinLabel: String? = null,
+    distributionMaxLabel: String? = null
 ) {
     val scale = remember { Animatable(0.4f) }
     LaunchedEffect(Unit) {
@@ -84,27 +98,57 @@ fun ResultsHeader(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(scoreLabel, style = MaterialTheme.typography.titleMedium)
-        Text(
-            scoreText,
-            style = MaterialTheme.typography.displayMedium,
-            color = if (isPerfect) AppColors.Success else MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.graphicsLayer {
-                scaleX = scale.value
-                scaleY = scale.value
-            }
-        )
-        subtitle?.let {
-            Text(it, style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
-        }
-        Surface(
-            color = accentColor.copy(alpha = 0.22f),
-            shape = RoundedCornerShape(50)
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            ScoreStat(
+                label = scoreLabel,
+                value = scoreText,
+                caption = maxScoreText,
+                valueColor = animateColorAsState(if (isPerfect) AppColors.Success else MaterialTheme.colorScheme.onBackground).value,
+                valueScale = scale.value,
+                modifier = Modifier.weight(1f)
+            )
+            VerticalDivider(modifier = Modifier.height(56.dp))
+            ScoreStat(
+                label = StringsHomeShared.results_rank_label,
+                value = "#" + formatThousands(rank.toLong()),
+                caption = StringsHomeShared.results_of_players_total(formatThousands(totalPlayers.toLong())),
+                valueColor = MaterialTheme.colorScheme.onBackground,
+                valueScale = 1f,
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        subtitle?.let {
             Text(
-                rankingText,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
-                style = MaterialTheme.typography.labelLarge
+                it,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+
+        Text(
+            StringsHomeShared.results_better_than_percent(topPercent),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(top = 14.dp)
+        )
+
+        if (distribution.isNotEmpty()) {
+            GuessDistributionAxis(
+                distribution = distribution,
+                correctPosition = null,
+                guessPosition = yourPosition,
+                accentColor = accentColor,
+                correctLabel = null,
+                guessLabel = null,
+                minLabel = distributionMinLabel,
+                maxLabel = distributionMaxLabel,
+                modifier = Modifier.padding(top = 16.dp)
             )
         }
 
@@ -119,6 +163,7 @@ fun ResultsHeader(
             storeUrl()
         )
         val shareFooter = StringsHomeShared.results_share_footer(appName)
+        val shareRankingText = StringsHomeShared.results_better_than_percent(topPercent)
 
         OutlinedButton(
             onClick = {
@@ -128,14 +173,16 @@ fun ResultsHeader(
                     gameTitle = gameTitle,
                     scoreLabel = scoreLabel,
                     scoreText = scoreText,
-                    rankingText = rankingText,
+                    rankingText = shareRankingText,
                     accentColorArgb = accentColor.toArgb(),
                     shareMessage = shareMessage,
                     chooserTitle = shareChooserTitle,
                     footerText = shareFooter
                 )
             },
-            modifier = Modifier.padding(top = 12.dp)
+            modifier = Modifier.padding(top = 12.dp),
+            // The default content color (primary, i.e. the accent) sits too close to the screen's own base color to read.
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.onBackground)
         ) {
             Icon(painterResource(Res.drawable.ic_share), contentDescription = null, modifier = Modifier.size(18.dp))
             Text(StringsHomeShared.results_share, modifier = Modifier.padding(start = 8.dp))
@@ -143,34 +190,40 @@ fun ResultsHeader(
     }
 }
 
-/** Turns a rank and total player count into display copy, e.g. "Rank 1 250 of 14 253 today". */
 @Composable
-fun rankingText(rank: Int, totalPlayers: Int): String =
-    StringsHomeShared.results_rank_of_today(formatThousands(rank.toLong()), formatThousands(totalPlayers.toLong()))
-
-private val LabelLetterSpacing = 0.8.sp
-
-/**
- * Cream or espresso-dark, whichever actually contrasts against [background] — unlike
- * [com.konye.historiq.Core.Theme.contrastingOn] (tuned for a *screen's* base color), the accent/
- * surfaceVariant tints these cards fill with can land close to either extreme's luminance, so
- * picking by contrast ratio rather than a fixed 0.5 threshold keeps text readable either way.
- */
-private fun readableOn(background: Color): Color {
-    fun contrast(fg: Color, bg: Color): Float {
-        val l1 = fg.luminance() + 0.05f
-        val l2 = bg.luminance() + 0.05f
-        return if (l1 > l2) l1 / l2 else l2 / l1
-    }
-    return if (contrast(AppColors.Cream, background) >= contrast(AppColors.EspressoDark, background)) {
-        AppColors.Cream
-    } else {
-        AppColors.EspressoDark
+private fun ScoreStat(
+    label: String,
+    value: String,
+    caption: String?,
+    valueColor: Color,
+    valueScale: Float,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(label, style = MaterialTheme.typography.titleMedium)
+        Text(
+            value,
+            style = MaterialTheme.typography.headlineLarge,
+            color = valueColor,
+            modifier = Modifier.graphicsLayer {
+                scaleX = valueScale
+                scaleY = valueScale
+            }
+        )
+        caption?.let {
+            Text(
+                it,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.65f)
+            )
+        }
     }
 }
 
+private val LabelLetterSpacing = 0.8.sp
+
 @Composable
-private fun SectionLabel(text: String, color: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)) {
+private fun SectionLabel(text: String, color: Color = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.6f)) {
     Text(
         text.uppercase(),
         style = MaterialTheme.typography.labelSmall.copy(letterSpacing = LabelLetterSpacing),
@@ -196,7 +249,7 @@ private fun StatBox(
             Text(
                 label.uppercase(),
                 style = MaterialTheme.typography.labelSmall.copy(letterSpacing = LabelLetterSpacing),
-                color = contentColor.copy(alpha = 0.75f)
+                color = contentColor.dimmedOn(containerColor, 0.75f)
             )
             Text(
                 value,
@@ -238,14 +291,14 @@ fun QuestionResultCard(
                 label = guessedLabel,
                 value = guessedValue,
                 containerColor = accentColor,
-                contentColor = readableOn(accentColor),
+                contentColor = contrastingOn(accentColor),
                 modifier = Modifier.weight(1f)
             )
             StatBox(
                 label = answerLabel,
                 value = answerValue,
                 containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                contentColor = readableOn(MaterialTheme.colorScheme.surfaceVariant),
+                contentColor = contrastingOn(MaterialTheme.colorScheme.surfaceVariant),
                 modifier = Modifier.weight(1f)
             )
         }
@@ -263,7 +316,7 @@ fun QuestionResultCard(
                             it,
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
-                            color = readableOn(accentColor),
+                            color = contrastingOn(accentColor),
                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)
                         )
                     }
@@ -273,12 +326,12 @@ fun QuestionResultCard(
                 landedText,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
-                color = if (landedIsExact) AppColors.Success else MaterialTheme.colorScheme.onBackground
+                color = animateColorAsState(if (landedIsExact) AppColors.Success else MaterialTheme.colorScheme.onBackground).value
             )
             Text(
                 closerThanText,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                color = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.7f)
             )
         }
 
@@ -318,8 +371,9 @@ fun GuessDistributionAxis(
 ) {
     val barColor = accentColor.copy(alpha = 0.32f)
     val correctColor = AppColors.Success
-    val chipTextColor = readableOn(accentColor)
+    val chipTextColor = contrastingOn(accentColor)
     val trackColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.18f)
+    val axisLabelColor = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.55f)
 
     BoxWithConstraints(modifier.fillMaxWidth()) {
         val chartWidth = maxWidth
@@ -373,8 +427,8 @@ fun GuessDistributionAxis(
 
             if (minLabel != null && maxLabel != null) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(minLabel, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.55f))
-                    Text(maxLabel, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.55f))
+                    Text(minLabel, style = MaterialTheme.typography.labelSmall, color = axisLabelColor)
+                    Text(maxLabel, style = MaterialTheme.typography.labelSmall, color = axisLabelColor)
                 }
             }
 

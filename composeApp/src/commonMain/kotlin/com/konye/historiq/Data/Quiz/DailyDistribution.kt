@@ -24,14 +24,25 @@ object DailyDistribution {
             buildJsonObject { put("p_game_key", gameKey); put("p_date", dateKey) }
         ).decodeAs()
 
-    /** (rank, totalPlayers) for one game/day given the player's value and today's real score distribution. */
-    fun rankAmongPlayers(value: Double, samples: List<Double>, higherIsBetter: Boolean): Pair<Int, Int> {
-        val total = samples.size.coerceAtLeast(1)
-        if (samples.isEmpty()) return 1 to total
-        val beaten = samples.count { if (higherIsBetter) it < value else it > value }
-        val percentile = ((beaten * 100.0) / samples.size).roundToInt().coerceIn(0, 100)
-        val rank = ((1.0 - percentile / 100.0) * total).roundToInt().coerceIn(1, total)
-        return rank to total
+    /**
+     * (rank, totalPlayers, topPercent) for one game/day given the player's value and today's real
+     * score distribution — topPercent is "you beat N% of today's *other* players", always shown
+     * alongside the exact rank on every results screen. [samples] is the full today's-scores list
+     * as returned by [finalScores], which includes the caller's own just-recorded row (recordAndRank
+     * writes it, then reads it straight back) — that row is excluded before computing topPercent,
+     * otherwise beating everyone else still couldn't reach 100% (e.g. beating both of 2 others
+     * landed on 2/3 = 67%, counting yourself as a third player you'd have to beat). totalPlayers
+     * itself keeps counting the caller, since "3 players today" (including you) is the correct
+     * headline number — only the *comparison* excludes you.
+     */
+    fun rankAmongPlayers(value: Double, samples: List<Double>, higherIsBetter: Boolean): Triple<Int, Int, Int> {
+        val totalPlayers = samples.size.coerceAtLeast(1)
+        val others = samples.toMutableList().also { it.remove(value) }
+        if (others.isEmpty()) return Triple(1, totalPlayers, 100)
+        val beaten = others.count { if (higherIsBetter) it < value else it > value }
+        val topPercent = ((beaten * 100.0) / others.size).roundToInt().coerceIn(0, 100)
+        val rank = (others.size - beaten + 1).coerceIn(1, totalPlayers)
+        return Triple(rank, totalPlayers, topPercent)
     }
 
     /** Percent of [otherDistances] farther from correct than [yourDistance] (lower distance is always better). */

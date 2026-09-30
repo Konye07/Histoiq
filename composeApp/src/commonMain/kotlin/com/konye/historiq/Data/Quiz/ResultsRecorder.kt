@@ -13,7 +13,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.konye.historiq.Core.Haptics.Haptics
 
-data class RankResult(val rank: Int, val totalPlayers: Int, val distribution: List<Double>)
+data class RankResult(val rank: Int, val totalPlayers: Int, val distribution: List<Double>, val topPercent: Int)
 
 /**
  * The "finish a round" sequence every game's results screen runs: record the score, update
@@ -34,8 +34,8 @@ suspend fun recordAndRank(
     if (isPerfect) Haptics.perfect()
 
     val distribution = DailyDistribution.finalScores(gameKey, DailyClock.todayKey())
-    val (rank, totalPlayers) = DailyDistribution.rankAmongPlayers(score, distribution, higherIsBetter)
-    return RankResult(rank, totalPlayers, distribution)
+    val (rank, totalPlayers, topPercent) = DailyDistribution.rankAmongPlayers(score, distribution, higherIsBetter)
+    return RankResult(rank, totalPlayers, distribution, topPercent)
 }
 
 /**
@@ -55,7 +55,7 @@ fun rememberLiveRank(
     isPerfect: Boolean,
     higherIsBetter: Boolean = true
 ): RankResult {
-    var result by remember { mutableStateOf(RankResult(1, 1, emptyList())) }
+    var result by remember { mutableStateOf(RankResult(1, 1, emptyList(), 100)) }
     var resumeTrigger by remember { mutableIntStateOf(0) }
 
     val lifecycleOwner = LocalLifecycleOwner.current

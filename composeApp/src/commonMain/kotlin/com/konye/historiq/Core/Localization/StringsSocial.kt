@@ -213,6 +213,15 @@ object StringsSocial {
             AppLanguage.IT -> "Accedi per aggiungere amici e vederli in questa classifica."
         }
 
+    val friends_no_friends_yet: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "No friends yet — add one with their friend code to start comparing scores."
+            AppLanguage.ES -> "Aún no tienes amigos: añade uno con su código de amigo para empezar a comparar puntuaciones."
+            AppLanguage.FR -> "Pas encore d'amis — ajoute-en un avec son code ami pour comparer vos scores."
+            AppLanguage.DE -> "Noch keine Freunde — füge welche mit ihrem Freundescode hinzu, um Punktzahlen zu vergleichen."
+            AppLanguage.IT -> "Ancora nessun amico: aggiungine uno con il suo codice amico per iniziare a confrontare i punteggi."
+        }
+
     val profile_title: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Profile"

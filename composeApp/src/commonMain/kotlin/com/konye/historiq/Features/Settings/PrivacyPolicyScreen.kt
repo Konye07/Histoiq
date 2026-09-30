@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Localization.StringsAuthSettings
 import com.konye.historiq.Core.Localization.StringsPrivacyPolicy
+import com.konye.historiq.Core.Platform.HISTORIQ_CONTACT_EMAIL
 import com.konye.historiq.Core.Platform.openEmailComposer
 import com.konye.historiq.Core.Platform.openUrl
 import com.konye.historiq.Core.Theme.AppColors
@@ -36,7 +37,6 @@ import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
 import org.jetbrains.compose.resources.painterResource
 
-private const val CONTACT_EMAIL = "mate.konye@gmail.com"
 private const val PRIVACY_POLICY_URL = "https://historiq-privacy.mate-konye.workers.dev/privacy-policy.html"
 
 /**
@@ -177,12 +177,12 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
             Section(StringsPrivacyPolicy.privacy_section_contact_title) {
                 BodyText(StringsPrivacyPolicy.privacy_contact_body)
                 Text(
-                    CONTACT_EMAIL,
+                    HISTORIQ_CONTACT_EMAIL,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.primary,
                     textDecoration = TextDecoration.Underline,
                     modifier = Modifier.clickable {
-                        openEmailComposer(CONTACT_EMAIL)
+                        openEmailComposer(HISTORIQ_CONTACT_EMAIL)
                     }
                 )
                 BodyText(StringsPrivacyPolicy.privacy_view_online_label)

@@ -13,12 +13,16 @@ import io.github.jan.supabase.auth.providers.builtin.IDToken
  * user is the correct recovery, not a hard error. Shared by every real ID-token provider on every
  * platform so this fallback dance only needs to be gotten right once. [onLinkFallback] is invoked
  * with a diagnostic message only when the (expected, often harmless) link failure occurs.
+ * [onSignInFallbackFailed] is invoked if the fallback sign-in *also* fails — the real error in
+ * that case (Supabase rejects the token entirely: e.g. an unconfigured provider, an audience/
+ * nonce mismatch, or a bad provider secret) is worth surfacing, unlike the expected link failure.
  */
 suspend fun linkOrSignInWithIdToken(
     provider: IDTokenProvider,
     idToken: String,
     rawNonce: String,
-    onLinkFallback: (Throwable) -> Unit = {}
+    onLinkFallback: (Throwable) -> Unit = {},
+    onSignInFallbackFailed: (Throwable) -> Unit = {}
 ): Boolean {
     val auth = SupabaseClient.client.auth
     try {
@@ -36,6 +40,7 @@ suspend fun linkOrSignInWithIdToken(
             }
             true
         } catch (e: Exception) {
+            onSignInFallbackFailed(e)
             false
         }
     }

@@ -23,6 +23,7 @@ import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Network.GameGate
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.contrastingOn
+import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Core.Theme.lighten
 import com.konye.historiq.Features.Friends.FriendsScreen
 import com.konye.historiq.Features.Play.BlindMapBattle.BlindMapBattleScreen
@@ -58,6 +59,7 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
             val barColor = gameColor ?: MaterialTheme.colorScheme.primaryContainer
             val onBarColor = if (gameColor != null) contrastingOn(gameColor) else MaterialTheme.colorScheme.onPrimaryContainer
             val indicatorColor = gameColor?.lighten(0.25f) ?: MaterialTheme.colorScheme.primary
+            val unselectedColor = onBarColor.dimmedOn(barColor, 0.6f)
 
             NavigationBar(containerColor = barColor) {
                 NavRoutes.bottomTabs.forEach { tab ->
@@ -78,8 +80,8 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
                             selectedIconColor = onBarColor,
                             selectedTextColor = onBarColor,
                             indicatorColor = indicatorColor,
-                            unselectedIconColor = onBarColor.copy(alpha = 0.6f),
-                            unselectedTextColor = onBarColor.copy(alpha = 0.6f)
+                            unselectedIconColor = unselectedColor,
+                            unselectedTextColor = unselectedColor
                         )
                     )
                 }

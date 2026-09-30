@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -44,14 +43,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Ads.AdGatedResults
+import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Formatting.formatFixed
+import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
+import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
+import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.BattleLocation
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
+import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.getDoubleList
 import com.konye.historiq.Data.Quiz.haversineKm
 import com.konye.historiq.Data.Quiz.loadBattleLocations
@@ -60,7 +64,6 @@ import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
-import com.konye.historiq.Features.Play.Shared.rankingText
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
 import kotlinx.coroutines.Dispatchers
@@ -169,7 +172,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
             GameBackgroundArt("images/backgrounds/bg_blind_map_battle.png", MaterialTheme.colorScheme.onBackground)
             val map = worldMap
             if (battles.isEmpty() || map == null) {
-                CircularProgressIndicator()
+                HistoriqLoadingIndicator()
             } else if (questionIndex >= battles.size && resumedAlreadyDone) {
                 MapResults(battles, guessLats, guessLngs, scores, onBack)
             } else if (questionIndex >= battles.size) {
@@ -193,7 +196,9 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
                         val distanceKm = haversineKm(lat, lng, current.correctLat, current.correctLng)
                         guessLats.add(lat)
                         guessLngs.add(lng)
-                        scores.add(mapPinpointScore(distanceKm))
+                        val score = mapPinpointScore(distanceKm)
+                        scores.add(score)
+                        if (score >= 550.0) { Haptics.correct(); BubbleSoundPlayer.playCorrectChirp() } else { Haptics.wrong(); BubbleSoundPlayer.playWrongTone() }
                         revealed = true
                     },
                     onNext = {
@@ -347,7 +352,9 @@ private fun MapResults(
 ) {
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 1000.0 }
-    val (rank, totalPlayers) = rememberLiveRank(PROGRESS_KEY, GameKeys.BLIND_MAP_BATTLE, total, isPerfect)
+    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(PROGRESS_KEY, GameKeys.BLIND_MAP_BATTLE, total, isPerfect)
+    val maxPossible = scores.size * 1000.0
+    fun scorePos(v: Double): Float = (v / maxPossible).toFloat().coerceIn(0f, 1f)
 
     Column(
         Modifier
@@ -361,8 +368,15 @@ private fun MapResults(
             gameKey = PROGRESS_KEY,
             scoreText = formatFixed(total, 2),
             isPerfect = isPerfect,
-            rankingText = rankingText(rank, totalPlayers),
-            accentColor = MaterialTheme.colorScheme.primary
+            rank = rank,
+            totalPlayers = totalPlayers,
+            topPercent = topPercent,
+            accentColor = MaterialTheme.colorScheme.primary,
+            maxScoreText = StringsHomeShared.results_of_points_max(formatThousands(maxPossible.toLong())),
+            distribution = finalDistribution.map { scorePos(it) },
+            yourPosition = scorePos(total),
+            distributionMinLabel = "0",
+            distributionMaxLabel = formatThousands(maxPossible.toLong())
         )
         HorizontalDivider()
         battles.forEachIndexed { i, battle ->

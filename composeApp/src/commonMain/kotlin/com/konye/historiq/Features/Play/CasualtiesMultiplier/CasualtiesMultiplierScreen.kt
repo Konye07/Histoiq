@@ -12,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -37,11 +36,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import com.konye.historiq.Core.Ads.AdGatedResults
+import com.konye.historiq.Core.Audio.BubbleSoundPlayer
+import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Formatting.formatFixed
 import com.konye.historiq.Core.Localization.StringsGamesYearguessCasualties
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
+import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
+import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.BattleCasualty
 import com.konye.historiq.Data.Quiz.DailyClock
@@ -50,17 +53,16 @@ import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.casualtyMultiplier
 import com.konye.historiq.Data.Quiz.formatEraYear
+import com.konye.historiq.Data.Quiz.geometricMeanMultiplier
 import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.getDoubleList
 import com.konye.historiq.Data.Quiz.getLongList
 import com.konye.historiq.Data.Quiz.loadBattleCasualties
 import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
-import com.konye.historiq.Features.Play.Shared.GuessDistributionAxis
 import com.konye.historiq.Features.Play.Shared.HintAction
 import com.konye.historiq.Features.Play.Shared.QuestionResultCard
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
-import com.konye.historiq.Features.Play.Shared.rankingText
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
 import kotlin.math.ln
@@ -177,7 +179,7 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                     modifier = Modifier.offset(y = (-90).dp)
                 )
                 when {
-                    battles.isEmpty() -> CircularProgressIndicator()
+                    battles.isEmpty() -> HistoriqLoadingIndicator()
                     questionIndex >= battles.size -> {
                         if (resumedAlreadyDone) {
                             CasualtiesResults(battles, guesses, multipliers, onBack)
@@ -200,7 +202,9 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                             onSubmit = {
                                 val guess = guessText.toLongOrNull() ?: return@CasualtiesQuestion
                                 guesses.add(guess)
-                                multipliers.add(casualtyMultiplier(guess, current.correctCasualties))
+                                val multiplier = casualtyMultiplier(guess, current.correctCasualties)
+                                multipliers.add(multiplier)
+                                if (multiplier <= 1.5) { Haptics.correct(); BubbleSoundPlayer.playCorrectChirp() } else { Haptics.wrong(); BubbleSoundPlayer.playWrongTone() }
                                 revealed = true
                             },
                             onNext = {
@@ -250,8 +254,8 @@ private fun CasualtiesQuestion(
         Text(formatEraYear(battle.year), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
         if (hintRevealed) {
             Surface(
-                color = AppColors.Cream,
-                contentColor = AppColors.Maroon,
+                color = MaterialTheme.colorScheme.onSurface,
+                contentColor = MaterialTheme.colorScheme.surface,
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
@@ -287,7 +291,7 @@ private fun CasualtiesQuestion(
                         StringsGamesYearguessCasualties.casualties_hint_prefix(it),
                         style = MaterialTheme.typography.bodySmall,
                         textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                        color = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.7f)
                     )
                 }
             }
@@ -314,9 +318,9 @@ private fun CasualtiesResults(
     multipliers: List<Double>,
     onBack: () -> Unit
 ) {
-    val total = multipliers.fold(1.0) { acc, m -> acc * m }
+    val total = geometricMeanMultiplier(multipliers)
     val isPerfect = multipliers.isNotEmpty() && multipliers.all { it == 1.0 }
-    val (rank, totalPlayers, finalDistribution) = rememberLiveRank(PROGRESS_KEY, GameKeys.CASUALTIES_MULTIPLIER, total, isPerfect, higherIsBetter = false)
+    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(PROGRESS_KEY, GameKeys.CASUALTIES_MULTIPLIER, total, isPerfect, higherIsBetter = false)
     var guessDistByBattleId by remember { mutableStateOf<Map<String, List<Long>>>(emptyMap()) }
 
     LaunchedEffect(Unit) {
@@ -342,20 +346,16 @@ private fun CasualtiesResults(
             gameKey = PROGRESS_KEY,
             scoreText = "x" + formatFixed(total, 2),
             isPerfect = isPerfect,
-            rankingText = rankingText(rank, totalPlayers),
-            accentColor = MaterialTheme.colorScheme.primary
+            rank = rank,
+            totalPlayers = totalPlayers,
+            topPercent = topPercent,
+            accentColor = MaterialTheme.colorScheme.primary,
+            subtitle = StringsGamesYearguessCasualties.casualties_final_multiplier_caption,
+            distribution = finalDistribution.map { multiplierPos(it) },
+            yourPosition = multiplierPos(total),
+            distributionMinLabel = "x1.00",
+            distributionMaxLabel = "x" + formatFixed(multiplierMax, 2)
         )
-        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text(StringsGamesYearguessCasualties.casualties_final_multiplier_caption, style = MaterialTheme.typography.bodyMedium)
-            GuessDistributionAxis(
-                distribution = finalDistribution.map { multiplierPos(it) },
-                correctPosition = null,
-                guessPosition = multiplierPos(total),
-                accentColor = MaterialTheme.colorScheme.primary,
-                correctLabel = null,
-                guessLabel = StringsGamesYearguessCasualties.casualties_you_label("x" + formatFixed(total, 2))
-            )
-        }
         HorizontalDivider()
         battles.forEachIndexed { i, battle ->
             val guessDist = guessDistByBattleId[battle.id] ?: emptyList()
@@ -366,7 +366,7 @@ private fun CasualtiesResults(
                         Text(
                             StringsGamesYearguessCasualties.casualties_hint_prefix(it),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                            color = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.7f)
                         )
                     }
                     CasualtiesResult(

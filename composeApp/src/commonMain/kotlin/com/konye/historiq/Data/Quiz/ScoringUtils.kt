@@ -48,13 +48,28 @@ fun casualtyMultiplier(guess: Long, correctCasualties: Long): Double {
 }
 
 /**
- * Hue, saturation and brightness are weighted equally — an earlier version made hue ~80% of the
- * penalty on its own, which meant a guess that happened to land near the right hue could still
- * score 8-9/10 even with saturation/brightness wildly off (e.g. dragging brightness to near zero,
- * making the swatch read as black instead of the target color, barely moved the score at all
- * because hue alone had already "paid for" most of the 10 points). Each of the three axes now
- * contributes exactly 1/3 of the distance, so a guess that's badly wrong on any one of them — not
- * just hue — is punished the same amount.
+ * A round's final multiplier is the *geometric* mean of its per-question multipliers, not an
+ * arithmetic average or their raw product — the product alone compounds with question count
+ * (five so-so 1.2x guesses would multiply out to ~2.49x, not stay near 1.2x), and an arithmetic
+ * average would let one bad question be diluted by good ones the way an averaged colorMatchScore
+ * used to. The Nth root undoes exactly that compounding: every question pulls equal weight
+ * regardless of how many there are.
+ */
+fun geometricMeanMultiplier(multipliers: List<Double>): Double {
+    if (multipliers.isEmpty()) return 1.0
+    val product = multipliers.fold(1.0) { acc, m -> acc * m }
+    return product.pow(1.0 / multipliers.size).roundTo2()
+}
+
+/**
+ * Each axis's accuracy (1.0 = exact, 0.0 = maximally wrong) is *multiplied* together rather than
+ * averaged. An earlier averaged version let a guess "pay for" a badly-wrong axis with a good one —
+ * e.g. nailing hue but dragging brightness to near zero (the swatch reading as black instead of the
+ * target color) still landed 8-9/10, since hue's near-zero distance dragged the 3-way average down
+ * with it. Multiplying instead means every axis has to actually be close for the product to stay
+ * high: three so-so guesses (e.g. 0.7/0.88/0.65 accuracy) compound to a ~40%-of-max score, not the
+ * ~77% a plain average would give, and a maximally-wrong axis (accuracy 0) always floors the whole
+ * question at the minimum regardless of the other two.
  */
 fun colorMatchScore(
     guessHue: Int,
@@ -68,8 +83,12 @@ fun colorMatchScore(
     val satDiff = abs(guessSaturation - correctSaturation) / 100.0
     val brightDiff = abs(guessBrightness - correctBrightness) / 100.0
 
-    val distance = (hueDiff + satDiff + brightDiff) / 3.0
-    return (10.0 - distance * 9.0).coerceIn(1.0, 10.0).roundTo2()
+    val hueAccuracy = 1.0 - hueDiff
+    val satAccuracy = 1.0 - satDiff
+    val brightAccuracy = 1.0 - brightDiff
+
+    val overallAccuracy = hueAccuracy * satAccuracy * brightAccuracy
+    return (1.0 + overallAccuracy * 9.0).coerceIn(1.0, 10.0).roundTo2()
 }
 
 /** Great-circle distance between two lat/lng points, in kilometers. */

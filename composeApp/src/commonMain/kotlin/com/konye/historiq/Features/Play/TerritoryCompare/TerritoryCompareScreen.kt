@@ -15,7 +15,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -38,20 +37,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Ads.AdGatedResults
 import com.konye.historiq.Core.Formatting.formatWithCommas
+import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
+import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
+import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyQuizRepository
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.TerritoryCountry
+import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.loadTerritories
 import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
-import com.konye.historiq.Features.Play.Shared.rankingText
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
 import kotlinx.serialization.Serializable
@@ -261,7 +263,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
             val c = champion
             val ch = challenger
             when {
-                c == null || ch == null -> CircularProgressIndicator()
+                c == null || ch == null -> HistoriqLoadingIndicator()
                 showResults && resumedAlreadyDone -> TerritoryResults(
                     won = won,
                     history = history,
@@ -295,7 +297,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
                         correct = isCorrect
                         revealed = true
                         history.add(HistoryEntry(c.id, ch.id, isChampion, isCorrect))
-                        if (isCorrect) Haptics.correct() else Haptics.wrong()
+                        if (isCorrect) { Haptics.correct(); BubbleSoundPlayer.playCorrectChirp() } else { Haptics.wrong(); BubbleSoundPlayer.playWrongTone() }
 
                         if (!isCorrect) {
                             won = false
@@ -444,7 +446,8 @@ private fun TerritoryResults(
     onBack: () -> Unit
 ) {
     val score = history.count { it.correct }
-    val (rank, totalPlayers) = rememberLiveRank(PROGRESS_KEY, GameKeys.TERRITORY_COMPARE, score.toDouble(), score == ROUNDS_TO_WIN)
+    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(PROGRESS_KEY, GameKeys.TERRITORY_COMPARE, score.toDouble(), score == ROUNDS_TO_WIN)
+    fun scorePos(v: Double): Float = (v / ROUNDS_TO_WIN.toDouble()).toFloat().coerceIn(0f, 1f)
     val unplayedMatchups = remember(won, lastChallenger, remainingQueue) {
         if (won) emptyList() else buildUnplayedRounds(lastChallenger, remainingQueue, history.size + 1, ROUNDS_TO_WIN)
     }
@@ -461,9 +464,16 @@ private fun TerritoryResults(
             gameKey = PROGRESS_KEY,
             scoreText = "$score",
             isPerfect = score == ROUNDS_TO_WIN,
-            rankingText = rankingText(rank, totalPlayers),
+            rank = rank,
+            totalPlayers = totalPlayers,
+            topPercent = topPercent,
             accentColor = MaterialTheme.colorScheme.primary,
-            subtitle = if (won) StringsGamesFlagTerritoryBlindmap.territory_survived_all(ROUNDS_TO_WIN) else StringsGamesFlagTerritoryBlindmap.territory_made_it_to_round(history.size)
+            maxScoreText = StringsHomeShared.results_of_points_max(formatThousands(ROUNDS_TO_WIN.toLong())),
+            subtitle = if (won) StringsGamesFlagTerritoryBlindmap.territory_survived_all(ROUNDS_TO_WIN) else StringsGamesFlagTerritoryBlindmap.territory_made_it_to_round(history.size),
+            distribution = finalDistribution.map { scorePos(it) },
+            yourPosition = scorePos(score.toDouble()),
+            distributionMinLabel = "0",
+            distributionMaxLabel = formatThousands(ROUNDS_TO_WIN.toLong())
         )
         HorizontalDivider()
         history.forEachIndexed { i, h ->

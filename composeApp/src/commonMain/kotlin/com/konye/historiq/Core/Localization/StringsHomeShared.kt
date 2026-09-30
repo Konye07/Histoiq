@@ -138,6 +138,33 @@ object StringsHomeShared {
             AppLanguage.IT -> "Chiudi"
         }
 
+    val suggestion_panel_title: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Got a suggestion?"
+            AppLanguage.ES -> "¿Tienes alguna sugerencia?"
+            AppLanguage.FR -> "Une suggestion ?"
+            AppLanguage.DE -> "Hast du einen Vorschlag?"
+            AppLanguage.IT -> "Hai un suggerimento?"
+        }
+
+    val suggestion_panel_info_body: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Suggest new game modes, or share any feedback about your experience with the current games."
+            AppLanguage.ES -> "Sugiere nuevos modos de juego o comparte cualquier comentario sobre tu experiencia con los juegos actuales."
+            AppLanguage.FR -> "Suggère de nouveaux modes de jeu ou partage tes retours sur ton expérience avec les jeux actuels."
+            AppLanguage.DE -> "Schlage neue Spielmodi vor oder teile dein Feedback zu deiner Erfahrung mit den aktuellen Spielen."
+            AppLanguage.IT -> "Suggerisci nuove modalità di gioco o condividi un feedback sulla tua esperienza con i giochi attuali."
+        }
+
+    val suggestion_panel_content_desc: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "About suggestions"
+            AppLanguage.ES -> "Acerca de las sugerencias"
+            AppLanguage.FR -> "À propos des suggestions"
+            AppLanguage.DE -> "Über Vorschläge"
+            AppLanguage.IT -> "Informazioni sui suggerimenti"
+        }
+
     @Composable
     fun home_countdown(arg1: Any): String {
         val template = when (LocalAppLanguage.current) {
@@ -159,16 +186,49 @@ object StringsHomeShared {
             AppLanguage.IT -> "Punteggio Finale"
         }
 
-    @Composable
-    fun results_rank_of_today(arg1: Any, arg2: Any): String {
-        val template = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Rank %1\$s of %2\$s today"
-            AppLanguage.ES -> "Puesto %1\$s de %2\$s hoy"
-            AppLanguage.FR -> "%1\$se sur %2\$s aujourd'hui"
-            AppLanguage.DE -> "Platz %1\$s von %2\$s heute"
-            AppLanguage.IT -> "%1\$s° su %2\$s oggi"
+    val results_rank_label: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Rank"
+            AppLanguage.ES -> "Puesto"
+            AppLanguage.FR -> "Classement"
+            AppLanguage.DE -> "Platz"
+            AppLanguage.IT -> "Posizione"
         }
-        return formatTemplate(template, arg1, arg2)
+
+    @Composable
+    fun results_of_points_max(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "of %1\$s points"
+            AppLanguage.ES -> "de %1\$s puntos"
+            AppLanguage.FR -> "sur %1\$s points"
+            AppLanguage.DE -> "von %1\$s Punkten"
+            AppLanguage.IT -> "su %1\$s punti"
+        }
+        return formatTemplate(template, arg1)
+    }
+
+    @Composable
+    fun results_of_players_total(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "of %1\$s players"
+            AppLanguage.ES -> "de %1\$s jugadores"
+            AppLanguage.FR -> "sur %1\$s joueurs"
+            AppLanguage.DE -> "von %1\$s Spielern"
+            AppLanguage.IT -> "su %1\$s giocatori"
+        }
+        return formatTemplate(template, arg1)
+    }
+
+    @Composable
+    fun results_better_than_percent(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Better than %1\$s%"
+            AppLanguage.ES -> "Mejor que el %1\$s%"
+            AppLanguage.FR -> "Meilleur que %1\$s%"
+            AppLanguage.DE -> "Besser als %1\$s%"
+            AppLanguage.IT -> "Meglio del %1\$s%"
+        }
+        return formatTemplate(template, arg1)
     }
 
     val results_share: String

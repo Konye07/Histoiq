@@ -17,11 +17,16 @@ import kotlin.math.roundToInt
 private var activePlayer: AVAudioPlayer? = null
 
 actual object BubbleSoundPlayer {
-    actual fun playBubbleRise() {
+    actual fun playBubbleRise() = play(::buildBubbleRiseWaveform)
+    actual fun playCorrectChirp() = play(::buildCorrectChirpWaveform)
+    actual fun playWrongTone() = play(::buildWrongToneWaveform)
+    actual fun playSubmitTap() = play(::buildSubmitTapWaveform)
+
+    private fun play(buildWaveform: () -> FloatArray) {
         if (!SettingsStore.hapticsEnabled()) return
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                playWav(buildWavBytes(buildBubbleRiseWaveform()))
+                playWav(buildWavBytes(buildWaveform()))
             } catch (_: Exception) {
                 // Best-effort feedback only; never crash the results screen over a sound effect.
             }

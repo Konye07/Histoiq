@@ -1,5 +1,6 @@
 package com.konye.historiq.Features.Play
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,6 +26,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -39,11 +42,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Feedback.RateAppPrompt
 import com.konye.historiq.Core.Formatting.formatTwoDigits
@@ -51,8 +57,14 @@ import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Localization.StringsRateApp
 import com.konye.historiq.Core.Localization.todayDisplay
+import com.konye.historiq.Core.Platform.HISTORIQ_CONTACT_EMAIL
+import com.konye.historiq.Core.Platform.openEmailComposer
 import com.konye.historiq.Core.Platform.openUrl
-import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.APP_LOGO_SHARED_KEY
+import com.konye.historiq.Core.Theme.AppLogoImage
+import com.konye.historiq.Core.Theme.LocalSharedTransitionScope
+import com.konye.historiq.Core.Theme.contrastingOn
+import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.GameStreak
@@ -76,6 +88,7 @@ private data class QuizMode(
     val onClick: () -> Unit = {}
 )
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun PlayScreen(
     onSelectYearGuess: () -> Unit = {},
@@ -172,7 +185,7 @@ fun PlayScreen(
         showRateDialog = RateAppPrompt.shouldShow()
     }
 
-    Column(Modifier.fillMaxWidth()) {
+    Column(Modifier.fillMaxSize()) {
         Row(
             Modifier
                 .fillMaxWidth()
@@ -180,7 +193,20 @@ fun PlayScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(StringsHomeShared.home_title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                val sharedScope = LocalSharedTransitionScope.current
+                val logoModifier = Modifier.size(36.dp).let { base ->
+                    if (sharedScope == null) base else with(sharedScope) {
+                        base.sharedElementWithCallerManagedVisibility(
+                            rememberSharedContentState(key = APP_LOGO_SHARED_KEY),
+                            visible = true,
+                            clipInOverlayDuringTransition = OverlayClip(RectangleShape)
+                        )
+                    }
+                }
+                AppLogoImage(modifier = logoModifier)
+                Text(StringsHomeShared.home_title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            }
             NextQuizCountdown()
         }
 
@@ -189,6 +215,7 @@ fun PlayScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(modes) { mode -> QuizModeCard(mode, logos[mode.logoAsset], torch, streaks[mode.key]) }
+            item { SuggestionPanel() }
         }
     }
 
@@ -223,11 +250,63 @@ fun PlayScreen(
     }
 }
 
+/** A slim footer, not a game card — tapping it opens an email to Historiq's own inbox, pre-addressed. */
+@Composable
+private fun SuggestionPanel() {
+    var showInfo by remember { mutableStateOf(false) }
+    val containerColor = MaterialTheme.colorScheme.surfaceVariant
+    val textColor = contrastingOn(containerColor)
+
+    Surface(color = containerColor) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .clickable { openEmailComposer(HISTORIQ_CONTACT_EMAIL) }
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text(
+                    StringsHomeShared.suggestion_panel_title,
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = textColor
+                )
+                Text(
+                    HISTORIQ_CONTACT_EMAIL,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = textColor.dimmedOn(containerColor, 0.85f),
+                    textDecoration = TextDecoration.Underline
+                )
+            }
+            IconButton(onClick = { showInfo = true }) {
+                Icon(
+                    painterResource(Res.drawable.ic_info),
+                    contentDescription = StringsHomeShared.suggestion_panel_content_desc,
+                    tint = textColor
+                )
+            }
+        }
+    }
+
+    if (showInfo) {
+        AlertDialog(
+            onDismissRequest = { showInfo = false },
+            title = { Text(StringsHomeShared.suggestion_panel_title) },
+            text = { Text(StringsHomeShared.suggestion_panel_info_body) },
+            confirmButton = {
+                TextButton(onClick = { showInfo = false }) { Text(StringsHomeShared.home_close) }
+            }
+        )
+    }
+}
+
 @Composable
 private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?, streak: GameStreak?) {
     var showInfo by remember { mutableStateOf(false) }
     var showStreakInfo by remember { mutableStateOf(false) }
-    val textColor = AppColors.Cream
+    val textColor = contrastingOn(mode.color)
 
     Card(
         modifier = Modifier
@@ -245,7 +324,7 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?
                 StreakBadge(
                     streak = streak,
                     torch = torch,
-                    textColor = textColor,
+                    textColor = contrastingOn(StreakBadgeScrim.compositeOver(mode.color)),
                     onClick = { showStreakInfo = true },
                     modifier = Modifier.align(Alignment.TopStart)
                 )
@@ -282,7 +361,7 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?
                 Text(
                     mode.title,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = textColor.copy(alpha = 0.85f),
+                    color = textColor.dimmedOn(mode.color, 0.85f),
                     textAlign = TextAlign.Center
                 )
                 if (!mode.enabled) {
@@ -329,6 +408,8 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?
     }
 }
 
+private val StreakBadgeScrim = Color.Black.copy(alpha = 0.28f)
+
 /**
  * Lit (original colors) once today's entry for this game is in, grayed out otherwise — the streak
  * count itself keeps showing the still-alive-but-at-risk value from yesterday either way, same as
@@ -347,7 +428,7 @@ private fun StreakBadge(
         modifier = modifier
             .padding(8.dp)
             .clip(RoundedCornerShape(50))
-            .background(Color.Black.copy(alpha = 0.28f))
+            .background(StreakBadgeScrim)
             .clickable(onClick = onClick)
             .padding(horizontal = 12.dp, vertical = 7.dp)
             .semantics {

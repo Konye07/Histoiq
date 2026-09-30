@@ -4,7 +4,8 @@ import kotlinx.coroutines.delay
 
 enum class AuthProviderType(val id: String, val label: String) {
     GOOGLE("google", "Google"),
-    APPLE("apple", "Apple")
+    APPLE("apple", "Apple"),
+    FACEBOOK("facebook", "Facebook")
 }
 
 data class AuthResult(
@@ -34,6 +35,11 @@ suspend fun mockSignIn(provider: AuthProviderType): AuthResult {
             providerUserId = "mock-apple-user-1",
             email = "player@icloud.com",
             displayName = "Apple Player"
+        )
+        AuthProviderType.FACEBOOK -> AuthResult(
+            providerUserId = "mock-facebook-user-1",
+            email = "player@facebook.com",
+            displayName = "Facebook Player"
         )
     }
 }

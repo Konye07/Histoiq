@@ -1,5 +1,12 @@
 package com.konye.historiq.Features.Play.FlagColorMatch
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,7 +29,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -55,10 +61,14 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Ads.AdGatedResults
+import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Formatting.formatFixed
+import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
+import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
+import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyQuizRepository
@@ -70,6 +80,7 @@ import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.buildFlagColorAnalysis
 import com.konye.historiq.Data.Quiz.colorMatchScore
 import com.konye.historiq.Data.Quiz.findFlagColorCandidates
+import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.getDoubleList
 import com.konye.historiq.Data.Quiz.getIntList
 import com.konye.historiq.Data.Quiz.getStringList
@@ -77,7 +88,6 @@ import com.konye.historiq.Data.Quiz.loadFlagColors
 import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
-import com.konye.historiq.Features.Play.Shared.rankingText
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
 import kotlinx.coroutines.Dispatchers
@@ -205,7 +215,7 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
         ) {
             GameBackgroundArt("images/backgrounds/bg_flag_color_match.png", MaterialTheme.colorScheme.onBackground)
             when {
-                flags.isEmpty() || analysisByFlagId.size < flags.size -> CircularProgressIndicator()
+                flags.isEmpty() || analysisByFlagId.size < flags.size -> HistoriqLoadingIndicator()
                 questionIndex >= flags.size -> {
                     if (resumedAlreadyDone) {
                         FlagColorResults(
@@ -242,16 +252,16 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
                             guessHues.add(h)
                             guessSaturations.add(s)
                             guessBrightnesses.add(b)
-                            scores.add(
-                                colorMatchScore(
-                                    guessHue = h,
-                                    guessSaturation = s,
-                                    guessBrightness = b,
-                                    correctHue = analysis.targetHue,
-                                    correctSaturation = analysis.targetSaturation,
-                                    correctBrightness = analysis.targetBrightness
-                                )
+                            val score = colorMatchScore(
+                                guessHue = h,
+                                guessSaturation = s,
+                                guessBrightness = b,
+                                correctHue = analysis.targetHue,
+                                correctSaturation = analysis.targetSaturation,
+                                correctBrightness = analysis.targetBrightness
                             )
+                            scores.add(score)
+                            if (score >= 6.0) { Haptics.correct(); BubbleSoundPlayer.playCorrectChirp() } else { Haptics.wrong(); BubbleSoundPlayer.playWrongTone() }
                             revealed = true
                         },
                         onNext = {
@@ -383,19 +393,29 @@ private fun FlagColorQuestion(
             onValueChange = { onBrightnessChange(it * 100f) }
         )
 
-        if (!revealed) {
-            Button(onClick = onSubmit) { Text(StringsGamesFlagTerritoryBlindmap.flag_lock_color) }
-        } else {
-            Text(
-                StringsGamesFlagTerritoryBlindmap.flag_target_values(analysis.targetHue, analysis.targetSaturation, analysis.targetBrightness),
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                StringsGamesFlagTerritoryBlindmap.flag_score_points(formatFixed(lastScore ?: 0.0, 2)),
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Button(onClick = onNext) {
-                Text(if (questionNumber == totalQuestions) StringsGamesFlagTerritoryBlindmap.flag_see_results else StringsGamesFlagTerritoryBlindmap.flag_next_question)
+        AnimatedContent(
+            targetState = revealed,
+            transitionSpec = { (fadeIn(tween(250)) + scaleIn(tween(250), initialScale = 0.96f)) togetherWith fadeOut(tween(120)) }
+        ) { isRevealed ->
+            if (!isRevealed) {
+                Button(onClick = onSubmit) { Text(StringsGamesFlagTerritoryBlindmap.flag_lock_color) }
+            } else {
+                val score = lastScore ?: 0.0
+                val resultColor by animateColorAsState(if (score >= 6.0) AppColors.Success else MaterialTheme.colorScheme.error)
+                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(
+                        StringsGamesFlagTerritoryBlindmap.flag_target_values(analysis.targetHue, analysis.targetSaturation, analysis.targetBrightness),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        StringsGamesFlagTerritoryBlindmap.flag_score_points(formatFixed(score, 2)),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = resultColor
+                    )
+                    Button(onClick = onNext) {
+                        Text(if (questionNumber == totalQuestions) StringsGamesFlagTerritoryBlindmap.flag_see_results else StringsGamesFlagTerritoryBlindmap.flag_next_question)
+                    }
+                }
             }
         }
     }
@@ -506,7 +526,9 @@ private fun FlagColorResults(
 ) {
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 10.0 }
-    val (rank, totalPlayers) = rememberLiveRank(PROGRESS_KEY, GameKeys.FLAG_COLOR_MATCH, total, isPerfect)
+    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(PROGRESS_KEY, GameKeys.FLAG_COLOR_MATCH, total, isPerfect)
+    val maxPossible = scores.size * 10.0
+    fun scorePos(v: Double): Float = (v / maxPossible).toFloat().coerceIn(0f, 1f)
 
     Column(
         Modifier
@@ -520,8 +542,15 @@ private fun FlagColorResults(
             gameKey = PROGRESS_KEY,
             scoreText = formatFixed(total, 2),
             isPerfect = isPerfect,
-            rankingText = rankingText(rank, totalPlayers),
-            accentColor = MaterialTheme.colorScheme.primary
+            rank = rank,
+            totalPlayers = totalPlayers,
+            topPercent = topPercent,
+            accentColor = MaterialTheme.colorScheme.primary,
+            maxScoreText = StringsHomeShared.results_of_points_max(formatThousands(maxPossible.toLong())),
+            distribution = finalDistribution.map { scorePos(it) },
+            yourPosition = scorePos(total),
+            distributionMinLabel = "0",
+            distributionMaxLabel = formatThousands(maxPossible.toLong())
         )
         HorizontalDivider()
         flags.forEachIndexed { i, flag ->

@@ -2,7 +2,6 @@ package com.konye.historiq.Core.Ads
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -11,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Data.Settings.SettingsStore
 
 /**
@@ -36,7 +36,7 @@ fun AdGatedResults(results: @Composable () -> Unit) {
         results()
     } else {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
+            HistoriqLoadingIndicator()
         }
     }
 }

@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Localization.StringsSocial
+import com.konye.historiq.Core.Theme.MascotEmptyState
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.GameStats
@@ -65,11 +66,7 @@ fun ProfileScreen() {
         Text(StringsSocial.profile_statistics, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
 
         if (account == null) {
-            Text(
-                StringsSocial.profile_guest_notice,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.outline
-            )
+            MascotEmptyState(StringsSocial.profile_guest_notice, modifier = Modifier.padding(vertical = 16.dp))
         } else {
             GameKeys.ALL.forEach { key ->
                 val stats = statsByGame[key] ?: GameStats(0, 0.0, 0)

@@ -14,8 +14,6 @@ import com.konye.historiq.Data.Remote.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.Google
 import io.github.jan.supabase.auth.providers.builtin.IDToken
-import java.security.MessageDigest
-import java.security.SecureRandom
 
 private const val TAG = "HistoriqAuth"
 
@@ -83,14 +81,4 @@ actual suspend fun signInWithGoogle(): GoogleAuthOutcome {
             avatarUrl = credential.profilePictureUri?.toString()
         )
     )
-}
-
-private fun generateNonce(): Pair<String, String> {
-    val rawBytes = ByteArray(32)
-    SecureRandom().nextBytes(rawBytes)
-    val rawNonce = rawBytes.joinToString("") { "%02x".format(it) }
-    val hashedNonce = MessageDigest.getInstance("SHA-256")
-        .digest(rawNonce.toByteArray())
-        .joinToString("") { "%02x".format(it) }
-    return rawNonce to hashedNonce
 }

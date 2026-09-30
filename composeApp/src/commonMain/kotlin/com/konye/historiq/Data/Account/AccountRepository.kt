@@ -1,8 +1,10 @@
 package com.konye.historiq.Data.Account
 
 import com.konye.historiq.Core.Auth.AppleAuthOutcome
+import com.konye.historiq.Core.Auth.FacebookAuthOutcome
 import com.konye.historiq.Core.Auth.GoogleAuthOutcome
 import com.konye.historiq.Core.Auth.signInWithApple
+import com.konye.historiq.Core.Auth.signInWithFacebook
 import com.konye.historiq.Core.Auth.signInWithGoogle
 import com.konye.historiq.Data.Remote.SupabaseClient
 import io.github.jan.supabase.auth.auth
@@ -123,6 +125,31 @@ object AccountRepository {
             "No session after Apple sign-in"
         }
         val account = fetchProfile(currentUid) ?: insertProfileWithRetry(currentUid, AuthProviderType.APPLE, result)
+        cached = account
+        runCatching { logDeviceEvent("sign_in") }
+        account
+    }
+
+    /** Real "Continue with Facebook" — mirrors [continueWithGoogle], see there for the stale-session-after-fallback caveat and [sessionMutex]. */
+    suspend fun continueWithFacebook(): UserAccount? = sessionMutex.withLock {
+        val uid = ensureAnonymousSessionLocked()
+        val existing = fetchProfile(uid)
+        if (existing != null) {
+            cached = existing
+            runCatching { logDeviceEvent("sign_in") }
+            return@withLock existing
+        }
+
+        val result = when (val outcome = signInWithFacebook()) {
+            is FacebookAuthOutcome.SignedIn -> outcome.result
+            FacebookAuthOutcome.NotImplementedOnThisPlatform -> mockSignIn(AuthProviderType.FACEBOOK)
+            FacebookAuthOutcome.CancelledOrFailed -> return@withLock null
+        }
+
+        val currentUid = requireNotNull(SupabaseClient.client.auth.currentUserOrNull()?.id) {
+            "No session after Facebook sign-in"
+        }
+        val account = fetchProfile(currentUid) ?: insertProfileWithRetry(currentUid, AuthProviderType.FACEBOOK, result)
         cached = account
         runCatching { logDeviceEvent("sign_in") }
         account

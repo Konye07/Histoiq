@@ -1,5 +1,12 @@
 package com.konye.historiq.Features.Play.TrueFalse
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -31,21 +37,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Ads.AdGatedResults
+import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsGamesTruefalse
+import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
+import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.TrueFalseStatement
+import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.getBooleanList
 import com.konye.historiq.Data.Quiz.loadTrueFalseStatements
 import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Data.Settings.SettingsStore
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
-import com.konye.historiq.Features.Play.Shared.rankingText
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
 import kotlinx.serialization.json.JsonArray
@@ -110,7 +119,7 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
         ) {
             GameBackgroundArt("images/backgrounds/bg_true_false.png", MaterialTheme.colorScheme.onBackground)
             when {
-                statements.isEmpty() -> CircularProgressIndicator()
+                statements.isEmpty() -> HistoriqLoadingIndicator()
                 showResults && resumedAlreadyDone -> TrueFalseResults(statements, answers, failed, onBack)
                 showResults -> AdGatedResults { TrueFalseResults(statements, answers, failed, onBack) }
                 else -> {
@@ -125,7 +134,7 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
                             pickedTrue = answerTrue
                             val isCorrect = answerTrue == current.correctAnswer
                             correct = isCorrect
-                            if (isCorrect) Haptics.correct() else Haptics.wrong()
+                            if (isCorrect) { Haptics.correct(); BubbleSoundPlayer.playCorrectChirp() } else { Haptics.wrong(); BubbleSoundPlayer.playWrongTone() }
                             answers.add(answerTrue)
                             if (!isCorrect) failed = true
                             revealed = true
@@ -174,22 +183,31 @@ private fun TrueFalseQuestion(
         Text(StringsGamesTruefalse.tf_round_counter(round, ROUNDS_TO_WIN), style = MaterialTheme.typography.labelLarge)
         Text(statement.localized(language), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
 
-        if (!revealed) {
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Button(onClick = { onAnswer(true) }) { Text(StringsGamesTruefalse.tf_true_button) }
-                Button(onClick = { onAnswer(false) }) { Text(StringsGamesTruefalse.tf_false_button) }
-            }
-        } else {
-            Text(
-                if (correct) StringsGamesTruefalse.tf_correct else StringsGamesTruefalse.tf_wrong_game_over,
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Text(
-                StringsGamesTruefalse.tf_statement_is(if (statement.correctAnswer) trueCaps else falseCaps),
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Button(onClick = onContinue) {
-                Text(if (!correct || round == ROUNDS_TO_WIN) StringsGamesTruefalse.tf_see_results else StringsGamesTruefalse.tf_next_statement)
+        AnimatedContent(
+            targetState = revealed,
+            transitionSpec = { (fadeIn(tween(250)) + scaleIn(tween(250), initialScale = 0.96f)) togetherWith fadeOut(tween(120)) }
+        ) { isRevealed ->
+            if (!isRevealed) {
+                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    Button(onClick = { onAnswer(true) }) { Text(StringsGamesTruefalse.tf_true_button) }
+                    Button(onClick = { onAnswer(false) }) { Text(StringsGamesTruefalse.tf_false_button) }
+                }
+            } else {
+                val resultColor by animateColorAsState(if (correct) AppColors.Success else MaterialTheme.colorScheme.error)
+                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    Text(
+                        if (correct) StringsGamesTruefalse.tf_correct else StringsGamesTruefalse.tf_wrong_game_over,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = resultColor
+                    )
+                    Text(
+                        StringsGamesTruefalse.tf_statement_is(if (statement.correctAnswer) trueCaps else falseCaps),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Button(onClick = onContinue) {
+                        Text(if (!correct || round == ROUNDS_TO_WIN) StringsGamesTruefalse.tf_see_results else StringsGamesTruefalse.tf_next_statement)
+                    }
+                }
             }
         }
     }
@@ -207,7 +225,8 @@ private fun TrueFalseResults(
     val language = SettingsStore.language()
     val trueCaps = StringsGamesTruefalse.tf_true_caps
     val falseCaps = StringsGamesTruefalse.tf_false_caps
-    val (rank, totalPlayers) = rememberLiveRank(PROGRESS_KEY, GameKeys.TRUE_FALSE, score.toDouble(), score == ROUNDS_TO_WIN)
+    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(PROGRESS_KEY, GameKeys.TRUE_FALSE, score.toDouble(), score == ROUNDS_TO_WIN)
+    fun scorePos(v: Double): Float = (v / ROUNDS_TO_WIN.toDouble()).toFloat().coerceIn(0f, 1f)
 
     Column(
         Modifier
@@ -221,9 +240,16 @@ private fun TrueFalseResults(
             gameKey = PROGRESS_KEY,
             scoreText = "$score",
             isPerfect = score == ROUNDS_TO_WIN,
-            rankingText = rankingText(rank, totalPlayers),
+            rank = rank,
+            totalPlayers = totalPlayers,
+            topPercent = topPercent,
             accentColor = MaterialTheme.colorScheme.primary,
-            subtitle = if (won) StringsGamesTruefalse.tf_survived_all(ROUNDS_TO_WIN) else StringsGamesTruefalse.tf_made_it_to(answers.size)
+            maxScoreText = StringsHomeShared.results_of_points_max(formatThousands(ROUNDS_TO_WIN.toLong())),
+            subtitle = if (won) StringsGamesTruefalse.tf_survived_all(ROUNDS_TO_WIN) else StringsGamesTruefalse.tf_made_it_to(answers.size),
+            distribution = finalDistribution.map { scorePos(it) },
+            yourPosition = scorePos(score.toDouble()),
+            distributionMinLabel = "0",
+            distributionMaxLabel = formatThousands(ROUNDS_TO_WIN.toLong())
         )
         HorizontalDivider()
         answers.forEachIndexed { i, answer ->

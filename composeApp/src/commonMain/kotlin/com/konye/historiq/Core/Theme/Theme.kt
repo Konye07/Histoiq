@@ -6,6 +6,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.luminance
 
@@ -29,17 +30,62 @@ object AppColors {
 fun Color.lighten(amount: Float): Color = lerp(this, Color.White, amount)
 fun Color.darken(amount: Float): Color = lerp(this, Color.Black, amount)
 
-/** Cream on a dark color, espresso-dark on a light one — always legible either way. */
-fun contrastingOn(color: Color): Color = if (color.luminance() < 0.5f) AppColors.Cream else AppColors.EspressoDark
+/** WCAG AA minimum for normal-size text. */
+const val MIN_TEXT_CONTRAST = 4.5f
+
+/** WCAG contrast ratio between two opaque colors: 1 (identical) to 21 (black on white). */
+fun contrastRatio(a: Color, b: Color): Float {
+    val la = a.luminance() + 0.05f
+    val lb = b.luminance() + 0.05f
+    return if (la > lb) la / lb else lb / la
+}
+
+/**
+ * Cream or espresso-dark, whichever actually contrasts more against [color]. Compared by contrast
+ * ratio rather than a luminance threshold: mid-tones like SlateBlue or Tan sit below 0.5 luminance
+ * yet read far better with espresso text than with cream.
+ */
+fun contrastingOn(color: Color): Color =
+    if (contrastRatio(AppColors.Cream, color) >= contrastRatio(AppColors.EspressoDark, color)) AppColors.Cream else AppColors.EspressoDark
+
+/**
+ * This color faded to [alpha] for de-emphasis, but only as far as it still meets [MIN_TEXT_CONTRAST]
+ * over [background] — the alpha is raised just enough where a fixed value would drop below AA.
+ */
+fun Color.dimmedOn(background: Color, alpha: Float): Color {
+    var a = alpha
+    while (a < 1f && contrastRatio(copy(alpha = a).compositeOver(background), background) < MIN_TEXT_CONTRAST) a += 0.01f
+    return copy(alpha = a.coerceAtMost(1f))
+}
+
+private const val ACCENT_SHIFT = 0.32f
+private const val MIN_ACCENT_SHIFT = 0.2f
+
+/**
+ * [base] shifted [ACCENT_SHIFT] toward white (dark bases) or black (light ones), eased back toward
+ * [base] in small steps only if neither text color would reach [MIN_TEXT_CONTRAST] on the result —
+ * OliveDark's full-strength accent lands where cream and espresso both read at ~4.2:1.
+ */
+private fun readableAccent(base: Color, baseIsDark: Boolean): Color {
+    fun shifted(amount: Float) = if (baseIsDark) base.lighten(amount) else base.darken(amount)
+    var amount = ACCENT_SHIFT
+    while (amount >= MIN_ACCENT_SHIFT) {
+        val accent = shifted(amount)
+        if (contrastRatio(contrastingOn(accent), accent) >= MIN_TEXT_CONTRAST) return accent
+        amount -= 0.01f
+    }
+    return shifted(ACCENT_SHIFT)
+}
 
 /**
  * Builds a full color scheme around one game's signature color: it becomes the screen
  * background, with an accent shade (lightened if the base is dark, darkened if it's light,
  * so it always reads distinctly against the background) driving buttons, inputs and outlines.
+ * Every on-color is whichever of cream/espresso contrasts more with the color it sits on.
  */
 fun gameColorScheme(base: Color): ColorScheme {
     val baseIsDark = base.luminance() < 0.5f
-    val accent = if (baseIsDark) base.lighten(0.32f) else base.darken(0.32f)
+    val accent = readableAccent(base, baseIsDark)
     val onBase = contrastingOn(base)
     val onAccent = contrastingOn(accent)
     val variant = if (baseIsDark) base.lighten(0.15f) else base.darken(0.15f)
@@ -64,7 +110,7 @@ fun gameColorScheme(base: Color): ColorScheme {
 
 private val AppLightColors = lightColorScheme(
     primary = AppColors.Tan,
-    onPrimary = AppColors.Cream,
+    onPrimary = contrastingOn(AppColors.Tan),
     primaryContainer = AppColors.Tan.lighten(0.35f),
     onPrimaryContainer = AppColors.EspressoDark,
     secondary = AppColors.Mauve,

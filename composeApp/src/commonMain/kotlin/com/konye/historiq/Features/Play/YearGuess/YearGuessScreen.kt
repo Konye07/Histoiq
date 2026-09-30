@@ -1,5 +1,11 @@
 package com.konye.historiq.Features.Play.YearGuess
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,7 +21,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -43,17 +48,22 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Ads.AdGatedResults
+import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Formatting.formatFixed
+import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsGamesYearguessCasualties
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
+import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
+import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyDistribution
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.HistoricalEvent
 import com.konye.historiq.Data.Quiz.formatEraYear
+import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.getDoubleList
 import com.konye.historiq.Data.Quiz.getIntList
@@ -65,7 +75,6 @@ import com.konye.historiq.Data.Quiz.yearGuessScore
 import com.konye.historiq.Features.Play.Shared.HintAction
 import com.konye.historiq.Features.Play.Shared.QuestionResultCard
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
-import com.konye.historiq.Features.Play.Shared.rankingText
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
 import kotlin.math.abs
@@ -181,7 +190,7 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
             ) {
                 GameBackgroundArt("images/backgrounds/bg_year_guess.png", MaterialTheme.colorScheme.onBackground)
                 when {
-                    events.isEmpty() -> CircularProgressIndicator()
+                    events.isEmpty() -> HistoriqLoadingIndicator()
                     questionIndex >= events.size -> {
                         if (resumedAlreadyDone) {
                             YearGuessResults(events, guesses, scores, onBack)
@@ -207,7 +216,9 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
                                 val magnitude = guessText.toIntOrNull() ?: return@YearGuessQuestion
                                 val guess = if (isBce) -magnitude else magnitude
                                 guesses.add(guess)
-                                scores.add(yearGuessScore(guess, current.correctYear, current.difficulty))
+                                val score = yearGuessScore(guess, current.correctYear, current.difficulty)
+                                scores.add(score)
+                                if (score >= 550.0) { Haptics.correct(); BubbleSoundPlayer.playCorrectChirp() } else { Haptics.wrong(); BubbleSoundPlayer.playWrongTone() }
                                 revealed = true
                             },
                             onNext = {
@@ -278,8 +289,8 @@ private fun YearGuessQuestion(
         Text(event.event, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
         if (hintRevealed) {
             Surface(
-                color = AppColors.Cream,
-                contentColor = AppColors.SlateBlue,
+                color = MaterialTheme.colorScheme.onSurface,
+                contentColor = MaterialTheme.colorScheme.surface,
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
@@ -302,37 +313,44 @@ private fun YearGuessQuestion(
 
         EraToggle(isBce = isBce, enabled = !revealed, onIsBceChange = onEraChange)
 
-        if (!revealed) {
-            Button(onClick = onSubmit, enabled = guessText.toIntOrNull() != null) {
-                Text(StringsGamesYearguessCasualties.yearguess_submit)
-            }
-        } else {
-            var guessDist by remember(event.id) { mutableStateOf<List<Int>>(emptyList()) }
-            LaunchedEffect(event.id) {
-                guessDist = DailyDistribution.yearGuesses(GameKeys.YEAR_GUESS, DailyClock.todayKey(), event.id)
-            }
-            if (!hintRevealed) {
-                event.hint?.let {
-                    Text(
-                        StringsGamesYearguessCasualties.yearguess_hint_prefix(it),
-                        style = MaterialTheme.typography.bodySmall,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
-                    )
+        AnimatedContent(
+            targetState = revealed,
+            transitionSpec = { (fadeIn(tween(250)) + scaleIn(tween(250), initialScale = 0.96f)) togetherWith fadeOut(tween(120)) }
+        ) { isRevealed ->
+            if (!isRevealed) {
+                Button(onClick = onSubmit, enabled = guessText.toIntOrNull() != null) {
+                    Text(StringsGamesYearguessCasualties.yearguess_submit)
                 }
-            }
-            lastGuess?.let { guess ->
-                YearResult(
-                    correctYear = event.correctYear,
-                    guess = guess,
-                    score = lastScore ?: 0.0,
-                    guessDist = guessDist,
-                    accentColor = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-            Button(onClick = onNext) {
-                Text(if (questionNumber == totalQuestions) StringsGamesYearguessCasualties.yearguess_see_results else StringsGamesYearguessCasualties.yearguess_next_question)
+            } else {
+                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    var guessDist by remember(event.id) { mutableStateOf<List<Int>>(emptyList()) }
+                    LaunchedEffect(event.id) {
+                        guessDist = DailyDistribution.yearGuesses(GameKeys.YEAR_GUESS, DailyClock.todayKey(), event.id)
+                    }
+                    if (!hintRevealed) {
+                        event.hint?.let {
+                            Text(
+                                StringsGamesYearguessCasualties.yearguess_hint_prefix(it),
+                                style = MaterialTheme.typography.bodySmall,
+                                textAlign = TextAlign.Center,
+                                color = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.7f)
+                            )
+                        }
+                    }
+                    lastGuess?.let { guess ->
+                        YearResult(
+                            correctYear = event.correctYear,
+                            guess = guess,
+                            score = lastScore ?: 0.0,
+                            guessDist = guessDist,
+                            accentColor = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                    Button(onClick = onNext) {
+                        Text(if (questionNumber == totalQuestions) StringsGamesYearguessCasualties.yearguess_see_results else StringsGamesYearguessCasualties.yearguess_next_question)
+                    }
+                }
             }
         }
     }
@@ -366,8 +384,11 @@ private fun YearGuessResults(
 ) {
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 1000.0 }
-    val (rank, totalPlayers) = rememberLiveRank(PROGRESS_KEY, GameKeys.YEAR_GUESS, total, isPerfect)
+    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(PROGRESS_KEY, GameKeys.YEAR_GUESS, total, isPerfect)
     var guessDistByEventId by remember { mutableStateOf<Map<String, List<Int>>>(emptyMap()) }
+
+    val maxPossible = scores.size * 1000.0
+    fun scorePos(v: Double): Float = (v / maxPossible).toFloat().coerceIn(0f, 1f)
 
     LaunchedEffect(Unit) {
         val dateKey = DailyClock.todayKey()
@@ -386,8 +407,15 @@ private fun YearGuessResults(
             gameKey = PROGRESS_KEY,
             scoreText = formatFixed(total, 2),
             isPerfect = isPerfect,
-            rankingText = rankingText(rank, totalPlayers),
-            accentColor = MaterialTheme.colorScheme.primary
+            rank = rank,
+            totalPlayers = totalPlayers,
+            topPercent = topPercent,
+            accentColor = MaterialTheme.colorScheme.primary,
+            maxScoreText = StringsHomeShared.results_of_points_max(formatThousands(maxPossible.toLong())),
+            distribution = finalDistribution.map { scorePos(it) },
+            yourPosition = scorePos(total),
+            distributionMinLabel = "0",
+            distributionMaxLabel = formatThousands(maxPossible.toLong())
         )
         HorizontalDivider()
         events.forEachIndexed { i, event ->
@@ -399,7 +427,7 @@ private fun YearGuessResults(
                         Text(
                             StringsGamesYearguessCasualties.yearguess_hint_prefix(it),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                            color = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.7f)
                         )
                     }
                     YearResult(

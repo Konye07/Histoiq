@@ -7,4 +7,13 @@ package com.konye.historiq.Core.Audio
  */
 expect object BubbleSoundPlayer {
     fun playBubbleRise()
+
+    /** A good/correct per-question result. */
+    fun playCorrectChirp()
+
+    /** A weak/wrong per-question result. */
+    fun playWrongTone()
+
+    /** Confirms a guess was submitted, ahead of it being scored. */
+    fun playSubmitTap()
 }

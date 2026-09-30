@@ -18,10 +18,23 @@
         <activity
             android:name=".Shared.MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.App">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- "Continue with Facebook" (Core/Auth/FacebookSignIn.android.kt) OAuth-redirect
+                 callback — scheme/host must match SupabaseClient.kt's install(Auth){scheme;host},
+                 and this same deep link must be added to Supabase's Auth > URL Configuration >
+                 Redirect URLs allow-list. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="com.konye.historiq"
+                    android:host="login-callback" />
             </intent-filter>
         </activity>
         <receiver

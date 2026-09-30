@@ -39,6 +39,15 @@ object StringsAuthSettings {
             AppLanguage.IT -> "Continua con Apple"
         }
 
+    val auth_continue_with_facebook: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Continue with Facebook"
+            AppLanguage.ES -> "Continuar con Facebook"
+            AppLanguage.FR -> "Continuer avec Facebook"
+            AppLanguage.DE -> "Weiter mit Facebook"
+            AppLanguage.IT -> "Continua con Facebook"
+        }
+
     val auth_sign_in_failed: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Sign-in failed. Please try again."

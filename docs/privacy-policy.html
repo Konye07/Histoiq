@@ -180,7 +180,7 @@
   <header class="top">
     <p class="eyebrow">Privacy Policy</p>
     <h1>Historiq</h1>
-    <p class="meta">Effective September 11, 2026 · Applies to the Historiq Android app</p>
+    <p class="meta">Effective September 28, 2026 · Applies to the Historiq Android and iOS apps</p>
     <p class="lede">This page explains, in full, what the Historiq app collects, why, where it's stored, and what control you have over it — matching exactly what the app's code actually does, not a generic template.</p>
   </header>
 
@@ -191,113 +191,125 @@
       <li><a href="#account"><span class="num">2</span>Account information</a></li>
       <li><a href="#gameplay"><span class="num">3</span>Gameplay data</a></li>
       <li><a href="#friends"><span class="num">4</span>Friends</a></li>
-      <li><a href="#security"><span class="num">5</span>Security audit log</a></li>
-      <li><a href="#device"><span class="num">6</span>On-device-only settings</a></li>
-      <li><a href="#guest"><span class="num">7</span>Guest mode</a></li>
-      <li><a href="#sharing"><span class="num">8</span>Sharing &amp; third parties</a></li>
-      <li><a href="#storage"><span class="num">9</span>Where data is stored</a></li>
-      <li><a href="#choices"><span class="num">10</span>Your choices &amp; deletion</a></li>
-      <li><a href="#children"><span class="num">11</span>Children's privacy</a></li>
-      <li><a href="#changes"><span class="num">12</span>Changes to this policy</a></li>
-      <li><a href="#contact"><span class="num">13</span>Contact</a></li>
+      <li><a href="#advertising"><span class="num">5</span>Advertising</a></li>
+      <li><a href="#security"><span class="num">6</span>Security audit log</a></li>
+      <li><a href="#device"><span class="num">7</span>On-device-only settings</a></li>
+      <li><a href="#guest"><span class="num">8</span>Guest mode</a></li>
+      <li><a href="#sharing"><span class="num">9</span>Sharing &amp; third parties</a></li>
+      <li><a href="#storage"><span class="num">10</span>Where data is stored</a></li>
+      <li><a href="#choices"><span class="num">11</span>Your choices &amp; deletion</a></li>
+      <li><a href="#children"><span class="num">12</span>Children's privacy</a></li>
+      <li><a href="#changes"><span class="num">13</span>Changes to this policy</a></li>
+      <li><a href="#contact"><span class="num">14</span>Contact</a></li>
     </ol>
   </nav>
 
   <section class="entry" id="overview">
     <h2><span class="num">1.</span>Overview</h2>
-    <p>Historiq is a daily history-trivia app with six quiz modes, a friends list, and per-game stats. What data exists about you depends entirely on how you use the app:</p>
+    <p>Historiq is a daily history-trivia app with six quiz modes, a friends list, per-game stats, and ads shown after a finished game. What data exists about you depends entirely on how you use the app:</p>
     <div class="card">
-      <p><strong>Signed in</strong> (mock Google/Apple sign-in): your account, gameplay, and friends data are stored in a hosted database so your stats and friend leaderboards work the same across every device you sign into.</p>
+      <p><strong>Signed in with Google, Apple, or Facebook</strong>: your real name, email, and (for Google or Facebook) profile picture are read once at sign-in and stored, alongside your gameplay and friends data, in a hosted database — so your stats and friend leaderboards work the same across every device you sign into. Apple sign-in is only offered on iPhone/iPad.</p>
     </div>
     <div class="card good">
-      <p><strong>Continue without login (guest)</strong>: nothing about you is sent anywhere. Scores, stats, and preferences stay only in the app's local storage on your device.</p>
+      <p><strong>Continue without login (guest)</strong>: no name, email, or other identifying detail is ever read or stored. Your device still gets an anonymous session so your scores and daily progress work correctly — see the Guest mode section below for exactly what that does and doesn't include.</p>
     </div>
-    <p>Everything below states plainly which of these two modes each kind of data applies to.</p>
+    <p>Everything below states plainly which of these apply to each kind of data.</p>
   </section>
 
   <section class="entry" id="account">
     <h2><span class="num">2.</span>Account information</h2>
-    <p>If you choose "Continue with Google" or "Continue with Apple," the app creates an account with:</p>
+    <p>If you sign in with Google, Apple, or Facebook, the app creates an account with:</p>
     <ul>
       <li><code class="field">display name</code> — shown on your profile and to friends on leaderboards</li>
-      <li><code class="field">email</code> — currently a mock value, not a real address read from Google or Apple, since real OAuth isn't connected yet (see the note below)</li>
-      <li><code class="field">sign-in provider</code> — which button you tapped ("google" or "apple"), display-only</li>
+      <li><code class="field">email</code> — your real address from whichever provider you signed in with (or a private relay address, if you chose Apple's "Hide My Email" option)</li>
+      <li><code class="field">profile picture</code> — your real account photo from Google or Facebook, when available; Apple sign-in never provides one</li>
+      <li><code class="field">sign-in provider</code> — which button you tapped ("google", "apple", or "facebook"), display-only</li>
       <li><code class="field">friend code</code> — a random 9-digit code other players can use to add you as a friend</li>
-      <li>a unique, anonymous account identifier, so the app's database can tell your data apart from every other player's without needing to know who you really are</li>
+      <li>a unique account identifier tied to your device's session, so the app's database can tell your data apart from every other player's</li>
     </ul>
     <div class="card">
-      <p><strong>About "mock" sign-in:</strong> the app doesn't yet have real Google/Apple OAuth credentials configured. Tapping either button creates a real, unique account on the app's backend, but the identity behind it — your name, email — is a placeholder, not anything actually read from your Google or Apple account. No real Google or Apple account data is read, requested, or transmitted. This will be updated if real sign-in is added later.</p>
+      <p><strong>About signing in:</strong> signing in opens the provider's own account screen — Historiq never sees your Google, Apple, or Facebook password. Each provider returns a signed confirmation of your identity and (if you've shared them with that provider) your name, email, and profile picture — that's the only data Historiq ever receives. Signing in links this to your existing anonymous device session rather than replacing it, so any guest-mode progress from earlier the same day carries over instead of being lost.</p>
+    </div>
+    <div class="card">
+      <p><strong>Platform availability:</strong> Google and Facebook sign-in are available on both Android and iPhone/iPad. Apple sign-in is only offered on iPhone/iPad, per Apple's own platform conventions.</p>
     </div>
   </section>
 
   <section class="entry" id="gameplay">
     <h2><span class="num">3.</span>Gameplay data</h2>
-    <p>For a signed-in account, the app stores:</p>
+    <p>For every device — guest or signed in — the app stores:</p>
     <ul>
       <li>daily quiz progress for each of the six games (which questions you've seen, your answers so far) — so you can close the app mid-quiz and resume later</li>
       <li>your score for each game, for each day you've played it</li>
-      <li>aggregate stats per game: total games played, average score, and perfect-run count</li>
     </ul>
-    <p>This is what powers your Profile screen's stats and lets your accepted friends see your daily scores on the Friends leaderboard.</p>
+    <p>This is what makes "once per game per day" and same-day resume work reliably, and lets that day's rank ("28th of 150 players today") be real rather than simulated — even for a guest, whose entry is tied only to an anonymous device session, never a name or email. Signed-in accounts additionally get lifetime aggregate stats — total games played, average score, and perfect-run count per game — which power the Profile screen and are never collected for guests.</p>
   </section>
 
   <section class="entry" id="friends">
     <h2><span class="num">4.</span>Friends</h2>
-    <p>If you send or accept a friend request, the app stores that connection (which two accounts are connected, and whether the request is pending or accepted) so your Friends leaderboard can show their scores and theirs can show yours. Only accepted friends can see each other's daily scores — no one else can.</p>
+    <p>If you send or accept a friend request, the app stores that connection (which two accounts are connected, and whether the request is pending or accepted) so your Friends leaderboard can show their scores and theirs can show yours. Only accepted friends can see each other's daily scores — no one else can. Friends requires a signed-in account; guest mode has no friend code and no friends list.</p>
+  </section>
+
+  <section class="entry" id="advertising">
+    <h2><span class="num">5.</span>Advertising</h2>
+    <p>Historiq shows an ad after a finished game, and offers a "watch an ad for a hint" option, using Google's AdMob network.</p>
+    <p>To select and measure ads, AdMob (and Google, its ad network) processes your device's advertising ID, general technical information about your device and app, and an approximate location derived from your IP address. Historiq itself never sees or stores this — it flows directly between your device, AdMob, and Google. Ads are not targeted at children and are not shown with child-directed treatment, since Historiq is a general-audience app.</p>
+    <p>You can limit ad personalization for your Google account at any time in your device's system settings ("opt out of ads personalization") or at <span class="mono">g.co/adssettings</span>.</p>
   </section>
 
   <section class="entry" id="security">
-    <h2><span class="num">5.</span>Security audit log</h2>
+    <h2><span class="num">6.</span>Security audit log</h2>
     <p>Every sign-in is logged with its IP address, device/user-agent info, an event label (e.g. "sign_in"), and a timestamp. This log exists solely to detect abuse (e.g. one device mass-creating accounts) and is <strong>never readable by the app itself or any client</strong> — it's written by a server-side function with no read access granted to anyone, reviewed only through direct administrative access to the database when investigating a security concern.</p>
   </section>
 
   <section class="entry" id="device">
-    <h2><span class="num">6.</span>On-device-only settings</h2>
-    <p>Your language choice, whether haptic vibration is on, and whether the daily reminder notification is on are stored only in the app's local settings on your device. None of these ever leave your device, whether you're signed in or playing as a guest.</p>
+    <h2><span class="num">7.</span>On-device-only settings</h2>
+    <p>Your language choice, whether haptic vibration is on, whether dark mode is on, and whether the daily reminder notification is on are stored only in the app's local settings on your device. None of these ever leave your device, whether you're signed in or playing as a guest.</p>
   </section>
 
   <section class="entry" id="guest">
-    <h2><span class="num">7.</span>Guest mode</h2>
-    <p>Choosing "Continue without login" means the app never creates an account and never contacts the hosted database with anything identifying you. Your scores, stats, and progress still work — the daily play limit still applies — but all of it lives only in local storage on your device. It isn't backed up, and switching devices starts over. There's no friend code and no friends list in guest mode, since there's no account for anyone to connect to.</p>
+    <h2><span class="num">8.</span>Guest mode</h2>
+    <p>Choosing "Continue without login" means the app never asks for, reads, or stores any identifying information about you, and never creates a display profile. Your device still gets an anonymous session so scores, daily rank, and the once-a-day play limit work correctly and are shared with no one — but nothing in it is, or can be turned into, your name, email, or any other identifying detail. There's no friend code and no friends list in guest mode, since there's no profile for anyone to connect to. This anonymous session is tied to this device; uninstalling the app or clearing its storage leaves that session unreachable, with no way to sign back into it.</p>
   </section>
 
   <section class="entry" id="sharing">
-    <h2><span class="num">8.</span>Sharing &amp; third parties</h2>
-    <p>None of the data above is sold, rented, or shared with any third party, advertiser, or analytics service. The app has no advertising SDK and no analytics/tracking SDK integrated — the "Watch Ad" option on hints is a placeholder that doesn't actually show an ad yet, and collects nothing when used.</p>
-    <p>The app's "Share Results" feature is the one exception worth naming explicitly: tapping it hands an image and a line of text to whatever app you pick from your device's own share sheet (Messages, a social app, etc.) — that's a one-time action you trigger yourself, not ongoing data collection, and the app has no visibility into what happens after you choose where to share it.</p>
+    <h2><span class="num">9.</span>Sharing &amp; third parties</h2>
+    <p>Historiq's own database (account, gameplay, and friends data) is never sold, rented, or shared with any third party, advertiser, or analytics service. One processor is used for a specific feature, described in full in the Advertising section above: Google/AdMob, to show ads. It never receives your name or email.</p>
+    <p>If you sign in with Google, Apple, or Facebook, that provider itself is the one exception: it processes your sign-in the same way it does for any app you grant it to, under its own privacy policy, independent of Historiq.</p>
+    <p>The app's "Share Results" feature is the other exception worth naming explicitly: tapping it hands an image and a line of text to whatever app you pick from your device's own share sheet (Messages, a social app, etc.) — that's a one-time action you trigger yourself, not ongoing data collection, and the app has no visibility into what happens after you choose where to share it.</p>
   </section>
 
   <section class="entry" id="storage">
-    <h2><span class="num">9.</span>Where data is stored</h2>
-    <p>Signed-in accounts, gameplay data, friends, and the security audit log are stored in a hosted Postgres database (via Supabase). Access is restricted by row-level security rules scoped to your own account and, for scores specifically, your accepted friends — nobody else's client can read your data directly. Guest-mode data never reaches this database at all; it stays in the app's local storage only.</p>
+    <h2><span class="num">10.</span>Where data is stored</h2>
+    <p>Accounts, gameplay data, friends, and the security audit log are stored in a hosted Postgres database (via Supabase). Access is restricted by row-level security rules scoped to your own account and, for scores specifically, your accepted friends — nobody else's client can read your data directly. Guest-mode sessions are stored the same way, but carry no name, email, or other identifying field at all.</p>
   </section>
 
   <section class="entry" id="choices">
-    <h2><span class="num">10.</span>Your choices &amp; deletion</h2>
+    <h2><span class="num">11.</span>Your choices &amp; deletion</h2>
     <ul>
       <li><strong>Change your display name</strong> anytime from Settings.</li>
       <li><strong>Turn off</strong> haptics or the daily reminder anytime from Settings — these take effect immediately and stay off until you turn them back on.</li>
       <li><strong>Delete your account</strong> from Settings → Account → Delete Account. This permanently removes your profile, friends, stats, progress, and score history from the hosted database. This cannot be undone, and none of it can be recovered afterward.</li>
-      <li><strong>Guests</strong> have nothing server-side to delete; uninstalling the app removes the local data guest mode stored on your device.</li>
+      <li><strong>Guests</strong> have no profile to delete through the app, since nothing identifying was ever stored; contact us using the details below if you'd like an anonymous session's gameplay rows removed.</li>
     </ul>
   </section>
 
   <section class="entry" id="children">
-    <h2><span class="num">11.</span>Children's privacy</h2>
-    <p>Historiq is a general-audience trivia app and isn't directed at children under 13. The app doesn't knowingly collect personal information from children under 13. If you believe a child has provided personal information through the app, contact us using the details below and it will be removed.</p>
+    <h2><span class="num">12.</span>Children's privacy</h2>
+    <p>Historiq is a general-audience trivia app and isn't directed at children under 13, and isn't listed as a Families app. The app doesn't knowingly collect personal information from children under 13, and ads are never shown with child-directed treatment or targeting. If you believe a child has provided personal information through the app, contact us using the details below and it will be removed.</p>
   </section>
 
   <section class="entry" id="changes">
-    <h2><span class="num">12.</span>Changes to this policy</h2>
+    <h2><span class="num">13.</span>Changes to this policy</h2>
     <p>If what the app collects or how it's used changes, this page will be updated and the "Effective" date at the top will change accordingly. Meaningful changes will also be reflected in the in-app description of this policy in Settings.</p>
   </section>
 
   <hr class="rule">
 
   <footer class="contact" id="contact">
-    <h2 style="margin-bottom:14px;"><span class="num mono" style="font-family:ui-monospace,monospace;font-size:15px;color:var(--accent-ink);">13.</span> Contact</h2>
+    <h2 style="margin-bottom:14px;"><span class="num mono" style="font-family:ui-monospace,monospace;font-size:15px;color:var(--accent-ink);">14.</span> Contact</h2>
     <p>Questions about this policy, or requests to access or delete your data, can be sent to:</p>
-    <p><a href="mailto:mate.konye@gmail.com">mate.konye@gmail.com</a></p>
+    <p><a href="mailto:historiq.help@gmail.com">historiq.help@gmail.com</a></p>
   </footer>
 
 </div>

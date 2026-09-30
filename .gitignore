@@ -16,3 +16,6 @@ captures/
 # itself before building) — project.yml is the source of truth, not the generated project.
 iosApp/iosApp.xcodeproj/
 iosApp/*.xcworkspace/
+
+# /brag launch-video renders (plus timestamped re-runs) — large generated media, not source.
+/brag-output*/

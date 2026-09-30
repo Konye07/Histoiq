@@ -10,11 +10,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 actual object BubbleSoundPlayer {
-    actual fun playBubbleRise() {
+    actual fun playBubbleRise() = play(::buildBubbleRiseWaveform)
+    actual fun playCorrectChirp() = play(::buildCorrectChirpWaveform)
+    actual fun playWrongTone() = play(::buildWrongToneWaveform)
+    actual fun playSubmitTap() = play(::buildSubmitTapWaveform)
+
+    private fun play(buildWaveform: () -> FloatArray) {
         if (!SettingsStore.hapticsEnabled()) return
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                playSamples(buildBubbleRiseWaveform())
+                playSamples(buildWaveform())
             } catch (_: Exception) {
                 // Best-effort feedback only; never crash the results screen over a sound effect.
             }

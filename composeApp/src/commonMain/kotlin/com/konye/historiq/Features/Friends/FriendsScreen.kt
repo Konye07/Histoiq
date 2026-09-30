@@ -19,7 +19,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -41,6 +40,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Localization.StringsSocial
 import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
+import com.konye.historiq.Core.Theme.MascotEmptyState
+import com.konye.historiq.Core.Theme.contrastingOn
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.GameKeys
@@ -105,7 +107,7 @@ fun FriendsScreen() {
                         label = { Text(GameKeys.roleName(key)) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = color,
-                            selectedLabelColor = AppColors.Cream
+                            selectedLabelColor = contrastingOn(color)
                         )
                     )
                 }
@@ -137,11 +139,19 @@ fun FriendsScreen() {
             HorizontalDivider(Modifier.padding(vertical = 8.dp))
 
             if (loading) {
-                CircularProgressIndicator(Modifier.padding(16.dp))
+                HistoriqLoadingIndicator(Modifier.padding(16.dp))
             } else {
                 LazyColumn(Modifier.weight(1f)) {
                     items(rows) { row ->
                         LeaderboardRowItem(row, selectedGame)
+                    }
+                    if (myAccount != null && acceptedFriends.isEmpty()) {
+                        item {
+                            MascotEmptyState(
+                                StringsSocial.friends_no_friends_yet,
+                                modifier = Modifier.padding(top = 24.dp)
+                            )
+                        }
                     }
                     item { Spacer(Modifier.height(80.dp)) }
                 }
@@ -149,13 +159,15 @@ fun FriendsScreen() {
         }
 
         if (myAccount != null) {
+            val addFriendColor = if (incomingRequests.isNotEmpty()) AppColors.Maroon else MaterialTheme.colorScheme.primary
             Button(
                 onClick = { showAddFriendDialog = true },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 24.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (incomingRequests.isNotEmpty()) AppColors.Maroon else MaterialTheme.colorScheme.primary
+                    containerColor = addFriendColor,
+                    contentColor = contrastingOn(addFriendColor)
                 )
             ) {
                 Text(

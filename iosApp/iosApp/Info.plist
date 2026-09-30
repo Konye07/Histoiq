@@ -52,6 +52,17 @@
                 <string>com.googleusercontent.apps.REPLACE_WITH_IOS_OAUTH_CLIENT_ID</string>
             </array>
         </dict>
+        <!--
+          "Continue with Facebook" (Core/Auth/FacebookSignIn.ios.kt) OAuth-redirect callback —
+          scheme/host must match SupabaseClient.kt's install(Auth){scheme;host}, and this same
+          deep link must be added to Supabase's Auth > URL Configuration > Redirect URLs allow-list.
+        -->
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.konye.historiq</string>
+            </array>
+        </dict>
     </array>
     <!--
       AdMob (GoogleMobileAds SPM package). GADApplicationIdentifier defaults to Google's own public
