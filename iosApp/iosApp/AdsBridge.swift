@@ -5,12 +5,12 @@ import GoogleMobileAds
 /// IosNativeBridges.shared.ads — see Core/Platform/IosNativeBridges.kt for why this SDK call has
 /// to live in Swift rather than being called directly from Kotlin.
 class AdsBridgeImpl: NSObject, AdsBridge {
-    private var interstitial: GADInterstitialAd?
-    private var rewarded: GADRewardedAd?
+    private var interstitial: InterstitialAd?
+    private var rewarded: RewardedAd?
     private var onInterstitialDismissed: (() -> Void)?
 
     func showInterstitial(adUnitId: String, onDismissed: @escaping () -> Void) {
-        GADInterstitialAd.load(withAdUnitID: adUnitId, request: GADRequest()) { [weak self] ad, error in
+        InterstitialAd.load(withAdUnitID: adUnitId, request: GADRequest()) { [weak self] ad, error in
             guard let self = self, let ad = ad, error == nil, let presenter = RootViewController.current() else {
                 onDismissed()
                 return
@@ -23,7 +23,7 @@ class AdsBridgeImpl: NSObject, AdsBridge {
     }
 
     func showRewarded(adUnitId: String, onRewarded: @escaping () -> Void) {
-        GADRewardedAd.load(withAdUnitID: adUnitId, request: GADRequest()) { [weak self] ad, error in
+        RewardedAd.load(withAdUnitID: adUnitId, request: GADRequest()) { [weak self] ad, error in
             guard let self = self, let ad = ad, error == nil, let presenter = RootViewController.current() else {
                 return
             }
@@ -36,8 +36,8 @@ class AdsBridgeImpl: NSObject, AdsBridge {
     }
 }
 
-extension AdsBridgeImpl: GADFullScreenContentDelegate {
-    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+extension AdsBridgeImpl: FullScreenContentDelegate {
+    func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
         // Only the interstitial needs an explicit dismissal callback — the rewarded ad's own
         // present(fromRootViewController:userDidEarnRewardHandler:) already tells the caller
         // whether the reward was earned; nothing else needs to happen when it closes.
@@ -50,7 +50,7 @@ extension AdsBridgeImpl: GADFullScreenContentDelegate {
         }
     }
 
-    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+    func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         if ad === interstitial {
             onInterstitialDismissed?()
             onInterstitialDismissed = nil
