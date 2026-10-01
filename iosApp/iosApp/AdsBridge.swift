@@ -10,7 +10,7 @@ class AdsBridgeImpl: NSObject, AdsBridge {
     private var onInterstitialDismissed: (() -> Void)?
 
     func showInterstitial(adUnitId: String, onDismissed: @escaping () -> Void) {
-        InterstitialAd.load(with: adUnitId, request: GADRequest()) { [weak self] ad, error in
+        InterstitialAd.load(with: adUnitId, request: Request()) { [weak self] ad, error in
             guard let self = self, let ad = ad, error == nil, let presenter = RootViewController.current() else {
                 onDismissed()
                 return
@@ -23,7 +23,7 @@ class AdsBridgeImpl: NSObject, AdsBridge {
     }
 
     func showRewarded(adUnitId: String, onRewarded: @escaping () -> Void) {
-        RewardedAd.load(with: adUnitId, request: GADRequest()) { [weak self] ad, error in
+        RewardedAd.load(with: adUnitId, request: Request()) { [weak self] ad, error in
             guard let self = self, let ad = ad, error == nil, let presenter = RootViewController.current() else {
                 return
             }
