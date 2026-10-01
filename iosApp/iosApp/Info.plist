@@ -17,9 +17,11 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.1</string>
+    <string>$(MARKETING_VERSION)</string>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <string>$(CURRENT_PROJECT_VERSION)</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>CADisableMinimumFrameDurationOnPhone</key>
@@ -36,20 +38,20 @@
         <false/>
     </dict>
     <!--
-      Google Sign-In (GoogleSignIn SPM package, see AdsBridge.swift/GoogleSignInBridge.swift).
-      GIDClientID and the URL scheme below are BOTH placeholders — replace with the real iOS OAuth
-      client ID from Google Cloud Console (Google Auth Platform -> Clients -> Create client ->
-      iOS, bundle ID com.konye.historiq). The URL scheme is that same client ID's segments reversed,
-      e.g. client ID "123-abc.apps.googleusercontent.com" -> scheme "com.googleusercontent.apps.123-abc".
+      Google Sign-In (GoogleSignIn SPM package, see GoogleSignInBridge.swift). GIDClientID is the
+      iOS-type OAuth client (bundle ID com.konye.historiq); the URL scheme is that same ID reversed
+      (REVERSED_CLIENT_ID in Google's downloaded plist). Its ID tokens carry this client as the
+      audience, not the Web client the Android build uses, so this ID must also be listed in
+      Supabase's Auth > Providers > Google > Client IDs.
     -->
     <key>GIDClientID</key>
-    <string>REPLACE_WITH_IOS_OAUTH_CLIENT_ID.apps.googleusercontent.com</string>
+    <string>336775147908-46muf5hrup23829srdsdgo9i8upkkt1n.apps.googleusercontent.com</string>
     <key>CFBundleURLTypes</key>
     <array>
         <dict>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>com.googleusercontent.apps.REPLACE_WITH_IOS_OAUTH_CLIENT_ID</string>
+                <string>com.googleusercontent.apps.336775147908-46muf5hrup23829srdsdgo9i8upkkt1n</string>
             </array>
         </dict>
         <!--
@@ -65,13 +67,14 @@
         </dict>
     </array>
     <!--
-      AdMob (GoogleMobileAds SPM package). GADApplicationIdentifier defaults to Google's own public
-      test iOS app ID (see https://developers.google.com/admob/ios/test-ads) — replace with a real
-      iOS AdMob app's ID once one exists. SKAdNetworkItems is Google's standard required list for ad
+      AdMob (GoogleMobileAds SPM package). GADApplicationIdentifier is the real iOS AdMob app. The
+      ad unit IDs are not here: they reach the app through AdsConfig (local.properties), which
+      defaults to Google's test units and only ios-release.yml supplies the real ones, so simulator
+      and CI builds never serve live ads. SKAdNetworkItems is Google's standard required list for ad
       network attribution (see https://developers.google.com/admob/ios/quick-start), not app-specific.
     -->
     <key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-3940256099942544~1458002511</string>
+    <string>ca-app-pub-1835862082621920~3535758540</string>
     <key>SKAdNetworkItems</key>
     <array>
         <dict><key>SKAdNetworkIdentifier</key><string>cstr6suwn9.skadnetwork</string></dict>

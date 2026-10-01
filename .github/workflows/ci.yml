@@ -109,6 +109,26 @@ jobs:
           fi
           find "$RES" -maxdepth 4
         working-directory: iosApp
+      # ios-release.yml archives with these same project settings but only finds out about a bad one
+      # after a ~20 minute release build, so the cheap-to-check ones are asserted here on every push.
+      - name: Verify version keys and privacy manifest in the built app
+        run: |
+          APP=build/Build/Products/Debug-iphonesimulator/iosApp.app
+          PLIST="$APP/Info.plist"
+          VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$PLIST")
+          BUILD=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$PLIST")
+          echo "CFBundleShortVersionString=$VERSION CFBundleVersion=$BUILD"
+          case "$VERSION$BUILD" in
+            *'$('*|"")
+              echo "::error::Version keys were not expanded from MARKETING_VERSION/CURRENT_PROJECT_VERSION: '$VERSION' / '$BUILD'"
+              exit 1;;
+          esac
+          if [ ! -f "$APP/PrivacyInfo.xcprivacy" ]; then
+            echo "::error::PrivacyInfo.xcprivacy did not reach the built app; App Store Connect flags missing required-reason API declarations."
+            find "$APP" -maxdepth 1
+            exit 1
+          fi
+        working-directory: iosApp
       # Lets you download iosApp.app from this run's Actions summary page and upload it straight to
       # appetize.io (or any other simulator-based tester) without a Mac — arm64-only, which matches
       # what Appetize's own docs currently recommend uploading.

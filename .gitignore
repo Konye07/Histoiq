@@ -4,6 +4,11 @@
 /local.properties
 *.jks
 *.keystore
+# Apple signing material (scripts/ios-signing.mjs writes it outside the repo; this is the safety net).
+*.p12
+*.p8
+*.mobileprovision
+IOS_SIGNING_BUNDLE*
 .idea
 .DS_Store
 build/

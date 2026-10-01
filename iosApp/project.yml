@@ -32,8 +32,14 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.konye.historiq
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        DEVELOPMENT_TEAM: NC29559DJB
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        TARGETED_DEVICE_FAMILY: "1,2"
+        # iPhone only: an app that also targets iPad must declare all four orientations (or
+        # UIRequiresFullScreen) or App Store Connect rejects the upload (ITMS-90474), and this UI is
+        # portrait-only.
+        TARGETED_DEVICE_FAMILY: "1"
         SWIFT_VERSION: "5.0"
         # Real Sign in with Apple (Core/Auth/AppleSignIn.ios.kt) needs this capability's entitlement.
         CODE_SIGN_ENTITLEMENTS: "iosApp/iosApp.entitlements"
@@ -50,11 +56,25 @@ targets:
         # *embedding* the framework into the built app is handled separately by the
         # embedAndSignAppleFrameworkForXcode Run Script phase below, not by this search path.
         FRAMEWORK_SEARCH_PATHS: "$(inherited) $(SRCROOT)/../composeApp/build/bin/iosSimulatorArm64/debugFramework"
+        # A device build (the archive ios-release.yml makes) links the release framework that
+        # workflow builds first; the simulator path above only exists for ci.yml's simulator build.
+        "FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*]": "$(inherited) $(SRCROOT)/../composeApp/build/bin/iosArm64/releaseFramework"
         # ComposeApp.framework is arm64-only (no iosX64/Intel-simulator Kotlin target exists — see
         # composeApp/build.gradle.kts), but Xcode's default simulator ARCHS still includes x86_64.
         # Both the framework linking above and the embedAndSignAppleFrameworkForXcode task below
         # would otherwise try to produce/find an x86_64 slice that was never built.
         "EXCLUDED_ARCHS[sdk=iphonesimulator*]": x86_64
+      configs:
+        Release:
+          # Manual signing: automatic signing has to make a development profile, which needs at
+          # least one registered device, and this team has none. The certificate and profile come
+          # from scripts/ios-signing.mjs. Set on the target rather than the xcodebuild command line,
+          # which would also hit the SwiftPM package targets and fail with "does not support
+          # provisioning profiles".
+          CODE_SIGN_STYLE: Manual
+          CODE_SIGN_IDENTITY: "Apple Distribution"
+          "CODE_SIGN_IDENTITY[sdk=iphoneos*]": "Apple Distribution"
+          PROVISIONING_PROFILE_SPECIFIER: "Historiq App Store"
     # A previous attempt statically referenced the prebuilt ComposeApp.framework directly
     # (`dependencies: - framework: ...`, embedding it as-is). That links and runs the Kotlin code
     # fine, but Compose Multiplatform's resource reader looks up images/icons relative to the

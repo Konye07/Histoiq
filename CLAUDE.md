@@ -60,6 +60,31 @@ platforms — no native Cupertino reskin on iOS.
   the Kotlin/Native compiler for Apple targets at all (Kotlin/Native only links Apple binaries on
   macOS) — see "Verifying iOS platform code" below for how iOS-side changes get checked without one.
 
+## iOS release pipeline (TestFlight / App Store, no Mac needed)
+
+`.github/workflows/ios-release.yml` (manual `workflow_dispatch`) links the release framework, archives
+`iosApp` with manual Apple Distribution signing, exports an .ipa and uploads it to App Store Connect.
+Signing is manual because automatic signing must create a development profile, which needs a
+registered device, and this team has none.
+
+- `IOS_SIGNING_BUNDLE` (GitHub Actions secret) is a base64 tar.gz of the distribution certificate
+  (`.p12` + its password), the "Historiq App Store" provisioning profile, and the App Store Connect
+  API key. `node scripts/ios-signing.mjs --key <AuthKey_XXXX.p8> --key-id <id> --issuer <uuid> --out
+  <dir outside the repo>` regenerates all of it through the App Store Connect API (the key needs the
+  Admin role). Key ID, Issuer ID and Team ID are plain `env` in the workflow, not secrets.
+- The certificate and profile expire **2027-10-01**: rerun the script before then and replace the
+  secret, or the run fails at the signing/export step.
+- Build number = the workflow run number (`CURRENT_PROJECT_VERSION`); the marketing version is
+  `MARKETING_VERSION` in `iosApp/project.yml`, and it must match the version created in App Store
+  Connect for a build to be selectable there.
+- iOS AdMob unit IDs flow through `AdsConfig` from `local.properties` (`ADMOB_*_IOS`) and default to
+  Google's test units; only `ios-release.yml` writes the real ones, so `ci.yml` and simulator builds
+  never serve live ads. The AdMob app ID is in `Info.plist`.
+- The app is iPhone-only (`TARGETED_DEVICE_FAMILY: "1"`): an iPad-capable build must support all four
+  orientations or App Store Connect rejects it (ITMS-90474), and the UI is portrait-only.
+- `PrivacyInfo.xcprivacy` declares the required-reason APIs the Kotlin/Native + Compose runtime uses;
+  `NSPrivacyTracking` is false because the app never shows the ATT prompt.
+
 ## Verifying iOS platform code without a Mac
 
 Every `iosMain` `actual` that calls a real Apple framework (UIKit, Foundation, AVFAudio,
