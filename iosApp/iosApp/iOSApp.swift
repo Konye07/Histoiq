@@ -8,7 +8,7 @@ struct iOSApp: App {
     init() {
         IosNativeBridges.shared.googleSignIn = GoogleSignInBridgeImpl()
         IosNativeBridges.shared.ads = AdsBridgeImpl()
-        MobileAds.sharedInstance.start(completionHandler: nil)
+        MobileAds.shared.start(completionHandler: nil)
     }
 
     var body: some Scene {
