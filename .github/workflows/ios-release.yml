@@ -57,6 +57,14 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      # Release (-opt) Kotlin/Native linking runs the whole-program optimizer and is far heavier than
+      # the debug link ci.yml does, so the 2 GB in gradle.properties is tight. The user-level file
+      # also covers the Gradle call Xcode makes later, which then reuses the same daemon.
+      - name: Give Gradle more memory
+        run: |
+          mkdir -p ~/.gradle
+          echo "org.gradle.jvmargs=-Xmx4g -Dfile.encoding=UTF-8" >> ~/.gradle/gradle.properties
+
       # The ad unit IDs are not secrets (they ship inside the app). They are only set here, so ci.yml's
       # builds keep Google's test units and never serve live ads.
       - name: Write local.properties
