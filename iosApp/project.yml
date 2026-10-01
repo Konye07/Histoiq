@@ -13,6 +13,12 @@ packages:
   GoogleMobileAds:
     url: https://github.com/googleads/swift-package-manager-google-mobile-ads.git
     from: 13.9.0
+  # EEA/UK ad-consent flow (ConsentBridge.swift) — resolves transitively under GoogleMobileAds's own
+  # package graph already, but SPM only exposes import-able modules for products declared directly
+  # on this target, so it still needs its own packages: + dependencies: entry.
+  GoogleUserMessagingPlatform:
+    url: https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git
+    from: 3.1.0
 
 targets:
   iosApp:
@@ -29,6 +35,8 @@ targets:
         product: GoogleSignIn
       - package: GoogleMobileAds
         product: GoogleMobileAds
+      - package: GoogleUserMessagingPlatform
+        product: GoogleUserMessagingPlatform
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.konye.historiq

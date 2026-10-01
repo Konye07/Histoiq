@@ -231,6 +231,15 @@ object StringsAuthSettings {
             AppLanguage.IT -> "Informativa sulla Privacy"
         }
 
+    val settings_privacy_choices_title: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Privacy Choices"
+            AppLanguage.ES -> "Opciones de Privacidad"
+            AppLanguage.FR -> "Choix de Confidentialité"
+            AppLanguage.DE -> "Datenschutzoptionen"
+            AppLanguage.IT -> "Scelte sulla Privacy"
+        }
+
     val settings_sign_out: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Sign Out"

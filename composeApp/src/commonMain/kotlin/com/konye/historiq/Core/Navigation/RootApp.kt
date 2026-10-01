@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
+import com.konye.historiq.Core.Ads.requestConsentAndInitializeAds
 import com.konye.historiq.Core.Theme.APP_LOGO_SHARED_KEY
 import com.konye.historiq.Core.Theme.AppLogoImage
 import com.konye.historiq.Core.Theme.LocalSharedTransitionScope
@@ -73,11 +74,18 @@ fun RootApp() {
                     SettingsStore.setHasSeenTutorial(true)
                     hasSeenTutorial = true
                 })
-                else -> AppNavHost(onSignedOut = {
-                    SettingsStore.setGuestMode(false)
-                    account = null
-                    isGuest = false
-                })
+                else -> {
+                    // Fire-and-forget: the EEA/UK consent form (and, on iOS, the App Tracking
+                    // Transparency prompt) only matter for ads, which are already deferred well
+                    // past this point in the app (see ResultsAdGate) — there's no reason to delay
+                    // showing the main app while this resolves over the network.
+                    LaunchedEffect(Unit) { requestConsentAndInitializeAds {} }
+                    AppNavHost(onSignedOut = {
+                        SettingsStore.setGuestMode(false)
+                        account = null
+                        isGuest = false
+                    })
+                }
             }
         }
     }

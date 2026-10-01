@@ -29,6 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.konye.historiq.Core.Ads.isPrivacyOptionsRequired
+import com.konye.historiq.Core.Ads.showPrivacyOptionsForm
 import com.konye.historiq.Core.Localization.AppLanguage
 import com.konye.historiq.Core.Localization.LocalAppLanguage
 import com.konye.historiq.Core.Localization.LocalOnLanguageChange
@@ -206,6 +208,16 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
                 .padding(vertical = 8.dp)
         ) {
             Text(StringsAuthSettings.settings_privacy_policy_title, style = MaterialTheme.typography.bodyMedium)
+        }
+        if (isPrivacyOptionsRequired()) {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .clickable { showPrivacyOptionsForm {} }
+                    .padding(vertical = 8.dp)
+            ) {
+                Text(StringsAuthSettings.settings_privacy_choices_title, style = MaterialTheme.typography.bodyMedium)
+            }
         }
         if (account != null) {
             Button(

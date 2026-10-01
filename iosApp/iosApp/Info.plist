@@ -75,6 +75,13 @@
     -->
     <key>GADApplicationIdentifier</key>
     <string>ca-app-pub-1835862082621920~3535758540</string>
+    <!--
+      App Tracking Transparency (ConsentBridge.swift) — required before calling
+      ATTrackingManager.requestTrackingAuthorization, or the app crashes. Only requested after the
+      UMP consent flow resolves, and only if canRequestAds is true.
+    -->
+    <key>NSUserTrackingUsageDescription</key>
+    <string>This identifier will be used to show you more relevant ads and to measure ad performance.</string>
     <key>SKAdNetworkItems</key>
     <array>
         <dict><key>SKAdNetworkIdentifier</key><string>cstr6suwn9.skadnetwork</string></dict>

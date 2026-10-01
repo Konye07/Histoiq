@@ -57,6 +57,12 @@ val admobRewardedUnitId = localPropertyOrDefault("ADMOB_REWARDED_UNIT_ID_ANDROID
 val admobInterstitialUnitIdIos = localPropertyOrDefault("ADMOB_INTERSTITIAL_UNIT_ID_IOS", "ca-app-pub-3940256099942544/4411468910")
 val admobRewardedUnitIdIos = localPropertyOrDefault("ADMOB_REWARDED_UNIT_ID_IOS", "ca-app-pub-3940256099942544/1712485313")
 
+// Blank by default (no-op in CI/release) — set to a real device's hashed test-device ID (printed to
+// logcat/console on first run with no debug settings) to force the UMP consent form to appear as if
+// the device were in the EEA, since otherwise testing it requires physically being there. Android
+// only: see Core/Ads/ConsentManager.android.kt.
+val admobDebugGeoEeaTestDeviceId = localPropertyOrDefault("ADMOB_DEBUG_GEO_EEA_TEST_DEVICE_ID", "")
+
 File(generatedConfigDir, "AdsConfig.kt").writeText(
     """
     package com.konye.historiq.Core.Ads
@@ -74,6 +80,7 @@ File(generatedConfigDir, "AdsConfig.kt").writeText(
         const val REWARDED_UNIT_ID = "$admobRewardedUnitId"
         const val INTERSTITIAL_UNIT_ID_IOS = "$admobInterstitialUnitIdIos"
         const val REWARDED_UNIT_ID_IOS = "$admobRewardedUnitIdIos"
+        const val DEBUG_GEO_EEA_TEST_DEVICE_ID = "$admobDebugGeoEeaTestDeviceId"
     }
     """.trimIndent()
 )
@@ -171,6 +178,9 @@ kotlin {
                 // Core/Ads/RewardedAd.android.kt) — iOS ads are real too, via a Swift bridge to the
                 // GoogleMobileAds SPM package (iosApp/iosApp/AdsBridge.swift), not this dependency.
                 implementation("com.google.android.gms:play-services-ads:25.4.0")
+                // EEA/UK ad-consent flow (Core/Ads/ConsentManager.android.kt) — not bundled
+                // transitively by play-services-ads, a separate artifact.
+                implementation("com.google.android.ump:user-messaging-platform:4.0.0")
                 // Real "Continue with Google" on Android (Core/Auth/GoogleSignIn.android.kt) via
                 // Credential Manager — iOS Google sign-in is real too, via a Swift bridge to the
                 // GoogleSignIn SPM package (iosApp/iosApp/GoogleSignInBridge.swift), not this dependency.

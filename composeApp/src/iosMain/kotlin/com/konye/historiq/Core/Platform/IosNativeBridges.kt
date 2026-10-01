@@ -18,7 +18,14 @@ interface AdsBridge {
     fun showRewarded(adUnitId: String, onRewarded: () -> Unit)
 }
 
+interface ConsentBridge {
+    fun requestConsentAndInitializeAds(onComplete: () -> Unit)
+    fun showPrivacyOptionsForm(onComplete: () -> Unit)
+    fun isPrivacyOptionsRequired(): Boolean
+}
+
 object IosNativeBridges {
     var googleSignIn: GoogleSignInBridge? = null
     var ads: AdsBridge? = null
+    var consent: ConsentBridge? = null
 }

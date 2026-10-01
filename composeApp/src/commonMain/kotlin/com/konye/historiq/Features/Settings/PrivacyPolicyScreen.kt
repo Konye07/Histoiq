@@ -133,6 +133,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                 BodyText(StringsPrivacyPolicy.privacy_advertising_body1)
                 BodyText(StringsPrivacyPolicy.privacy_advertising_body2)
                 BodyText(StringsPrivacyPolicy.privacy_advertising_body3)
+                BodyText(StringsPrivacyPolicy.privacy_advertising_body4)
             }
 
             Section(StringsPrivacyPolicy.privacy_section_security_title) {

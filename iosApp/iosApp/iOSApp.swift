@@ -1,5 +1,4 @@
 import ComposeApp
-import GoogleMobileAds
 import GoogleSignIn
 import SwiftUI
 
@@ -8,7 +7,7 @@ struct iOSApp: App {
     init() {
         IosNativeBridges.shared.googleSignIn = GoogleSignInBridgeImpl()
         IosNativeBridges.shared.ads = AdsBridgeImpl()
-        MobileAds.shared.start(completionHandler: nil)
+        IosNativeBridges.shared.consent = ConsentBridgeImpl()
     }
 
     var body: some Scene {
