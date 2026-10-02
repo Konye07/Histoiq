@@ -128,6 +128,7 @@ jobs:
             find "$APP" -maxdepth 1
             exit 1
           fi
+          python3 ../scripts/audit_privacy_manifests.py "$APP"
         working-directory: iosApp
       # Lets you download iosApp.app from this run's Actions summary page and upload it straight to
       # appetize.io (or any other simulator-based tester) without a Mac — arm64-only, which matches

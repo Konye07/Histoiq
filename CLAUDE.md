@@ -82,8 +82,13 @@ registered device, and this team has none.
   never serve live ads. The AdMob app ID is in `Info.plist`.
 - The app is iPhone-only (`TARGETED_DEVICE_FAMILY: "1"`): an iPad-capable build must support all four
   orientations or App Store Connect rejects it (ITMS-90474), and the UI is portrait-only.
-- `PrivacyInfo.xcprivacy` declares the required-reason APIs the Kotlin/Native + Compose runtime uses;
-  `NSPrivacyTracking` is false because the app never shows the ATT prompt.
+- `PrivacyInfo.xcprivacy` declares the required-reason APIs the Kotlin/Native + Compose runtime uses.
+  `NSPrivacyTracking` stays **false** even though the app shows the ATT prompt: App Store Connect
+  rejects an app-level `true` that has no `NSPrivacyTrackingDomains` (ITMS-91064, only found at Add for
+  Review, as "Invalid Binary"), and listing AdMob's domains would make iOS block ad requests for
+  everyone who declines ATT. The ad SDKs declare their own tracking in their own manifests.
+  `scripts/audit_privacy_manifests.py` enforces this in `ci.yml` and on the exported .ipa in
+  `ios-release.yml`.
 
 ## Verifying iOS platform code without a Mac
 

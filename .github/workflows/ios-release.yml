@@ -220,6 +220,16 @@ jobs:
             -exportPath "$RUNNER_TEMP/export"
           ls -la "$RUNNER_TEMP/export"
 
+      # App Store Connect only runs its privacy-manifest checks when the build is submitted for review,
+      # where a bad one turns the version into "Invalid Binary", so the same rule is applied here to
+      # the exact .ipa that is about to be uploaded.
+      - name: Audit the exported .ipa's privacy manifests
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/ipa-contents"
+          unzip -q "$RUNNER_TEMP/export/iosApp.ipa" -d "$RUNNER_TEMP/ipa-contents"
+          python3 scripts/audit_privacy_manifests.py "$RUNNER_TEMP/ipa-contents/Payload/iosApp.app"
+
       # altool is the long-standing command-line uploader; if the runner's Xcode no longer ships it
       # or it fails, Xcode's own exportArchive upload (destination=upload) is the fallback.
       - name: Upload to App Store Connect
