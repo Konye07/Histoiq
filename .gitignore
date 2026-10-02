@@ -24,3 +24,17 @@ iosApp/*.xcworkspace/
 
 # /brag launch-video renders (plus timestamped re-runs) — large generated media, not source.
 /brag-output*/
+
+# graphify knowledge-graph output embeds absolute local paths (username, interpreter location).
+graphify-out/
+__pycache__/
+
+# Per-machine Claude Code settings and other credential-shaped files, so a stray copy can't be committed.
+.claude/settings.local.json
+.env
+.env.*
+*.pem
+*.key
+AuthKey_*
+google-services.json
+GoogleService-Info.plist
