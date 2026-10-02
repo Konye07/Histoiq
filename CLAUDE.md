@@ -62,7 +62,8 @@ platforms — no native Cupertino reskin on iOS.
 
 ## iOS release pipeline (TestFlight / App Store, no Mac needed)
 
-`.github/workflows/ios-release.yml` (manual `workflow_dispatch`) links the release framework, archives
+`.github/workflows/ios-release.yml` (manual `workflow_dispatch`, or any pushed `ios-release-*` tag, which
+always uploads) links the release framework, archives
 `iosApp` with manual Apple Distribution signing, exports an .ipa and uploads it to App Store Connect.
 Signing is manual because automatic signing must create a development profile, which needs a
 registered device, and this team has none.
