@@ -226,12 +226,15 @@ jobs:
       # App Store Connect only runs its privacy-manifest checks when the build is submitted for review,
       # where a bad one turns the version into "Invalid Binary", so the same rule is applied here to
       # the exact .ipa that is about to be uploaded.
-      - name: Audit the exported .ipa's privacy manifests
+      # The AdMob unit IDs are proven to be in the same .ipa: a missing one would silently ship Google's
+      # test ads to the App Store.
+      - name: Audit the exported .ipa (privacy manifests, AdMob units)
         run: |
           set -euo pipefail
           rm -rf "$RUNNER_TEMP/ipa-contents"
           unzip -q "$RUNNER_TEMP/export/iosApp.ipa" -d "$RUNNER_TEMP/ipa-contents"
           python3 scripts/audit_privacy_manifests.py "$RUNNER_TEMP/ipa-contents/Payload/iosApp.app"
+          python3 scripts/verify_ad_units.py "$RUNNER_TEMP/ipa-contents/Payload/iosApp.app" local.properties
 
       # altool is the long-standing command-line uploader; if the runner's Xcode no longer ships it
       # or it fails, Xcode's own exportArchive upload (destination=upload) is the fallback.

@@ -79,8 +79,12 @@ registered device, and this team has none.
   `MARKETING_VERSION` in `iosApp/project.yml`, and it must match the version created in App Store
   Connect for a build to be selectable there.
 - iOS AdMob unit IDs flow through `AdsConfig` from `local.properties` (`ADMOB_*_IOS`) and default to
-  Google's test units; only `ios-release.yml` writes the real ones, so `ci.yml` and simulator builds
-  never serve live ads. The AdMob app ID is in `Info.plist`.
+  Google's test units. Both `ci.yml` (so the simulator zip exercises them) and `ios-release.yml` write
+  the real ones, and `scripts/verify_ad_units.py` proves they are compiled into the built app. At
+  runtime `AdsBridge.swift`'s `AdEnvironment` swaps in Google's test units for TestFlight and App
+  Review installs (sandbox receipt), so testers never tap live ads, while App Store installs use the
+  real units; the simulator keeps the real ones because the Mobile Ads SDK treats it as a test
+  device. The AdMob app ID is in `Info.plist`.
 - The app is iPhone-only (`TARGETED_DEVICE_FAMILY: "1"`): an iPad-capable build must support all four
   orientations or App Store Connect rejects it (ITMS-90474), and the UI is portrait-only.
 - `PrivacyInfo.xcprivacy` declares the required-reason APIs the Kotlin/Native + Compose runtime uses.

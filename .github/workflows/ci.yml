@@ -42,6 +42,10 @@ jobs:
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> local.properties
           echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> local.properties
+          # The real iOS ad units, so the simulator zip exercises them. The Mobile Ads SDK treats
+          # simulators as test devices, so no live ad is ever served from it.
+          echo "ADMOB_INTERSTITIAL_UNIT_ID_IOS=ca-app-pub-1835862082621920/9988562814" >> local.properties
+          echo "ADMOB_REWARDED_UNIT_ID_IOS=ca-app-pub-1835862082621920/4848665203" >> local.properties
       # Real Kotlin/Native compilation for both iOS targets — this is the check that can only
       # run on macOS.
       - name: Link iOS frameworks (arm64 device + Apple Silicon simulator)
@@ -129,6 +133,9 @@ jobs:
             exit 1
           fi
           python3 ../scripts/audit_privacy_manifests.py "$APP"
+        working-directory: iosApp
+      - name: Verify the iOS AdMob units are compiled into the built app
+        run: python3 ../scripts/verify_ad_units.py build/Build/Products/Debug-iphonesimulator/iosApp.app ../local.properties
         working-directory: iosApp
       # Lets you download iosApp.app from this run's Actions summary page and upload it straight to
       # appetize.io (or any other simulator-based tester) without a Mac — arm64-only, which matches
