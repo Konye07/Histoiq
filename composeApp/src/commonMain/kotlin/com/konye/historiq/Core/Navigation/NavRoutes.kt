@@ -14,6 +14,8 @@ sealed class NavRoutes(val route: String) {
     data object PrivacyPolicy : NavRoutes("settings/privacy_policy")
 
     companion object {
-        val bottomTabs = listOf(Play, Friends, Profile, Settings)
+        // A getter, not a stored list: a stored one is built while NavRoutes initializes, and if a
+        // subclass (e.g. Play) is what triggered that initialization, its instance is still null then.
+        val bottomTabs: List<NavRoutes> get() = listOf(Play, Friends, Profile, Settings)
     }
 }

@@ -17,19 +17,21 @@ data class GameStreak(val days: Int, val playedToday: Boolean)
  * Streaks are derived from score_history's existing per-day rows rather than a separate counter
  * that could drift out of sync with it — one row per (user, game, day) already means "completed
  * that day", for a guest's anonymous session exactly as much as a signed-in account's (see
- * [ScoreHistoryStore]).
+ * [ScoreHistoryStore]). An era mode's rows sit under its own mode key (see [GameKeys.modeKey]), so
+ * each mode has a streak of its own.
  */
 object StreakStore {
+    /** Keyed by mode key: every plain game key, plus each era mode the player has ever finished a round in. */
     suspend fun computeAll(): Map<String, GameStreak> {
         val userId = AccountRepository.ensureAnonymousSession()
         val rows = SupabaseClient.client.postgrest.from("score_history")
             .select(Columns.list("game_key", "date_key")) { filter { eq("user_id", userId) } }
             .decodeList<GameDateRow>()
         val datesByGame = rows.groupBy({ it.gameKey }, { it.dateKey }).mapValues { it.value.toHashSet() }
-        return GameKeys.ALL.associateWith { key -> streakFor(datesByGame[key] ?: emptySet()) }
+        return (GameKeys.ALL + datesByGame.keys).toSet().associateWith { key -> streakFor(datesByGame[key] ?: emptySet()) }
     }
 
-    /** True when at least one of the six games has no score_history row for today yet. */
+    /** True when at least one of the six games has no score_history row for today yet, in any of its modes. */
     suspend fun hasUnfinishedGameToday(): Boolean {
         val userId = AccountRepository.ensureAnonymousSession()
         val playedToday = SupabaseClient.client.postgrest.from("score_history")
@@ -40,7 +42,7 @@ object StreakStore {
                 }
             }
             .decodeList<GameKeyRow>()
-            .mapTo(HashSet()) { it.gameKey }
+            .mapTo(HashSet()) { GameKeys.baseKey(it.gameKey) }
         return GameKeys.ALL.any { it !in playedToday }
     }
 

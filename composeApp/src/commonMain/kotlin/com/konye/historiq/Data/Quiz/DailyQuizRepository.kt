@@ -13,7 +13,8 @@ import kotlinx.serialization.json.put
  * either the catalog can't support 15 days or it's just a deliberate choice; see that function's
  * own comment for the exact per-game values, not duplicated here since it's the only place that
  * should ever need editing); everyone after just reads the same row, so every device sees the
- * same questions on the same date.
+ * same questions on the same date. [gameKey] may be an era mode key (see [GameKeys.modeKey]): the
+ * function then draws only that era's questions, with a 2-day cooldown instead of the all-time one.
  */
 object DailyQuizRepository {
     suspend fun getOrCreate(gameKey: String, dateKey: String, count: Int): List<String> =

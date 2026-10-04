@@ -56,11 +56,12 @@ import com.konye.historiq.Core.Formatting.formatFixed
 import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsGamesYearguessCasualties
 import com.konye.historiq.Core.Localization.StringsHomeShared
-import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.EraThemes
 import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Core.Theme.gameColorScheme
+import com.konye.historiq.Data.Quiz.ActiveEra
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyDistribution
 import com.konye.historiq.Data.Quiz.GameKeys
@@ -75,6 +76,7 @@ import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
 import com.konye.historiq.Data.Quiz.yearGuessScore
+import com.konye.historiq.Features.Play.Shared.GameBarTitle
 import com.konye.historiq.Features.Play.Shared.GuessQuestionLayout
 import com.konye.historiq.Features.Play.Shared.HintAction
 import com.konye.historiq.Features.Play.Shared.QuestionResultCard
@@ -133,10 +135,10 @@ private fun YearResult(
 }
 
 private const val QUESTIONS_PER_ROUND = 5
-private const val PROGRESS_KEY = GameKeys.YEAR_GUESS
+private const val GAME_KEY = GameKeys.YEAR_GUESS
 
-private suspend fun persist(ids: List<String>, guesses: List<Int>, scores: List<Double>) {
-    QuizProgressStore.save(PROGRESS_KEY, buildJsonObject {
+private suspend fun persist(modeKey: String, ids: List<String>, guesses: List<Int>, scores: List<Double>) {
+    QuizProgressStore.save(modeKey, buildJsonObject {
         put("ids", JsonArray(ids.map { JsonPrimitive(it) }))
         put("guesses", JsonArray(guesses.map { JsonPrimitive(it) }))
         put("scores", JsonArray(scores.map { JsonPrimitive(it) }))
@@ -147,6 +149,8 @@ private suspend fun persist(ids: List<String>, guesses: List<Int>, scores: List<
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun YearGuessScreen(onBack: () -> Unit = {}) {
+    val era = remember { ActiveEra.current() }
+    val modeKey = remember { GameKeys.modeKey(GAME_KEY, era) }
     var events by remember { mutableStateOf<List<HistoricalEvent>>(emptyList()) }
     var questionIndex by remember { mutableStateOf(0) }
     var guessText by remember { mutableStateOf("") }
@@ -158,7 +162,7 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
     val scores = remember { mutableStateListOf<Double>() }
 
     LaunchedEffect(Unit) {
-        val resume = resumeOrStartQuiz(PROGRESS_KEY, QUESTIONS_PER_ROUND, { it.id }, ::loadHistoricalEvents)
+        val resume = resumeOrStartQuiz(modeKey, QUESTIONS_PER_ROUND, { it.id }, ::loadHistoricalEvents)
         events = resume.questions
         resume.resumedState?.let { stored ->
             guesses.addAll(stored.getIntList("guesses"))
@@ -168,11 +172,11 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
         }
     }
 
-    MaterialTheme(colorScheme = gameColorScheme(AppColors.SlateBlue)) {
+    MaterialTheme(colorScheme = gameColorScheme(GameKeys.color(modeKey))) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(StringsGamesYearguessCasualties.yearguess_title) },
+                    title = { GameBarTitle(StringsGamesYearguessCasualties.yearguess_title, era) },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
                             Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = StringsGamesYearguessCasualties.yearguess_back_cd)
@@ -192,19 +196,24 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
                     .padding(padding),
                 contentAlignment = Alignment.Center
             ) {
-                GameBackgroundArt("images/backgrounds/bg_year_guess.png", MaterialTheme.colorScheme.onBackground)
+                GameBackgroundArt(
+                    EraThemes.backgroundAsset(era, GAME_KEY),
+                    MaterialTheme.colorScheme.onBackground,
+                    fallbackAssetPath = EraThemes.backgroundAsset(null, GAME_KEY)
+                )
                 when {
                     events.isEmpty() -> HistoriqLoadingIndicator()
                     questionIndex >= events.size -> {
                         if (resumedAlreadyDone) {
-                            YearGuessResults(events, guesses, scores, onBack)
+                            YearGuessResults(modeKey, events, guesses, scores, onBack)
                         } else {
-                            AdGatedResults { YearGuessResults(events, guesses, scores, onBack) }
+                            AdGatedResults { YearGuessResults(modeKey, events, guesses, scores, onBack) }
                         }
                     }
                     else -> {
                         val current = events[questionIndex]
                         YearGuessQuestion(
+                            modeKey = modeKey,
                             event = current,
                             questionNumber = questionIndex + 1,
                             totalQuestions = events.size,
@@ -241,13 +250,14 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
 
     LaunchedEffect(guesses.size) {
         if (guesses.size in 1..events.size && guesses.size == scores.size) {
-            persist(events.map { it.id }, guesses.toList(), scores.toList())
+            persist(modeKey, events.map { it.id }, guesses.toList(), scores.toList())
         }
     }
 }
 
 @Composable
 private fun YearGuessQuestion(
+    modeKey: String,
     event: HistoricalEvent,
     questionNumber: Int,
     totalQuestions: Int,
@@ -311,7 +321,7 @@ private fun YearGuessQuestion(
             if (revealed) {
                 var guessDist by remember(event.id) { mutableStateOf<List<Int>>(emptyList()) }
                 LaunchedEffect(event.id) {
-                    guessDist = DailyDistribution.yearGuesses(GameKeys.YEAR_GUESS, DailyClock.todayKey(), event.id)
+                    guessDist = DailyDistribution.yearGuesses(modeKey, DailyClock.todayKey(), event.id)
                 }
                 if (!hintRevealed) {
                     event.hint?.let {
@@ -393,6 +403,7 @@ private fun EraToggle(isBce: Boolean, enabled: Boolean, onIsBceChange: (Boolean)
 
 @Composable
 private fun YearGuessResults(
+    modeKey: String,
     events: List<HistoricalEvent>,
     guesses: List<Int>,
     scores: List<Double>,
@@ -400,7 +411,7 @@ private fun YearGuessResults(
 ) {
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 1000.0 }
-    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(PROGRESS_KEY, GameKeys.YEAR_GUESS, total, isPerfect)
+    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(modeKey, modeKey, total, isPerfect)
     var guessDistByEventId by remember { mutableStateOf<Map<String, List<Int>>>(emptyMap()) }
 
     val maxPossible = scores.size * 1000.0
@@ -408,7 +419,7 @@ private fun YearGuessResults(
 
     LaunchedEffect(Unit) {
         val dateKey = DailyClock.todayKey()
-        guessDistByEventId = events.associate { it.id to DailyDistribution.yearGuesses(GameKeys.YEAR_GUESS, dateKey, it.id) }
+        guessDistByEventId = events.associate { it.id to DailyDistribution.yearGuesses(modeKey, dateKey, it.id) }
     }
 
     Column(
@@ -420,7 +431,7 @@ private fun YearGuessResults(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         ResultsHeader(
-            gameKey = PROGRESS_KEY,
+            gameKey = modeKey,
             scoreText = formatFixed(total, 2),
             isPerfect = isPerfect,
             rank = rank,

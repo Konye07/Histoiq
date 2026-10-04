@@ -27,10 +27,12 @@ import com.konye.historiq.Core.Localization.StringsSocial
 import com.konye.historiq.Core.Network.networkOrElse
 import com.konye.historiq.Core.Theme.MascotEmptyState
 import com.konye.historiq.Data.Account.AccountRepository
+import com.konye.historiq.Data.Quiz.ActiveEra
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.GameStats
 import com.konye.historiq.Data.Quiz.ScoreHistoryStore
 import com.konye.historiq.Data.Quiz.StatsStore
+import com.konye.historiq.Features.Play.Shared.EraFilterChip
 
 /** Games with a personal-best display in Profile — the point-scale games only, not the two sudden-death survival games. */
 private val BEST_SCORE_GAMES = listOf(GameKeys.YEAR_GUESS, GameKeys.CASUALTIES_MULTIPLIER, GameKeys.FLAG_COLOR_MATCH, GameKeys.BLIND_MAP_BATTLE)
@@ -38,15 +40,29 @@ private val BEST_SCORE_GAMES = listOf(GameKeys.YEAR_GUESS, GameKeys.CASUALTIES_M
 @Composable
 fun ProfileScreen() {
     val account = remember { AccountRepository.currentAccount() }
-    var statsByGame by remember { mutableStateOf<Map<String, GameStats>>(emptyMap()) }
-    var bestByGame by remember { mutableStateOf<Map<String, Double?>>(emptyMap()) }
+    var era by remember { mutableStateOf(ActiveEra.current()) }
+    // An era game mode has only Annalist, Herald and Chancellor, so picking an era drops the other games from the list.
+    val games = if (era == null) GameKeys.ALL else GameKeys.ALL.filter { it in GameKeys.ERA_FILTERABLE }
+    var statsByMode by remember { mutableStateOf<Map<String, GameStats>>(emptyMap()) }
+    var bestByMode by remember { mutableStateOf<Map<String, Double?>>(emptyMap()) }
 
-    LaunchedEffect(Unit) {
-        statsByGame = GameKeys.ALL.associateWith { key -> networkOrElse(GameStats(0, 0.0, 0)) { StatsStore.statsFor(key) } }
+    LaunchedEffect(era) {
+        val newStats = mutableMapOf<String, GameStats>()
+        games.map { GameKeys.modeKey(it, era) }.filter { it !in statsByMode }.forEach { modeKey ->
+            newStats[modeKey] = networkOrElse(GameStats(0, 0.0, 0)) { StatsStore.statsFor(modeKey) }
+        }
+        statsByMode = statsByMode + newStats
+
         if (account != null) {
-            bestByGame = BEST_SCORE_GAMES.associateWith { key ->
-                networkOrElse<Double?>(null) { ScoreHistoryStore.bestFor(key, lowerIsBetter = key == GameKeys.CASUALTIES_MULTIPLIER) }
-            }
+            val newBest = mutableMapOf<String, Double?>()
+            BEST_SCORE_GAMES.filter { it in games }.map { it to GameKeys.modeKey(it, era) }
+                .filter { (_, modeKey) -> modeKey !in bestByMode }
+                .forEach { (key, modeKey) ->
+                    newBest[modeKey] = networkOrElse<Double?>(null) {
+                        ScoreHistoryStore.bestFor(modeKey, lowerIsBetter = key == GameKeys.CASUALTIES_MULTIPLIER)
+                    }
+                }
+            bestByMode = bestByMode + newBest
         }
     }
 
@@ -64,31 +80,35 @@ fun ProfileScreen() {
         }
 
         HorizontalDivider()
-        Text(StringsSocial.profile_statistics, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Text(StringsSocial.profile_statistics, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            if (account != null) EraFilterChip(era, onEraChange = { era = it })
+        }
 
         if (account == null) {
             MascotEmptyState(StringsSocial.profile_guest_notice, modifier = Modifier.padding(vertical = 16.dp))
         } else {
-            GameKeys.ALL.forEach { key ->
-                val stats = statsByGame[key] ?: GameStats(0, 0.0, 0)
+            games.forEach { key ->
+                val modeKey = GameKeys.modeKey(key, era)
+                val stats = statsByMode[modeKey]
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = GameKeys.color(key).copy(alpha = 0.12f))
+                    colors = CardDefaults.cardColors(containerColor = GameKeys.color(modeKey).copy(alpha = 0.12f))
                 ) {
                     Column(Modifier.padding(16.dp)) {
                         Text(
-                            StringsSocial.profile_role_title_format(GameKeys.roleName(key), GameKeys.title(key)),
+                            StringsSocial.profile_role_title_format(GameKeys.roleName(key), GameKeys.title(modeKey)),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold
                         )
-                        if (stats.gamesPlayed == 0) {
+                        if (stats != null && stats.gamesPlayed == 0) {
                             Text(StringsSocial.profile_not_played_yet, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
-                        } else {
+                        } else if (stats != null) {
                             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                 StatColumn(StringsSocial.profile_played, "${stats.gamesPlayed}")
                                 StatColumn(StringsSocial.profile_average, GameKeys.formatScore(key, stats.averageScore))
                                 StatColumn(StringsSocial.profile_perfect_runs, "${stats.perfectCount}")
-                                val best = bestByGame[key]
+                                val best = bestByMode[modeKey]
                                 if (key in BEST_SCORE_GAMES && best != null) {
                                     StatColumn(StringsSocial.profile_best_score, GameKeys.formatScore(key, best))
                                 }

@@ -49,9 +49,11 @@ import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.EraThemes
 import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.gameColorScheme
+import com.konye.historiq.Data.Quiz.ActiveEra
 import com.konye.historiq.Data.Quiz.BattleLocation
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
@@ -63,6 +65,7 @@ import com.konye.historiq.Data.Quiz.mapPinpointScore
 import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
+import com.konye.historiq.Features.Play.Shared.GameBarTitle
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
@@ -91,17 +94,18 @@ private val MAP_COLOR_MATRIX = ColorMatrix(
 )
 
 private const val QUESTIONS_PER_ROUND = 5
-private const val PROGRESS_KEY = GameKeys.BLIND_MAP_BATTLE
+private const val GAME_KEY = GameKeys.BLIND_MAP_BATTLE
 private const val MIN_SCALE = 1f
 private const val MAX_SCALE = 6f
 
 private suspend fun persist(
+    modeKey: String,
     ids: List<String>,
     guessLats: List<Double>,
     guessLngs: List<Double>,
     scores: List<Double>
 ) {
-    QuizProgressStore.save(PROGRESS_KEY, buildJsonObject {
+    QuizProgressStore.save(modeKey, buildJsonObject {
         put("ids", JsonArray(ids.map { JsonPrimitive(it) }))
         put("guessLats", JsonArray(guessLats.map { JsonPrimitive(it) }))
         put("guessLngs", JsonArray(guessLngs.map { JsonPrimitive(it) }))
@@ -124,6 +128,8 @@ private fun latLngToOffset(lat: Double, lng: Double, size: IntSize): Offset {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
+    val era = remember { ActiveEra.current() }
+    val modeKey = remember { GameKeys.modeKey(GAME_KEY, era) }
     var battles by remember { mutableStateOf<List<BattleLocation>>(emptyList()) }
     var worldMap by remember { mutableStateOf<ImageBitmap?>(null) }
     var questionIndex by remember { mutableStateOf(0) }
@@ -139,7 +145,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
         worldMap = withContext(Dispatchers.Default) {
             tryLoadImageBitmap("images/world_map.png")
         }
-        val resume = resumeOrStartQuiz(PROGRESS_KEY, QUESTIONS_PER_ROUND, { it.id }, ::loadBattleLocations)
+        val resume = resumeOrStartQuiz(modeKey, QUESTIONS_PER_ROUND, { it.id }, ::loadBattleLocations)
         battles = resume.questions
         resume.resumedState?.let { stored ->
             guessLats.addAll(stored.getDoubleList("guessLats"))
@@ -150,11 +156,11 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
         }
     }
 
-    MaterialTheme(colorScheme = gameColorScheme(AppColors.EspressoDark)) {
+    MaterialTheme(colorScheme = gameColorScheme(GameKeys.color(modeKey))) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(StringsGamesFlagTerritoryBlindmap.blindmap_title) },
+                title = { GameBarTitle(StringsGamesFlagTerritoryBlindmap.blindmap_title, era) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = StringsGamesFlagTerritoryBlindmap.blindmap_back)
@@ -169,14 +175,18 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
                 .padding(padding),
             contentAlignment = Alignment.Center
         ) {
-            GameBackgroundArt("images/backgrounds/bg_blind_map_battle.png", MaterialTheme.colorScheme.onBackground)
+            GameBackgroundArt(
+                EraThemes.backgroundAsset(era, GAME_KEY),
+                MaterialTheme.colorScheme.onBackground,
+                fallbackAssetPath = EraThemes.backgroundAsset(null, GAME_KEY)
+            )
             val map = worldMap
             if (battles.isEmpty() || map == null) {
                 HistoriqLoadingIndicator()
             } else if (questionIndex >= battles.size && resumedAlreadyDone) {
-                MapResults(battles, guessLats, guessLngs, scores, onBack)
+                MapResults(modeKey, battles, guessLats, guessLngs, scores, onBack)
             } else if (questionIndex >= battles.size) {
-                AdGatedResults { MapResults(battles, guessLats, guessLngs, scores, onBack) }
+                AdGatedResults { MapResults(modeKey, battles, guessLats, guessLngs, scores, onBack) }
             } else {
                 val current = battles[questionIndex]
                 MapQuestion(
@@ -214,7 +224,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
 
     LaunchedEffect(scores.size) {
         if (scores.size in 1..battles.size && scores.size == guessLats.size) {
-            persist(battles.map { it.id }, guessLats.toList(), guessLngs.toList(), scores.toList())
+            persist(modeKey, battles.map { it.id }, guessLats.toList(), guessLngs.toList(), scores.toList())
         }
     }
 }
@@ -344,6 +354,7 @@ private fun MapQuestion(
 
 @Composable
 private fun MapResults(
+    modeKey: String,
     battles: List<BattleLocation>,
     guessLats: List<Double>,
     guessLngs: List<Double>,
@@ -352,7 +363,7 @@ private fun MapResults(
 ) {
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 1000.0 }
-    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(PROGRESS_KEY, GameKeys.BLIND_MAP_BATTLE, total, isPerfect)
+    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(modeKey, modeKey, total, isPerfect)
     val maxPossible = scores.size * 1000.0
     fun scorePos(v: Double): Float = (v / maxPossible).toFloat().coerceIn(0f, 1f)
 
@@ -365,7 +376,7 @@ private fun MapResults(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         ResultsHeader(
-            gameKey = PROGRESS_KEY,
+            gameKey = modeKey,
             scoreText = formatFixed(total, 2),
             isPerfect = isPerfect,
             rank = rank,

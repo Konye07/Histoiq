@@ -201,12 +201,15 @@ structurally — both buttons are real OAuth there.
   specifically require a real attached display identity.
 - `daily_quizzes` — the fix for "same quiz everywhere on a given date": `(game_key, date_key) ->
   item_ids`, publicly readable, writable only through `get_or_create_daily_quiz(game_key, date,
-  count)` (SECURITY DEFINER). That function is the *only* place the 15-day cross-day cooldown
-  logic exists — it excludes ids used in the last 15 days per `daily_quizzes` history, falls back
+  count)` (SECURITY DEFINER). That function is the *only* place the cross-day cooldown logic
+  exists — it excludes ids used within the game's cooldown window per `daily_quizzes` history (15
+  days by default, shorter for a few games — see the function's own comment), falls back
   to the unfiltered pool if too few remain, and atomically inserts-once/reads-after so every device
   gets the identical set. Territory Compare (a continuous survival queue, not a fixed N) asks for a
   larger pool (60 ids) and turns it into match order client-side with a `Random` seeded by the
-  date, so the *shuffle* is deterministic and shared too, not just the item set.
+  date, so the *shuffle* is deterministic and shared too, not just the item set. A game key may
+  also be an era mode key, `<game>:<era>` (see "Era game modes" below): the function then draws only
+  that era's questions and excludes a question for just 2 days.
 - `year_guess_items`, `casualties_multiplier_items`, `flag_color_match_items`,
   `territory_compare_items`, `true_false_items`, `blind_map_battle_items` — the question banks,
   1:1 with the Kotlin data classes in `Data/Quiz/`, publicly readable, no client insert policy
@@ -214,6 +217,8 @@ structurally — both buttons are real OAuth there.
   id list to fetch (from `get_or_create_daily_quiz`), not "load everything." Images stay bundled
   as `commonMain/composeResources/files/images/...` (`imageAsset` is still a plain path relative to
   that root) — only the structured text/numeric data moved to Postgres, not the flag/battle PNGs.
+  `blind_map_battle_items.year` (NOT NULL) is never read by the client — it exists so the era
+  filter can date that bank like the other two (`correct_year` / `year`); give every new battle one.
 - `device_audit_log` — sign-in security audit trail (IP, user agent, event, timestamp). **No RLS
   policies at all** — zero client access, not even the account's own row. Only reachable through
   `log_device_event(event)` (SECURITY DEFINER), which reads the caller's IP from PostgREST's
@@ -249,11 +254,45 @@ and color — screens must reference `GameKeys.X`, never re-declare the key as a
 literal. Each game's key also names its Postgres question-bank table (`<key>_items`) and is the
 `game_key` column value everywhere else — keep them in sync if a key ever changes.
 
+## Era game modes
+
+Annalist, Herald and Chancellor (`GameKeys.ERA_FILTERABLE` — the only banks whose questions carry a
+year) each have five more game modes, one per `QuizEra`: ancient (before 476 CE), medieval (476–1452),
+early modern (1453–1750), modern (1751–1899), contemporary (1900+). The boundaries live only in the
+`era_for_year` Postgres function. The app always opens in All-time, the original six games; the Play
+screen's `EraModeStrip` switches `ActiveEra` (in memory, never persisted) and the whole screen becomes
+that era's own mode — its own palette, its own pictures, only those three games. It is a mode you step
+into, not a filter on the original.
+
+- **Keys**: an era mode is the game key `GameKeys.modeKey(game, era)` = `"<game>:<era>"`
+  (`year_guess:ancient`). Every table and function keyed by `game_key` (`daily_quizzes`,
+  `quiz_progress`, `score_history`, `game_stats`, `get_final_scores`, `get_question_guesses`) treats it
+  as a game of its own, so an era mode has its own daily round (once a day, resumable), streak
+  (`StreakStore.computeAll` is keyed by mode key), rank, ads, lifetime stats and Friends leaderboard
+  with no schema change there. `GameKeys.roleName/title/color/formatScore` accept a mode key and
+  resolve it to its base game (`title` appends "(Era)"). Always build one with `modeKey`, never by
+  string concatenation.
+- **Screens**: a game screen reads `ActiveEra.current()` once when it opens and passes the resulting
+  mode key to everything keyed by game (resume, persist, rank, guess distributions, `ResultsHeader`).
+  Friends and Profile have their own local era filter (`EraFilterChip`), starting on the mode you are
+  in; picking an era lists only the three era games.
+- **Server**: `supabase/migrations/20261004120000_era_filtered_daily_quizzes.sql` adds
+  `blind_map_battle_items.year`, `era_for_year` and the era branch of `get_or_create_daily_quiz`. It is
+  additive (builds without era modes keep working) and was tested against a scratch Postgres. It must
+  be applied before a build with era modes ships — until then an era round sits on its loading screen,
+  retrying (check `list_migrations` for `era_filtered_daily_quizzes`).
+- **Look**: `EraThemes` (`Core/Theme/EraThemes.kt`) holds each era's palette — placeholder shades of
+  `AppColors` until the real palettes arrive. Pictures go in
+  `composeResources/files/images/eras/<era key>/`: `banner.png` (optional header on the era's Play
+  screen), `logo_<game key>.png` (the game cards) and `bg_<game key>.png` (the watermark behind each
+  game screen). A missing picture falls back to the all-time artwork.
+
 ## Fixed color palette
 
 Each game gets its own Material3 `ColorScheme` built from one base color via `gameColorScheme()`
 in `Core/Theme/Theme.kt` (`AppColors` object holds the palette). Don't introduce new colors outside
-this palette without asking.
+this palette without asking. Era game modes are the exception: each era is meant to get a palette of
+its own (see `EraThemes`), supplied by the project owner.
 
 ## Conventions
 

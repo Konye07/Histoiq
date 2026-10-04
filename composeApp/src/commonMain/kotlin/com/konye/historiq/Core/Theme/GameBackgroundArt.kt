@@ -24,11 +24,13 @@ import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
  * simplest option: it's the one scale mode that's mathematically guaranteed to show the whole
  * bitmap at the largest size that still fits entirely on screen — anything bigger (e.g. scaling
  * past the box) starts clipping the art against the physical screen edge instead of framing it.
+ *
+ * [fallbackAssetPath] is drawn when [assetPath] isn't there — an era game mode's own art, until it's added.
  */
 @Composable
-fun GameBackgroundArt(assetPath: String, tint: Color, modifier: Modifier = Modifier) {
-    val bitmap by produceState<ImageBitmap?>(null, assetPath) {
-        value = tryLoadImageBitmap(assetPath)
+fun GameBackgroundArt(assetPath: String, tint: Color, modifier: Modifier = Modifier, fallbackAssetPath: String? = null) {
+    val bitmap by produceState<ImageBitmap?>(null, assetPath, fallbackAssetPath) {
+        value = tryLoadImageBitmap(assetPath) ?: tryLoadImageBitmap(fallbackAssetPath)
     }
     val loaded = bitmap ?: return
     Image(

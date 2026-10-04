@@ -44,11 +44,12 @@ import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Formatting.formatFixed
 import com.konye.historiq.Core.Localization.StringsGamesYearguessCasualties
 import com.konye.historiq.Core.Localization.StringsHomeShared
-import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.EraThemes
 import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Core.Theme.gameColorScheme
+import com.konye.historiq.Data.Quiz.ActiveEra
 import com.konye.historiq.Data.Quiz.BattleCasualty
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyDistribution
@@ -63,6 +64,7 @@ import com.konye.historiq.Data.Quiz.getLongList
 import com.konye.historiq.Data.Quiz.loadBattleCasualties
 import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
+import com.konye.historiq.Features.Play.Shared.GameBarTitle
 import com.konye.historiq.Features.Play.Shared.GuessQuestionLayout
 import com.konye.historiq.Features.Play.Shared.HintAction
 import com.konye.historiq.Features.Play.Shared.QuestionResultCard
@@ -120,10 +122,10 @@ private fun CasualtiesResult(
 }
 
 private const val QUESTIONS_PER_ROUND = 5
-private const val PROGRESS_KEY = GameKeys.CASUALTIES_MULTIPLIER
+private const val GAME_KEY = GameKeys.CASUALTIES_MULTIPLIER
 
-private suspend fun persist(ids: List<String>, guesses: List<Long>, multipliers: List<Double>) {
-    QuizProgressStore.save(PROGRESS_KEY, buildJsonObject {
+private suspend fun persist(modeKey: String, ids: List<String>, guesses: List<Long>, multipliers: List<Double>) {
+    QuizProgressStore.save(modeKey, buildJsonObject {
         put("ids", JsonArray(ids.map { JsonPrimitive(it) }))
         put("guesses", JsonArray(guesses.map { JsonPrimitive(it) }))
         put("multipliers", JsonArray(multipliers.map { JsonPrimitive(it) }))
@@ -133,6 +135,8 @@ private suspend fun persist(ids: List<String>, guesses: List<Long>, multipliers:
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
+    val era = remember { ActiveEra.current() }
+    val modeKey = remember { GameKeys.modeKey(GAME_KEY, era) }
     var battles by remember { mutableStateOf<List<BattleCasualty>>(emptyList()) }
     var questionIndex by remember { mutableStateOf(0) }
     var guessText by remember { mutableStateOf("") }
@@ -143,7 +147,7 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
     val multipliers = remember { mutableStateListOf<Double>() }
 
     LaunchedEffect(Unit) {
-        val resume = resumeOrStartQuiz(PROGRESS_KEY, QUESTIONS_PER_ROUND, { it.id }, ::loadBattleCasualties)
+        val resume = resumeOrStartQuiz(modeKey, QUESTIONS_PER_ROUND, { it.id }, ::loadBattleCasualties)
         battles = resume.questions
         resume.resumedState?.let { stored ->
             guesses.addAll(stored.getLongList("guesses"))
@@ -153,11 +157,11 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
         }
     }
 
-    MaterialTheme(colorScheme = gameColorScheme(AppColors.Maroon)) {
+    MaterialTheme(colorScheme = gameColorScheme(GameKeys.color(modeKey))) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(StringsGamesYearguessCasualties.casualties_title) },
+                    title = { GameBarTitle(StringsGamesYearguessCasualties.casualties_title, era) },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
                             Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = StringsGamesYearguessCasualties.casualties_back_cd)
@@ -178,22 +182,24 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                 contentAlignment = Alignment.Center
             ) {
                 GameBackgroundArt(
-                    "images/backgrounds/bg_casualties_multiplier.png",
+                    EraThemes.backgroundAsset(era, GAME_KEY),
                     MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.offset(y = (-90).dp)
+                    modifier = Modifier.offset(y = (-90).dp),
+                    fallbackAssetPath = EraThemes.backgroundAsset(null, GAME_KEY)
                 )
                 when {
                     battles.isEmpty() -> HistoriqLoadingIndicator()
                     questionIndex >= battles.size -> {
                         if (resumedAlreadyDone) {
-                            CasualtiesResults(battles, guesses, multipliers, onBack)
+                            CasualtiesResults(modeKey, battles, guesses, multipliers, onBack)
                         } else {
-                            AdGatedResults { CasualtiesResults(battles, guesses, multipliers, onBack) }
+                            AdGatedResults { CasualtiesResults(modeKey, battles, guesses, multipliers, onBack) }
                         }
                     }
                     else -> {
                         val current = battles[questionIndex]
                         CasualtiesQuestion(
+                            modeKey = modeKey,
                             battle = current,
                             questionNumber = questionIndex + 1,
                             totalQuestions = battles.size,
@@ -226,13 +232,14 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
 
     LaunchedEffect(guesses.size) {
         if (guesses.size in 1..battles.size && guesses.size == multipliers.size) {
-            persist(battles.map { it.id }, guesses.toList(), multipliers.toList())
+            persist(modeKey, battles.map { it.id }, guesses.toList(), multipliers.toList())
         }
     }
 }
 
 @Composable
 private fun CasualtiesQuestion(
+    modeKey: String,
     battle: BattleCasualty,
     questionNumber: Int,
     totalQuestions: Int,
@@ -276,7 +283,7 @@ private fun CasualtiesQuestion(
             if (revealed) {
                 var guessDist by remember(battle.id) { mutableStateOf<List<Long>>(emptyList()) }
                 LaunchedEffect(battle.id) {
-                    guessDist = DailyDistribution.casualtyGuesses(GameKeys.CASUALTIES_MULTIPLIER, DailyClock.todayKey(), battle.id)
+                    guessDist = DailyDistribution.casualtyGuesses(modeKey, DailyClock.todayKey(), battle.id)
                 }
                 if (!hintRevealed) {
                     battle.hint?.let {
@@ -324,6 +331,7 @@ private fun CasualtiesQuestion(
 
 @Composable
 private fun CasualtiesResults(
+    modeKey: String,
     battles: List<BattleCasualty>,
     guesses: List<Long>,
     multipliers: List<Double>,
@@ -331,13 +339,13 @@ private fun CasualtiesResults(
 ) {
     val total = geometricMeanMultiplier(multipliers)
     val isPerfect = multipliers.isNotEmpty() && multipliers.all { it == 1.0 }
-    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(PROGRESS_KEY, GameKeys.CASUALTIES_MULTIPLIER, total, isPerfect, higherIsBetter = false)
+    val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(modeKey, modeKey, total, isPerfect, higherIsBetter = false)
     var guessDistByBattleId by remember { mutableStateOf<Map<String, List<Long>>>(emptyMap()) }
 
     LaunchedEffect(Unit) {
         val dateKey = DailyClock.todayKey()
         guessDistByBattleId = battles.associate {
-            it.id to DailyDistribution.casualtyGuesses(GameKeys.CASUALTIES_MULTIPLIER, dateKey, it.id)
+            it.id to DailyDistribution.casualtyGuesses(modeKey, dateKey, it.id)
         }
     }
 
@@ -354,7 +362,7 @@ private fun CasualtiesResults(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         ResultsHeader(
-            gameKey = PROGRESS_KEY,
+            gameKey = modeKey,
             scoreText = "x" + formatFixed(total, 2),
             isPerfect = isPerfect,
             rank = rank,

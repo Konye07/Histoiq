@@ -46,6 +46,7 @@ import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.MascotEmptyState
 import com.konye.historiq.Core.Theme.contrastingOn
 import com.konye.historiq.Data.Account.AccountRepository
+import com.konye.historiq.Data.Quiz.ActiveEra
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.ScoreHistoryStore
@@ -53,13 +54,19 @@ import com.konye.historiq.Data.Social.AddFriendResult
 import com.konye.historiq.Data.Social.FriendConnection
 import com.konye.historiq.Data.Social.FriendsRepository
 import com.konye.historiq.Data.Social.FriendsStore
+import com.konye.historiq.Features.Play.Shared.EraFilterChip
 import kotlinx.coroutines.launch
 
 private data class LeaderboardRow(val name: String, val score: Double?, val isMe: Boolean)
 
 @Composable
 fun FriendsScreen() {
+    var era by remember { mutableStateOf(ActiveEra.current()) }
     var selectedGame by remember { mutableStateOf(GameKeys.YEAR_GUESS) }
+    // An era game mode has only Annalist, Herald and Chancellor, so picking an era drops the other games from the list.
+    val games = if (era == null) GameKeys.ALL else GameKeys.ALL.filter { it in GameKeys.ERA_FILTERABLE }
+    val activeGame = if (selectedGame in games) selectedGame else GameKeys.YEAR_GUESS
+    val selectedModeKey = GameKeys.modeKey(activeGame, era)
     var selectedDayOffset by remember { mutableStateOf(0) }
     var friendsVersion by remember { mutableStateOf(0) }
     var showAddFriendDialog by remember { mutableStateOf(false) }
@@ -80,16 +87,16 @@ fun FriendsScreen() {
         }
     }
 
-    LaunchedEffect(selectedGame, selectedDayOffset, acceptedFriends) {
+    LaunchedEffect(selectedModeKey, selectedDayOffset, acceptedFriends) {
         loading = true
         val dateKey = DailyClock.dateKey(selectedDayOffset)
-        val myScore = networkOrElse<Double?>(null) { ScoreHistoryStore.resultFor(selectedGame, dateKey) }
+        val myScore = networkOrElse<Double?>(null) { ScoreHistoryStore.resultFor(selectedModeKey, dateKey) }
         val list = mutableListOf(LeaderboardRow(myAccount?.displayName ?: youFallback, myScore, isMe = true))
         acceptedFriends.forEach { f ->
-            val friendScore = networkOrElse<Double?>(null) { ScoreHistoryStore.resultFor(f.otherId, selectedGame, dateKey) }
+            val friendScore = networkOrElse<Double?>(null) { ScoreHistoryStore.resultFor(f.otherId, selectedModeKey, dateKey) }
             list.add(LeaderboardRow(f.displayName, friendScore, isMe = false))
         }
-        rows = if (selectedGame == GameKeys.CASUALTIES_MULTIPLIER) {
+        rows = if (activeGame == GameKeys.CASUALTIES_MULTIPLIER) {
             // Lower is better for this game's stored score (a penalty multiplier), unlike every other game.
             list.sortedBy { it.score ?: Double.MAX_VALUE }
         } else {
@@ -100,14 +107,17 @@ fun FriendsScreen() {
 
     Box(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize().padding(16.dp)) {
-            Text(StringsSocial.friends_title, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text(StringsSocial.friends_title, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                EraFilterChip(era, onEraChange = { era = it })
+            }
             Spacer(Modifier.height(12.dp))
 
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(GameKeys.ALL) { key ->
-                    val color = GameKeys.color(key)
+                items(games) { key ->
+                    val color = GameKeys.color(GameKeys.modeKey(key, era))
                     FilterChip(
-                        selected = selectedGame == key,
+                        selected = activeGame == key,
                         onClick = { selectedGame = key },
                         label = { Text(GameKeys.roleName(key)) },
                         colors = FilterChipDefaults.filterChipColors(
@@ -137,7 +147,7 @@ fun FriendsScreen() {
 
             Spacer(Modifier.height(16.dp))
             Text(
-                StringsSocial.friends_role_title_format(GameKeys.roleName(selectedGame), GameKeys.title(selectedGame)),
+                StringsSocial.friends_role_title_format(GameKeys.roleName(activeGame), GameKeys.title(selectedModeKey)),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -148,7 +158,7 @@ fun FriendsScreen() {
             } else {
                 LazyColumn(Modifier.weight(1f)) {
                     items(rows) { row ->
-                        LeaderboardRowItem(row, selectedGame)
+                        LeaderboardRowItem(row, selectedModeKey)
                     }
                     if (myAccount != null && acceptedFriends.isEmpty()) {
                         item {

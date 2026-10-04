@@ -31,6 +31,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Feedback.RateAppPrompt
 import com.konye.historiq.Core.Formatting.formatTwoDigits
 import com.konye.historiq.Core.Haptics.Haptics
+import com.konye.historiq.Core.Localization.StringsEras
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Localization.StringsRateApp
 import com.konye.historiq.Core.Localization.todayDisplay
@@ -62,14 +64,19 @@ import com.konye.historiq.Core.Platform.openEmailComposer
 import com.konye.historiq.Core.Platform.openUrl
 import com.konye.historiq.Core.Theme.APP_LOGO_SHARED_KEY
 import com.konye.historiq.Core.Theme.AppLogoImage
+import com.konye.historiq.Core.Theme.EraThemes
 import com.konye.historiq.Core.Theme.LocalSharedTransitionScope
 import com.konye.historiq.Core.Theme.contrastingOn
 import com.konye.historiq.Core.Theme.dimmedOn
+import com.konye.historiq.Core.Theme.gameColorScheme
+import com.konye.historiq.Data.Quiz.ActiveEra
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.GameStreak
+import com.konye.historiq.Data.Quiz.QuizEra
 import com.konye.historiq.Data.Quiz.StreakStore
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
+import com.konye.historiq.Features.Play.Shared.EraModeStrip
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_info
 import kotlinx.coroutines.Dispatchers
@@ -88,6 +95,16 @@ private data class QuizMode(
     val onClick: () -> Unit = {}
 )
 
+/** The all-time card pictures — also what an era's card falls back to until the era has its own. */
+private val ALL_TIME_LOGOS = mapOf(
+    GameKeys.YEAR_GUESS to "images/menulogos/01guess_year.png",
+    GameKeys.CASUALTIES_MULTIPLIER to "images/menulogos/02casualities.png",
+    GameKeys.FLAG_COLOR_MATCH to "images/menulogos/03paint_flag.png",
+    GameKeys.TERRITORY_COMPARE to "images/menulogos/04peak_empire_vs.png",
+    GameKeys.TRUE_FALSE to "images/menulogos/05hist_statements.png",
+    GameKeys.BLIND_MAP_BATTLE to "images/menulogos/06battle_map.png"
+)
+
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun PlayScreen(
@@ -100,17 +117,25 @@ fun PlayScreen(
 ) {
     var logos by remember { mutableStateOf<Map<String, ImageBitmap>>(emptyMap()) }
     var torch by remember { mutableStateOf<ImageBitmap?>(null) }
+    var banner by remember { mutableStateOf<ImageBitmap?>(null) }
     var streaks by remember { mutableStateOf<Map<String, GameStreak>>(emptyMap()) }
     var showRateDialog by remember { mutableStateOf(false) }
+    val era by ActiveEra.selected.collectAsState()
 
-    val modes = listOf(
+    val modes = era?.let { current ->
+        listOf(
+            eraQuizMode(current, GameKeys.YEAR_GUESS, StringsHomeShared.home_desc_year_guess, onSelectYearGuess),
+            eraQuizMode(current, GameKeys.CASUALTIES_MULTIPLIER, StringsHomeShared.home_desc_casualties_multiplier, onSelectCasualtiesMultiplier),
+            eraQuizMode(current, GameKeys.BLIND_MAP_BATTLE, StringsHomeShared.home_desc_blind_map_battle, onSelectBlindMapBattle)
+        )
+    } ?: listOf(
         QuizMode(
             key = GameKeys.YEAR_GUESS,
             roleName = GameKeys.roleName(GameKeys.YEAR_GUESS),
             title = GameKeys.title(GameKeys.YEAR_GUESS),
             description = StringsHomeShared.home_desc_year_guess,
             color = GameKeys.color(GameKeys.YEAR_GUESS),
-            logoAsset = "images/menulogos/01guess_year.png",
+            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.YEAR_GUESS),
             enabled = true,
             onClick = onSelectYearGuess
         ),
@@ -120,7 +145,7 @@ fun PlayScreen(
             title = GameKeys.title(GameKeys.CASUALTIES_MULTIPLIER),
             description = StringsHomeShared.home_desc_casualties_multiplier,
             color = GameKeys.color(GameKeys.CASUALTIES_MULTIPLIER),
-            logoAsset = "images/menulogos/02casualities.png",
+            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.CASUALTIES_MULTIPLIER),
             enabled = true,
             onClick = onSelectCasualtiesMultiplier
         ),
@@ -130,7 +155,7 @@ fun PlayScreen(
             title = GameKeys.title(GameKeys.FLAG_COLOR_MATCH),
             description = StringsHomeShared.home_desc_flag_color_match,
             color = GameKeys.color(GameKeys.FLAG_COLOR_MATCH),
-            logoAsset = "images/menulogos/03paint_flag.png",
+            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.FLAG_COLOR_MATCH),
             enabled = true,
             onClick = onSelectFlagColorMatch
         ),
@@ -140,7 +165,7 @@ fun PlayScreen(
             title = GameKeys.title(GameKeys.TERRITORY_COMPARE),
             description = StringsHomeShared.home_desc_territory_compare,
             color = GameKeys.color(GameKeys.TERRITORY_COMPARE),
-            logoAsset = "images/menulogos/04peak_empire_vs.png",
+            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.TERRITORY_COMPARE),
             enabled = true,
             onClick = onSelectTerritoryCompare
         ),
@@ -150,7 +175,7 @@ fun PlayScreen(
             title = GameKeys.title(GameKeys.TRUE_FALSE),
             description = StringsHomeShared.home_desc_true_false,
             color = GameKeys.color(GameKeys.TRUE_FALSE),
-            logoAsset = "images/menulogos/05hist_statements.png",
+            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.TRUE_FALSE),
             enabled = true,
             onClick = onSelectTrueFalse
         ),
@@ -160,21 +185,28 @@ fun PlayScreen(
             title = GameKeys.title(GameKeys.BLIND_MAP_BATTLE),
             description = StringsHomeShared.home_desc_blind_map_battle,
             color = GameKeys.color(GameKeys.BLIND_MAP_BATTLE),
-            logoAsset = "images/menulogos/06battle_map.png",
+            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.BLIND_MAP_BATTLE),
             enabled = true,
             onClick = onSelectBlindMapBattle
         )
     )
 
     LaunchedEffect(Unit) {
-        val (loadedLogos, loadedTorch) = withContext(Dispatchers.Default) {
-            val loadedLogos = modes.mapNotNull { mode ->
-                tryLoadImageBitmap(mode.logoAsset)?.let { mode.logoAsset to it }
+        torch = withContext(Dispatchers.Default) { tryLoadImageBitmap("images/streak_torch.png") }
+    }
+
+    LaunchedEffect(era) {
+        banner = null
+        val shownEra = era
+        val missing = modes.filter { it.logoAsset !in logos }
+        val (loadedLogos, loadedBanner) = withContext(Dispatchers.Default) {
+            val loadedLogos = missing.mapNotNull { mode ->
+                (tryLoadImageBitmap(mode.logoAsset) ?: tryLoadImageBitmap(ALL_TIME_LOGOS[mode.key]))?.let { mode.logoAsset to it }
             }.toMap()
-            loadedLogos to tryLoadImageBitmap("images/streak_torch.png")
+            loadedLogos to shownEra?.let { tryLoadImageBitmap(EraThemes.bannerAsset(it)) }
         }
-        logos = loadedLogos
-        torch = loadedTorch
+        logos = logos + loadedLogos
+        banner = loadedBanner
     }
 
     LaunchedEffect(Unit) {
@@ -185,37 +217,42 @@ fun PlayScreen(
         showRateDialog = RateAppPrompt.shouldShow()
     }
 
-    Column(Modifier.fillMaxSize()) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                val sharedScope = LocalSharedTransitionScope.current
-                val logoModifier = Modifier.size(36.dp).let { base ->
-                    if (sharedScope == null) base else with(sharedScope) {
-                        base.sharedElementWithCallerManagedVisibility(
-                            rememberSharedContentState(key = APP_LOGO_SHARED_KEY),
-                            visible = true,
-                            clipInOverlayDuringTransition = OverlayClip(RectangleShape)
-                        )
+    EraModeTheme(era) {
+        Column(Modifier.fillMaxSize()) {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    val sharedScope = LocalSharedTransitionScope.current
+                    val logoModifier = Modifier.size(36.dp).let { base ->
+                        if (sharedScope == null) base else with(sharedScope) {
+                            base.sharedElementWithCallerManagedVisibility(
+                                rememberSharedContentState(key = APP_LOGO_SHARED_KEY),
+                                visible = true,
+                                clipInOverlayDuringTransition = OverlayClip(RectangleShape)
+                            )
+                        }
                     }
+                    AppLogoImage(modifier = logoModifier)
+                    Text(StringsHomeShared.home_title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 }
-                AppLogoImage(modifier = logoModifier)
-                Text(StringsHomeShared.home_title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                NextQuizCountdown()
             }
-            NextQuizCountdown()
-        }
 
-        LazyColumn(
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(modes) { mode -> QuizModeCard(mode, logos[mode.logoAsset], torch, streaks[mode.key]) }
-            item { SuggestionPanel() }
+            EraModeStrip(selected = era, onSelect = ActiveEra::select)
+
+            LazyColumn(
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                era?.let { current -> item { EraModeHeader(current, banner) } }
+                items(modes) { mode -> QuizModeCard(mode, logos[mode.logoAsset], torch, streaks[GameKeys.modeKey(mode.key, era)]) }
+                item { SuggestionPanel() }
+            }
         }
     }
 
@@ -246,6 +283,62 @@ fun PlayScreen(
                     }) { Text(StringsRateApp.rate_app_later) }
                 }
             }
+        )
+    }
+}
+
+@Composable
+private fun eraQuizMode(era: QuizEra, gameKey: String, description: String, onClick: () -> Unit) = QuizMode(
+    key = gameKey,
+    roleName = GameKeys.roleName(gameKey),
+    title = GameKeys.title(gameKey),
+    description = description,
+    color = GameKeys.color(GameKeys.modeKey(gameKey, era)),
+    logoAsset = EraThemes.logoAsset(era, gameKey),
+    enabled = true,
+    onClick = onClick
+)
+
+/** An era game mode paints the whole Play screen in its own palette; All-time keeps the app's default look. */
+@Composable
+private fun EraModeTheme(era: QuizEra?, content: @Composable () -> Unit) {
+    if (era == null) {
+        content()
+        return
+    }
+    val colorScheme = remember(era) { gameColorScheme(EraThemes.palette(era).base) }
+    MaterialTheme(colorScheme = colorScheme) {
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background, content = content)
+    }
+}
+
+/** What opens an era's list of games: its optional banner picture, its name and years, and what the mode is. */
+@Composable
+private fun EraModeHeader(era: QuizEra, banner: ImageBitmap?) {
+    val background = MaterialTheme.colorScheme.background
+    val onBackground = MaterialTheme.colorScheme.onBackground
+    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        if (banner != null) {
+            Image(
+                bitmap = banner,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .clip(RoundedCornerShape(16.dp))
+            )
+        }
+        Text(StringsEras.label(era), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        Text(StringsEras.range(era), style = MaterialTheme.typography.titleSmall, color = onBackground.dimmedOn(background, 0.8f))
+        Text(
+            StringsEras.era_mode_blurb(
+                GameKeys.roleName(GameKeys.YEAR_GUESS),
+                GameKeys.roleName(GameKeys.CASUALTIES_MULTIPLIER),
+                GameKeys.roleName(GameKeys.BLIND_MAP_BATTLE)
+            ),
+            style = MaterialTheme.typography.bodyMedium,
+            color = onBackground.dimmedOn(background, 0.85f)
         )
     }
 }

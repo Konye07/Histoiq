@@ -9,6 +9,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -23,9 +24,13 @@ import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Network.OfflineBanner
 import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.EraThemes
 import com.konye.historiq.Core.Theme.contrastingOn
 import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Core.Theme.lighten
+import com.konye.historiq.Data.Quiz.ActiveEra
+import com.konye.historiq.Data.Quiz.GameKeys
+import com.konye.historiq.Data.Quiz.QuizEra
 import com.konye.historiq.Features.Friends.FriendsScreen
 import com.konye.historiq.Features.Play.BlindMapBattle.BlindMapBattleScreen
 import com.konye.historiq.Features.Play.CasualtiesMultiplier.CasualtiesMultiplierScreen
@@ -52,7 +57,8 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
         bottomBar = {
             val backStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = backStackEntry?.destination?.route
-            val gameColor = gameColorForRoute(currentRoute)
+            val era by ActiveEra.selected.collectAsState()
+            val gameColor = gameColorForRoute(currentRoute, era)
             // Falls back to the ambient AppTheme's own colors (not a hardcoded light-mode
             // constant) so the bar still matches on Play/Friends/Profile/Settings when dark mode
             // is on — no MaterialTheme override sits between AppTheme and this Scaffold, so these
@@ -144,13 +150,15 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
     }
 }
 
-private fun gameColorForRoute(route: String?): Color? = when (route) {
-    NavRoutes.YearGuess.route -> AppColors.SlateBlue
-    NavRoutes.CasualtiesMultiplier.route -> AppColors.Maroon
+/** The bottom bar's color on a game route — and on Play while in an era's game mode, which has a palette of its own. */
+private fun gameColorForRoute(route: String?, era: QuizEra?): Color? = when (route) {
+    NavRoutes.Play.route -> era?.let { EraThemes.palette(it).base }
+    NavRoutes.YearGuess.route -> GameKeys.color(GameKeys.modeKey(GameKeys.YEAR_GUESS, era))
+    NavRoutes.CasualtiesMultiplier.route -> GameKeys.color(GameKeys.modeKey(GameKeys.CASUALTIES_MULTIPLIER, era))
     NavRoutes.FlagColorMatch.route -> AppColors.OliveDark
     NavRoutes.TerritoryCompare.route -> AppColors.ForestDark
     NavRoutes.TrueFalse.route -> AppColors.BrownDark
-    NavRoutes.BlindMapBattle.route -> AppColors.EspressoDark
+    NavRoutes.BlindMapBattle.route -> GameKeys.color(GameKeys.modeKey(GameKeys.BLIND_MAP_BATTLE, era))
     else -> null
 }
 
