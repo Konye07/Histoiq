@@ -285,10 +285,11 @@ into, not a filter on the original.
   in; picking an era lists only the three era games.
 - **Server**: `supabase/migrations/20261004120000_era_filtered_daily_quizzes.sql` adds
   `blind_map_battle_items.year`, `era_for_year`, the `era_key` flag on the three banks and the era
-  branch of `get_or_create_daily_quiz`. It is additive (builds without era modes keep working),
-  idempotent, and was tested against a scratch Postgres (fresh and as an upgrade). It must be applied
-  before a build with era modes ships — until then an era round sits on its loading screen, retrying
-  (check `list_migrations` for `era_filtered_daily_quizzes`).
+  branch of `get_or_create_daily_quiz`. It is additive (builds without era modes keep working) and
+  idempotent. Applied to the live project on 2026-10-04 (migration `era_filtered_daily_quizzes`) after
+  testing against a scratch Postgres, and verified end to end with a full Annalist, Herald and
+  Chancellor era round on an Android device; without it an era round sits on its loading screen,
+  retrying. Questions added later are flagged automatically from their date.
 - **Look**: `EraThemes` (`Core/Theme/EraThemes.kt`) holds each era's palette — placeholder shades of
   `AppColors` until the real palettes arrive. Pictures go in
   `composeResources/files/images/eras/<era key>/`: `banner.png` (optional header on the era's Play
