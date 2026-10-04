@@ -217,8 +217,10 @@ structurally — both buttons are real OAuth there.
   id list to fetch (from `get_or_create_daily_quiz`), not "load everything." Images stay bundled
   as `commonMain/composeResources/files/images/...` (`imageAsset` is still a plain path relative to
   that root) — only the structured text/numeric data moved to Postgres, not the flag/battle PNGs.
-  `blind_map_battle_items.year` (NOT NULL) is never read by the client — it exists so the era
-  filter can date that bank like the other two (`correct_year` / `year`); give every new battle one.
+  `blind_map_battle_items.year` (NOT NULL) is never read by the client — it dates that bank like the
+  other two (`correct_year` / `year`) so every question can be flagged with its era; give every new
+  battle one. Those three banks also carry `era_key`, a stored generated column (see "Era game modes");
+  it is not the free-text `era` label that `territory_compare_items` has.
 - `device_audit_log` — sign-in security audit trail (IP, user agent, event, timestamp). **No RLS
   policies at all** — zero client access, not even the account's own row. Only reachable through
   `log_device_event(event)` (SECURITY DEFINER), which reads the caller's IP from PostgREST's
@@ -259,7 +261,12 @@ literal. Each game's key also names its Postgres question-bank table (`<key>_ite
 Annalist, Herald and Chancellor (`GameKeys.ERA_FILTERABLE` — the only banks whose questions carry a
 year) each have five more game modes, one per `QuizEra`: ancient (before 476 CE), medieval (476–1452),
 early modern (1453–1750), modern (1751–1899), contemporary (1900+). The boundaries live only in the
-`era_for_year` Postgres function. The app always opens in All-time, the original six games; the Play
+`era_for_year` Postgres function, and every question in those three banks carries its era as a stored
+generated column, `era_key` — derived from its date, filled in for new questions automatically, and an
+era mode recalls its questions with `era_key = '<era>'`. (One column rather than five 1/0 flags: a
+question is in exactly one era.) Change the boundaries and the stored flags are refreshed by
+rewriting the date column (`update <bank> set <date column> = <date column>`). The app always opens
+in All-time, the original six games; the Play
 screen's `EraModeStrip` switches `ActiveEra` (in memory, never persisted) and the whole screen becomes
 that era's own mode — its own palette, its own pictures, only those three games. It is a mode you step
 into, not a filter on the original.
@@ -277,10 +284,11 @@ into, not a filter on the original.
   Friends and Profile have their own local era filter (`EraFilterChip`), starting on the mode you are
   in; picking an era lists only the three era games.
 - **Server**: `supabase/migrations/20261004120000_era_filtered_daily_quizzes.sql` adds
-  `blind_map_battle_items.year`, `era_for_year` and the era branch of `get_or_create_daily_quiz`. It is
-  additive (builds without era modes keep working) and was tested against a scratch Postgres. It must
-  be applied before a build with era modes ships — until then an era round sits on its loading screen,
-  retrying (check `list_migrations` for `era_filtered_daily_quizzes`).
+  `blind_map_battle_items.year`, `era_for_year`, the `era_key` flag on the three banks and the era
+  branch of `get_or_create_daily_quiz`. It is additive (builds without era modes keep working),
+  idempotent, and was tested against a scratch Postgres (fresh and as an upgrade). It must be applied
+  before a build with era modes ships — until then an era round sits on its loading screen, retrying
+  (check `list_migrations` for `era_filtered_daily_quizzes`).
 - **Look**: `EraThemes` (`Core/Theme/EraThemes.kt`) holds each era's palette — placeholder shades of
   `AppColors` until the real palettes arrive. Pictures go in
   `composeResources/files/images/eras/<era key>/`: `banner.png` (optional header on the era's Play
