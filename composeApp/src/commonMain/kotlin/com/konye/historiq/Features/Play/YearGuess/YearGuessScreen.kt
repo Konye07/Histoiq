@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -44,6 +45,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -72,6 +75,7 @@ import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
 import com.konye.historiq.Data.Quiz.yearGuessScore
+import com.konye.historiq.Features.Play.Shared.GuessQuestionLayout
 import com.konye.historiq.Features.Play.Shared.HintAction
 import com.konye.historiq.Features.Play.Shared.QuestionResultCard
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
@@ -263,97 +267,109 @@ private fun YearGuessQuestion(
         image = withContext(Dispatchers.Default) { tryLoadImageBitmap(event.imageAsset) }
     }
 
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Text(
-            StringsGamesYearguessCasualties.yearguess_question_counter(questionNumber, totalQuestions),
-            style = MaterialTheme.typography.labelLarge
-        )
-        image?.let {
-            Image(
-                bitmap = it,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
-                    .clip(RoundedCornerShape(12.dp))
-            )
+    val focusManager = LocalFocusManager.current
+    val canSubmit = guessText.toIntOrNull() != null
+    val submit = {
+        if (canSubmit) {
+            focusManager.clearFocus()
+            onSubmit()
         }
-        Text(event.event, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
-        if (hintRevealed) {
-            Surface(
-                color = MaterialTheme.colorScheme.onSurface,
-                contentColor = MaterialTheme.colorScheme.surface,
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text(
-                    StringsGamesYearguessCasualties.yearguess_hint_prefix(event.hint ?: StringsGamesYearguessCasualties.yearguess_hint_unavailable),
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+    }
+
+    GuessQuestionLayout(
+        scrollingContent = {
+            Text(
+                StringsGamesYearguessCasualties.yearguess_question_counter(questionNumber, totalQuestions),
+                style = MaterialTheme.typography.labelLarge
+            )
+            image?.let {
+                Image(
+                    bitmap = it,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .clip(RoundedCornerShape(12.dp))
                 )
             }
-        }
-
-        OutlinedTextField(
-            value = guessText,
-            onValueChange = onGuessChange,
-            label = { Text(StringsGamesYearguessCasualties.yearguess_guess_label) },
-            enabled = !revealed,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        EraToggle(isBce = isBce, enabled = !revealed, onIsBceChange = onEraChange)
-
-        AnimatedContent(
-            targetState = revealed,
-            transitionSpec = { (fadeIn(tween(250)) + scaleIn(tween(250), initialScale = 0.96f)) togetherWith fadeOut(tween(120)) }
-        ) { isRevealed ->
-            if (!isRevealed) {
-                Button(onClick = onSubmit, enabled = guessText.toIntOrNull() != null) {
-                    Text(StringsGamesYearguessCasualties.yearguess_submit)
+            Text(event.event, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+            if (hintRevealed) {
+                Surface(
+                    color = MaterialTheme.colorScheme.onSurface,
+                    contentColor = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        StringsGamesYearguessCasualties.yearguess_hint_prefix(event.hint ?: StringsGamesYearguessCasualties.yearguess_hint_unavailable),
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                    )
                 }
-            } else {
-                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                    var guessDist by remember(event.id) { mutableStateOf<List<Int>>(emptyList()) }
-                    LaunchedEffect(event.id) {
-                        guessDist = DailyDistribution.yearGuesses(GameKeys.YEAR_GUESS, DailyClock.todayKey(), event.id)
-                    }
-                    if (!hintRevealed) {
-                        event.hint?.let {
-                            Text(
-                                StringsGamesYearguessCasualties.yearguess_hint_prefix(it),
-                                style = MaterialTheme.typography.bodySmall,
-                                textAlign = TextAlign.Center,
-                                color = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.7f)
-                            )
-                        }
-                    }
-                    lastGuess?.let { guess ->
-                        YearResult(
-                            correctYear = event.correctYear,
-                            guess = guess,
-                            score = lastScore ?: 0.0,
-                            guessDist = guessDist,
-                            accentColor = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.fillMaxWidth()
+            }
+            if (revealed) {
+                var guessDist by remember(event.id) { mutableStateOf<List<Int>>(emptyList()) }
+                LaunchedEffect(event.id) {
+                    guessDist = DailyDistribution.yearGuesses(GameKeys.YEAR_GUESS, DailyClock.todayKey(), event.id)
+                }
+                if (!hintRevealed) {
+                    event.hint?.let {
+                        Text(
+                            StringsGamesYearguessCasualties.yearguess_hint_prefix(it),
+                            style = MaterialTheme.typography.bodySmall,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.7f)
                         )
                     }
+                }
+                lastGuess?.let { guess ->
+                    YearResult(
+                        correctYear = event.correctYear,
+                        guess = guess,
+                        score = lastScore ?: 0.0,
+                        guessDist = guessDist,
+                        accentColor = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        },
+        dock = {
+            AnimatedContent(
+                targetState = revealed,
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.TopCenter,
+                transitionSpec = { (fadeIn(tween(250)) + scaleIn(tween(250), initialScale = 0.96f)) togetherWith fadeOut(tween(120)) }
+            ) { isRevealed ->
+                if (!isRevealed) {
+                    Column(
+                        Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        OutlinedTextField(
+                            value = guessText,
+                            onValueChange = onGuessChange,
+                            label = { Text(StringsGamesYearguessCasualties.yearguess_guess_label) },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(onDone = { submit() }),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        EraToggle(isBce = isBce, enabled = true, onIsBceChange = onEraChange)
+                        Button(onClick = { submit() }, enabled = canSubmit) {
+                            Text(StringsGamesYearguessCasualties.yearguess_submit)
+                        }
+                    }
+                } else {
                     Button(onClick = onNext) {
                         Text(if (questionNumber == totalQuestions) StringsGamesYearguessCasualties.yearguess_see_results else StringsGamesYearguessCasualties.yearguess_next_question)
                     }
                 }
             }
         }
-    }
+    )
 }
 
 @Composable

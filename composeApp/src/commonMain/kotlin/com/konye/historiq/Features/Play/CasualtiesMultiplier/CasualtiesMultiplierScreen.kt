@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -31,6 +32,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -60,6 +63,7 @@ import com.konye.historiq.Data.Quiz.getLongList
 import com.konye.historiq.Data.Quiz.loadBattleCasualties
 import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
+import com.konye.historiq.Features.Play.Shared.GuessQuestionLayout
 import com.konye.historiq.Features.Play.Shared.HintAction
 import com.konye.historiq.Features.Play.Shared.QuestionResultCard
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
@@ -241,74 +245,81 @@ private fun CasualtiesQuestion(
     onSubmit: () -> Unit,
     onNext: () -> Unit
 ) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Text(StringsGamesYearguessCasualties.casualties_question_counter(questionNumber, totalQuestions), style = MaterialTheme.typography.labelLarge)
-        Text(battle.battle, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
-        Text(formatEraYear(battle.year), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
-        if (hintRevealed) {
-            Surface(
-                color = MaterialTheme.colorScheme.onSurface,
-                contentColor = MaterialTheme.colorScheme.surface,
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text(
-                    StringsGamesYearguessCasualties.casualties_hint_prefix(battle.hint ?: StringsGamesYearguessCasualties.casualties_hint_unavailable),
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
-                )
-            }
+    val focusManager = LocalFocusManager.current
+    val canSubmit = guessText.toLongOrNull() != null
+    val submit = {
+        if (canSubmit) {
+            focusManager.clearFocus()
+            onSubmit()
         }
+    }
 
-        OutlinedTextField(
-            value = guessText,
-            onValueChange = onGuessChange,
-            label = { Text(StringsGamesYearguessCasualties.casualties_guess_label) },
-            enabled = !revealed,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        if (!revealed) {
-            Button(onClick = onSubmit, enabled = guessText.toLongOrNull() != null) {
-                Text(StringsGamesYearguessCasualties.casualties_submit)
-            }
-        } else {
-            var guessDist by remember(battle.id) { mutableStateOf<List<Long>>(emptyList()) }
-            LaunchedEffect(battle.id) {
-                guessDist = DailyDistribution.casualtyGuesses(GameKeys.CASUALTIES_MULTIPLIER, DailyClock.todayKey(), battle.id)
-            }
-            if (!hintRevealed) {
-                battle.hint?.let {
+    GuessQuestionLayout(
+        scrollingContent = {
+            Text(StringsGamesYearguessCasualties.casualties_question_counter(questionNumber, totalQuestions), style = MaterialTheme.typography.labelLarge)
+            Text(battle.battle, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+            Text(formatEraYear(battle.year), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
+            if (hintRevealed) {
+                Surface(
+                    color = MaterialTheme.colorScheme.onSurface,
+                    contentColor = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(12.dp)
+                ) {
                     Text(
-                        StringsGamesYearguessCasualties.casualties_hint_prefix(it),
-                        style = MaterialTheme.typography.bodySmall,
+                        StringsGamesYearguessCasualties.casualties_hint_prefix(battle.hint ?: StringsGamesYearguessCasualties.casualties_hint_unavailable),
+                        style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.7f)
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                     )
                 }
             }
-            lastGuess?.let { guess ->
-                CasualtiesResult(
-                    correctCasualties = battle.correctCasualties,
-                    guess = guess,
-                    guessDist = guessDist,
-                    accentColor = MaterialTheme.colorScheme.primary,
+            if (revealed) {
+                var guessDist by remember(battle.id) { mutableStateOf<List<Long>>(emptyList()) }
+                LaunchedEffect(battle.id) {
+                    guessDist = DailyDistribution.casualtyGuesses(GameKeys.CASUALTIES_MULTIPLIER, DailyClock.todayKey(), battle.id)
+                }
+                if (!hintRevealed) {
+                    battle.hint?.let {
+                        Text(
+                            StringsGamesYearguessCasualties.casualties_hint_prefix(it),
+                            style = MaterialTheme.typography.bodySmall,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.7f)
+                        )
+                    }
+                }
+                lastGuess?.let { guess ->
+                    CasualtiesResult(
+                        correctCasualties = battle.correctCasualties,
+                        guess = guess,
+                        guessDist = guessDist,
+                        accentColor = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        },
+        dock = {
+            if (!revealed) {
+                OutlinedTextField(
+                    value = guessText,
+                    onValueChange = onGuessChange,
+                    label = { Text(StringsGamesYearguessCasualties.casualties_guess_label) },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = { submit() }),
                     modifier = Modifier.fillMaxWidth()
                 )
-            }
-            Button(onClick = onNext) {
-                Text(if (questionNumber == totalQuestions) StringsGamesYearguessCasualties.casualties_see_results else StringsGamesYearguessCasualties.casualties_next_question)
+                Button(onClick = { submit() }, enabled = canSubmit) {
+                    Text(StringsGamesYearguessCasualties.casualties_submit)
+                }
+            } else {
+                Button(onClick = onNext) {
+                    Text(if (questionNumber == totalQuestions) StringsGamesYearguessCasualties.casualties_see_results else StringsGamesYearguessCasualties.casualties_next_question)
+                }
             }
         }
-    }
+    )
 }
 
 @Composable

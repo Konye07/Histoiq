@@ -1,5 +1,6 @@
 package com.konye.historiq.Data.Quiz
 
+import com.konye.historiq.Core.Network.networkOrElse
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Remote.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
@@ -22,11 +23,14 @@ object QuizProgressStore {
         return fetchRemote(userId, quizKey, DailyClock.todayKey())?.state
     }
 
+    /** Best-effort: each save writes the full round state, so a failed one is covered by the next. */
     suspend fun save(quizKey: String, state: JsonObject) {
-        val userId = AccountRepository.ensureAnonymousSession()
-        SupabaseClient.client.postgrest.from("quiz_progress").upsert(
-            QuizProgressRow(userId, quizKey, DailyClock.todayKey(), state)
-        )
+        networkOrElse(Unit) {
+            val userId = AccountRepository.ensureAnonymousSession()
+            SupabaseClient.client.postgrest.from("quiz_progress").upsert(
+                QuizProgressRow(userId, quizKey, DailyClock.todayKey(), state)
+            )
+        }
     }
 
     private suspend fun fetchRemote(userId: String, quizKey: String, dateKey: String): QuizProgressRow? =

@@ -408,15 +408,6 @@ object StringsHomeShared {
             AppLanguage.IT -> "Battaglia sulla Mappa al Buio"
         }
 
-    val no_connection_title: String
-        @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "No internet connection"
-            AppLanguage.ES -> "Sin conexión a internet"
-            AppLanguage.FR -> "Aucune connexion internet"
-            AppLanguage.DE -> "Keine Internetverbindung"
-            AppLanguage.IT -> "Nessuna connessione internet"
-        }
-
     val results_you_guessed_label: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "You Guessed"
@@ -483,13 +474,13 @@ object StringsHomeShared {
             AppLanguage.IT -> "Tu"
         }
 
-    val no_connection_body: String
+    val offline_banner_message: String
         @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Today's quizzes need a connection to load — connect to Wi-Fi or mobile data and this screen will move on by itself."
-            AppLanguage.ES -> "Los cuestionarios de hoy necesitan conexión para cargarse — conéctate a Wi-Fi o datos móviles y esta pantalla avanzará sola."
-            AppLanguage.FR -> "Les quiz du jour ont besoin d'une connexion pour se charger — connecte-toi au Wi-Fi ou aux données mobiles et cet écran passera automatiquement."
-            AppLanguage.DE -> "Die heutigen Quizze brauchen eine Verbindung zum Laden — verbinde dich mit WLAN oder mobilen Daten, dann geht es hier von selbst weiter."
-            AppLanguage.IT -> "I quiz di oggi hanno bisogno di una connessione per caricarsi — collegati al Wi-Fi o ai dati mobili e questa schermata proseguirà da sola."
+            AppLanguage.EN -> "No stable internet connection — games, stats and friends can't load until you're back online."
+            AppLanguage.ES -> "Sin conexión estable a internet — los juegos, las estadísticas y los amigos no se cargarán hasta que vuelvas a estar en línea."
+            AppLanguage.FR -> "Pas de connexion internet stable — les jeux, les statistiques et les amis ne se chargeront pas tant que tu n'es pas reconnecté."
+            AppLanguage.DE -> "Keine stabile Internetverbindung — Spiele, Statistiken und Freunde laden erst wieder, wenn du online bist."
+            AppLanguage.IT -> "Nessuna connessione internet stabile — giochi, statistiche e amici non si caricheranno finché non sei di nuovo online."
         }
 
 }

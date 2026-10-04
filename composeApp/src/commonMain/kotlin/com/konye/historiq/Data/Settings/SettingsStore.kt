@@ -15,6 +15,7 @@ object SettingsStore {
     private const val KEY_HAS_SEEN_TUTORIAL = "hasSeenTutorial"
     private const val KEY_RATE_APP_DECIDED = "rateAppDecided"
     private const val KEY_RATE_APP_NEXT_ELIGIBLE_AT = "rateAppNextEligibleAt"
+    private const val KEY_CACHED_ACCOUNT = "cachedAccount"
 
     const val LANGUAGE_ENGLISH = "en"
 
@@ -81,5 +82,12 @@ object SettingsStore {
 
     fun setRateAppNextEligibleAt(epochMillis: Long) {
         settings.putLong(KEY_RATE_APP_NEXT_ELIGIBLE_AT, epochMillis)
+    }
+
+    /** Last fetched profile (JSON), so a signed-in player is still recognized when the app starts offline. */
+    fun cachedAccountJson(): String? = settings.getStringOrNull(KEY_CACHED_ACCOUNT)
+
+    fun setCachedAccountJson(json: String?) {
+        if (json == null) settings.remove(KEY_CACHED_ACCOUNT) else settings.putString(KEY_CACHED_ACCOUNT, json)
     }
 }

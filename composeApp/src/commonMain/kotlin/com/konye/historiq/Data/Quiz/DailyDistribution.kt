@@ -1,5 +1,6 @@
 package com.konye.historiq.Data.Quiz
 
+import com.konye.historiq.Core.Network.networkOrElse
 import com.konye.historiq.Data.Remote.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.serialization.json.JsonElement
@@ -59,12 +60,14 @@ object DailyDistribution {
         rawGuesses(gameKey, dateKey, questionId).mapNotNull { it.jsonPrimitive.longOrNull }
 
     private suspend fun rawGuesses(gameKey: String, dateKey: String, questionId: String): List<JsonElement> =
-        SupabaseClient.client.postgrest.rpc(
-            "get_question_guesses",
-            buildJsonObject {
-                put("p_game_key", gameKey)
-                put("p_date", dateKey)
-                put("p_question_id", questionId)
-            }
-        ).decodeAs()
+        networkOrElse(emptyList()) {
+            SupabaseClient.client.postgrest.rpc(
+                "get_question_guesses",
+                buildJsonObject {
+                    put("p_game_key", gameKey)
+                    put("p_date", dateKey)
+                    put("p_question_id", questionId)
+                }
+            ).decodeAs()
+        }
 }

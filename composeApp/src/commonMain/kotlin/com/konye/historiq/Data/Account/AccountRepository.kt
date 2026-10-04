@@ -11,10 +11,13 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.exception.PostgrestRestException
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
+import com.konye.historiq.Data.Settings.SettingsStore
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
@@ -46,8 +49,25 @@ object AccountRepository {
         val auth = SupabaseClient.client.auth
         auth.awaitInitialization()
         val uid = auth.currentUserOrNull()?.id ?: return null
-        return fetchProfile(uid)?.also { cached = it }
+        return try {
+            fetchProfile(uid).also { updateCache(it) }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            // Offline at launch: fall back to the last profile this device saw so the app still opens.
+            loadCachedAccount(uid)?.also { cached = it }
+        }
     }
+
+    private fun updateCache(account: UserAccount?) {
+        cached = account
+        SettingsStore.setCachedAccountJson(account?.let { Json.encodeToString(UserAccount.serializer(), it) })
+    }
+
+    private fun loadCachedAccount(uid: String): UserAccount? =
+        SettingsStore.cachedAccountJson()
+            ?.let { runCatching { Json.decodeFromString(UserAccount.serializer(), it) }.getOrNull() }
+            ?.takeIf { it.id == uid }
 
     /**
      * Ensures *any* device — guest or signed-in — has a real anonymous Supabase session, so
@@ -79,7 +99,7 @@ object AccountRepository {
         val uid = ensureAnonymousSessionLocked()
         val existing = fetchProfile(uid)
         if (existing != null) {
-            cached = existing
+            updateCache(existing)
             runCatching { logDeviceEvent("sign_in") }
             return@withLock existing
         }
@@ -100,7 +120,7 @@ object AccountRepository {
             "No session after Google sign-in"
         }
         val account = fetchProfile(currentUid) ?: insertProfileWithRetry(currentUid, AuthProviderType.GOOGLE, result)
-        cached = account
+        updateCache(account)
         runCatching { logDeviceEvent("sign_in") }
         account
     }
@@ -110,7 +130,7 @@ object AccountRepository {
         val uid = ensureAnonymousSessionLocked()
         val existing = fetchProfile(uid)
         if (existing != null) {
-            cached = existing
+            updateCache(existing)
             runCatching { logDeviceEvent("sign_in") }
             return@withLock existing
         }
@@ -125,7 +145,7 @@ object AccountRepository {
             "No session after Apple sign-in"
         }
         val account = fetchProfile(currentUid) ?: insertProfileWithRetry(currentUid, AuthProviderType.APPLE, result)
-        cached = account
+        updateCache(account)
         runCatching { logDeviceEvent("sign_in") }
         account
     }
@@ -135,7 +155,7 @@ object AccountRepository {
         val uid = ensureAnonymousSessionLocked()
         val existing = fetchProfile(uid)
         if (existing != null) {
-            cached = existing
+            updateCache(existing)
             runCatching { logDeviceEvent("sign_in") }
             return@withLock existing
         }
@@ -150,7 +170,7 @@ object AccountRepository {
             "No session after Facebook sign-in"
         }
         val account = fetchProfile(currentUid) ?: insertProfileWithRetry(currentUid, AuthProviderType.FACEBOOK, result)
-        cached = account
+        updateCache(account)
         runCatching { logDeviceEvent("sign_in") }
         account
     }
@@ -160,13 +180,13 @@ object AccountRepository {
         SupabaseClient.client.postgrest.from("profiles")
             .update(DisplayNameUpdate(newName)) { filter { eq("id", current.id) } }
         val updated = current.copy(displayName = newName)
-        cached = updated
+        updateCache(updated)
         return updated
     }
 
     suspend fun signOut() {
         runCatching { SupabaseClient.client.auth.signOut() }
-        cached = null
+        updateCache(null)
     }
 
     /**
@@ -192,7 +212,7 @@ object AccountRepository {
         }
         SupabaseClient.client.postgrest.from("profiles").delete { filter { eq("id", current.id) } }
         runCatching { SupabaseClient.client.auth.signOut() }
-        cached = null
+        updateCache(null)
     }
 
     private suspend fun fetchProfile(uid: String): UserAccount? =

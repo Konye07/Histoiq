@@ -1,5 +1,6 @@
 package com.konye.historiq.Core.Navigation
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -20,7 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsHomeShared
-import com.konye.historiq.Core.Network.GameGate
+import com.konye.historiq.Core.Network.OfflineBanner
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.contrastingOn
 import com.konye.historiq.Core.Theme.dimmedOn
@@ -88,55 +89,56 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
             }
         }
     ) { padding ->
-        NavHost(
-            navController = navController,
-            startDestination = NavRoutes.Play.route,
-            // consumeWindowInsets tells descendants (each game screen's own Scaffold+TopAppBar,
-            // see GameGate routes below) that this padding already accounts for the system bars,
-            // so they don't *also* reserve space for the status bar on top of it — without this,
-            // every nested TopAppBar double-counts the top inset once edge-to-edge is enabled.
-            modifier = Modifier
-                .consumeWindowInsets(padding)
-                .padding(padding)
-        ) {
-            composable(NavRoutes.Play.route) {
-                PlayScreen(
-                    onSelectYearGuess = { navController.navigate(NavRoutes.YearGuess.route) },
-                    onSelectCasualtiesMultiplier = { navController.navigate(NavRoutes.CasualtiesMultiplier.route) },
-                    onSelectFlagColorMatch = { navController.navigate(NavRoutes.FlagColorMatch.route) },
-                    onSelectTerritoryCompare = { navController.navigate(NavRoutes.TerritoryCompare.route) },
-                    onSelectTrueFalse = { navController.navigate(NavRoutes.TrueFalse.route) },
-                    onSelectBlindMapBattle = { navController.navigate(NavRoutes.BlindMapBattle.route) }
-                )
-            }
-            composable(NavRoutes.YearGuess.route) {
-                GameGate { YearGuessScreen(onBack = { navController.popBackStack() }) }
-            }
-            composable(NavRoutes.CasualtiesMultiplier.route) {
-                GameGate { CasualtiesMultiplierScreen(onBack = { navController.popBackStack() }) }
-            }
-            composable(NavRoutes.FlagColorMatch.route) {
-                GameGate { FlagColorMatchScreen(onBack = { navController.popBackStack() }) }
-            }
-            composable(NavRoutes.TerritoryCompare.route) {
-                GameGate { TerritoryCompareScreen(onBack = { navController.popBackStack() }) }
-            }
-            composable(NavRoutes.TrueFalse.route) {
-                GameGate { TrueFalseScreen(onBack = { navController.popBackStack() }) }
-            }
-            composable(NavRoutes.BlindMapBattle.route) {
-                GameGate { BlindMapBattleScreen(onBack = { navController.popBackStack() }) }
-            }
-            composable(NavRoutes.Friends.route) { FriendsScreen() }
-            composable(NavRoutes.Profile.route) { ProfileScreen() }
-            composable(NavRoutes.Settings.route) {
-                SettingsScreen(
-                    onSignedOut = onSignedOut,
-                    onOpenPrivacyPolicy = { navController.navigate(NavRoutes.PrivacyPolicy.route) }
-                )
-            }
-            composable(NavRoutes.PrivacyPolicy.route) {
-                PrivacyPolicyScreen(onBack = { navController.popBackStack() })
+        // consumeWindowInsets tells descendants (each game screen's own Scaffold+TopAppBar, see
+        // the game routes below) that this padding already accounts for the system bars, so they
+        // don't *also* reserve space for the status bar on top of it — without this, every nested
+        // TopAppBar double-counts the top inset once edge-to-edge is enabled.
+        Column(Modifier.consumeWindowInsets(padding).padding(padding)) {
+            OfflineBanner()
+            NavHost(
+                navController = navController,
+                startDestination = NavRoutes.Play.route,
+                modifier = Modifier.weight(1f)
+            ) {
+                composable(NavRoutes.Play.route) {
+                    PlayScreen(
+                        onSelectYearGuess = { navController.navigate(NavRoutes.YearGuess.route) },
+                        onSelectCasualtiesMultiplier = { navController.navigate(NavRoutes.CasualtiesMultiplier.route) },
+                        onSelectFlagColorMatch = { navController.navigate(NavRoutes.FlagColorMatch.route) },
+                        onSelectTerritoryCompare = { navController.navigate(NavRoutes.TerritoryCompare.route) },
+                        onSelectTrueFalse = { navController.navigate(NavRoutes.TrueFalse.route) },
+                        onSelectBlindMapBattle = { navController.navigate(NavRoutes.BlindMapBattle.route) }
+                    )
+                }
+                composable(NavRoutes.YearGuess.route) {
+                    YearGuessScreen(onBack = { navController.popBackStack() })
+                }
+                composable(NavRoutes.CasualtiesMultiplier.route) {
+                    CasualtiesMultiplierScreen(onBack = { navController.popBackStack() })
+                }
+                composable(NavRoutes.FlagColorMatch.route) {
+                    FlagColorMatchScreen(onBack = { navController.popBackStack() })
+                }
+                composable(NavRoutes.TerritoryCompare.route) {
+                    TerritoryCompareScreen(onBack = { navController.popBackStack() })
+                }
+                composable(NavRoutes.TrueFalse.route) {
+                    TrueFalseScreen(onBack = { navController.popBackStack() })
+                }
+                composable(NavRoutes.BlindMapBattle.route) {
+                    BlindMapBattleScreen(onBack = { navController.popBackStack() })
+                }
+                composable(NavRoutes.Friends.route) { FriendsScreen() }
+                composable(NavRoutes.Profile.route) { ProfileScreen() }
+                composable(NavRoutes.Settings.route) {
+                    SettingsScreen(
+                        onSignedOut = onSignedOut,
+                        onOpenPrivacyPolicy = { navController.navigate(NavRoutes.PrivacyPolicy.route) }
+                    )
+                }
+                composable(NavRoutes.PrivacyPolicy.route) {
+                    PrivacyPolicyScreen(onBack = { navController.popBackStack() })
+                }
             }
         }
     }

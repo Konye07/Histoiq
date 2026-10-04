@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Localization.StringsSocial
+import com.konye.historiq.Core.Network.networkOrElse
 import com.konye.historiq.Core.Theme.MascotEmptyState
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Quiz.GameKeys
@@ -41,10 +42,10 @@ fun ProfileScreen() {
     var bestByGame by remember { mutableStateOf<Map<String, Double?>>(emptyMap()) }
 
     LaunchedEffect(Unit) {
-        statsByGame = GameKeys.ALL.associateWith { key -> StatsStore.statsFor(key) }
+        statsByGame = GameKeys.ALL.associateWith { key -> networkOrElse(GameStats(0, 0.0, 0)) { StatsStore.statsFor(key) } }
         if (account != null) {
             bestByGame = BEST_SCORE_GAMES.associateWith { key ->
-                ScoreHistoryStore.bestFor(key, lowerIsBetter = key == GameKeys.CASUALTIES_MULTIPLIER)
+                networkOrElse<Double?>(null) { ScoreHistoryStore.bestFor(key, lowerIsBetter = key == GameKeys.CASUALTIES_MULTIPLIER) }
             }
         }
     }

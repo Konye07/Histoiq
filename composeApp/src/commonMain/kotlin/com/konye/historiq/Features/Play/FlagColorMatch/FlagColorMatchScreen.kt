@@ -66,6 +66,7 @@ import com.konye.historiq.Core.Formatting.formatFixed
 import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.konye.historiq.Core.Localization.StringsHomeShared
+import com.konye.historiq.Core.Network.retryNetwork
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
@@ -142,12 +143,12 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
     var resumedAlreadyDone by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        val stored = QuizProgressStore.load(PROGRESS_KEY)?.takeIf { "targetHues" in it }
+        val stored = retryNetwork { QuizProgressStore.load(PROGRESS_KEY) }?.takeIf { "targetHues" in it }
         val chosen: List<FlagColor>
         val targets: List<FlagColorCandidate>
         if (stored != null) {
             val ids = stored.getStringList("ids")
-            val rows = loadFlagColors(ids)
+            val rows = retryNetwork { loadFlagColors(ids) }
             chosen = ids.mapNotNull { id -> rows.find { it.id == id } }
             val targetHues = stored.getIntList("targetHues")
             val targetSats = stored.getIntList("targetSaturations")
@@ -161,8 +162,8 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
             resumedAlreadyDone = questionIndex >= chosen.size
         } else {
             val todayKey = DailyClock.todayKey()
-            val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, todayKey, QUESTIONS_PER_ROUND)
-            val rows = loadFlagColors(ids)
+            val ids = retryNetwork { DailyQuizRepository.getOrCreate(PROGRESS_KEY, todayKey, QUESTIONS_PER_ROUND) }
+            val rows = retryNetwork { loadFlagColors(ids) }
             val newlyChosen = ids.mapNotNull { id -> rows.find { it.id == id } }
             chosen = newlyChosen
             targets = withContext(Dispatchers.Default) {

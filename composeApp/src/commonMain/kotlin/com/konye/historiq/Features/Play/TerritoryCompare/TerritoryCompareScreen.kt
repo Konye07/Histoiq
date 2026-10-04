@@ -41,6 +41,7 @@ import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.konye.historiq.Core.Localization.StringsHomeShared
+import com.konye.historiq.Core.Network.retryNetwork
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
@@ -201,15 +202,15 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
 
     LaunchedEffect(Unit) {
         val dateKey = DailyClock.todayKey()
-        val ids = DailyQuizRepository.getOrCreate(PROGRESS_KEY, dateKey, DAILY_POOL_SIZE)
-        val pool = loadTerritories(ids)
+        val ids = retryNetwork { DailyQuizRepository.getOrCreate(PROGRESS_KEY, dateKey, DAILY_POOL_SIZE) }
+        val pool = retryNetwork { loadTerritories(ids) }
         allCountries = pool
         // Below 2, no non-self matchup is possible at all — bail to the loading state instead of
         // starting a trivially-tied round (this is what a degenerate get_or_create_daily_quiz pool
         // looked like in practice: a real production incident, see the 2026-09-25 fix).
         if (pool.size < 2) return@LaunchedEffect
 
-        val stored = QuizProgressStore.load(PROGRESS_KEY)
+        val stored = retryNetwork { QuizProgressStore.load(PROGRESS_KEY) }
         val state = stored?.let { Json.decodeFromJsonElement<TerritoryProgressState>(it) }
         val resumedChampion = state?.let { s -> pool.find { it.id == s.championId } }
         val resumedChallenger = state?.let { s -> pool.find { it.id == s.challengerId } }

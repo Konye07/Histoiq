@@ -1,5 +1,6 @@
 package com.konye.historiq.Data.Quiz
 
+import com.konye.historiq.Core.Network.retryNetwork
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -33,7 +34,7 @@ suspend fun <T> resumeOrStartQuiz(
     questionsPerRound: Int,
     questionId: (T) -> String,
     loadQuestions: suspend (ids: List<String>) -> List<T>
-): QuizResume<T> {
+): QuizResume<T> = retryNetwork {
     val stored = QuizProgressStore.load(progressKey)?.takeIf { "ids" in it }
     val ids = if (stored != null) {
         stored.getStringList("ids")
@@ -50,7 +51,7 @@ suspend fun <T> resumeOrStartQuiz(
         })
     }
 
-    return QuizResume(questions, stored)
+    QuizResume(questions, stored)
 }
 
 /** Reads a stored string array field (e.g. "ids"), or an empty list if the field is absent. */

@@ -35,6 +35,7 @@ import com.konye.historiq.Core.Localization.AppLanguage
 import com.konye.historiq.Core.Localization.LocalAppLanguage
 import com.konye.historiq.Core.Localization.LocalOnLanguageChange
 import com.konye.historiq.Core.Localization.StringsAuthSettings
+import com.konye.historiq.Core.Network.networkOrElse
 import com.konye.historiq.Core.Notifications.ReminderScheduler
 import com.konye.historiq.Core.Notifications.rememberRequestNotificationPermission
 import com.konye.historiq.Core.Theme.LocalIsDarkTheme
@@ -121,7 +122,7 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
                 onClick = {
                     if (displayName.isNotBlank()) {
                         val newName = displayName.trim()
-                        scope.launch { account = AccountRepository.updateDisplayName(newName) }
+                        scope.launch { networkOrElse(Unit) { account = AccountRepository.updateDisplayName(newName) } }
                     }
                 },
                 enabled = displayName.isNotBlank() && displayName != account?.displayName
@@ -262,9 +263,12 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
             confirmButton = {
                 TextButton(onClick = {
                     scope.launch {
-                        AccountRepository.deleteAccount()
+                        val deleted = networkOrElse(false) {
+                            AccountRepository.deleteAccount()
+                            true
+                        }
                         showDeleteConfirm = false
-                        onSignedOut()
+                        if (deleted) onSignedOut()
                     }
                 }) { Text(StringsAuthSettings.settings_delete_confirm_button) }
             },

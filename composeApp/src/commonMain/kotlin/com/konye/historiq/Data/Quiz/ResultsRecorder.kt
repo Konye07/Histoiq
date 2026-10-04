@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.konye.historiq.Core.Haptics.Haptics
+import com.konye.historiq.Core.Network.retryNetwork
 
 data class RankResult(val rank: Int, val totalPlayers: Int, val distribution: List<Double>, val topPercent: Int)
 
@@ -68,7 +69,7 @@ fun rememberLiveRank(
     }
 
     LaunchedEffect(resumeTrigger) {
-        result = recordAndRank(progressKey, gameKey, score, isPerfect, higherIsBetter)
+        result = retryNetwork { recordAndRank(progressKey, gameKey, score, isPerfect, higherIsBetter) }
     }
     return result
 }

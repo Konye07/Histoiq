@@ -32,10 +32,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Auth.showAppleSignInButton
 import com.konye.historiq.Core.Localization.StringsAuthSettings
+import com.konye.historiq.Core.Network.networkOrElse
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.darken
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Account.AuthProviderType
+import com.konye.historiq.Data.Account.UserAccount
 import kotlinx.coroutines.launch
 
 @Composable
@@ -50,7 +52,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
         loadingProvider = AuthProviderType.GOOGLE
         errorMessage = null
         scope.launch {
-            val account = AccountRepository.continueWithGoogle()
+            val account = networkOrElse<UserAccount?>(null) { AccountRepository.continueWithGoogle() }
             loadingProvider = null
             if (account != null) onAuthenticated() else errorMessage = signInFailedMessage
         }
@@ -61,7 +63,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
         loadingProvider = AuthProviderType.APPLE
         errorMessage = null
         scope.launch {
-            val account = AccountRepository.continueWithApple()
+            val account = networkOrElse<UserAccount?>(null) { AccountRepository.continueWithApple() }
             loadingProvider = null
             if (account != null) onAuthenticated() else errorMessage = signInFailedMessage
         }
@@ -72,7 +74,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
         loadingProvider = AuthProviderType.FACEBOOK
         errorMessage = null
         scope.launch {
-            val account = AccountRepository.continueWithFacebook()
+            val account = networkOrElse<UserAccount?>(null) { AccountRepository.continueWithFacebook() }
             loadingProvider = null
             if (account != null) onAuthenticated() else errorMessage = signInFailedMessage
         }

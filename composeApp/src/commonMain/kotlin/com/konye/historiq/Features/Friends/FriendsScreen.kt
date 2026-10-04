@@ -38,7 +38,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Localization.StringsSocial
+import com.konye.historiq.Core.Network.networkOrElse
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.MascotEmptyState
@@ -71,18 +73,21 @@ fun FriendsScreen() {
 
     LaunchedEffect(friendsVersion) {
         if (myAccount != null) {
-            acceptedFriends = FriendsStore.accepted(myAccount.id)
-            incomingRequests = FriendsStore.incoming(myAccount.id)
+            networkOrElse(Unit) {
+                acceptedFriends = FriendsStore.accepted(myAccount.id)
+                incomingRequests = FriendsStore.incoming(myAccount.id)
+            }
         }
     }
 
     LaunchedEffect(selectedGame, selectedDayOffset, acceptedFriends) {
         loading = true
         val dateKey = DailyClock.dateKey(selectedDayOffset)
-        val myScore = ScoreHistoryStore.resultFor(selectedGame, dateKey)
+        val myScore = networkOrElse<Double?>(null) { ScoreHistoryStore.resultFor(selectedGame, dateKey) }
         val list = mutableListOf(LeaderboardRow(myAccount?.displayName ?: youFallback, myScore, isMe = true))
         acceptedFriends.forEach { f ->
-            list.add(LeaderboardRow(f.displayName, ScoreHistoryStore.resultFor(f.otherId, selectedGame, dateKey), isMe = false))
+            val friendScore = networkOrElse<Double?>(null) { ScoreHistoryStore.resultFor(f.otherId, selectedGame, dateKey) }
+            list.add(LeaderboardRow(f.displayName, friendScore, isMe = false))
         }
         rows = if (selectedGame == GameKeys.CASUALTIES_MULTIPLIER) {
             // Lower is better for this game's stored score (a penalty multiplier), unlike every other game.
@@ -244,6 +249,7 @@ private fun AddFriendDialog(
     val feedbackAlreadyConnected = StringsSocial.friends_feedback_already_connected
     val feedbackOwnCode = StringsSocial.friends_feedback_own_code
     val feedbackNotFound = StringsSocial.friends_feedback_not_found
+    val feedbackOffline = StringsHomeShared.offline_banner_message
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -267,13 +273,14 @@ private fun AddFriendDialog(
                             sending = true
                             feedback = null
                             scope.launch {
-                                val result = FriendsRepository.addFriendByCode(codeInput)
+                                val result = networkOrElse<AddFriendResult?>(null) { FriendsRepository.addFriendByCode(codeInput) }
                                 sending = false
                                 feedback = when (result) {
                                     AddFriendResult.ADDED -> feedbackAdded
                                     AddFriendResult.ALREADY_CONNECTED -> feedbackAlreadyConnected
                                     AddFriendResult.IS_YOUR_OWN_CODE -> feedbackOwnCode
                                     AddFriendResult.NOT_FOUND -> feedbackNotFound
+                                    null -> feedbackOffline
                                 }
                                 if (result == AddFriendResult.ADDED) {
                                     codeInput = ""
@@ -303,13 +310,13 @@ private fun AddFriendDialog(
                             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                                 TextButton(onClick = {
                                     scope.launch {
-                                        FriendsRepository.acceptIncoming(req.friendshipId)
+                                        networkOrElse(Unit) { FriendsRepository.acceptIncoming(req.friendshipId) }
                                         onConnectionsChanged()
                                     }
                                 }) { Text(StringsSocial.friends_accept) }
                                 TextButton(onClick = {
                                     scope.launch {
-                                        FriendsRepository.declineIncoming(req.friendshipId)
+                                        networkOrElse(Unit) { FriendsRepository.declineIncoming(req.friendshipId) }
                                         onConnectionsChanged()
                                     }
                                 }) { Text(StringsSocial.friends_decline) }
