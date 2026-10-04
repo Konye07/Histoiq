@@ -58,6 +58,34 @@ fun Color.dimmedOn(background: Color, alpha: Float): Color {
     return copy(alpha = a.coerceAtMost(1f))
 }
 
+/**
+ * This color moved toward white or black — whichever takes the smaller shift — only as far as it takes to
+ * reach [minContrast] over [background], and unchanged when it already does. For a fixed-hue highlight, like
+ * the success green, that has to stay legible on a different game color on every screen.
+ */
+fun Color.legibleOn(background: Color, minContrast: Float = 3f): Color {
+    if (contrastRatio(this, background) >= minContrast) return this
+    fun shifted(toward: Color): Pair<Color, Float> {
+        var amount = 0f
+        var color = this
+        while (amount < 1f && contrastRatio(color, background) < minContrast) {
+            amount += 0.02f
+            color = lerp(this, toward, amount)
+        }
+        return color to amount
+    }
+    val (lighter, lighterAmount) = shifted(Color.White)
+    val (darker, darkerAmount) = shifted(Color.Black)
+    val lighterOk = contrastRatio(lighter, background) >= minContrast
+    val darkerOk = contrastRatio(darker, background) >= minContrast
+    return when {
+        lighterOk && darkerOk -> if (lighterAmount <= darkerAmount) lighter else darker
+        lighterOk -> lighter
+        darkerOk -> darker
+        else -> if (contrastRatio(lighter, background) >= contrastRatio(darker, background)) lighter else darker
+    }
+}
+
 private const val ACCENT_SHIFT = 0.32f
 private const val MIN_ACCENT_SHIFT = 0.2f
 

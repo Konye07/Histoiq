@@ -21,41 +21,57 @@ class EraPalette(
         GameKeys.BLIND_MAP_BATTLE -> blindMapBattle
         else -> base
     }
-
-    companion object {
-        /** Three tonal variants of one hue — a stand-in until an era is given a palette of its own. */
-        fun shadesOf(base: Color) = EraPalette(
-            base = base,
-            yearGuess = base.darken(0.25f),
-            casualtiesMultiplier = base.lighten(0.22f),
-            blindMapBattle = base.darken(0.45f)
-        )
-    }
 }
 
 /**
- * Where each era's look lives: edit [palette] to give an era its colors, and drop its pictures into
+ * Where each era's look lives: [palette] holds its colors, and its pictures sit in
  * `composeResources/files/images/eras/<era key>/` (the era keys are [QuizEra.key]):
- *  - `banner.png` — optional header picture at the top of the era's Play screen
- *  - `logo_year_guess.png`, `logo_casualties_multiplier.png`, `logo_blind_map_battle.png` — the three cards
+ *  - `logo_year_guess.png`, `logo_casualties_multiplier.png` — the Annalist and Herald cards
  *  - `bg_year_guess.png`, `bg_casualties_multiplier.png`, `bg_blind_map_battle.png` — the faint line-art
- *    watermark behind each game screen, same transparent-PNG style as `images/backgrounds/`
- * A picture that isn't there yet falls back to the all-time artwork (the banner is simply left out), so an
- * era can be filled in one file at a time.
+ *    watermark behind each game screen, black ink on transparency like `images/backgrounds/`
+ *  - `banner.png` — optional header picture at the top of the era's Play screen
+ * Chancellor's card uses one picture for every era, `images/eras/06battle_map_all.png`. A picture that
+ * isn't there falls back to the all-time artwork (the banner is simply left out), so an era can be filled
+ * in one file at a time.
  */
 object EraThemes {
-    // Placeholder palettes: shades of existing AppColors until the real ones arrive.
     fun palette(era: QuizEra): EraPalette = when (era) {
-        QuizEra.ANCIENT -> EraPalette.shadesOf(AppColors.Tan)
-        QuizEra.MEDIEVAL -> EraPalette.shadesOf(AppColors.Rust)
-        QuizEra.EARLY_MODERN -> EraPalette.shadesOf(AppColors.Mauve)
-        QuizEra.MODERN -> EraPalette.shadesOf(AppColors.SlateBlue)
-        QuizEra.CONTEMPORARY -> EraPalette.shadesOf(AppColors.OliveDark)
+        QuizEra.ANCIENT -> EraPalette(
+            base = Color(0xFFDFBE63),
+            yearGuess = Color(0xFF4A7A78),
+            casualtiesMultiplier = Color(0xFF5E1C23),
+            blindMapBattle = Color(0xFFA0822D)
+        )
+        QuizEra.MEDIEVAL -> EraPalette(
+            base = Color(0xFF5D4733),
+            yearGuess = Color(0xFF1C2430),
+            casualtiesMultiplier = Color(0xFF461615),
+            blindMapBattle = Color(0xFF332D1A)
+        )
+        QuizEra.EARLY_MODERN -> EraPalette(
+            base = Color(0xFFA13E1E),
+            yearGuess = Color(0xFF153638),
+            casualtiesMultiplier = Color(0xFF831B1A),
+            blindMapBattle = Color(0xFF2B160C)
+        )
+        QuizEra.MODERN -> EraPalette(
+            base = Color(0xFF696758),
+            yearGuess = Color(0xFF859493),
+            casualtiesMultiplier = Color(0xFF8D614D),
+            blindMapBattle = Color(0xFF24261A)
+        )
+        QuizEra.CONTEMPORARY -> EraPalette(
+            base = Color(0xFF949789),
+            yearGuess = Color(0xFF457472),
+            casualtiesMultiplier = Color(0xFF53080E),
+            blindMapBattle = Color(0xFF3C4629)
+        )
     }
 
     fun bannerAsset(era: QuizEra) = "images/eras/${era.key}/banner.png"
 
-    fun logoAsset(era: QuizEra, gameKey: String) = "images/eras/${era.key}/logo_$gameKey.png"
+    fun logoAsset(era: QuizEra, gameKey: String) =
+        if (gameKey == GameKeys.BLIND_MAP_BATTLE) "images/eras/06battle_map_all.png" else "images/eras/${era.key}/logo_$gameKey.png"
 
     /** [era] null is the all-time artwork every era falls back to. */
     fun backgroundAsset(era: QuizEra?, gameKey: String) =

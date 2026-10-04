@@ -290,11 +290,16 @@ into, not a filter on the original.
   testing against a scratch Postgres, and verified end to end with a full Annalist, Herald and
   Chancellor era round on an Android device; without it an era round sits on its loading screen,
   retrying. Questions added later are flagged automatically from their date.
-- **Look**: `EraThemes` (`Core/Theme/EraThemes.kt`) holds each era's palette — placeholder shades of
-  `AppColors` until the real palettes arrive. Pictures go in
+- **Look**: `EraThemes` (`Core/Theme/EraThemes.kt`) holds each era's palette, taken from the owner's
+  `<era>_colorpalette.txt` files (two typos read as `#5E1C23` and `#A0822D`). Pictures go in
   `composeResources/files/images/eras/<era key>/`: `banner.png` (optional header on the era's Play
   screen), `logo_<game key>.png` (the game cards) and `bg_<game key>.png` (the watermark behind each
-  game screen). A missing picture falls back to the all-time artwork.
+  game screen); Chancellor's card is `images/eras/06battle_map_all.png` for every era. A missing picture
+  falls back to the all-time artwork. Do not copy the owner's folder by hand: run
+  `python scripts/build_era_assets.py` (needs Pillow), which maps their files by name, rejects a logo with an
+  opaque background or a colour picture in a background slot, turns the line art's opaque white fills
+  into transparency (the app tints backgrounds from alpha alone) and reports what is missing.
+  Results colours: the success green is passed through `legibleOn` so it stays readable on every palette.
 
 ## Fixed color palette
 

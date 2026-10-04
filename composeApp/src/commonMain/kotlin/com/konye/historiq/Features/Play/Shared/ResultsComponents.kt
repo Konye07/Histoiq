@@ -48,6 +48,7 @@ import com.konye.historiq.Core.Share.storeUrl
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.contrastingOn
 import com.konye.historiq.Core.Theme.dimmedOn
+import com.konye.historiq.Core.Theme.legibleOn
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.generated.resources.Res
@@ -107,7 +108,9 @@ fun ResultsHeader(
                 label = scoreLabel,
                 value = scoreText,
                 caption = maxScoreText,
-                valueColor = animateColorAsState(if (isPerfect) AppColors.Success else MaterialTheme.colorScheme.onBackground).value,
+                valueColor = animateColorAsState(
+                    if (isPerfect) AppColors.Success.legibleOn(MaterialTheme.colorScheme.background) else MaterialTheme.colorScheme.onBackground
+                ).value,
                 valueScale = scale.value,
                 modifier = Modifier.weight(1f)
             )
@@ -326,7 +329,9 @@ fun QuestionResultCard(
                 landedText,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
-                color = animateColorAsState(if (landedIsExact) AppColors.Success else MaterialTheme.colorScheme.onBackground).value
+                color = animateColorAsState(
+                    if (landedIsExact) AppColors.Success.legibleOn(MaterialTheme.colorScheme.background) else MaterialTheme.colorScheme.onBackground
+                ).value
             )
             Text(
                 closerThanText,
@@ -370,7 +375,7 @@ fun GuessDistributionAxis(
     maxLabel: String? = null
 ) {
     val barColor = accentColor.copy(alpha = 0.32f)
-    val correctColor = AppColors.Success
+    val correctColor = AppColors.Success.legibleOn(MaterialTheme.colorScheme.background)
     val chipTextColor = contrastingOn(accentColor)
     val trackColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.18f)
     val axisLabelColor = MaterialTheme.colorScheme.onBackground.dimmedOn(MaterialTheme.colorScheme.background, 0.55f)
