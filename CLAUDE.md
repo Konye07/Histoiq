@@ -300,6 +300,13 @@ into, not a filter on the original.
   opaque background or a colour picture in a background slot, turns the line art's opaque white fills
   into transparency (the app tints backgrounds from alpha alone) and reports what is missing.
   Results colours: the success green is passed through `legibleOn` so it stays readable on every palette.
+  **Dark mode**: the owner supplies only light palettes; `EraThemes.palette(era, dark = true)` derives each
+  era's after-dark palette (`EraPalette.forDarkMode`): hues kept, backgrounds a deep tint (an era whose light
+  background is lighter stays a little lighter, and the tint is floored, because plain darkening turns the
+  pale grayish eras — Ancient, Modern, Contemporary — into the same charcoal), game colors pulled into a dark
+  band just above the background. `GameKeys.color(key, dark)` and every era call site (Play, the three game
+  screens, the bottom bar, Friends, Profile) pass `LocalIsDarkTheme.current`; the all-time games keep their
+  fixed signature colors in dark mode. Tune `EraPalette`'s `DARK_*` constants, not per-era values.
 
 ## Fixed color palette
 

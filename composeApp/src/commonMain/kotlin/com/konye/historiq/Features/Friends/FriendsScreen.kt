@@ -43,6 +43,7 @@ import com.konye.historiq.Core.Localization.StringsSocial
 import com.konye.historiq.Core.Network.networkOrElse
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
+import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.MascotEmptyState
 import com.konye.historiq.Core.Theme.contrastingOn
 import com.konye.historiq.Data.Account.AccountRepository
@@ -115,7 +116,7 @@ fun FriendsScreen() {
 
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(games) { key ->
-                    val color = GameKeys.color(GameKeys.modeKey(key, era))
+                    val color = GameKeys.color(GameKeys.modeKey(key, era), LocalIsDarkTheme.current)
                     FilterChip(
                         selected = activeGame == key,
                         onClick = { selectedGame = key },
@@ -222,7 +223,7 @@ private fun LeaderboardRowItem(row: LeaderboardRow, gameKey: String) {
             .fillMaxWidth()
             .padding(vertical = 4.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (row.isMe) GameKeys.color(gameKey).copy(alpha = 0.15f) else MaterialTheme.colorScheme.surface
+            containerColor = if (row.isMe) GameKeys.color(gameKey, LocalIsDarkTheme.current).copy(alpha = 0.15f) else MaterialTheme.colorScheme.surface
         )
     ) {
         Row(

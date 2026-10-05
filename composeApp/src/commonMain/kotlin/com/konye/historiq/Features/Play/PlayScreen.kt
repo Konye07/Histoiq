@@ -65,6 +65,7 @@ import com.konye.historiq.Core.Platform.openUrl
 import com.konye.historiq.Core.Theme.APP_LOGO_SHARED_KEY
 import com.konye.historiq.Core.Theme.AppLogoImage
 import com.konye.historiq.Core.Theme.EraThemes
+import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.LocalSharedTransitionScope
 import com.konye.historiq.Core.Theme.contrastingOn
 import com.konye.historiq.Core.Theme.dimmedOn
@@ -293,7 +294,7 @@ private fun eraQuizMode(era: QuizEra, gameKey: String, description: String, onCl
     roleName = GameKeys.roleName(gameKey),
     title = GameKeys.title(gameKey),
     description = description,
-    color = GameKeys.color(GameKeys.modeKey(gameKey, era)),
+    color = GameKeys.color(GameKeys.modeKey(gameKey, era), LocalIsDarkTheme.current),
     logoAsset = EraThemes.logoAsset(era, gameKey),
     enabled = true,
     onClick = onClick
@@ -306,7 +307,8 @@ private fun EraModeTheme(era: QuizEra?, content: @Composable () -> Unit) {
         content()
         return
     }
-    val colorScheme = remember(era) { gameColorScheme(EraThemes.palette(era).base) }
+    val dark = LocalIsDarkTheme.current
+    val colorScheme = remember(era, dark) { gameColorScheme(EraThemes.palette(era, dark).base) }
     MaterialTheme(colorScheme = colorScheme) {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background, content = content)
     }

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Localization.StringsSocial
 import com.konye.historiq.Core.Network.networkOrElse
+import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.MascotEmptyState
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Quiz.ActiveEra
@@ -93,7 +94,7 @@ fun ProfileScreen() {
                 val stats = statsByMode[modeKey]
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = GameKeys.color(modeKey).copy(alpha = 0.12f))
+                    colors = CardDefaults.cardColors(containerColor = GameKeys.color(modeKey, LocalIsDarkTheme.current).copy(alpha = 0.12f))
                 ) {
                     Column(Modifier.padding(16.dp)) {
                         Text(

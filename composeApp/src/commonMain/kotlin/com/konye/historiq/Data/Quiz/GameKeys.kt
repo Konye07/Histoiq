@@ -67,10 +67,13 @@ object GameKeys {
         return "$base (${StringsEras.label(era)})"
     }
 
-    /** The game's signature color, or the era's own color for it when [key] is an era mode key. */
-    fun color(key: String): Color {
+    /**
+     * The game's signature color, or the era's own color for it when [key] is an era mode key — in its
+     * after-dark shade when [dark]. A game's own signature color is the same in dark mode.
+     */
+    fun color(key: String, dark: Boolean = false): Color {
         val era = eraOf(key)
-        if (era != null) return EraThemes.palette(era).forGame(baseKey(key))
+        if (era != null) return EraThemes.palette(era, dark).forGame(baseKey(key))
         return when (baseKey(key)) {
             YEAR_GUESS -> AppColors.SlateBlue
             CASUALTIES_MULTIPLIER -> AppColors.Maroon

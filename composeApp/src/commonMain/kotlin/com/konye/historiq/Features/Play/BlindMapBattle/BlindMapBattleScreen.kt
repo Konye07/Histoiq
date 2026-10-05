@@ -52,6 +52,7 @@ import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.EraThemes
 import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
+import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.ActiveEra
 import com.konye.historiq.Data.Quiz.BattleLocation
@@ -156,7 +157,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
         }
     }
 
-    MaterialTheme(colorScheme = gameColorScheme(GameKeys.color(modeKey))) {
+    MaterialTheme(colorScheme = gameColorScheme(GameKeys.color(modeKey, LocalIsDarkTheme.current))) {
     Scaffold(
         topBar = {
             TopAppBar(

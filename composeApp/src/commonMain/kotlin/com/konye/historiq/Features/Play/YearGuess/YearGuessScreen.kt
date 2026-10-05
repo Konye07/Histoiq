@@ -59,6 +59,7 @@ import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.EraThemes
 import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
+import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.ActiveEra
@@ -172,7 +173,7 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
         }
     }
 
-    MaterialTheme(colorScheme = gameColorScheme(GameKeys.color(modeKey))) {
+    MaterialTheme(colorScheme = gameColorScheme(GameKeys.color(modeKey, LocalIsDarkTheme.current))) {
         Scaffold(
             topBar = {
                 TopAppBar(

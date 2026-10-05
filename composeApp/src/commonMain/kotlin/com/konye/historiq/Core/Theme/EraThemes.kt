@@ -1,8 +1,10 @@
 package com.konye.historiq.Core.Theme
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizEra
+import kotlin.math.sqrt
 
 /**
  * An era's own look. [base] is the era's Play screen and bottom bar; each of its three games gets a color
@@ -21,6 +23,75 @@ class EraPalette(
         GameKeys.BLIND_MAP_BATTLE -> blindMapBattle
         else -> base
     }
+
+    /**
+     * The same era after dark: each color keeps its hue. The background becomes a deep shade of it, and the
+     * game colors are brought into a dark band that sits a little above that background, so a game's card
+     * still reads as a surface on it.
+     */
+    fun forDarkMode() = EraPalette(
+        base = base.asDarkBackground(),
+        yearGuess = yearGuess.asDarkSurface(),
+        casualtiesMultiplier = casualtiesMultiplier.asDarkSurface(),
+        blindMapBattle = blindMapBattle.asDarkSurface()
+    )
+
+    /**
+     * Plain darkening would turn the eras with a pale, grayish background (Ancient, Modern, Contemporary)
+     * into the same charcoal. So the era's tint is kept, and an era whose light background is lighter stays
+     * a little lighter after dark — each keeps its place in the set.
+     */
+    private fun Color.asDarkBackground(): Color {
+        val target = DARK_BASE_MIN_LUMINANCE + DARK_BASE_LUMINANCE_SPAN * sqrt(luminance())
+        return darkenedToLuminance(target).withMinSaturation(DARK_BASE_MIN_SATURATION)
+    }
+
+    private fun Color.asDarkSurface() =
+        darkenedToLuminance(DARK_SURFACE_MAX_LUMINANCE).brightenedToLuminance(DARK_SURFACE_MIN_LUMINANCE)
+
+    private companion object {
+        const val DARK_BASE_MIN_LUMINANCE = 0.012f
+        const val DARK_BASE_LUMINANCE_SPAN = 0.028f
+        const val DARK_BASE_MIN_SATURATION = 0.3f
+        const val DARK_SURFACE_MIN_LUMINANCE = 0.045f
+        const val DARK_SURFACE_MAX_LUMINANCE = 0.11f
+    }
+}
+
+/** Darkened toward black until its luminance is at most [max]; unchanged if it already is. */
+private fun Color.darkenedToLuminance(max: Float): Color {
+    var amount = 0f
+    var result = this
+    while (result.luminance() > max && amount < 1f) {
+        amount += 0.01f
+        result = darken(amount)
+    }
+    return result
+}
+
+/**
+ * Its tint made at least [minSaturation] strong (HSV saturation), with the hue and the brightest channel
+ * kept: only the weaker channels are pulled down. A gray has no hue to strengthen and stays as it is.
+ */
+private fun Color.withMinSaturation(minSaturation: Float): Color {
+    val brightest = maxOf(red, green, blue)
+    val dimmest = minOf(red, green, blue)
+    val spread = brightest - dimmest
+    if (brightest <= 0f || spread == 0f || spread / brightest >= minSaturation) return this
+    val newDimmest = brightest * (1f - minSaturation)
+    fun rescaled(channel: Float) = newDimmest + (channel - dimmest) / spread * (brightest - newDimmest)
+    return Color(rescaled(red), rescaled(green), rescaled(blue))
+}
+
+/** Scaled up (not blended toward white, which would wash it out) until its luminance is at least [min]. */
+private fun Color.brightenedToLuminance(min: Float): Color {
+    var factor = 1f
+    var result = this
+    while (result.luminance() < min && factor < 8f) {
+        factor += 0.05f
+        result = Color((red * factor).coerceAtMost(1f), (green * factor).coerceAtMost(1f), (blue * factor).coerceAtMost(1f))
+    }
+    return result
 }
 
 /**
@@ -35,9 +106,12 @@ class EraPalette(
  * in one file at a time.
  */
 object EraThemes {
-    fun palette(era: QuizEra): EraPalette = when (era) {
+    /** [dark] is the app's dark mode: the same era in its after-dark colors, see [EraPalette.forDarkMode]. */
+    fun palette(era: QuizEra, dark: Boolean = false): EraPalette = lightPalette(era).let { if (dark) it.forDarkMode() else it }
+
+    private fun lightPalette(era: QuizEra): EraPalette = when (era) {
         QuizEra.ANCIENT -> EraPalette(
-            base = Color(0xFFDFBE63),
+            base = Color(0xFFF2E7D6),
             yearGuess = Color(0xFF4A7A78),
             casualtiesMultiplier = Color(0xFF5E1C23),
             blindMapBattle = Color(0xFFA0822D)

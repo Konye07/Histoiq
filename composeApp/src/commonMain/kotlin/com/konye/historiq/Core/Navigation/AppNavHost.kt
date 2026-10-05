@@ -25,6 +25,7 @@ import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Network.OfflineBanner
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.EraThemes
+import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.contrastingOn
 import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Core.Theme.lighten
@@ -58,7 +59,7 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
             val backStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = backStackEntry?.destination?.route
             val era by ActiveEra.selected.collectAsState()
-            val gameColor = gameColorForRoute(currentRoute, era)
+            val gameColor = gameColorForRoute(currentRoute, era, LocalIsDarkTheme.current)
             // Falls back to the ambient AppTheme's own colors (not a hardcoded light-mode
             // constant) so the bar still matches on Play/Friends/Profile/Settings when dark mode
             // is on — no MaterialTheme override sits between AppTheme and this Scaffold, so these
@@ -151,14 +152,14 @@ fun AppNavHost(onSignedOut: () -> Unit = {}) {
 }
 
 /** The bottom bar's color on a game route — and on Play while in an era's game mode, which has a palette of its own. */
-private fun gameColorForRoute(route: String?, era: QuizEra?): Color? = when (route) {
-    NavRoutes.Play.route -> era?.let { EraThemes.palette(it).base }
-    NavRoutes.YearGuess.route -> GameKeys.color(GameKeys.modeKey(GameKeys.YEAR_GUESS, era))
-    NavRoutes.CasualtiesMultiplier.route -> GameKeys.color(GameKeys.modeKey(GameKeys.CASUALTIES_MULTIPLIER, era))
+private fun gameColorForRoute(route: String?, era: QuizEra?, dark: Boolean): Color? = when (route) {
+    NavRoutes.Play.route -> era?.let { EraThemes.palette(it, dark).base }
+    NavRoutes.YearGuess.route -> GameKeys.color(GameKeys.modeKey(GameKeys.YEAR_GUESS, era), dark)
+    NavRoutes.CasualtiesMultiplier.route -> GameKeys.color(GameKeys.modeKey(GameKeys.CASUALTIES_MULTIPLIER, era), dark)
     NavRoutes.FlagColorMatch.route -> AppColors.OliveDark
     NavRoutes.TerritoryCompare.route -> AppColors.ForestDark
     NavRoutes.TrueFalse.route -> AppColors.BrownDark
-    NavRoutes.BlindMapBattle.route -> GameKeys.color(GameKeys.modeKey(GameKeys.BLIND_MAP_BATTLE, era))
+    NavRoutes.BlindMapBattle.route -> GameKeys.color(GameKeys.modeKey(GameKeys.BLIND_MAP_BATTLE, era), dark)
     else -> null
 }
 

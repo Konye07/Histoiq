@@ -10,7 +10,8 @@ The source folder (default D:/code_projects/historytrivia/eras) is the owner's a
 plus one 06battle_map_all.png for Chancellor's card in every era. Each picture is checked before it is used, and
 anything that is missing or does not look right is reported and left out (the app then shows its all-time artwork):
 a logo with a baked-in opaque background would draw as a solid box on the card, and a colour picture in a
-background slot would not read as a watermark. A logo may also be found under the background's name.
+background slot would not read as a watermark (black line art on an opaque white background is fine there: the
+white becomes transparency). A logo may also be found under the background's name.
 
 Logos are copied byte-for-byte. Backgrounds are tinted by the app and drawn as a faint watermark from their alpha
 alone (see GameBackgroundArt), so any opaque white fill is turned into transparency first: new alpha = alpha x
@@ -37,6 +38,10 @@ ERA_ENUM = {"ancient": "ANCIENT", "medieval": "MEDIEVAL", "early_modern": "EARLY
 
 # Sepia-tinted line art measures up to ~0.16 and every colour illustration so far at least ~0.28.
 COLOUR_THRESHOLD = 0.22
+# A background whose longer side is under MIN is smooth-upscaled to TARGET first, so the phone does not blow it
+# up into blocks.
+MIN_BACKGROUND_SIDE = 520
+TARGET_BACKGROUND_SIDE = 560
 
 problems = []
 
@@ -72,7 +77,13 @@ def is_logo(path):
 
 def is_line_art(path):
     image = read(path)
-    return not opaque_background(image) and mean_saturation(image) < COLOUR_THRESHOLD
+    if mean_saturation(image) >= COLOUR_THRESHOLD:
+        return False
+    if opaque_background(image):
+        w, h = image.size
+        gray = image.convert("L")
+        return min(gray.getpixel(c) for c in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1))) > 200  # ink on white
+    return True
 
 
 def build_logo(era, prefix, game_name, game_key):
@@ -95,6 +106,10 @@ def build_background(era, prefix, game_name, game_key):
         problems.append(f"{era} {game_name}: {name} is not line art (a colour picture or an opaque background), so it is not used as the background")
         return
     image = read(path)
+    if max(image.size) < MIN_BACKGROUND_SIDE:
+        scale = TARGET_BACKGROUND_SIDE / max(image.size)
+        print(f"     (upscaled {name}: it is only {image.width}x{image.height}, a larger one would be sharper)")
+        image = image.resize((round(image.width * scale), round(image.height * scale)), Image.LANCZOS)
     alpha = ImageChops.multiply(image.getchannel("A"), ImageChops.invert(image.convert("L")))
     result = Image.new("RGBA", image.size, (0, 0, 0, 0))
     result.putalpha(alpha)
