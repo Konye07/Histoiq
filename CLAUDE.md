@@ -195,7 +195,10 @@ structurally — both buttons are real OAuth there.
   goes through the `lookup_friend_code(code)` SECURITY DEFINER function (never a direct SELECT —
   that would leak emails to strangers), which is rate-limited (20 lookups/hour per caller) via
   `friend_code_lookup_attempts` (`caller_id`, `attempted_at`) — RLS enabled, no policies, same
-  zero-direct-client-access shape as `device_audit_log` below.
+  zero-direct-client-access shape as `device_audit_log` below. An AFTER DELETE trigger
+  (`delete_auth_user_after_profile_delete`) also deletes the `auth.users` row, so the app's Delete
+  Account (whose last step is deleting the profile) removes the email and provider id too, without a
+  client update; a client can't delete an auth user itself.
 - `friendships` — real friend requests/acceptances between real accounts (`FriendsRepository.kt`,
   `FriendsStore.kt`). Replaced the old hardcoded `FriendDirectory` demo directory and
   `demoScoreFor`'s synthetic scores entirely — deleted, not kept as fallback.
