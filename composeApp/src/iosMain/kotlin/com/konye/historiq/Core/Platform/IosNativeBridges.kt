@@ -10,7 +10,7 @@ package com.konye.historiq.Core.Platform
  * Each bridge is registered once at app launch (iOSApp.swift's init) into [IosNativeBridges].
  */
 interface GoogleSignInBridge {
-    fun signIn(hashedNonce: String, onResult: (idToken: String?, uniqueId: String?, email: String?, displayName: String?, avatarUrl: String?) -> Unit)
+    fun signIn(hashedNonce: String, onResult: (idToken: String?, accessToken: String?, uniqueId: String?, email: String?, displayName: String?, avatarUrl: String?) -> Unit)
 }
 
 interface AdsBridge {

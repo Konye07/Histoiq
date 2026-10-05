@@ -13,9 +13,9 @@ actual suspend fun signInWithGoogle(): GoogleAuthOutcome {
     val (rawNonce, hashedNonce) = generateNonce()
 
     val result = suspendCancellableCoroutine { continuation ->
-        bridge.signIn(hashedNonce) { idToken, uniqueId, email, displayName, avatarUrl ->
+        bridge.signIn(hashedNonce) { idToken, accessToken, uniqueId, email, displayName, avatarUrl ->
             if (continuation.isActive) {
-                continuation.resume(GoogleSignInResult(idToken, uniqueId, email, displayName, avatarUrl))
+                continuation.resume(GoogleSignInResult(idToken, accessToken, uniqueId, email, displayName, avatarUrl))
             }
         }
     }
@@ -23,7 +23,12 @@ actual suspend fun signInWithGoogle(): GoogleAuthOutcome {
     val uniqueId = result.uniqueId
     if (idToken == null || uniqueId == null) return GoogleAuthOutcome.CancelledOrFailed
 
-    val linked = linkOrSignInWithIdToken(provider = Google, idToken = idToken, rawNonce = rawNonce)
+    val linked = linkOrSignInWithIdToken(
+        provider = Google,
+        idToken = idToken,
+        rawNonce = rawNonce,
+        accessToken = result.accessToken
+    )
     if (!linked) return GoogleAuthOutcome.CancelledOrFailed
 
     return GoogleAuthOutcome.SignedIn(
@@ -38,6 +43,7 @@ actual suspend fun signInWithGoogle(): GoogleAuthOutcome {
 
 private data class GoogleSignInResult(
     val idToken: String?,
+    val accessToken: String?,
     val uniqueId: String?,
     val email: String?,
     val displayName: String?,

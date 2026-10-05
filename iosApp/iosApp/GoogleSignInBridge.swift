@@ -5,9 +5,9 @@ import GoogleSignIn
 /// IosNativeBridges.shared.googleSignIn — see Core/Platform/IosNativeBridges.kt for why this SDK
 /// call has to live in Swift rather than being called directly from Kotlin.
 class GoogleSignInBridgeImpl: GoogleSignInBridge {
-    func signIn(hashedNonce: String, onResult: @escaping (String?, String?, String?, String?, String?) -> Void) {
+    func signIn(hashedNonce: String, onResult: @escaping (String?, String?, String?, String?, String?, String?) -> Void) {
         guard let presenter = RootViewController.current() else {
-            onResult(nil, nil, nil, nil, nil)
+            onResult(nil, nil, nil, nil, nil, nil)
             return
         }
         GIDSignIn.sharedInstance.signIn(
@@ -17,7 +17,7 @@ class GoogleSignInBridgeImpl: GoogleSignInBridge {
             nonce: hashedNonce
         ) { result, error in
             guard let user = result?.user, error == nil else {
-                onResult(nil, nil, nil, nil, nil)
+                onResult(nil, nil, nil, nil, nil, nil)
                 return
             }
             let avatarUrl = (user.profile?.hasImage == true)
@@ -25,6 +25,7 @@ class GoogleSignInBridgeImpl: GoogleSignInBridge {
                 : nil
             onResult(
                 user.idToken?.tokenString,
+                user.accessToken.tokenString,
                 user.userID,
                 user.profile?.email,
                 user.profile?.name,

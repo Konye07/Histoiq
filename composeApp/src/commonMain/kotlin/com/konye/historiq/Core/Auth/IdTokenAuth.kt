@@ -16,11 +16,15 @@ import io.github.jan.supabase.auth.providers.builtin.IDToken
  * [onSignInFallbackFailed] is invoked if the fallback sign-in *also* fails — the real error in
  * that case (Supabase rejects the token entirely: e.g. an unconfigured provider, an audience/
  * nonce mismatch, or a bad provider secret) is worth surfacing, unlike the expected link failure.
+ * [accessToken] must accompany [idToken] whenever the provider issued one with it (Google on iOS):
+ * such ID tokens carry an `at_hash` claim, and Supabase Auth logs a warning when the matching
+ * access token is missing and has said it will require it in a future release.
  */
 suspend fun linkOrSignInWithIdToken(
     provider: IDTokenProvider,
     idToken: String,
     rawNonce: String,
+    accessToken: String? = null,
     onLinkFallback: (Throwable) -> Unit = {},
     onSignInFallbackFailed: (Throwable) -> Unit = {}
 ): Boolean {
@@ -28,6 +32,7 @@ suspend fun linkOrSignInWithIdToken(
     try {
         auth.linkIdentityWithIdToken(provider = provider, idToken = idToken) {
             nonce = rawNonce
+            this.accessToken = accessToken
         }
         return true
     } catch (e: Exception) {
@@ -37,6 +42,7 @@ suspend fun linkOrSignInWithIdToken(
                 this.idToken = idToken
                 this.provider = provider
                 nonce = rawNonce
+                this.accessToken = accessToken
             }
             true
         } catch (e: Exception) {
