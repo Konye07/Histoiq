@@ -230,6 +230,13 @@ structurally — both buttons are real OAuth there.
   other two (`correct_year` / `year`) so every question can be flagged with its era; give every new
   battle one. Those three banks also carry `era_key`, a stored generated column (see "Era game modes");
   it is not the free-text `era` label that `territory_compare_items` has.
+  Adding questions: keep an idempotent audit copy in `supabase/question_banks/` (`insert ... on conflict
+  (id) do nothing`; ids continue the numbering, `event_NNN` / `battle_NNN` / `battlemap_NNN`), dry-run it
+  on the scratch Postgres, then check the per-era counts. `correct_casualties` is killed + wounded of both
+  sides, midpoints of ranges, prisoners excluded, and the figure must agree between a Wikipedia infobox and
+  the article's own text (several don't, e.g. Breadfield, Mühlberg, Belgrade 1717); the row's `source` says
+  how it was combined. Chancellor needs only a year and coordinates, so a battle with no usable casualty
+  figure (Vajkal, Ugra) can still go there. An Annalist event name must not contain its year.
 - `device_audit_log` — sign-in security audit trail (IP, user agent, event, timestamp). **No RLS
   policies at all** — zero client access, not even the account's own row. Only reachable through
   `log_device_event(event)` (SECURITY DEFINER), which reads the caller's IP from PostgREST's
