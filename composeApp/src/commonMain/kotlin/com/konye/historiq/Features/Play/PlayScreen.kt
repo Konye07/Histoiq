@@ -96,16 +96,6 @@ private data class QuizMode(
     val onClick: () -> Unit = {}
 )
 
-/** The all-time card pictures — also what an era's card falls back to until the era has its own. */
-private val ALL_TIME_LOGOS = mapOf(
-    GameKeys.YEAR_GUESS to "images/menulogos/01guess_year.png",
-    GameKeys.CASUALTIES_MULTIPLIER to "images/menulogos/02casualities.png",
-    GameKeys.FLAG_COLOR_MATCH to "images/menulogos/03paint_flag.png",
-    GameKeys.TERRITORY_COMPARE to "images/menulogos/04peak_empire_vs.png",
-    GameKeys.TRUE_FALSE to "images/menulogos/05hist_statements.png",
-    GameKeys.BLIND_MAP_BATTLE to "images/menulogos/06battle_map.png"
-)
-
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun PlayScreen(
@@ -136,7 +126,7 @@ fun PlayScreen(
             title = GameKeys.title(GameKeys.YEAR_GUESS),
             description = StringsHomeShared.home_desc_year_guess,
             color = GameKeys.color(GameKeys.YEAR_GUESS),
-            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.YEAR_GUESS),
+            logoAsset = EraThemes.allTimeLogoAsset(GameKeys.YEAR_GUESS),
             enabled = true,
             onClick = onSelectYearGuess
         ),
@@ -146,7 +136,7 @@ fun PlayScreen(
             title = GameKeys.title(GameKeys.CASUALTIES_MULTIPLIER),
             description = StringsHomeShared.home_desc_casualties_multiplier,
             color = GameKeys.color(GameKeys.CASUALTIES_MULTIPLIER),
-            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.CASUALTIES_MULTIPLIER),
+            logoAsset = EraThemes.allTimeLogoAsset(GameKeys.CASUALTIES_MULTIPLIER),
             enabled = true,
             onClick = onSelectCasualtiesMultiplier
         ),
@@ -156,7 +146,7 @@ fun PlayScreen(
             title = GameKeys.title(GameKeys.FLAG_COLOR_MATCH),
             description = StringsHomeShared.home_desc_flag_color_match,
             color = GameKeys.color(GameKeys.FLAG_COLOR_MATCH),
-            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.FLAG_COLOR_MATCH),
+            logoAsset = EraThemes.allTimeLogoAsset(GameKeys.FLAG_COLOR_MATCH),
             enabled = true,
             onClick = onSelectFlagColorMatch
         ),
@@ -166,7 +156,7 @@ fun PlayScreen(
             title = GameKeys.title(GameKeys.TERRITORY_COMPARE),
             description = StringsHomeShared.home_desc_territory_compare,
             color = GameKeys.color(GameKeys.TERRITORY_COMPARE),
-            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.TERRITORY_COMPARE),
+            logoAsset = EraThemes.allTimeLogoAsset(GameKeys.TERRITORY_COMPARE),
             enabled = true,
             onClick = onSelectTerritoryCompare
         ),
@@ -176,7 +166,7 @@ fun PlayScreen(
             title = GameKeys.title(GameKeys.TRUE_FALSE),
             description = StringsHomeShared.home_desc_true_false,
             color = GameKeys.color(GameKeys.TRUE_FALSE),
-            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.TRUE_FALSE),
+            logoAsset = EraThemes.allTimeLogoAsset(GameKeys.TRUE_FALSE),
             enabled = true,
             onClick = onSelectTrueFalse
         ),
@@ -186,7 +176,7 @@ fun PlayScreen(
             title = GameKeys.title(GameKeys.BLIND_MAP_BATTLE),
             description = StringsHomeShared.home_desc_blind_map_battle,
             color = GameKeys.color(GameKeys.BLIND_MAP_BATTLE),
-            logoAsset = ALL_TIME_LOGOS.getValue(GameKeys.BLIND_MAP_BATTLE),
+            logoAsset = EraThemes.allTimeLogoAsset(GameKeys.BLIND_MAP_BATTLE),
             enabled = true,
             onClick = onSelectBlindMapBattle
         )
@@ -202,7 +192,7 @@ fun PlayScreen(
         val missing = modes.filter { it.logoAsset !in logos }
         val (loadedLogos, loadedBanner) = withContext(Dispatchers.Default) {
             val loadedLogos = missing.mapNotNull { mode ->
-                (tryLoadImageBitmap(mode.logoAsset) ?: tryLoadImageBitmap(ALL_TIME_LOGOS[mode.key]))?.let { mode.logoAsset to it }
+                (tryLoadImageBitmap(mode.logoAsset) ?: tryLoadImageBitmap(EraThemes.allTimeLogoAsset(mode.key)))?.let { mode.logoAsset to it }
             }.toMap()
             loadedLogos to shownEra?.let { tryLoadImageBitmap(EraThemes.bannerAsset(it)) }
         }

@@ -50,11 +50,11 @@ object StringsTutorial {
 
     val tutorial_welcome_body: String
         @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Six daily history quizzes, each playable once a day and resumable if you step away. Let's take a quick look at each one."
-            AppLanguage.ES -> "Seis cuestionarios históricos diarios, cada uno jugable una vez al día y reanudable si te alejas. Echemos un vistazo rápido a cada uno."
-            AppLanguage.FR -> "Six quiz d'histoire quotidiens, chacun jouable une fois par jour et reprenable si tu t'absentes. Jetons un coup d'œil rapide à chacun."
-            AppLanguage.DE -> "Sechs tägliche Geschichtsquiz, jedes einmal pro Tag spielbar und fortsetzbar, falls du unterbrichst. Werfen wir einen kurzen Blick auf jedes."
-            AppLanguage.IT -> "Sei quiz di storia giornalieri, ciascuno giocabile una volta al giorno e ripristinabile se ti interrompi. Diamo una rapida occhiata a ciascuno."
+            AppLanguage.EN -> "Six daily history quizzes, each playable once a day and resumable if you step away — plus five historical eras to step into. Let's take a quick look."
+            AppLanguage.ES -> "Seis cuestionarios históricos diarios, cada uno jugable una vez al día y reanudable si te alejas — y además cinco épocas históricas en las que sumergirte. Echemos un vistazo rápido."
+            AppLanguage.FR -> "Six quiz d'histoire quotidiens, chacun jouable une fois par jour et reprenable si tu t'absentes — et cinq époques historiques à explorer. Jetons un coup d'œil rapide."
+            AppLanguage.DE -> "Sechs tägliche Geschichtsquiz, jedes einmal pro Tag spielbar und fortsetzbar, falls du unterbrichst — dazu fünf historische Epochen zum Eintauchen. Werfen wir einen kurzen Blick darauf."
+            AppLanguage.IT -> "Sei quiz di storia giornalieri, ciascuno giocabile una volta al giorno e ripristinabile se ti interrompi — più cinque epoche storiche in cui immergerti. Diamo una rapida occhiata."
         }
 
     val tutorial_year_guess_body: String
@@ -110,6 +110,62 @@ object StringsTutorial {
             AppLanguage.DE -> "Zoome mit zwei Fingern, ziehe zum Verschieben und tippe auf die leere Karte, um genau zu markieren, wo eine historische Schlacht stattfand."
             AppLanguage.IT -> "Pizzica per ingrandire, trascina per spostarti e tocca la mappa vuota per indicare esattamente dove si è svolta una battaglia storica."
         }
+
+    @Composable
+    fun tutorial_era_badge(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Also in %1\$s historical eras"
+            AppLanguage.ES -> "También en %1\$s épocas históricas"
+            AppLanguage.FR -> "Aussi dans %1\$s époques historiques"
+            AppLanguage.DE -> "Auch in %1\$s historischen Epochen"
+            AppLanguage.IT -> "Anche in %1\$s epoche storiche"
+        }
+        return formatTemplate(template, arg1)
+    }
+
+    val tutorial_eras_title: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Step into a historical era"
+            AppLanguage.ES -> "Sumérgete en una época histórica"
+            AppLanguage.FR -> "Plonge dans une époque historique"
+            AppLanguage.DE -> "Tauche in eine historische Epoche ein"
+            AppLanguage.IT -> "Immergiti in un'epoca storica"
+        }
+
+    /** [arg1] is the name of the Play tab, [arg2] the name of the All-time mode. */
+    @Composable
+    fun tutorial_eras_body(arg1: Any, arg2: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "On the %1\$s screen, %2\$s is the daily set you know. Tap an era above your games to switch into that era's own game mode."
+            AppLanguage.ES -> "En la pantalla %1\$s, «%2\$s» es el conjunto diario que ya conoces. Toca una época sobre tus juegos para pasar al modo de juego propio de esa época."
+            AppLanguage.FR -> "Sur l'écran %1\$s, « %2\$s » est la série quotidienne que tu connais déjà. Touche une époque au-dessus de tes jeux pour passer dans le mode de jeu propre à cette époque."
+            AppLanguage.DE -> "Auf dem Bildschirm „%1\$s“ ist „%2\$s“ das tägliche Set, das du schon kennst. Tippe über deinen Spielen auf eine Epoche, um in deren eigenen Spielmodus zu wechseln."
+            AppLanguage.IT -> "Nella schermata %1\$s, «%2\$s» è il set giornaliero che già conosci. Tocca un'epoca sopra i tuoi giochi per passare alla modalità di gioco di quell'epoca."
+        }
+        return formatTemplate(template, arg1, arg2)
+    }
+
+    val tutorial_era_games_title: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Every era is a game of its own"
+            AppLanguage.ES -> "Cada época es un juego propio"
+            AppLanguage.FR -> "Chaque époque est un jeu à part entière"
+            AppLanguage.DE -> "Jede Epoche ist ein eigenes Spiel"
+            AppLanguage.IT -> "Ogni epoca è un gioco a sé"
+        }
+
+    /** [arg1], [arg2] and [arg3] are the names of the three games that have eras. */
+    @Composable
+    fun tutorial_era_games_body(arg1: Any, arg2: Any, arg3: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "%1\$s, %2\$s and %3\$s each get a fresh daily round with questions from that era only — plus their own streak, rank and stats. Friends and Profile can show any era's numbers too."
+            AppLanguage.ES -> "%1\$s, %2\$s y %3\$s tienen cada uno una ronda diaria nueva con preguntas solo de esa época — además de su propia racha, clasificación y estadísticas. Amigos y Perfil también pueden mostrar los números de cualquier época."
+            AppLanguage.FR -> "%1\$s, %2\$s et %3\$s ont chacun une nouvelle manche quotidienne avec des questions de cette époque uniquement — et leur propre série, classement et statistiques. Amis et Profil peuvent aussi afficher les chiffres de n'importe quelle époque."
+            AppLanguage.DE -> "%1\$s, %2\$s und %3\$s bekommen jeweils eine frische Tagesrunde mit Fragen nur aus dieser Epoche — samt eigener Serie, eigenem Rang und eigenen Statistiken. Auch Freunde und Profil zeigen die Zahlen jeder Epoche."
+            AppLanguage.IT -> "%1\$s, %2\$s e %3\$s hanno ciascuno un nuovo round giornaliero con domande solo di quell'epoca — più la propria serie, classifica e statistiche. Anche Amici e Profilo possono mostrare i numeri di qualsiasi epoca."
+        }
+        return formatTemplate(template, arg1, arg2, arg3)
+    }
 
     val tutorial_closing_title: String
         @Composable get() = when (LocalAppLanguage.current) {

@@ -308,6 +308,19 @@ into, not a filter on the original.
   screens, the bottom bar, Friends, Profile) pass `LocalIsDarkTheme.current`; the all-time games keep their
   fixed signature colors in dark mode. Tune `EraPalette`'s `DARK_*` constants, not per-era values.
 
+## Onboarding tutorial
+
+`Features/Onboarding/TutorialScreen.kt`, shown once per device (`SettingsStore.hasSeenTutorial`, gated in
+`RootApp`) and skippable at any page. Ten pages: welcome, the six games, two era pages, closing. The game pages
+are real on-device screenshots (`composeResources/drawable/tutorial_*.png`), so the text inside them stays English
+in every language; the three games with era modes carry an "Also in 5 historical eras" badge. The era pages
+(`TutorialEraPages.kt`) are drawn live from `QuizEra.entries`, `EraThemes` and the app's own strings, so they follow
+the language, dark mode and text size and need no edit when an era's palette or picture changes; the second one
+cycles through the eras while it is on screen. When a game gains or loses a feature, update its page text in
+`StringsTutorial.kt` (five languages) and re-take its screenshot. Because the tutorial runs once, a player who
+finished it before a change never sees that change; Settings has no "replay tutorial" row yet. To re-run it on a
+device, clear the app's data (or `hasSeenTutorial` in `app_settings`).
+
 ## Fixed color palette
 
 Each game gets its own Material3 `ColorScheme` built from one base color via `gameColorScheme()`

@@ -147,6 +147,17 @@ object EraThemes {
     fun logoAsset(era: QuizEra, gameKey: String) =
         if (gameKey == GameKeys.BLIND_MAP_BATTLE) "images/eras/06battle_map_all.png" else "images/eras/${era.key}/logo_$gameKey.png"
 
+    /** The all-time card pictures — also what an era's card falls back to until the era has its own. */
+    fun allTimeLogoAsset(gameKey: String): String = when (gameKey) {
+        GameKeys.YEAR_GUESS -> "images/menulogos/01guess_year.png"
+        GameKeys.CASUALTIES_MULTIPLIER -> "images/menulogos/02casualities.png"
+        GameKeys.FLAG_COLOR_MATCH -> "images/menulogos/03paint_flag.png"
+        GameKeys.TERRITORY_COMPARE -> "images/menulogos/04peak_empire_vs.png"
+        GameKeys.TRUE_FALSE -> "images/menulogos/05hist_statements.png"
+        GameKeys.BLIND_MAP_BATTLE -> "images/menulogos/06battle_map.png"
+        else -> error("No card picture for game key $gameKey")
+    }
+
     /** [era] null is the all-time artwork every era falls back to. */
     fun backgroundAsset(era: QuizEra?, gameKey: String) =
         if (era == null) "images/backgrounds/bg_$gameKey.png" else "images/eras/${era.key}/bg_$gameKey.png"
