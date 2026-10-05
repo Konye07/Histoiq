@@ -2,9 +2,11 @@ package com.konye.historiq.Core.Theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.lerp
@@ -176,8 +178,12 @@ private val AppDarkColors = darkColorScheme(
 
 /** [darkTheme] picks between [AppLightColors]/[AppDarkColors] — only for the non-game screens
  * (Play hub, Friends, Profile, Settings). Game screens use [gameColorScheme] instead, which is
- * unaffected: each game's signature color is a fixed brand color, not a light/dark variant. */
+ * unaffected: each game's signature color is a fixed brand color, not a light/dark variant. The text
+ * styles follow the player's [LocalAppFontSize] on every screen, and reach the screens' own nested
+ * MaterialThemes (which inherit the typography) and dialogs. */
 @Composable
 fun AppTheme(darkTheme: Boolean, content: @Composable () -> Unit) {
-    MaterialTheme(colorScheme = if (darkTheme) AppDarkColors else AppLightColors, content = content)
+    val fontSize = LocalAppFontSize.current
+    val typography = remember(fontSize) { Typography().scaledFor(fontSize) }
+    MaterialTheme(colorScheme = if (darkTheme) AppDarkColors else AppLightColors, typography = typography, content = content)
 }

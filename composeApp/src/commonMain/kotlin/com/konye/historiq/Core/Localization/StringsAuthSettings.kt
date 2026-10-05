@@ -141,6 +141,51 @@ object StringsAuthSettings {
             AppLanguage.IT -> "Prossimamente"
         }
 
+    val settings_font_size_title: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Text size"
+            AppLanguage.ES -> "Tamaño del texto"
+            AppLanguage.FR -> "Taille du texte"
+            AppLanguage.DE -> "Textgröße"
+            AppLanguage.IT -> "Dimensione del testo"
+        }
+
+    val settings_font_size_subtitle: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Make the text across the whole app smaller or larger, so it's easier to read."
+            AppLanguage.ES -> "Haz el texto de toda la aplicación más pequeño o más grande para leerlo con más facilidad."
+            AppLanguage.FR -> "Réduis ou agrandis le texte dans toute l'application pour le lire plus facilement."
+            AppLanguage.DE -> "Mach den Text in der ganzen App kleiner oder größer, damit er sich leichter lesen lässt."
+            AppLanguage.IT -> "Rendi il testo di tutta l'app più piccolo o più grande per leggerlo più facilmente."
+        }
+
+    val settings_font_size_small: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Small"
+            AppLanguage.ES -> "Pequeño"
+            AppLanguage.FR -> "Petit"
+            AppLanguage.DE -> "Klein"
+            AppLanguage.IT -> "Piccolo"
+        }
+
+    val settings_font_size_medium: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Medium"
+            AppLanguage.ES -> "Mediano"
+            AppLanguage.FR -> "Moyen"
+            AppLanguage.DE -> "Mittel"
+            AppLanguage.IT -> "Medio"
+        }
+
+    val settings_font_size_large: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Large"
+            AppLanguage.ES -> "Grande"
+            AppLanguage.FR -> "Grand"
+            AppLanguage.DE -> "Groß"
+            AppLanguage.IT -> "Grande"
+        }
+
     val settings_preferences_title: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Preferences"

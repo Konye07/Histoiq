@@ -12,9 +12,12 @@ import com.konye.historiq.Core.Localization.LocalAppLanguage
 import com.konye.historiq.Core.Localization.LocalOnLanguageChange
 import com.konye.historiq.Core.Navigation.RootApp
 import com.konye.historiq.Core.Platform.ApplyStatusBarStyle
+import com.konye.historiq.Core.Theme.AppFontSize
 import com.konye.historiq.Core.Theme.AppTheme
+import com.konye.historiq.Core.Theme.LocalAppFontSize
 import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.LocalOnDarkModeChange
+import com.konye.historiq.Core.Theme.LocalOnFontSizeChange
 import com.konye.historiq.Data.Settings.SettingsStore
 
 @Composable
@@ -26,6 +29,8 @@ fun App() {
     var darkModeOverride by remember { mutableStateOf(SettingsStore.darkModeOverride()) }
     val isDarkTheme = darkModeOverride ?: isSystemInDarkTheme()
 
+    var fontSize by remember { mutableStateOf(AppFontSize.fromCode(SettingsStore.fontSize())) }
+
     CompositionLocalProvider(
         LocalAppLanguage provides language,
         LocalOnLanguageChange provides { newLanguage ->
@@ -36,6 +41,11 @@ fun App() {
         LocalOnDarkModeChange provides { newValue ->
             darkModeOverride = newValue
             SettingsStore.setDarkModeOverride(newValue)
+        },
+        LocalAppFontSize provides fontSize,
+        LocalOnFontSizeChange provides { newSize ->
+            fontSize = newSize
+            SettingsStore.setFontSize(newSize.code)
         }
     ) {
         ApplyStatusBarStyle(isDarkTheme)

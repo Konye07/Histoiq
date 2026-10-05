@@ -1,13 +1,21 @@
 package com.konye.historiq.Features.Settings
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -27,6 +35,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Ads.isPrivacyOptionsRequired
@@ -38,8 +49,12 @@ import com.konye.historiq.Core.Localization.StringsAuthSettings
 import com.konye.historiq.Core.Network.networkOrElse
 import com.konye.historiq.Core.Notifications.ReminderScheduler
 import com.konye.historiq.Core.Notifications.rememberRequestNotificationPermission
+import com.konye.historiq.Core.Theme.AppFontSize
+import com.konye.historiq.Core.Theme.LocalAppFontSize
 import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.LocalOnDarkModeChange
+import com.konye.historiq.Core.Theme.LocalOnFontSizeChange
+import com.konye.historiq.Core.Theme.scaledBy
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Settings.SettingsStore
 import com.konye.historiq.Data.Social.formatFriendCode
@@ -65,6 +80,8 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
     val onLanguageChange = LocalOnLanguageChange.current
     val isDarkTheme = LocalIsDarkTheme.current
     val onDarkModeChange = LocalOnDarkModeChange.current
+    val currentFontSize = LocalAppFontSize.current
+    val onFontSizeChange = LocalOnFontSizeChange.current
     var hapticsEnabled by remember { mutableStateOf(SettingsStore.hapticsEnabled()) }
     var dailyReminderEnabled by remember { mutableStateOf(SettingsStore.dailyReminderEnabled()) }
 
@@ -165,6 +182,26 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
                         Text(StringsAuthSettings.settings_coming_soon, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline)
                     }
                 }
+            }
+        }
+
+        HorizontalDivider()
+
+        // Text size
+        SectionTitle(StringsAuthSettings.settings_font_size_title)
+        Text(
+            StringsAuthSettings.settings_font_size_subtitle,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.outline
+        )
+        Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            AppFontSize.entries.forEach { option ->
+                FontSizeTile(
+                    option = option,
+                    selected = currentFontSize == option,
+                    onClick = { onFontSizeChange(option) },
+                    modifier = Modifier.weight(1f).fillMaxHeight()
+                )
             }
         }
 
@@ -282,6 +319,41 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
 @Composable
 private fun SectionTitle(text: String) {
     Text(text, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+}
+
+@Composable
+private fun fontSizeLabel(option: AppFontSize): String = when (option) {
+    AppFontSize.SMALL -> StringsAuthSettings.settings_font_size_small
+    AppFontSize.MEDIUM -> StringsAuthSettings.settings_font_size_medium
+    AppFontSize.LARGE -> StringsAuthSettings.settings_font_size_large
+}
+
+/** One text size choice: an "Aa" sample at the size [option] gives, whichever size is active now, over its name. */
+@Composable
+private fun FontSizeTile(option: AppFontSize, selected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val active = LocalAppFontSize.current
+    val shape = RoundedCornerShape(12.dp)
+    val contentColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onBackground
+    Column(
+        modifier
+            .clip(shape)
+            .background(if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent)
+            .border(if (selected) 2.dp else 1.dp, if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline, shape)
+            .selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
+            .padding(horizontal = 8.dp, vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(Modifier.weight(1f), contentAlignment = Alignment.BottomCenter) {
+            // The theme's style is already at the active size, so rescale it to the one this tile stands for.
+            Text("Aa", style = MaterialTheme.typography.headlineSmall.scaledBy(option.scale / active.scale), color = contentColor)
+        }
+        Text(
+            fontSizeLabel(option),
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
+            color = contentColor
+        )
+    }
 }
 
 @Composable

@@ -317,6 +317,12 @@ its own (see `EraThemes`), supplied by the project owner.
 
 ## Conventions
 
+- Text sizes come from `MaterialTheme.typography`, never a literal `sp`/`fontSize`: Settings → Text size
+  (`AppFontSize` in `Core/Theme/AppFontSize.kt` — Small 85%, Medium 100% = the original look and the default,
+  Large 125%, on top of the device's own text size) scales the typography that `AppTheme` provides, and a
+  hard-coded size would silently ignore it. It scales the styles rather than the density's fontScale because a
+  dialog is its own window with a fresh density, so a density override would leave dialogs at the old size.
+  The share-card images are drawn natively at a fixed size on purpose.
 - No comments unless the *why* is genuinely non-obvious (a workaround, a subtle invariant). Never
   comments that just restate what a well-named identifier already says.
 - Historical images/flags: only ever sourced from Wikimedia Commons with a verified public-domain

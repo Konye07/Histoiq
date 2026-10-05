@@ -1,8 +1,9 @@
 package com.konye.historiq.Data.Settings
 
 import com.konye.historiq.Core.Platform.createSettings
+import com.konye.historiq.Core.Theme.AppFontSize
 
-/** User-facing app preferences: language, haptics, daily reminder. */
+/** User-facing app preferences: language, text size, haptics, daily reminder. */
 object SettingsStore {
     private val settings = createSettings("app_settings")
 
@@ -16,6 +17,7 @@ object SettingsStore {
     private const val KEY_RATE_APP_DECIDED = "rateAppDecided"
     private const val KEY_RATE_APP_NEXT_ELIGIBLE_AT = "rateAppNextEligibleAt"
     private const val KEY_CACHED_ACCOUNT = "cachedAccount"
+    private const val KEY_FONT_SIZE = "fontSize"
 
     const val LANGUAGE_ENGLISH = "en"
 
@@ -89,5 +91,12 @@ object SettingsStore {
 
     fun setCachedAccountJson(json: String?) {
         if (json == null) settings.remove(KEY_CACHED_ACCOUNT) else settings.putString(KEY_CACHED_ACCOUNT, json)
+    }
+
+    /** The [AppFontSize] code; medium until the player picks another. */
+    fun fontSize(): String = settings.getString(KEY_FONT_SIZE, AppFontSize.MEDIUM.code)
+
+    fun setFontSize(code: String) {
+        settings.putString(KEY_FONT_SIZE, code)
     }
 }
