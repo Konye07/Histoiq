@@ -186,7 +186,8 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                 GameBackgroundArt(
                     EraThemes.backgroundAsset(era, GAME_KEY),
                     MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.offset(y = (-90).dp),
+                    // Only the wide all-time drawing has room to be raised; the tall era drawings fill the box and would lose their top.
+                    modifier = if (era == null) Modifier.offset(y = (-90).dp) else Modifier,
                     fallbackAssetPath = EraThemes.backgroundAsset(null, GAME_KEY)
                 )
                 when {

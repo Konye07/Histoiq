@@ -367,7 +367,9 @@ into, not a filter on the original.
   `<era>_colorpalette.txt` files (two typos read as `#5E1C23` and `#A0822D`). Pictures go in
   `composeResources/files/images/eras/<era key>/`: `banner.png` (optional header on the era's Play
   screen), `logo_<game key>.png` (the game cards) and `bg_<game key>.png` (the watermark behind each
-  game screen); Chancellor's card is `images/eras/06battle_map_all.png` for every era. A missing picture
+  game screen, drawn whole and centered: Herald lifts only the wide all-time one, because the tall era
+  drawings fill the screen's box and lose their top when raised); Chancellor's card is
+  `images/eras/06battle_map_all.png` for every era. A missing picture
   falls back to the all-time artwork. Do not copy the owner's folder by hand: run
   `python scripts/build_era_assets.py` (needs Pillow), which maps their files by name, rejects a logo with an
   opaque background or a colour picture in a background slot, turns the line art's opaque white fills
