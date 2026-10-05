@@ -1,6 +1,7 @@
 package com.konye.historiq.Core.Auth
 
 import com.konye.historiq.Data.Account.AuthResult
+import com.konye.historiq.Data.Quiz.GuestProgress
 import com.konye.historiq.Data.Remote.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.Facebook
@@ -52,16 +53,21 @@ internal var deeplinkSeenForPendingAttempt: Boolean = false
  * Apple's linkIdentityWithIdToken-then-signInWith(IDToken) pattern (see IdTokenAuth.kt) — and
  * falls back to a plain sign-in only on an *explicit* link failure (most commonly a returning
  * user's second device/reinstall, where this identity already belongs to a different existing
- * account). A link attempt that just times out or never returns at all is treated as the user
- * cancelling, never as a silent trigger to pop open a second, unprompted browser tab.
+ * account). That swaps the session, so the guest's results are read first and copied across
+ * afterwards ([GuestProgress]). A link attempt that just times out or never returns at all is
+ * treated as the user cancelling, never as a silent trigger to pop open a second, unprompted
+ * browser tab.
  */
 internal suspend fun awaitFacebookOAuthSession(): FacebookAuthOutcome {
     val linkResult = runOAuthRoundTrip { SupabaseClient.client.auth.linkIdentity(Facebook) }
     val session = when (linkResult) {
         is OAuthRoundTripResult.Session -> linkResult.session
         OAuthRoundTripResult.ExplicitFailure -> {
+            val guest = GuestProgress.capture()
             val signInResult = runOAuthRoundTrip { SupabaseClient.client.auth.signInWith(Facebook) }
-            (signInResult as? OAuthRoundTripResult.Session)?.session
+            (signInResult as? OAuthRoundTripResult.Session)?.session?.also { signedIn ->
+                signedIn.user?.id?.let { guest?.carryOverTo(it) }
+            }
         }
         null -> null
     }

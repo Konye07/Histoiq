@@ -20,9 +20,9 @@ actual suspend fun signInWithFacebook(): FacebookAuthOutcome = awaitFacebookOAut
  *
  * Checks for `error`/`error_code` query params itself (Supabase's standard OAuth-redirect error
  * convention, confirmed from supabase-kt's own UrlUtils.kt) *before* delegating to the library's
- * handleDeeplinks — that library call has no error callback in 3.2.4 (a failed code exchange just
- * never calls onSessionSuccess), so this is the only way to distinguish an explicit failure (e.g.
- * `identity_already_exists`) from the user simply not completing the flow. */
+ * handleDeeplinks — that call only emits an auth event for them (its onError callback covers a
+ * failed code exchange, not these), so this is the only way to distinguish an explicit failure
+ * (e.g. `identity_already_exists`) from the user simply not completing the flow. */
 fun handleFacebookOAuthDeeplink(intent: Intent) {
     val data = intent.data
     if (data?.scheme == OAUTH_REDIRECT_SCHEME && data.host == OAUTH_REDIRECT_HOST) {
@@ -34,9 +34,9 @@ fun handleFacebookOAuthDeeplink(intent: Intent) {
             return
         }
     }
-    SupabaseClient.client.handleDeeplinks(intent) { session ->
+    SupabaseClient.client.handleDeeplinks(intent, onSessionSuccess = { session ->
         pendingOAuthResult?.complete(OAuthRoundTripResult.Session(session))
-    }
+    })
 }
 
 /** Called from MainActivity's onResume — if the browser closed without ever producing a matching

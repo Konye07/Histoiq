@@ -40,6 +40,10 @@ platforms — no native Cupertino reskin on iOS.
   transitive `lifecycle-viewmodel-ktx` is Android/JVM-only and fails iOS resolution. Pinned to
   `2.9.0-beta03` specifically (contemporary with Compose 1.8.2) — `2.10.x` hits the same
   compileSdk-37/AGP-9 wall as Compose Multiplatform 1.12.0.
+- supabase-kt is pinned to `3.3.0`, with Ktor at 3.3.3 to match. Don't move it without reading "Guest →
+  account" under "Supabase backend": 3.2.5/3.2.6 break era-mode lookups and 3.8.0 needs Kotlin 2.4.0.
+  Check a klib's `default/manifest` (`abi_version`) before bumping it or Ktor — iOS can't read an ABI
+  newer than the compiler's.
 - Supabase credentials come from `local.properties` (`SUPABASE_URL` / `SUPABASE_ANON_KEY`,
   gitignored) — `composeApp/build.gradle.kts` generates a `SupabaseConfig.kt` object from them at
   configure time (the multiplatform replacement for the old single-module app's `BuildConfig`
@@ -176,8 +180,8 @@ Project "HistoryTrivia" (`xolybjypkkpeymsvfimr`). `Data/Remote/SupabaseClient.kt
 real, verifiable `auth.uid()`. "Continue with Google" is real OAuth on both platforms — Android via
 Credential Manager (`GoogleSignIn.android.kt`), iOS via the native Google Sign-In SDK through a
 Swift bridge (`GoogleSignIn.ios.kt`, see "Platform-specific code" above) — and links a real Google
-identity token to that same anonymous session (`linkOrSignInWithIdToken`) rather than replacing it,
-so any guest-mode progress from earlier the same day carries over. "Continue with Apple" is real
+identity token to that same anonymous session rather than replacing it (see "Guest → account"
+below), so any guest-mode progress carries over. "Continue with Apple" is real
 too, but iOS-only: native `AuthenticationServices` via direct cinterop (`AppleSignIn.ios.kt`) — the
 button is hidden entirely on Android (`showAppleSignInButton`), where `signInWithApple` is
 structurally unreachable. `AuthProvider.kt`'s `mockSignIn` still exists but is now only a defensive
@@ -189,6 +193,43 @@ anonymous `auth.uid()` (see the schema note below); only the `profiles` row, `ga
 aggregates, and Friends are gated to a real attached identity. Apple's Guideline 4.8 (offer Sign in
 with Apple if any other third-party login is offered) is now genuinely satisfied on iOS, not just
 structurally — both buttons are real OAuth there.
+
+**Guest → account**: Google (both platforms) and Apple go through `linkOrSignInWithIdToken`
+(`Core/Auth/IdTokenAuth.kt`), which first tries `auth.linkIdentityWithIdToken`. That attaches the
+identity to the device's anonymous user, so its `auth.uid()` — and with it the guest's
+`score_history`, `quiz_progress` and streak — simply becomes the account's. Facebook does the same
+with `auth.linkIdentity(Facebook)` (browser OAuth, `FacebookOAuthSession.kt`).
+- *Library version*: this only works since supabase-kt **3.3.0**. Up to 3.2.4 the request body
+  carried `linkIdentity` instead of `link_identity`, Supabase Auth ignored it, and every sign-in made
+  a brand-new user (found 2026-10-05: no Google or Apple identity had ever been linked to an
+  anonymous user). The pin comment in `composeApp/build.gradle.kts` explains why 3.3.0 and not
+  3.2.5/3.2.6 (they quote top-level filter values, so `eq("game_key", "year_guess:ancient")` matches
+  nothing) or 3.8.0 (built with Kotlin 2.4.0, unreadable by our 2.3.20 on iOS). To check linking in
+  production, `linked_after_anon` should rise above 0 for google/apple once the fixed build is out:
+  ```sql
+  select i.provider,
+         count(*) filter (where i.created_at - u.created_at > interval '2 seconds') as linked_after_anon,
+         count(*) filter (where i.created_at - u.created_at <= interval '2 seconds') as direct_signup
+  from auth.users u join auth.identities i on i.user_id = u.id
+  where u.is_anonymous = false group by i.provider;
+  ```
+- *Identity already belongs to another account* (new phone, reinstall, sign-out and back in): the
+  link fails with `identity_already_exists` and the helper falls back to a plain `signInWith(IDToken)`
+  as that account (Facebook: `signInWith(Facebook)`). The swap makes the guest's rows unreadable
+  (owner-only RLS), so `GuestProgress` (`Data/Quiz/GuestProgress.kt`) reads them just before it and
+  copies them across right after: every `score_history` row plus today's `quiz_progress`, inserted
+  `ON CONFLICT DO NOTHING`. The account's own rows win; the guest only fills gaps (a round played
+  today, past days for the streak and best score). It is best-effort — a failure is logged, never
+  fails the sign-in — and runs inside `AccountRepository`'s session lock, so it must not call
+  `ensureAnonymousSession()`. The abandoned anonymous user and its rows stay (a client can't delete
+  them) and count in that day's `get_final_scores` like any other guest. Never run the Supabase
+  docs' "delete anonymous users older than 30 days" cleanup: every FK to `auth.users` cascades, so it
+  would also erase the progress of long-lived guests.
+- *Dashboard setting*: Authentication → Sign In / Providers → "Allow manual linking" must be on
+  (confirmed on 2026-10-05). It gates the `/user/identities/*` routes that Facebook's `linkIdentity` uses (with it off the call
+  throws and Facebook silently falls into the plain sign-in path); Supabase's docs also list it as
+  required for converting an anonymous user, although the `id_token` grant that Google/Apple use
+  isn't gated by it in Supabase Auth's source.
 
 **Schema** (all in `public`, RLS enabled on every table):
 - `profiles` — one row per `auth.uid()`, mirrors `UserAccount`. Friend-code lookup by another user

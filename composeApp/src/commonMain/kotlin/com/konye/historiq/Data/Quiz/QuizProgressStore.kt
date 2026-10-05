@@ -40,7 +40,7 @@ object QuizProgressStore {
 }
 
 @Serializable
-private data class QuizProgressRow(
+internal data class QuizProgressRow(
     @SerialName("user_id") val userId: String,
     @SerialName("game_key") val gameKey: String,
     @SerialName("date_key") val dateKey: String,

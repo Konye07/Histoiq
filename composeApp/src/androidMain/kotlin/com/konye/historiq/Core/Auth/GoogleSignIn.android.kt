@@ -10,10 +10,9 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.konye.historiq.Core.Platform.AndroidPlatformContext
 import com.konye.historiq.Data.Account.AuthResult
-import com.konye.historiq.Data.Remote.SupabaseClient
-import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.auth.exception.AuthErrorCode
+import io.github.jan.supabase.auth.exception.AuthRestException
 import io.github.jan.supabase.auth.providers.Google
-import io.github.jan.supabase.auth.providers.builtin.IDToken
 
 private const val TAG = "HistoriqAuth"
 
@@ -48,30 +47,22 @@ actual suspend fun signInWithGoogle(): GoogleAuthOutcome {
         return GoogleAuthOutcome.CancelledOrFailed
     }
 
-    val auth = SupabaseClient.client.auth
-    try {
-        // Links to the device's existing anonymous session (same auth.uid()) so a guest's prior
-        // score_history/quiz_progress carries over, instead of starting a fresh account.
-        auth.linkIdentityWithIdToken(provider = Google, idToken = credential.idToken) {
-            nonce = rawNonce
-        }
-    } catch (e: Exception) {
-        Log.w(TAG, "linkIdentityWithIdToken failed, falling back to signInWith(IDToken): ${e::class.simpleName}: ${e.message}", e)
-        try {
-            // Falls back to a plain sign-in if this Google account is already linked to a
-            // different auth.uid() (e.g. the device signed out and is re-linking the same
-            // account) — linking always fails in that case, signing in as that existing user
-            // is the correct recovery, not a hard error.
-            auth.signInWith(IDToken) {
-                idToken = credential.idToken
-                provider = Google
-                nonce = rawNonce
+    val linked = linkOrSignInWithIdToken(
+        provider = Google,
+        idToken = credential.idToken,
+        rawNonce = rawNonce,
+        onLinkFallback = { e ->
+            if ((e as? AuthRestException)?.errorCode == AuthErrorCode.IdentityAlreadyExists) {
+                Log.i(TAG, "This Google account already has an app account — signing in to it instead of linking")
+            } else {
+                Log.w(TAG, "Linking Google to the guest session failed, falling back to signInWith(IDToken): ${e::class.simpleName}: ${e.message}", e)
             }
-        } catch (e: Exception) {
+        },
+        onSignInFallbackFailed = { e ->
             Log.e(TAG, "Google sign-in failed: signInWith(IDToken) fallback also threw ${e::class.simpleName}: ${e.message}", e)
-            return GoogleAuthOutcome.CancelledOrFailed
         }
-    }
+    )
+    if (!linked) return GoogleAuthOutcome.CancelledOrFailed
 
     return GoogleAuthOutcome.SignedIn(
         AuthResult(

@@ -24,9 +24,9 @@ object FacebookOAuthBridge {
      *
      * Checks for `error`/`error_code` query params itself (Supabase's standard OAuth-redirect
      * error convention, confirmed from supabase-kt's own UrlUtils.kt) *before* delegating to the
-     * library's handleDeeplinks — that library call has no error callback in 3.2.4 (a failed code
-     * exchange just never calls onSessionSuccess), so this is the only way to distinguish an
-     * explicit failure (e.g. `identity_already_exists`) from the user simply not completing the
+     * library's handleDeeplinks — that call only emits an auth event for them (its onError
+     * callback covers a failed code exchange, not these), so this is the only way to distinguish
+     * an explicit failure (e.g. `identity_already_exists`) from the user simply not completing the
      * flow. Query-item extraction mirrors supabase-kt's own Apple.kt private helper. */
     fun handleDeeplink(url: NSURL) {
         if (url.scheme == OAUTH_REDIRECT_SCHEME && url.host == OAUTH_REDIRECT_HOST) {
@@ -38,9 +38,9 @@ object FacebookOAuthBridge {
                 return
             }
         }
-        SupabaseClient.client.handleDeeplinks(url) { session ->
+        SupabaseClient.client.handleDeeplinks(url, onSessionSuccess = { session ->
             pendingOAuthResult?.complete(OAuthRoundTripResult.Session(session))
-        }
+        })
     }
 
     private fun getQueryItem(components: NSURLComponents, key: String): String? {

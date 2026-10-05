@@ -71,7 +71,7 @@ object ScoreHistoryStore {
 }
 
 @Serializable
-private data class ScoreHistoryRow(
+internal data class ScoreHistoryRow(
     @SerialName("user_id") val userId: String,
     @SerialName("game_key") val gameKey: String,
     @SerialName("date_key") val dateKey: String,

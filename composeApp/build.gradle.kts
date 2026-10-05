@@ -147,12 +147,24 @@ kotlin {
                 // keeps this on compileSdk 36/AGP 8.10.0 like the rest of the project.
                 implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta03")
 
-                // Pinned to 3.2.4 to match the Kotlin 2.2.20 pin — see root build.gradle.kts.
+                // 3.3.0 specifically: the first release that is both correct and buildable here.
+                // - Before 3.2.5, IDToken.Config.linkIdentity had no @SerialName, so the request body
+                //   key was "linkIdentity" instead of "link_identity": Supabase Auth ignored it and
+                //   every Google/Apple sign-in created a brand-new user instead of linking the
+                //   guest's anonymous one.
+                // - 3.2.5/3.2.6 fix that but start double-quoting top-level filter values containing
+                //   , . : ( ) — PostgREST compares the quotes literally, so eq("game_key",
+                //   "year_guess:ancient") matches nothing (confirmed against the live project).
+                //   3.3.0 quotes only inside logical expressions and `in` lists.
+                // - Nothing newer is needed: 3.4.0+ raises Ktor and kotlinx-serialization and adds a
+                //   cryptography dependency, and 3.8.0 is built with Kotlin 2.4.0 (iOS klibs our 2.3.20
+                //   compiler can't read) and needs kotlinx-datetime 0.8.0/Ktor 3.5.1. 3.3.0 is built
+                //   with Kotlin 2.3.0 and, like 3.2.4, adds no new transitive library.
                 // Declared directly (not via the BOM) since `platform(...)` inside a KMP source
                 // set's `dependencies {}` block hits KT-58759 (an ambiguous-overload compile error)
                 // with this Kotlin/AGP combination.
-                implementation("io.github.jan-tennert.supabase:postgrest-kt:3.2.4")
-                implementation("io.github.jan-tennert.supabase:auth-kt:3.2.4")
+                implementation("io.github.jan-tennert.supabase:postgrest-kt:3.3.0")
+                implementation("io.github.jan-tennert.supabase:auth-kt:3.3.0")
 
                 // Declared explicitly now rather than riding in transitively via Supabase, since the
                 // data-layer stores call these directly (kotlinx.serialization already did this
@@ -163,9 +175,10 @@ kotlin {
                 // NSUserDefaults-equivalent, replacing this project's hand-rolled Context-based
                 // SharedPreferences access in the four data stores.
                 implementation("com.russhwolf:multiplatform-settings:1.3.0")
-                // 0.7.1, not the latest: supabase-kt 3.2.4 strictly constrains kotlinx-datetime to
-                // 0.7.1 (confirmed via dependencyInsight) — declaring that version directly instead
-                // of an older one that Gradle would silently override anyway.
+                // 0.7.1, not the latest: supabase-kt 3.3.0 (like 3.2.4) is built against
+                // kotlinx-datetime 0.7.1 and requires it (confirmed via dependencyInsight) —
+                // declaring that version directly instead of an older one that Gradle would
+                // silently override anyway.
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
             }
         }
@@ -173,7 +186,9 @@ kotlin {
             dependencies {
                 implementation("androidx.activity:activity-compose:1.9.2")
                 implementation("androidx.core:core-ktx:1.13.1")
-                implementation("io.ktor:ktor-client-android:3.3.0")
+                // Same Ktor version supabase-kt 3.3.0 requires for ktor-client-core, so the engine and
+                // core can't resolve to different releases.
+                implementation("io.ktor:ktor-client-android:3.3.3")
                 // Real interstitial/rewarded ads on Android (see Core/Ads/InterstitialAd.android.kt,
                 // Core/Ads/RewardedAd.android.kt) — iOS ads are real too, via a Swift bridge to the
                 // GoogleMobileAds SPM package (iosApp/iosApp/AdsBridge.swift), not this dependency.
@@ -194,7 +209,7 @@ kotlin {
         // targets are declared above — no manual dependsOn wiring needed or wanted here.
         val iosMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-darwin:3.3.0")
+                implementation("io.ktor:ktor-client-darwin:3.3.3")
             }
         }
     }
