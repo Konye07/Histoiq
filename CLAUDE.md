@@ -283,6 +283,17 @@ with `auth.linkIdentity(Facebook)` (browser OAuth, `FacebookOAuthSession.kt`).
   the article's own text (several don't, e.g. Breadfield, Mühlberg, Belgrade 1717); the row's `source` says
   how it was combined. Chancellor needs only a year and coordinates, so a battle with no usable casualty
   figure (Vajkal, Ugra) can still go there. An Annalist event name must not contain its year.
+  `year_guess_items.description` and `casualties_multiplier_items.description` (nullable text) hold a 2-4
+  sentence write-up of what happened and why it matters, English only, shown under the answer in the
+  reveal panel and in the results list (`QuestionDescription` in `Features/Play/Shared/ResultsComponents.kt`;
+  a row without one draws nothing, and builds from before the column existed ignore it). Give every new
+  Annalist event and Herald battle one in the same insert; Chancellor has none. One text serves the Annalist
+  event and the Herald battle with the same name and year, so keep the two identical:
+  `supabase/question_banks/20261006_descriptions_<era>.sql` set them by (name, year) through a temp table.
+  Write each in your own words from the Wikipedia article, say only what the article supports, and keep it
+  consistent with the stored answer (the Herald figure for Verdun, Gallipoli, Petersburg and the like covers
+  the whole campaign, not one day). The 1858 "Battle of Monterrey (Reform War)" row has none on purpose: its
+  own `source` says no such battle could be found.
 - `device_audit_log` — sign-in security audit trail (IP, user agent, event, timestamp). **No RLS
   policies at all** — zero client access, not even the account's own row. Only reachable through
   `log_device_event(event)` (SECURITY DEFINER), which reads the caller's IP from PostgREST's

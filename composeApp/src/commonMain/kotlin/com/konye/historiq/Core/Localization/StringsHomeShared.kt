@@ -462,6 +462,15 @@ object StringsHomeShared {
             AppLanguage.IT -> "Sei Arrivato"
         }
 
+    val results_why_it_matters_label: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Why It Matters"
+            AppLanguage.ES -> "Por Qué Importa"
+            AppLanguage.FR -> "Pourquoi c'est Important"
+            AppLanguage.DE -> "Warum es wichtig ist"
+            AppLanguage.IT -> "Perché è Importante"
+        }
+
     val results_how_everyone_guessed_label: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "How Everyone Guessed"

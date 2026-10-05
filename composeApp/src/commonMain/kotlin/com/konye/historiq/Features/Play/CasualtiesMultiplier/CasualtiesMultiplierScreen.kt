@@ -68,6 +68,7 @@ import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Features.Play.Shared.GameBarTitle
 import com.konye.historiq.Features.Play.Shared.GuessQuestionLayout
 import com.konye.historiq.Features.Play.Shared.HintAction
+import com.konye.historiq.Features.Play.Shared.QuestionDescription
 import com.konye.historiq.Features.Play.Shared.QuestionResultCard
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
 import com.konye.historiq.generated.resources.Res
@@ -305,6 +306,7 @@ private fun CasualtiesQuestion(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
+                QuestionDescription(battle.description)
             }
         },
         dock = {
@@ -395,6 +397,7 @@ private fun CasualtiesResults(
                         guessDist = guessDist,
                         accentColor = MaterialTheme.colorScheme.primary
                     )
+                    QuestionDescription(battle.description)
                 }
             }
         }

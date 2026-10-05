@@ -12,5 +12,6 @@ data class HistoricalEvent(
     val source: String,
     val difficulty: Int,
     @SerialName("image_asset") val imageAsset: String? = null,
-    val hint: String? = null
+    val hint: String? = null,
+    val description: String? = null
 )

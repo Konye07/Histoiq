@@ -356,6 +356,25 @@ fun QuestionResultCard(
     }
 }
 
+/** The write-up under an answer; a question that has none (a row added without one) draws nothing. */
+@Composable
+fun QuestionDescription(description: String?, modifier: Modifier = Modifier) {
+    if (description.isNullOrBlank()) return
+    val container = MaterialTheme.colorScheme.surfaceVariant
+    val content = contrastingOn(container)
+    Surface(
+        color = container,
+        contentColor = content,
+        shape = RoundedCornerShape(18.dp),
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Column(Modifier.padding(horizontal = 16.dp, vertical = 14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            SectionLabel(StringsHomeShared.results_why_it_matters_label, color = content.dimmedOn(container, 0.75f))
+            Text(description, style = MaterialTheme.typography.bodyMedium)
+        }
+    }
+}
+
 /**
  * A number-line for one question: today's synthetic guess distribution as a light histogram,
  * a dashed marker for the correct answer, and a floating "You" chip for the player's own guess —
