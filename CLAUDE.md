@@ -75,7 +75,9 @@ registered device, and this team has none.
   Admin role). Key ID, Issuer ID and Team ID are plain `env` in the workflow, not secrets.
 - The certificate and profile expire **2027-10-01**: rerun the script before then and replace the
   secret, or the run fails at the signing/export step.
-- Build number = the workflow run number (`CURRENT_PROJECT_VERSION`); the marketing version is
+- Build number = the workflow run number (`CURRENT_PROJECT_VERSION`), unless the tag is named
+  `ios-release-build-<n>`, which uploads as build n (a failed run still uses up a run number, so the tag is the
+  way to land on an exact build number; it must be above the last one in App Store Connect); the marketing version is
   `MARKETING_VERSION` in `iosApp/project.yml`, and it must match the version created in App Store
   Connect for a build to be selectable there.
 - iOS AdMob unit IDs flow through `AdsConfig` from `local.properties` (`ADMOB_*_IOS`) and default to

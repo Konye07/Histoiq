@@ -223,8 +223,8 @@ android {
         applicationId = "com.konye.historiq"
         minSdk = 26
         targetSdk = 36
-        versionCode = 18
-        versionName = "0.18"
+        versionCode = 19
+        versionName = "0.19"
         manifestPlaceholders["admobApplicationId"] = admobAppId
     }
 
