@@ -24,14 +24,19 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Localization.StringsAuthSettings
+import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Localization.StringsPrivacyPolicy
+import com.konye.historiq.Core.Platform.EmailFeedback
 import com.konye.historiq.Core.Platform.HISTORIQ_CONTACT_EMAIL
-import com.konye.historiq.Core.Platform.openEmailComposer
 import com.konye.historiq.Core.Platform.openUrl
+import com.konye.historiq.Core.Platform.rememberEmailContact
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
@@ -47,6 +52,7 @@ private const val PRIVACY_POLICY_URL = "https://historiq-privacy.mate-konye.work
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrivacyPolicyScreen(onBack: () -> Unit) {
+    val contact = rememberEmailContact()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -183,9 +189,17 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                     color = MaterialTheme.colorScheme.primary,
                     textDecoration = TextDecoration.Underline,
                     modifier = Modifier.clickable {
-                        openEmailComposer(HISTORIQ_CONTACT_EMAIL)
+                        contact.open(HISTORIQ_CONTACT_EMAIL)
                     }
                 )
+                contact.feedback?.let { feedback ->
+                    Text(
+                        if (feedback == EmailFeedback.NO_MAIL_APP) StringsHomeShared.email_no_mail_app else StringsHomeShared.email_copied,
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite }
+                    )
+                }
                 BodyText(StringsPrivacyPolicy.privacy_view_online_label)
                 Text(
                     PRIVACY_POLICY_URL,

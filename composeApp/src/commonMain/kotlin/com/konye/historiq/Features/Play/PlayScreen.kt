@@ -1,5 +1,6 @@
 package com.konye.historiq.Features.Play
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -36,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,7 +50,9 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -59,9 +65,10 @@ import com.konye.historiq.Core.Localization.StringsEras
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Localization.StringsRateApp
 import com.konye.historiq.Core.Localization.todayDisplay
+import com.konye.historiq.Core.Platform.EmailFeedback
 import com.konye.historiq.Core.Platform.HISTORIQ_CONTACT_EMAIL
-import com.konye.historiq.Core.Platform.openEmailComposer
 import com.konye.historiq.Core.Platform.openUrl
+import com.konye.historiq.Core.Platform.rememberEmailContact
 import com.konye.historiq.Core.Theme.APP_LOGO_SHARED_KEY
 import com.konye.historiq.Core.Theme.AppLogoImage
 import com.konye.historiq.Core.Theme.EraThemes
@@ -79,6 +86,8 @@ import com.konye.historiq.Data.Quiz.StreakStore
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
 import com.konye.historiq.Features.Play.Shared.EraModeStrip
 import com.konye.historiq.generated.resources.Res
+import com.konye.historiq.generated.resources.ic_check
+import com.konye.historiq.generated.resources.ic_content_copy
 import com.konye.historiq.generated.resources.ic_info
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -335,19 +344,35 @@ private fun EraModeHeader(era: QuizEra, banner: ImageBitmap?) {
     }
 }
 
-/** A slim footer, not a game card — tapping it opens an email to Historiq's own inbox, pre-addressed. */
+/**
+ * A slim footer, not a game card — tapping it opens an email to Historiq's own inbox, pre-addressed, or, on a
+ * phone with no mail app, copies the address instead. The copy button always copies it, and the address line
+ * says what just happened for a moment.
+ */
 @Composable
 private fun SuggestionPanel() {
     var showInfo by remember { mutableStateOf(false) }
+    val contact = rememberEmailContact()
     val containerColor = MaterialTheme.colorScheme.surfaceVariant
     val textColor = contrastingOn(containerColor)
 
-    Surface(color = containerColor) {
+    // The confirmation can wrap onto more lines than the address did (a long language, a large text size), and this
+    // is the last item in the list, so scroll it back fully into view once it has grown.
+    val bringIntoView = remember { BringIntoViewRequester() }
+    val feedback = contact.feedback
+    LaunchedEffect(feedback) {
+        if (feedback != null) {
+            withFrameNanos { }
+            bringIntoView.bringIntoView()
+        }
+    }
+
+    Surface(modifier = Modifier.bringIntoViewRequester(bringIntoView), color = containerColor) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .clickable { openEmailComposer(HISTORIQ_CONTACT_EMAIL) }
-                .padding(horizontal = 16.dp, vertical = 10.dp),
+                .clickable { contact.open(HISTORIQ_CONTACT_EMAIL) }
+                .padding(start = 16.dp, top = 10.dp, end = 8.dp, bottom = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -358,11 +383,26 @@ private fun SuggestionPanel() {
                     fontWeight = FontWeight.Bold,
                     color = textColor
                 )
-                Text(
-                    HISTORIQ_CONTACT_EMAIL,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = textColor.dimmedOn(containerColor, 0.85f),
-                    textDecoration = TextDecoration.Underline
+                Crossfade(targetState = feedback) { shown ->
+                    Text(
+                        when (shown) {
+                            null -> HISTORIQ_CONTACT_EMAIL
+                            EmailFeedback.COPIED -> StringsHomeShared.email_copied
+                            EmailFeedback.NO_MAIL_APP -> StringsHomeShared.email_no_mail_app
+                        },
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = if (shown == null) null else FontWeight.Bold,
+                        color = if (shown == null) textColor.dimmedOn(containerColor, 0.85f) else textColor,
+                        textDecoration = if (shown == null) TextDecoration.Underline else null,
+                        modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite }
+                    )
+                }
+            }
+            IconButton(onClick = { contact.copy(HISTORIQ_CONTACT_EMAIL) }) {
+                Icon(
+                    painterResource(if (feedback == null) Res.drawable.ic_content_copy else Res.drawable.ic_check),
+                    contentDescription = StringsHomeShared.email_copy_content_desc,
+                    tint = textColor
                 )
             }
             IconButton(onClick = { showInfo = true }) {

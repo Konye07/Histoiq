@@ -165,6 +165,33 @@ object StringsHomeShared {
             AppLanguage.IT -> "Informazioni sui suggerimenti"
         }
 
+    val email_copy_content_desc: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Copy email address"
+            AppLanguage.ES -> "Copiar la dirección de correo"
+            AppLanguage.FR -> "Copier l'adresse e-mail"
+            AppLanguage.DE -> "E-Mail-Adresse kopieren"
+            AppLanguage.IT -> "Copia l'indirizzo e-mail"
+        }
+
+    val email_copied: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Email address copied"
+            AppLanguage.ES -> "Dirección de correo copiada"
+            AppLanguage.FR -> "Adresse e-mail copiée"
+            AppLanguage.DE -> "E-Mail-Adresse kopiert"
+            AppLanguage.IT -> "Indirizzo e-mail copiato"
+        }
+
+    val email_no_mail_app: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "No mail app found — email address copied"
+            AppLanguage.ES -> "No se encontró ninguna aplicación de correo — dirección copiada"
+            AppLanguage.FR -> "Aucune application de messagerie trouvée — adresse copiée"
+            AppLanguage.DE -> "Keine Mail-App gefunden — E-Mail-Adresse kopiert"
+            AppLanguage.IT -> "Nessuna app di posta trovata — indirizzo copiato"
+        }
+
     @Composable
     fun home_countdown(arg1: Any): String {
         val template = when (LocalAppLanguage.current) {

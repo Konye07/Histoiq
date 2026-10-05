@@ -126,12 +126,21 @@ platforms synthesize the identical sound from Float PCM samples), `ShareResults`
 `android.graphics.Canvas`, iOS via `UIGraphicsBeginImageContextWithOptions` — and the boundary is
 PNG bytes (`ShareCardRenderer.renderPng`), not a shared bitmap type, since there's no common way to
 represent a platform bitmap across both), `ReminderScheduler`, `rememberRequestNotificationPermission`,
-`openEmailComposer`, `openUrl`, `InterstitialAd`/`RewardedAd` (`Core/Ads/`), `signInWithGoogle`
-(`Core/Auth/GoogleSignIn.*.kt`), and `signInWithApple` (`Core/Auth/AppleSignIn.*.kt` — iOS only;
+`openEmailComposer`, `copyToClipboard`, `openUrl`, `InterstitialAd`/`RewardedAd` (`Core/Ads/`),
+`signInWithGoogle` (`Core/Auth/GoogleSignIn.*.kt`), and `signInWithApple` (`Core/Auth/AppleSignIn.*.kt` — iOS only;
 Android's `actual` always returns `AppleAuthOutcome.NotImplementedOnThisPlatform` since the button
 itself is hidden there, see `showAppleSignInButton`). All live under
 `Core/{Haptics,Audio,Share,Notifications,Platform,Ads,Auth}/` with `.android.kt`/`.ios.kt` suffixes
 alongside the common `expect` declaration.
+
+Anything that hands off to another app must cope with "nothing can handle this": an Android
+`startActivity` with no match throws `ActivityNotFoundException` and kills the app (a phone with no
+mail app crashed on the Play tab's suggestion panel), and iOS's old one-argument `openURL` fails
+silently, so `openEmailComposer` takes an `onUnavailable` callback and uses the completion-handler
+form of `openURL`. Contact-email controls go through `rememberEmailContact()` (`Core/Platform/
+EmailContact.kt`): tapping opens the mail app, and with none it copies the address to the clipboard
+and shows a confirmation for a moment. Don't call `resolveActivity` first on Android: without a
+`<queries>` entry it reports no mail app even when one is installed.
 
 Two different iOS integration strategies show up depending on the SDK. `signInWithApple` calls
 `AuthenticationServices` directly via Kotlin/Native cinterop, since it's a first-party Apple
