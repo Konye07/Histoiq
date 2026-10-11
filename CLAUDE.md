@@ -175,8 +175,8 @@ Six languages: English, Spanish, French, German, Italian, Hungarian (`AppLanguag
 informal "te" imperative, „…” quotes, and the in-app names Évkönyvíró, Hírnök, Címertiszt, Kozmográfus,
 Krónikás, Kancellár. Quiz content is translated in the database, not in the app: `true_false_items` has
 `statement_es/fr/de/it/hu` (`TrueFalseStatement.localized`, English when a column is null) and every other bank
-has Hungarian `_hu` columns (see "Supabase backend"), while Spanish, French, German and Italian players still
-get English questions there; the privacy policy and the tutorial screenshots stay English in every language. A
+has Hungarian `_hu` columns (see "Supabase backend"); Spanish, French, German and Italian players get translated
+names and hints for the three dated banks, and English descriptions, flag names and countries; the privacy policy and the tutorial screenshots stay English in every language. A
 new true/false statement needs all five translations in the same insert, or that language shows English for it.
 Years are written by `formatEraYear` (`Core/Localization/EraYear.kt`): the era label follows the language, and
 Hungarian puts it first ("Kr. e. 480").
@@ -322,7 +322,10 @@ with `auth.linkIdentity(Facebook)` (browser OAuth, `FacebookOAuthSession.kt`).
   description_hu`, `blind_map_battle_items.battle_hu`, `flag_color_match_items.flag_name_hu`,
   `territory_compare_items.country_hu/era_hu`), migration `20261011100000_question_banks_hungarian.sql`; the
   client shows them through each data class's `localized…(languageCode)` and falls back to English where a
-  column is null (the other languages have no translations, only `true_false_items` does). Every new row needs
+  column is null. Spanish, French, German and Italian have only names and hints (`event_es/fr/de/it`,
+  `battle_…`, `hint_…` on `year_guess_items`, `casualties_multiplier_items` and `blind_map_battle_items`,
+  migration `20261011110000_question_banks_names_hints_es_fr_de_it.sql`), filled the same way, by English text,
+  so give a new row those too; `true_false_items` has its own five. Every new row needs
   its `_hu` values in the same insert. Keep the Hungarian of one name identical across the three banks (the
   same English name or hint was translated once and applied by text to every table that has it) and do not
   put the year in an Annalist `event_hu` either. The translations live only in the database, not in
