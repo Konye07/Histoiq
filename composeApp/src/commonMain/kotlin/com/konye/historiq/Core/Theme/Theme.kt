@@ -119,7 +119,7 @@ fun gameColorScheme(base: Color): ColorScheme {
     val onBase = contrastingOn(base)
     val onAccent = contrastingOn(accent)
     val variant = if (baseIsDark) base.lighten(0.15f) else base.darken(0.15f)
-    return lightColorScheme(
+    val scheme = lightColorScheme(
         primary = accent,
         onPrimary = onAccent,
         primaryContainer = accent,
@@ -135,6 +135,16 @@ fun gameColorScheme(base: Color): ColorScheme {
         outline = accent,
         error = AppColors.Maroon,
         onError = AppColors.Cream
+    )
+    if (onBase != AppColors.Cream) return scheme
+    // lightColorScheme's own container roles (dialogs, menus, default cards) stay near-white, which would
+    // put this scheme's cream text on white wherever the base is dark.
+    return scheme.copy(
+        surfaceContainerLowest = base,
+        surfaceContainerLow = base,
+        surfaceContainer = base,
+        surfaceContainerHigh = variant,
+        surfaceContainerHighest = variant
     )
 }
 
