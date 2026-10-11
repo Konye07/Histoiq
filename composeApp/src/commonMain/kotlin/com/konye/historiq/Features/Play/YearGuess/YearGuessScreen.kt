@@ -54,6 +54,8 @@ import com.konye.historiq.Core.Ads.AdGatedResults
 import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Formatting.formatFixed
 import com.konye.historiq.Core.Haptics.Haptics
+import com.konye.historiq.Core.Localization.LocalAppLanguage
+import com.konye.historiq.Core.Localization.formatEraYear
 import com.konye.historiq.Core.Localization.StringsGamesYearguessCasualties
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.EraThemes
@@ -67,7 +69,6 @@ import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyDistribution
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.HistoricalEvent
-import com.konye.historiq.Data.Quiz.formatEraYear
 import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.getDoubleList
@@ -279,6 +280,7 @@ private fun YearGuessQuestion(
         image = withContext(Dispatchers.Default) { tryLoadImageBitmap(event.imageAsset) }
     }
 
+    val language = LocalAppLanguage.current.code
     val focusManager = LocalFocusManager.current
     val canSubmit = guessText.toIntOrNull() != null
     val submit = {
@@ -305,7 +307,7 @@ private fun YearGuessQuestion(
                         .clip(RoundedCornerShape(12.dp))
                 )
             }
-            Text(event.event, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+            Text(event.localizedEvent(language), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
             if (hintRevealed) {
                 Surface(
                     color = MaterialTheme.colorScheme.onSurface,
@@ -313,7 +315,7 @@ private fun YearGuessQuestion(
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
-                        StringsGamesYearguessCasualties.yearguess_hint_prefix(event.hint ?: StringsGamesYearguessCasualties.yearguess_hint_unavailable),
+                        StringsGamesYearguessCasualties.yearguess_hint_prefix(event.localizedHint(language) ?: StringsGamesYearguessCasualties.yearguess_hint_unavailable),
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
@@ -326,7 +328,7 @@ private fun YearGuessQuestion(
                     guessDist = DailyDistribution.yearGuesses(modeKey, DailyClock.todayKey(), event.id)
                 }
                 if (!hintRevealed) {
-                    event.hint?.let {
+                    event.localizedHint(language)?.let {
                         Text(
                             StringsGamesYearguessCasualties.yearguess_hint_prefix(it),
                             style = MaterialTheme.typography.bodySmall,
@@ -345,7 +347,7 @@ private fun YearGuessQuestion(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-                QuestionDescription(event.description)
+                QuestionDescription(event.localizedDescription(language))
             }
         },
         dock = {
@@ -412,6 +414,7 @@ private fun YearGuessResults(
     scores: List<Double>,
     onBack: () -> Unit
 ) {
+    val language = LocalAppLanguage.current.code
     val total = scores.sum()
     val isPerfect = scores.isNotEmpty() && scores.all { it == 1000.0 }
     val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(modeKey, modeKey, total, isPerfect)
@@ -452,8 +455,8 @@ private fun YearGuessResults(
             val guessDist = guessDistByEventId[event.id] ?: emptyList()
             guesses.getOrNull(i)?.let { guessValue ->
                 Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(event.event, style = MaterialTheme.typography.bodyMedium)
-                    event.hint?.let {
+                    Text(event.localizedEvent(language), style = MaterialTheme.typography.bodyMedium)
+                    event.localizedHint(language)?.let {
                         Text(
                             StringsGamesYearguessCasualties.yearguess_hint_prefix(it),
                             style = MaterialTheme.typography.bodySmall,
@@ -467,7 +470,7 @@ private fun YearGuessResults(
                         guessDist = guessDist,
                         accentColor = MaterialTheme.colorScheme.primary
                     )
-                    QuestionDescription(event.description)
+                    QuestionDescription(event.localizedDescription(language))
                 }
             }
         }

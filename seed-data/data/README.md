@@ -19,7 +19,7 @@ table directly (or re-run a bulk load from an edited copy of these files).
 ## Conventions
 
 - **Years are signed integers**, not strings: negative = BCE, positive = AD (e.g. `-31` = 31 BCE).
-  Format for display with `ScoringUtils.formatEraYear`, never hand-roll "BCE"/"AD" suffixing.
+  Format for display with `formatEraYear` (`Core/Localization/EraYear.kt`), never hand-roll "BCE"/"AD" suffixing.
 - **IDs are globally unique within their table** and are the join key `get_or_create_daily_quiz`
   and `quiz_progress` use to track what's been assigned/seen — don't reuse an id across an edit, or
   you'll silently corrupt another entry's cooldown/resume history.

@@ -46,6 +46,7 @@ import com.konye.historiq.Core.Ads.AdGatedResults
 import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Formatting.formatFixed
 import com.konye.historiq.Core.Haptics.Haptics
+import com.konye.historiq.Core.Localization.LocalAppLanguage
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.AppColors
@@ -250,7 +251,7 @@ private fun MapQuestion(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(StringsGamesFlagTerritoryBlindmap.blindmap_question_counter(questionNumber, totalQuestions), style = MaterialTheme.typography.labelLarge)
-        Text(battle.battle, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+        Text(battle.localizedBattle(LocalAppLanguage.current.code), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
         Text(StringsGamesFlagTerritoryBlindmap.blindmap_instructions, style = MaterialTheme.typography.bodySmall)
         Text(
             StringsGamesFlagTerritoryBlindmap.blindmap_map_attribution,
@@ -393,7 +394,7 @@ private fun MapResults(
         HorizontalDivider()
         battles.forEachIndexed { i, battle ->
             Column(Modifier.fillMaxWidth()) {
-                Text(battle.battle, style = MaterialTheme.typography.bodyMedium)
+                Text(battle.localizedBattle(LocalAppLanguage.current.code), style = MaterialTheme.typography.bodyMedium)
                 val guessLat = guessLats.getOrNull(i)
                 val guessLng = guessLngs.getOrNull(i)
                 Text(

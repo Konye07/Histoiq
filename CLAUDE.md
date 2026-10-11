@@ -173,10 +173,13 @@ for translated strings or a plain `const val` for English-only content (e.g. the
 Six languages: English, Spanish, French, German, Italian, Hungarian (`AppLanguage.HU`, added 2026-10-11; the
 `when` over the enum is exhaustive, so a new string with a missing branch fails to compile). Hungarian uses the
 informal "te" imperative, „…” quotes, and the in-app names Évkönyvíró, Hírnök, Címertiszt, Kozmográfus,
-Krónikás, Kancellár. The only quiz content that is translated is `true_false_items`, in `statement_es/fr/de/it/hu`
-columns (`TrueFalseStatement.localized`, English when a column is null); Annalist, Herald, Chancellor and the other
-banks, their descriptions, the privacy policy and the tutorial screenshots stay English in every language. A new
-true/false statement needs all five translations in the same insert, or that language shows English for it.
+Krónikás, Kancellár. Quiz content is translated in the database, not in the app: `true_false_items` has
+`statement_es/fr/de/it/hu` (`TrueFalseStatement.localized`, English when a column is null) and every other bank
+has Hungarian `_hu` columns (see "Supabase backend"), while Spanish, French, German and Italian players still
+get English questions there; the privacy policy and the tutorial screenshots stay English in every language. A
+new true/false statement needs all five translations in the same insert, or that language shows English for it.
+Years are written by `formatEraYear` (`Core/Localization/EraYear.kt`): the era label follows the language, and
+Hungarian puts it first ("Kr. e. 480").
 
 ## Supabase backend
 
@@ -314,6 +317,17 @@ with `auth.linkIdentity(Facebook)` (browser OAuth, `FacebookOAuthSession.kt`).
   consistent with the stored answer (the Herald figure for Verdun, Gallipoli, Petersburg and the like covers
   the whole campaign, not one day). The 1858 "Battle of Monterrey (Reform War)" row has none on purpose: its
   own `source` says no such battle could be found.
+  **Hungarian**: every bank row carries its Hungarian text in `_hu` columns next to the English one
+  (`year_guess_items.event_hu/hint_hu/description_hu`, `casualties_multiplier_items.battle_hu/hint_hu/
+  description_hu`, `blind_map_battle_items.battle_hu`, `flag_color_match_items.flag_name_hu`,
+  `territory_compare_items.country_hu/era_hu`), migration `20261011100000_question_banks_hungarian.sql`; the
+  client shows them through each data class's `localized…(languageCode)` and falls back to English where a
+  column is null (the other languages have no translations, only `true_false_items` does). Every new row needs
+  its `_hu` values in the same insert. Keep the Hungarian of one name identical across the three banks (the
+  same English name or hint was translated once and applied by text to every table that has it) and do not
+  put the year in an Annalist `event_hu` either. The translations live only in the database, not in
+  `supabase/question_banks/`; `territory_compare_items.era_hu` is derived from `era` ("1920 (peak)" ->
+  "1920 (csúcs)", "301 BCE (peak)" -> "Kr. e. 301 (csúcs)").
 - `device_audit_log` — sign-in security audit trail (IP, user agent, event, timestamp). **No RLS
   policies at all** — zero client access, not even the account's own row. Only reachable through
   `log_device_event(event)` (SECURITY DEFINER), which reads the caller's IP from PostgREST's

@@ -39,6 +39,7 @@ import com.konye.historiq.Core.Ads.AdGatedResults
 import com.konye.historiq.Core.Formatting.formatWithCommas
 import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Haptics.Haptics
+import com.konye.historiq.Core.Localization.LocalAppLanguage
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Network.retryNetwork
@@ -410,15 +411,16 @@ private fun TerritoryCard(
         colors = CardDefaults.cardColors(containerColor = Color.White, contentColor = Color.Black)
     ) {
         Column(Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            val language = LocalAppLanguage.current.code
             Text(
-                country.country,
+                country.localizedCountry(language),
                 style = MaterialTheme.typography.headlineSmall,
                 color = Color.Black,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
             Text(
-                country.era,
+                country.localizedEra(language),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black.copy(alpha = 0.7f),
                 textAlign = TextAlign.Center,
@@ -446,6 +448,7 @@ private fun TerritoryResults(
     remainingQueue: List<TerritoryCountry>,
     onBack: () -> Unit
 ) {
+    val language = LocalAppLanguage.current.code
     val score = history.count { it.correct }
     val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(PROGRESS_KEY, GameKeys.TERRITORY_COMPARE, score.toDouble(), score == ROUNDS_TO_WIN)
     fun scorePos(v: Double): Float = (v / ROUNDS_TO_WIN.toDouble()).toFloat().coerceIn(0f, 1f)
@@ -482,7 +485,7 @@ private fun TerritoryResults(
             val chall = allCountries.find { it.id == h.challengerId }
             Column(Modifier.fillMaxWidth()) {
                 Text(
-                    StringsGamesFlagTerritoryBlindmap.territory_round_matchup(i + 1, champ?.country ?: "?", chall?.country ?: "?"),
+                    StringsGamesFlagTerritoryBlindmap.territory_round_matchup(i + 1, champ?.localizedCountry(language) ?: "?", chall?.localizedCountry(language) ?: "?"),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
@@ -507,12 +510,12 @@ private fun TerritoryResults(
                 val bigger = if (champ.areaKm2 >= chall.areaKm2) champ else chall
                 Column(Modifier.fillMaxWidth()) {
                     Text(
-                        StringsGamesFlagTerritoryBlindmap.territory_round_matchup(history.size + 1 + offset, champ.country, chall.country),
+                        StringsGamesFlagTerritoryBlindmap.territory_round_matchup(history.size + 1 + offset, champ.localizedCountry(language), chall.localizedCountry(language)),
                         style = MaterialTheme.typography.bodyMedium,
                         color = dimmed
                     )
                     Text(
-                        StringsGamesFlagTerritoryBlindmap.territory_unplayed_bigger(bigger.country),
+                        StringsGamesFlagTerritoryBlindmap.territory_unplayed_bigger(bigger.localizedCountry(language)),
                         style = MaterialTheme.typography.bodySmall,
                         color = dimmed
                     )

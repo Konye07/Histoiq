@@ -42,6 +42,8 @@ import com.konye.historiq.Core.Ads.AdGatedResults
 import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Formatting.formatFixed
+import com.konye.historiq.Core.Localization.LocalAppLanguage
+import com.konye.historiq.Core.Localization.formatEraYear
 import com.konye.historiq.Core.Localization.StringsGamesYearguessCasualties
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.EraThemes
@@ -57,7 +59,6 @@ import com.konye.historiq.Data.Quiz.DailyDistribution
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.casualtyMultiplier
-import com.konye.historiq.Data.Quiz.formatEraYear
 import com.konye.historiq.Data.Quiz.geometricMeanMultiplier
 import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.getDoubleList
@@ -255,6 +256,7 @@ private fun CasualtiesQuestion(
     onSubmit: () -> Unit,
     onNext: () -> Unit
 ) {
+    val language = LocalAppLanguage.current.code
     val focusManager = LocalFocusManager.current
     val canSubmit = guessText.toLongOrNull() != null
     val submit = {
@@ -267,7 +269,7 @@ private fun CasualtiesQuestion(
     GuessQuestionLayout(
         scrollingContent = {
             Text(StringsGamesYearguessCasualties.casualties_question_counter(questionNumber, totalQuestions), style = MaterialTheme.typography.labelLarge)
-            Text(battle.battle, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+            Text(battle.localizedBattle(language), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
             Text(formatEraYear(battle.year), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
             if (hintRevealed) {
                 Surface(
@@ -276,7 +278,7 @@ private fun CasualtiesQuestion(
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
-                        StringsGamesYearguessCasualties.casualties_hint_prefix(battle.hint ?: StringsGamesYearguessCasualties.casualties_hint_unavailable),
+                        StringsGamesYearguessCasualties.casualties_hint_prefix(battle.localizedHint(language) ?: StringsGamesYearguessCasualties.casualties_hint_unavailable),
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
@@ -289,7 +291,7 @@ private fun CasualtiesQuestion(
                     guessDist = DailyDistribution.casualtyGuesses(modeKey, DailyClock.todayKey(), battle.id)
                 }
                 if (!hintRevealed) {
-                    battle.hint?.let {
+                    battle.localizedHint(language)?.let {
                         Text(
                             StringsGamesYearguessCasualties.casualties_hint_prefix(it),
                             style = MaterialTheme.typography.bodySmall,
@@ -307,7 +309,7 @@ private fun CasualtiesQuestion(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-                QuestionDescription(battle.description)
+                QuestionDescription(battle.localizedDescription(language))
             }
         },
         dock = {
@@ -341,6 +343,7 @@ private fun CasualtiesResults(
     multipliers: List<Double>,
     onBack: () -> Unit
 ) {
+    val language = LocalAppLanguage.current.code
     val total = geometricMeanMultiplier(multipliers)
     val isPerfect = multipliers.isNotEmpty() && multipliers.all { it == 1.0 }
     val (rank, totalPlayers, finalDistribution, topPercent) = rememberLiveRank(modeKey, modeKey, total, isPerfect, higherIsBetter = false)
@@ -384,8 +387,8 @@ private fun CasualtiesResults(
             val guessDist = guessDistByBattleId[battle.id] ?: emptyList()
             guesses.getOrNull(i)?.let { guessValue ->
                 Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(battle.battle, style = MaterialTheme.typography.bodyMedium)
-                    battle.hint?.let {
+                    Text(battle.localizedBattle(language), style = MaterialTheme.typography.bodyMedium)
+                    battle.localizedHint(language)?.let {
                         Text(
                             StringsGamesYearguessCasualties.casualties_hint_prefix(it),
                             style = MaterialTheme.typography.bodySmall,
@@ -398,7 +401,7 @@ private fun CasualtiesResults(
                         guessDist = guessDist,
                         accentColor = MaterialTheme.colorScheme.primary
                     )
-                    QuestionDescription(battle.description)
+                    QuestionDescription(battle.localizedDescription(language))
                 }
             }
         }

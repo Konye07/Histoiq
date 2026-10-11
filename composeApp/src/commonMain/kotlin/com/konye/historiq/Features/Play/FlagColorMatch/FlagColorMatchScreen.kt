@@ -64,6 +64,7 @@ import com.konye.historiq.Core.Ads.AdGatedResults
 import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Formatting.formatFixed
 import com.konye.historiq.Core.Haptics.Haptics
+import com.konye.historiq.Core.Localization.LocalAppLanguage
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Network.retryNetwork
@@ -324,7 +325,7 @@ private fun FlagColorQuestion(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text(StringsGamesFlagTerritoryBlindmap.flag_question_counter(questionNumber, totalQuestions), style = MaterialTheme.typography.labelLarge)
-        Text(flag.flagName, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+        Text(flag.localizedName(LocalAppLanguage.current.code), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
 
         if (!revealed) {
             RecoloredFlag(
@@ -557,7 +558,7 @@ private fun FlagColorResults(
         flags.forEachIndexed { i, flag ->
             val analysis = analysisByFlagId[flag.id]
             Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(flag.flagName, style = MaterialTheme.typography.bodyMedium)
+                Text(flag.localizedName(LocalAppLanguage.current.code), style = MaterialTheme.typography.bodyMedium)
                 Text(StringsGamesFlagTerritoryBlindmap.flag_score_pts(formatFixed(scores.getOrNull(i) ?: 0.0, 2)), style = MaterialTheme.typography.bodySmall)
                 if (analysis != null) {
                     val guessColor = Color.hsv(

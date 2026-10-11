@@ -15,9 +15,6 @@ private fun Double.toRadians(): Double = this * PI / 180.0
 
 private fun Double.roundTo2(): Double = (this * 100.0).roundToInt() / 100.0
 
-/** Formats a signed year (negative = BCE, per this app's data convention) as e.g. "1415 AD" / "480 BCE". */
-fun formatEraYear(year: Int): String = if (year < 0) "${-year} BCE" else "$year AD"
-
 /** Formats a whole number with a space as the thousands separator, e.g. 14000 -> "14 000". */
 fun formatThousands(value: Long): String {
     val negative = value < 0
