@@ -44,7 +44,7 @@ object ScoreHistoryStore {
      * instead of MAX (e.g. CASUALTIES_MULTIPLIER, where a lower multiplier is the better result).
      */
     suspend fun bestFor(quizKey: String, lowerIsBetter: Boolean): Double? {
-        val userId = AccountRepository.currentAccount()?.id ?: return null
+        val userId = AccountRepository.signedInAccount()?.id ?: return null
         return SupabaseClient.client.postgrest.from("score_history")
             .select {
                 filter {

@@ -238,6 +238,18 @@ with `auth.linkIdentity(Facebook)` (browser OAuth, `FacebookOAuthSession.kt`).
   throws and Facebook silently falls into the plain sign-in path); Supabase's docs also list it as
   required for converting an anonymous user, although the `id_token` grant that Google/Apple use
   isn't gated by it in Supabase Auth's source.
+- *Android resume race* (found 2026-10-11 from a `game_stats` RLS error in the logs): supabase-kt's Android
+  lifecycle hook sets the session status to `Initializing` when the app goes to the background and, on return,
+  reloads the stored session and calls `initDone()` straight away — flipping it to `NotAuthenticated` while the
+  refresh of a token past 80% of its life is still on the wire. `ensureAnonymousSession()` used to take that for
+  "no session", signed in anonymously (which cancels the refresh and overwrites the stored session) and so turned a
+  signed-in player into a new empty guest; their next launch showed the sign-in screen. It fired when a results
+  screen re-ran `recordAndRank` on resume after the app had been away for ~48+ minutes. iOS has no such hook.
+  `ensureAnonymousSessionLocked` now waits for a session that is still in storage and throws (callers retry)
+  instead of replacing it, and `AccountRepository.signedInAccount()` — used by `StatsStore` and `bestFor` — returns
+  the cached profile only while the live session is that account's, so a mismatch can't reach RLS. To find past
+  victims: an anonymous user whose first `auth.refresh_tokens` row falls within ~1.5 s of another user's rotated
+  token (three before the fix). They recover by signing in again (`GuestProgress` carries the stray rows over).
 
 **Schema** (all in `public`, RLS enabled on every table):
 - `profiles` — one row per `auth.uid()`, mirrors `UserAccount`. Friend-code lookup by another user

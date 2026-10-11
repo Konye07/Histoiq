@@ -17,7 +17,7 @@ data class GameStats(val gamesPlayed: Int, val averageScore: Double, val perfect
 object StatsStore {
     /** Idempotent per day: a quiz that's already been recorded for today won't be double-counted. No-op for a guest. */
     suspend fun recordCompletion(quizKey: String, score: Double, isPerfect: Boolean) {
-        val account = AccountRepository.currentAccount() ?: return
+        val account = AccountRepository.signedInAccount() ?: return
         val today = DailyClock.todayKey()
 
         val existingRemote = fetchRemote(account.id, quizKey)
@@ -36,7 +36,7 @@ object StatsStore {
 
     /** Empty stats for a guest — there is nothing to fetch, since nothing was ever recorded for one. */
     suspend fun statsFor(quizKey: String): GameStats {
-        val account = AccountRepository.currentAccount() ?: return GameStats(0, 0.0, 0)
+        val account = AccountRepository.signedInAccount() ?: return GameStats(0, 0.0, 0)
         val row = fetchRemote(account.id, quizKey) ?: return GameStats(0, 0.0, 0)
         val average = if (row.gamesPlayed > 0) row.totalScore / row.gamesPlayed else 0.0
         return GameStats(row.gamesPlayed, average, row.perfectCount)

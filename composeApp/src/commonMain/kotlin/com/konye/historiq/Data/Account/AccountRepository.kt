@@ -7,19 +7,26 @@ import com.konye.historiq.Core.Auth.signInWithApple
 import com.konye.historiq.Core.Auth.signInWithFacebook
 import com.konye.historiq.Core.Auth.signInWithGoogle
 import com.konye.historiq.Data.Remote.SupabaseClient
+import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.auth.status.SessionStatus
 import io.github.jan.supabase.postgrest.exception.PostgrestRestException
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
 import com.konye.historiq.Data.Settings.SettingsStore
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import kotlin.time.Duration.Companion.seconds
+
+private val SESSION_REFRESH_WAIT = 15.seconds
 
 /**
  * Real accounts backed by Supabase: every device gets an anonymous auth.uid(), and real
@@ -84,8 +91,47 @@ object AccountRepository {
     private suspend fun ensureAnonymousSessionLocked(): String {
         val auth = SupabaseClient.client.auth
         auth.awaitInitialization()
-        if (auth.currentUserOrNull() == null) auth.signInAnonymously()
+        if (auth.currentUserOrNull() == null) {
+            awaitStoredSessionRefresh(auth)
+            if (auth.currentUserOrNull() == null) auth.signInAnonymously()
+        }
         return requireNotNull(auth.currentUserOrNull()?.id) { "Anonymous sign-in did not produce a session" }
+    }
+
+    /**
+     * On Android supabase-kt reports NotAuthenticated the moment the app returns from the background, while the
+     * stored session's refresh (due once 80% of the token's life has passed) is still on the wire. Signing in
+     * anonymously in that gap cancels the refresh and overwrites the stored session, so a signed-in player silently
+     * becomes a new empty guest — seen in production: the results screen re-ran its recording on resume, and the
+     * next launch asked that player to sign in again. A session still in storage means one is on its way back, so
+     * wait for it; if it doesn't arrive, fail like any network call for the caller to retry, never replace it.
+     */
+    private suspend fun awaitStoredSessionRefresh(auth: Auth) {
+        if (!hasStoredSession(auth)) return
+        withTimeoutOrNull(SESSION_REFRESH_WAIT) {
+            auth.sessionStatus.first { it is SessionStatus.Authenticated || (it is SessionStatus.NotAuthenticated && it.isSignOut) }
+        }
+        check(auth.currentUserOrNull() != null || !hasStoredSession(auth)) { "The saved session is still being refreshed" }
+    }
+
+    private suspend fun hasStoredSession(auth: Auth): Boolean =
+        try {
+            auth.sessionManager.loadSession() != null
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            false
+        }
+
+    /**
+     * The signed-in account, but only while the live session is still that account's. [currentAccount] is a cached
+     * profile that outlives a lost session, and a request made under any other session fails game_stats' RLS
+     * ("new row violates row-level security policy") — which [com.konye.historiq.Core.Network.retryNetwork] would
+     * then repeat until the screen closes.
+     */
+    suspend fun signedInAccount(): UserAccount? {
+        val account = cached ?: return null
+        return account.takeIf { ensureAnonymousSession() == it.id }
     }
 
     /**
