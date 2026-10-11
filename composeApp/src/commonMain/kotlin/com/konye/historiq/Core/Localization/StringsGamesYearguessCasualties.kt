@@ -10,6 +10,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Devine l'Année"
             AppLanguage.DE -> "Errate das Jahr"
             AppLanguage.IT -> "Indovina l'Anno"
+            AppLanguage.HU -> "Találd ki az évet"
         }
 
     val yearguess_back_cd: String
@@ -19,6 +20,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Retour"
             AppLanguage.DE -> "Zurück"
             AppLanguage.IT -> "Indietro"
+            AppLanguage.HU -> "Vissza"
         }
 
     @Composable
@@ -29,6 +31,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Question %1\$d / %2\$d"
             AppLanguage.DE -> "Frage %1\$d / %2\$d"
             AppLanguage.IT -> "Domanda %1\$d / %2\$d"
+            AppLanguage.HU -> "%1\$d. kérdés / %2\$d"
         }
         return formatTemplate(template, arg1, arg2)
     }
@@ -41,6 +44,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Indice : %1\$s"
             AppLanguage.DE -> "Hinweis: %1\$s"
             AppLanguage.IT -> "Suggerimento: %1\$s"
+            AppLanguage.HU -> "Tipp: %1\$s"
         }
         return formatTemplate(template, arg1)
     }
@@ -52,6 +56,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Aucun indice disponible pour cet événement."
             AppLanguage.DE -> "Für dieses Ereignis ist kein Hinweis verfügbar."
             AppLanguage.IT -> "Nessun suggerimento disponibile per questo evento."
+            AppLanguage.HU -> "Ehhez nincs elérhető tipp."
         }
 
     val yearguess_guess_label: String
@@ -61,6 +66,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Ta réponse (année)"
             AppLanguage.DE -> "Deine Vermutung (Jahr)"
             AppLanguage.IT -> "La tua risposta (anno)"
+            AppLanguage.HU -> "A tipped (év)"
         }
 
     val yearguess_submit: String
@@ -70,6 +76,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Valider"
             AppLanguage.DE -> "Bestätigen"
             AppLanguage.IT -> "Invia"
+            AppLanguage.HU -> "Beküldés"
         }
 
     val yearguess_see_results: String
@@ -79,6 +86,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Voir les Résultats"
             AppLanguage.DE -> "Ergebnisse ansehen"
             AppLanguage.IT -> "Vedi Risultati"
+            AppLanguage.HU -> "Eredmények megtekintése"
         }
 
     val yearguess_next_question: String
@@ -88,6 +96,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Question Suivante"
             AppLanguage.DE -> "Nächste Frage"
             AppLanguage.IT -> "Domanda Successiva"
+            AppLanguage.HU -> "Következő kérdés"
         }
 
     val yearguess_era_ad: String
@@ -97,6 +106,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "apr. J.-C."
             AppLanguage.DE -> "n. Chr."
             AppLanguage.IT -> "d.C."
+            AppLanguage.HU -> "Kr. u."
         }
 
     val yearguess_era_bce: String
@@ -106,6 +116,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "av. J.-C."
             AppLanguage.DE -> "v. Chr."
             AppLanguage.IT -> "a.C."
+            AppLanguage.HU -> "Kr. e."
         }
 
     @Composable
@@ -116,6 +127,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "%1\$s ans trop tard"
             AppLanguage.DE -> "%1\$s Jahre zu spät"
             AppLanguage.IT -> "%1\$s anni troppo avanti"
+            AppLanguage.HU -> "%1\$s évvel túl magas"
         }
         return formatTemplate(template, arg1)
     }
@@ -128,6 +140,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "%1\$s ans trop tôt"
             AppLanguage.DE -> "%1\$s Jahre zu früh"
             AppLanguage.IT -> "%1\$s anni troppo indietro"
+            AppLanguage.HU -> "%1\$s évvel túl alacsony"
         }
         return formatTemplate(template, arg1)
     }
@@ -140,6 +153,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "%1\$s pts"
             AppLanguage.DE -> "%1\$s Pkt."
             AppLanguage.IT -> "%1\$s pt"
+            AppLanguage.HU -> "%1\$s pont"
         }
         return formatTemplate(template, arg1)
     }
@@ -151,6 +165,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Retour au Menu"
             AppLanguage.DE -> "Zurück zum Menü"
             AppLanguage.IT -> "Torna al Menu"
+            AppLanguage.HU -> "Vissza a menübe"
         }
 
     val casualties_title: String
@@ -160,6 +175,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Nombre de Pertes"
             AppLanguage.DE -> "Verlustzahlen"
             AppLanguage.IT -> "Numero di Vittime"
+            AppLanguage.HU -> "Veszteségek száma"
         }
 
     val casualties_back_cd: String
@@ -169,6 +185,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Retour"
             AppLanguage.DE -> "Zurück"
             AppLanguage.IT -> "Indietro"
+            AppLanguage.HU -> "Vissza"
         }
 
     @Composable
@@ -179,6 +196,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Question %1\$d / %2\$d"
             AppLanguage.DE -> "Frage %1\$d / %2\$d"
             AppLanguage.IT -> "Domanda %1\$d / %2\$d"
+            AppLanguage.HU -> "%1\$d. kérdés / %2\$d"
         }
         return formatTemplate(template, arg1, arg2)
     }
@@ -191,6 +209,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Indice : %1\$s"
             AppLanguage.DE -> "Hinweis: %1\$s"
             AppLanguage.IT -> "Suggerimento: %1\$s"
+            AppLanguage.HU -> "Tipp: %1\$s"
         }
         return formatTemplate(template, arg1)
     }
@@ -202,6 +221,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Aucun indice disponible pour cette bataille."
             AppLanguage.DE -> "Für diese Schlacht ist kein Hinweis verfügbar."
             AppLanguage.IT -> "Nessun suggerimento disponibile per questa battaglia."
+            AppLanguage.HU -> "Ehhez nincs elérhető tipp."
         }
 
     val casualties_guess_label: String
@@ -211,6 +231,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Ta réponse (pertes)"
             AppLanguage.DE -> "Deine Vermutung (Verluste)"
             AppLanguage.IT -> "La tua risposta (vittime)"
+            AppLanguage.HU -> "A tipped (veszteségek)"
         }
 
     val casualties_submit: String
@@ -220,6 +241,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Valider"
             AppLanguage.DE -> "Bestätigen"
             AppLanguage.IT -> "Invia"
+            AppLanguage.HU -> "Beküldés"
         }
 
     val casualties_see_results: String
@@ -229,6 +251,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Voir les Résultats"
             AppLanguage.DE -> "Ergebnisse ansehen"
             AppLanguage.IT -> "Vedi Risultati"
+            AppLanguage.HU -> "Eredmények megtekintése"
         }
 
     val casualties_next_question: String
@@ -238,6 +261,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Question Suivante"
             AppLanguage.DE -> "Nächste Frage"
             AppLanguage.IT -> "Domanda Successiva"
+            AppLanguage.HU -> "Következő kérdés"
         }
 
     @Composable
@@ -248,6 +272,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "%1\$s trop élevé"
             AppLanguage.DE -> "%1\$s zu hoch"
             AppLanguage.IT -> "%1\$s troppo alto"
+            AppLanguage.HU -> "%1\$s-val túl magas"
         }
         return formatTemplate(template, arg1)
     }
@@ -260,6 +285,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "%1\$s trop bas"
             AppLanguage.DE -> "%1\$s zu niedrig"
             AppLanguage.IT -> "%1\$s troppo basso"
+            AppLanguage.HU -> "%1\$s-val túl alacsony"
         }
         return formatTemplate(template, arg1)
     }
@@ -271,6 +297,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Multiplicateur final (1,00x est une partie parfaite)"
             AppLanguage.DE -> "Endmultiplikator (1,00x ist ein perfekter Lauf)"
             AppLanguage.IT -> "Moltiplicatore finale (1,00x è una partita perfetta)"
+            AppLanguage.HU -> "Végső szorzó (az 1,00x a tökéletes menet)"
         }
 
     val casualties_back_to_menu: String
@@ -280,6 +307,7 @@ object StringsGamesYearguessCasualties {
             AppLanguage.FR -> "Retour au Menu"
             AppLanguage.DE -> "Zurück zum Menü"
             AppLanguage.IT -> "Torna al Menu"
+            AppLanguage.HU -> "Vissza a menübe"
         }
 
 }

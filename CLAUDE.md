@@ -170,6 +170,14 @@ strings live in generated-by-script `Strings*.kt` objects per topic under `Core/
 one Kotlin property/function per key, `@Composable get() = when (LocalAppLanguage.current) { ... }`
 for translated strings or a plain `const val` for English-only content (e.g. the privacy policy).
 
+Six languages: English, Spanish, French, German, Italian, Hungarian (`AppLanguage.HU`, added 2026-10-11; the
+`when` over the enum is exhaustive, so a new string with a missing branch fails to compile). Hungarian uses the
+informal "te" imperative, „…” quotes, and the in-app names Évkönyvíró, Hírnök, Címertiszt, Kozmográfus,
+Krónikás, Kancellár. The only quiz content that is translated is `true_false_items`, in `statement_es/fr/de/it/hu`
+columns (`TrueFalseStatement.localized`, English when a column is null); Annalist, Herald, Chancellor and the other
+banks, their descriptions, the privacy policy and the tutorial screenshots stay English in every language. A new
+true/false statement needs all five translations in the same insert, or that language shows English for it.
+
 ## Supabase backend
 
 Project "HistoryTrivia" (`xolybjypkkpeymsvfimr`). `Data/Remote/SupabaseClient.kt` installs
@@ -312,6 +320,16 @@ advisors after any schema change and check each finding's actual SQL body before
 real problem — this project's own SECURITY DEFINER functions intentionally trip the
 "callable by anon/authenticated" and "RLS enabled, no policy" lints by design (verified 2026-09-12:
 every current finding is the narrow-aggregate/write-only-audit pattern above, not a leak).
+
+**Reading Supabase logs**: every log read counts the GB it scans against the organization's monthly
+Logs Query quota — `query_logs`, the Management API and Studio's Logs and Reports pages alike. This
+project writes only about 50 log events per 10 minutes (roughly 6 MB a day across all sources,
+measured 2026-10-08 when the meter already read 15 of 100 GB), so a high number means many reads,
+not big data. Try `execute_sql` first: current state lives in tables (`auth.users`,
+`auth.identities`, `device_audit_log`, ...). When the logs really are needed, scope the window to a
+few minutes around a known timestamp (never the 24 h default), query one `source =` at a time,
+select named `log_attributes['key']` values (never the whole map), filter on a field rather than
+`event_message like '%...%'`, and never call it in a loop or on a timer.
 
 ## The six games
 

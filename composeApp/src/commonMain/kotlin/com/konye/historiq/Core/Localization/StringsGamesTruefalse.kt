@@ -10,6 +10,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Retour"
             AppLanguage.DE -> "Zurück"
             AppLanguage.IT -> "Indietro"
+            AppLanguage.HU -> "Vissza"
         }
 
     @Composable
@@ -20,6 +21,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Manche %1\$d / %2\$d"
             AppLanguage.DE -> "Runde %1\$d / %2\$d"
             AppLanguage.IT -> "Turno %1\$d / %2\$d"
+            AppLanguage.HU -> "%1\$d. forduló / %2\$d"
         }
         return formatTemplate(template, arg1, arg2)
     }
@@ -31,6 +33,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Vrai"
             AppLanguage.DE -> "Wahr"
             AppLanguage.IT -> "Vero"
+            AppLanguage.HU -> "Igaz"
         }
 
     val tf_false_button: String
@@ -40,6 +43,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Faux"
             AppLanguage.DE -> "Falsch"
             AppLanguage.IT -> "Falso"
+            AppLanguage.HU -> "Hamis"
         }
 
     val tf_true_caps: String
@@ -49,6 +53,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "VRAI"
             AppLanguage.DE -> "WAHR"
             AppLanguage.IT -> "VERO"
+            AppLanguage.HU -> "IGAZ"
         }
 
     val tf_false_caps: String
@@ -58,6 +63,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "FAUX"
             AppLanguage.DE -> "FALSCH"
             AppLanguage.IT -> "FALSO"
+            AppLanguage.HU -> "HAMIS"
         }
 
     val tf_correct: String
@@ -67,6 +73,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Correct !"
             AppLanguage.DE -> "Richtig!"
             AppLanguage.IT -> "Corretto!"
+            AppLanguage.HU -> "Helyes!"
         }
 
     val tf_wrong_game_over: String
@@ -76,6 +83,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Faux — partie terminée."
             AppLanguage.DE -> "Falsch — Spiel vorbei."
             AppLanguage.IT -> "Sbagliato — partita finita."
+            AppLanguage.HU -> "Rossz — vége a játéknak."
         }
 
     @Composable
@@ -86,6 +94,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "L'affirmation est %1\$s."
             AppLanguage.DE -> "Die Aussage ist %1\$s."
             AppLanguage.IT -> "L'affermazione è %1\$s."
+            AppLanguage.HU -> "Az állítás: %1\$s."
         }
         return formatTemplate(template, arg1)
     }
@@ -97,6 +106,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Voir les Résultats"
             AppLanguage.DE -> "Ergebnisse Ansehen"
             AppLanguage.IT -> "Vedi Risultati"
+            AppLanguage.HU -> "Eredmények megtekintése"
         }
 
     val tf_next_statement: String
@@ -106,6 +116,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Affirmation Suivante"
             AppLanguage.DE -> "Nächste Aussage"
             AppLanguage.IT -> "Affermazione Successiva"
+            AppLanguage.HU -> "Következő állítás"
         }
 
     @Composable
@@ -116,6 +127,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Tu as survécu aux %1\$d affirmations !"
             AppLanguage.DE -> "Du hast alle %1\$d Aussagen überstanden!"
             AppLanguage.IT -> "Hai superato tutte le %1\$d affermazioni!"
+            AppLanguage.HU -> "Mind a(z) %1\$d állítást túlélted!"
         }
         return formatTemplate(template, arg1)
     }
@@ -128,6 +140,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Tu es arrivé jusqu'à l'affirmation %1\$d."
             AppLanguage.DE -> "Du hast es bis Aussage %1\$d geschafft."
             AppLanguage.IT -> "Sei arrivato all'affermazione %1\$d."
+            AppLanguage.HU -> "A(z) %1\$d. állításig jutottál."
         }
         return formatTemplate(template, arg1)
     }
@@ -140,6 +153,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Ta réponse : %1\$s  ·  Correct : %2\$s"
             AppLanguage.DE -> "Deine Antwort: %1\$s  ·  Richtig: %2\$s"
             AppLanguage.IT -> "La tua risposta: %1\$s  ·  Corretto: %2\$s"
+            AppLanguage.HU -> "A válaszod: %1\$s  ·  Helyes: %2\$s"
         }
         return formatTemplate(template, arg1, arg2)
     }
@@ -151,6 +165,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "C'est ici que tu as perdu"
             AppLanguage.DE -> "Hier hast du verloren"
             AppLanguage.IT -> "Qui hai perso"
+            AppLanguage.HU -> "Itt buktál el"
         }
 
     val tf_unplayed_header: String
@@ -160,6 +175,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Affirmations Non Atteintes"
             AppLanguage.DE -> "Nicht Erreichte Aussagen"
             AppLanguage.IT -> "Affermazioni Non Raggiunte"
+            AppLanguage.HU -> "Állítások, amelyekig nem jutottál el"
         }
 
     @Composable
@@ -170,6 +186,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Réponse correcte : %1\$s"
             AppLanguage.DE -> "Richtige Antwort: %1\$s"
             AppLanguage.IT -> "Risposta corretta: %1\$s"
+            AppLanguage.HU -> "Helyes válasz: %1\$s"
         }
         return formatTemplate(template, arg1)
     }
@@ -181,6 +198,7 @@ object StringsGamesTruefalse {
             AppLanguage.FR -> "Retour au Menu"
             AppLanguage.DE -> "Zurück zum Menü"
             AppLanguage.IT -> "Torna al Menu"
+            AppLanguage.HU -> "Vissza a menübe"
         }
 
 }

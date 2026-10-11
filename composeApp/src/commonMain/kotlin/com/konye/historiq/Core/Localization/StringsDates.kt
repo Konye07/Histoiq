@@ -17,11 +17,14 @@ private object DateNames {
     val weekdaysDe = listOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag")
     val weekdaysIt = listOf("lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica")
 
+    val weekdaysHu = listOf("hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat", "vasárnap")
+
     val monthsEn = listOf("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
     val monthsEs = listOf("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre")
     val monthsFr = listOf("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre")
     val monthsDe = listOf("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember")
     val monthsIt = listOf("gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre")
+    val monthsHu = listOf("január", "február", "március", "április", "május", "június", "július", "augusztus", "szeptember", "október", "november", "december")
 }
 
 /** Today's date for display, e.g. "Wednesday, September 10", per the current language's own word order. */
@@ -36,6 +39,7 @@ fun todayDisplay(): String {
         AppLanguage.FR -> DateNames.weekdaysFr
         AppLanguage.DE -> DateNames.weekdaysDe
         AppLanguage.IT -> DateNames.weekdaysIt
+        AppLanguage.HU -> DateNames.weekdaysHu
     }[date.weekdayIndex]
 
     val month = when (language) {
@@ -44,6 +48,7 @@ fun todayDisplay(): String {
         AppLanguage.FR -> DateNames.monthsFr
         AppLanguage.DE -> DateNames.monthsDe
         AppLanguage.IT -> DateNames.monthsIt
+        AppLanguage.HU -> DateNames.monthsHu
     }[date.monthIndex]
 
     return when (language) {
@@ -52,5 +57,6 @@ fun todayDisplay(): String {
         AppLanguage.FR -> "$weekday ${date.day} $month"
         AppLanguage.DE -> "$weekday, ${date.day}. $month"
         AppLanguage.IT -> "$weekday ${date.day} $month"
+        AppLanguage.HU -> "$month ${date.day}., $weekday"
     }
 }

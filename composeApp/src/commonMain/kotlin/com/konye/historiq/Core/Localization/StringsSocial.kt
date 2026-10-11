@@ -10,6 +10,7 @@ object StringsSocial {
             AppLanguage.FR -> "Amis"
             AppLanguage.DE -> "Freunde"
             AppLanguage.IT -> "Amici"
+            AppLanguage.HU -> "Barátok"
         }
 
     val friends_you_fallback: String
@@ -19,6 +20,7 @@ object StringsSocial {
             AppLanguage.FR -> "Toi"
             AppLanguage.DE -> "Du"
             AppLanguage.IT -> "Tu"
+            AppLanguage.HU -> "Te"
         }
 
     val friends_filter_today: String
@@ -28,6 +30,7 @@ object StringsSocial {
             AppLanguage.FR -> "Aujourd'hui"
             AppLanguage.DE -> "Heute"
             AppLanguage.IT -> "Oggi"
+            AppLanguage.HU -> "Ma"
         }
 
     @Composable
@@ -38,6 +41,7 @@ object StringsSocial {
             AppLanguage.FR -> "-%1\$d j"
             AppLanguage.DE -> "-%1\$d T"
             AppLanguage.IT -> "-%1\$d g"
+            AppLanguage.HU -> "-%1\$d n"
         }
         return formatTemplate(template, arg1)
     }
@@ -50,6 +54,7 @@ object StringsSocial {
             AppLanguage.FR -> "%1\$s — %2\$s"
             AppLanguage.DE -> "%1\$s — %2\$s"
             AppLanguage.IT -> "%1\$s — %2\$s"
+            AppLanguage.HU -> "%1\$s — %2\$s"
         }
         return formatTemplate(template, arg1, arg2)
     }
@@ -62,6 +67,7 @@ object StringsSocial {
             AppLanguage.FR -> "Ajouter un ami (%1\$d)"
             AppLanguage.DE -> "Freund hinzufügen (%1\$d)"
             AppLanguage.IT -> "Aggiungi amico (%1\$d)"
+            AppLanguage.HU -> "Barát hozzáadása (%1\$d)"
         }
         return formatTemplate(template, arg1)
     }
@@ -73,6 +79,7 @@ object StringsSocial {
             AppLanguage.FR -> "Ajouter un ami"
             AppLanguage.DE -> "Freund hinzufügen"
             AppLanguage.IT -> "Aggiungi amico"
+            AppLanguage.HU -> "Barát hozzáadása"
         }
 
     @Composable
@@ -83,6 +90,7 @@ object StringsSocial {
             AppLanguage.FR -> "%1\$s (Toi)"
             AppLanguage.DE -> "%1\$s (Du)"
             AppLanguage.IT -> "%1\$s (Tu)"
+            AppLanguage.HU -> "%1\$s (Te)"
         }
         return formatTemplate(template, arg1)
     }
@@ -94,6 +102,7 @@ object StringsSocial {
             AppLanguage.FR -> "Pas joué"
             AppLanguage.DE -> "Nicht gespielt"
             AppLanguage.IT -> "Non giocato"
+            AppLanguage.HU -> "Nem játszott"
         }
 
     val friends_feedback_added: String
@@ -103,6 +112,7 @@ object StringsSocial {
             AppLanguage.FR -> "Ami ajouté !"
             AppLanguage.DE -> "Freund hinzugefügt!"
             AppLanguage.IT -> "Amico aggiunto!"
+            AppLanguage.HU -> "Barát hozzáadva!"
         }
 
     val friends_feedback_already_connected: String
@@ -112,6 +122,7 @@ object StringsSocial {
             AppLanguage.FR -> "Vous êtes déjà amis"
             AppLanguage.DE -> "Ihr seid bereits befreundet"
             AppLanguage.IT -> "Siete già amici"
+            AppLanguage.HU -> "Már barátok vagytok"
         }
 
     val friends_feedback_own_code: String
@@ -121,6 +132,7 @@ object StringsSocial {
             AppLanguage.FR -> "C'est votre propre code"
             AppLanguage.DE -> "Das ist dein eigener Code"
             AppLanguage.IT -> "Questo è il tuo codice"
+            AppLanguage.HU -> "Ez a saját kódod"
         }
 
     val friends_feedback_not_found: String
@@ -130,6 +142,7 @@ object StringsSocial {
             AppLanguage.FR -> "Aucun compte trouvé avec ce code"
             AppLanguage.DE -> "Kein Konto mit diesem Code gefunden"
             AppLanguage.IT -> "Nessun account trovato con questo codice"
+            AppLanguage.HU -> "Nem található fiók ezzel a kóddal"
         }
 
     val friends_add_friend_instructions: String
@@ -139,6 +152,7 @@ object StringsSocial {
             AppLanguage.FR -> "Entrez le code à 9 chiffres d'un ami pour vous connecter."
             AppLanguage.DE -> "Gib den 9-stelligen Code eines Freundes ein, um dich zu verbinden."
             AppLanguage.IT -> "Inserisci il codice a 9 cifre di un amico per connetterti."
+            AppLanguage.HU -> "Add meg egy barátod 9 számjegyű kódját a kapcsolódáshoz."
         }
 
     val friends_code_placeholder: String
@@ -148,6 +162,7 @@ object StringsSocial {
             AppLanguage.FR -> "123456789"
             AppLanguage.DE -> "123456789"
             AppLanguage.IT -> "123456789"
+            AppLanguage.HU -> "123456789"
         }
 
     val friends_sending: String
@@ -157,6 +172,7 @@ object StringsSocial {
             AppLanguage.FR -> "Envoi…"
             AppLanguage.DE -> "Wird gesendet…"
             AppLanguage.IT -> "Invio…"
+            AppLanguage.HU -> "Küldés…"
         }
 
     val friends_send: String
@@ -166,6 +182,7 @@ object StringsSocial {
             AppLanguage.FR -> "Envoyer"
             AppLanguage.DE -> "Senden"
             AppLanguage.IT -> "Invia"
+            AppLanguage.HU -> "Küldés"
         }
 
     val friends_incoming_requests: String
@@ -175,6 +192,7 @@ object StringsSocial {
             AppLanguage.FR -> "Demandes reçues"
             AppLanguage.DE -> "Eingehende Anfragen"
             AppLanguage.IT -> "Richieste ricevute"
+            AppLanguage.HU -> "Beérkező kérések"
         }
 
     val friends_accept: String
@@ -184,6 +202,7 @@ object StringsSocial {
             AppLanguage.FR -> "Accepter"
             AppLanguage.DE -> "Annehmen"
             AppLanguage.IT -> "Accetta"
+            AppLanguage.HU -> "Elfogadás"
         }
 
     val friends_decline: String
@@ -193,6 +212,7 @@ object StringsSocial {
             AppLanguage.FR -> "Refuser"
             AppLanguage.DE -> "Ablehnen"
             AppLanguage.IT -> "Rifiuta"
+            AppLanguage.HU -> "Elutasítás"
         }
 
     val friends_close: String
@@ -202,6 +222,7 @@ object StringsSocial {
             AppLanguage.FR -> "Fermer"
             AppLanguage.DE -> "Schließen"
             AppLanguage.IT -> "Chiudi"
+            AppLanguage.HU -> "Bezárás"
         }
 
     val friends_guest_notice: String
@@ -211,6 +232,7 @@ object StringsSocial {
             AppLanguage.FR -> "Connecte-toi pour ajouter des amis et les voir dans ce classement."
             AppLanguage.DE -> "Melde dich an, um Freunde hinzuzufügen und sie in dieser Rangliste zu sehen."
             AppLanguage.IT -> "Accedi per aggiungere amici e vederli in questa classifica."
+            AppLanguage.HU -> "Jelentkezz be, hogy barátokat adhass hozzá, és láthasd őket ezen a ranglistán."
         }
 
     val friends_no_friends_yet: String
@@ -220,6 +242,7 @@ object StringsSocial {
             AppLanguage.FR -> "Pas encore d'amis — ajoute-en un avec son code ami pour comparer vos scores."
             AppLanguage.DE -> "Noch keine Freunde — füge welche mit ihrem Freundescode hinzu, um Punktzahlen zu vergleichen."
             AppLanguage.IT -> "Ancora nessun amico: aggiungine uno con il suo codice amico per iniziare a confrontare i punteggi."
+            AppLanguage.HU -> "Még nincsenek barátaid — adj hozzá valakit a baráti kódjával, és kezdhetitek összehasonlítani a pontjaitokat."
         }
 
     val profile_title: String
@@ -229,6 +252,7 @@ object StringsSocial {
             AppLanguage.FR -> "Profil"
             AppLanguage.DE -> "Profil"
             AppLanguage.IT -> "Profilo"
+            AppLanguage.HU -> "Profil"
         }
 
     val profile_statistics: String
@@ -238,6 +262,7 @@ object StringsSocial {
             AppLanguage.FR -> "Statistiques"
             AppLanguage.DE -> "Statistik"
             AppLanguage.IT -> "Statistiche"
+            AppLanguage.HU -> "Statisztikák"
         }
 
     @Composable
@@ -248,6 +273,7 @@ object StringsSocial {
             AppLanguage.FR -> "%1\$s — %2\$s"
             AppLanguage.DE -> "%1\$s — %2\$s"
             AppLanguage.IT -> "%1\$s — %2\$s"
+            AppLanguage.HU -> "%1\$s — %2\$s"
         }
         return formatTemplate(template, arg1, arg2)
     }
@@ -259,6 +285,7 @@ object StringsSocial {
             AppLanguage.FR -> "Pas encore joué"
             AppLanguage.DE -> "Noch nicht gespielt"
             AppLanguage.IT -> "Non ancora giocato"
+            AppLanguage.HU -> "Még nem játszottál"
         }
 
     val profile_played: String
@@ -268,6 +295,7 @@ object StringsSocial {
             AppLanguage.FR -> "Parties"
             AppLanguage.DE -> "Gespielt"
             AppLanguage.IT -> "Giocate"
+            AppLanguage.HU -> "Játszott"
         }
 
     val profile_average: String
@@ -277,6 +305,7 @@ object StringsSocial {
             AppLanguage.FR -> "Moyenne"
             AppLanguage.DE -> "Durchschnitt"
             AppLanguage.IT -> "Media"
+            AppLanguage.HU -> "Átlag"
         }
 
     val profile_perfect_runs: String
@@ -286,6 +315,7 @@ object StringsSocial {
             AppLanguage.FR -> "Parties Parfaites"
             AppLanguage.DE -> "Perfekte Läufe"
             AppLanguage.IT -> "Partite Perfette"
+            AppLanguage.HU -> "Tökéletes menetek"
         }
 
     val profile_best_score: String
@@ -295,6 +325,7 @@ object StringsSocial {
             AppLanguage.FR -> "Meilleur"
             AppLanguage.DE -> "Beste"
             AppLanguage.IT -> "Migliore"
+            AppLanguage.HU -> "Legjobb"
         }
 
     val profile_guest_notice: String
@@ -304,6 +335,7 @@ object StringsSocial {
             AppLanguage.FR -> "Connecte-toi pour commencer à suivre tes statistiques. En tant qu'invité, les parties d'aujourd'hui comptent toujours pour les résultats du jour, mais rien n'est conservé à long terme."
             AppLanguage.DE -> "Melde dich an, um deine Statistiken zu erfassen. Als Gast zählen die heutigen Spiele weiterhin für die Tagesergebnisse, aber nichts wird langfristig gespeichert."
             AppLanguage.IT -> "Accedi per iniziare a registrare le tue statistiche. Come ospite, le partite di oggi contano comunque per i risultati giornalieri, ma nulla viene conservato a lungo termine."
+            AppLanguage.HU -> "Jelentkezz be, hogy elkezdhesd követni a statisztikáidat. Vendégként a mai játékok beleszámítanak a napi eredményekbe, de semmi sem őrződik meg hosszú távon."
         }
 
 }

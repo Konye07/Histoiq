@@ -10,6 +10,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Historiq"
             AppLanguage.DE -> "Historiq"
             AppLanguage.IT -> "Historiq"
+            AppLanguage.HU -> "Historiq"
         }
 
     val home_desc_year_guess: String
@@ -19,6 +20,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Un événement est donné — devine l'année à laquelle il a eu lieu. Plus tu es proche, plus tu marques de points."
             AppLanguage.DE -> "Ein Ereignis wird gezeigt — errate, in welchem Jahr es stattfand. Je näher du liegst, desto mehr Punkte bekommst du."
             AppLanguage.IT -> "Viene mostrato un evento: indovina l'anno in cui è accaduto. Più ti avvicini, più punti ottieni."
+            AppLanguage.HU -> "Kapsz egy eseményt — találd ki, melyik évben történt. Minél közelebb jársz, annál több pontot kapsz."
         }
 
     val home_desc_casualties_multiplier: String
@@ -28,6 +30,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Une bataille est donnée — devine le nombre de pertes. Plus ton estimation est proche, plus ton multiplicateur est bas. L'objectif est d'obtenir le multiplicateur le plus bas possible."
             AppLanguage.DE -> "Eine Schlacht wird gezeigt — schätze die Verluste. Je näher deine Schätzung ist, desto kleiner dein Multiplikator. Ziel ist der niedrigstmögliche Multiplikator."
             AppLanguage.IT -> "Viene mostrata una battaglia: indovina il numero delle vittime. Più la tua stima è vicina, minore sarà il tuo moltiplicatore. L'obiettivo è ottenere il moltiplicatore più basso possibile."
+            AppLanguage.HU -> "Kapsz egy csatát — találd ki a veszteségek számát. Minél közelebb a tipped, annál kisebb a szorzód. A cél a lehető legalacsonyabb szorzó elérése."
         }
 
     val home_desc_flag_color_match: String
@@ -37,6 +40,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Reproduis la couleur réelle d'un drapeau historique à l'aide des curseurs de teinte, saturation et luminosité."
             AppLanguage.DE -> "Triff die wahre Farbe einer historischen Flagge mit den Reglern für Farbton, Sättigung und Helligkeit."
             AppLanguage.IT -> "Abbina il vero colore di una bandiera storica usando i cursori di tonalità, saturazione e luminosità."
+            AppLanguage.HU -> "Találd el egy történelmi zászló valódi színét az árnyalat-, telítettség- és fényerő-csúszkákkal."
         }
 
     val home_desc_territory_compare: String
@@ -46,6 +50,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Choisis quel empire avait le plus grand territoire à son apogée. Une seule erreur met fin à la partie."
             AppLanguage.DE -> "Wähle, welches Reich auf seinem Höhepunkt das größere Territorium hatte. Eine falsche Wahl beendet den Lauf."
             AppLanguage.IT -> "Scegli quale impero avesse il territorio più vasto al suo apice. Una sola scelta sbagliata termina la partita."
+            AppLanguage.HU -> "Válaszd ki, melyik birodalomnak volt nagyobb területe a fénykorában. Egyetlen rossz tipp véget vet a menetnek."
         }
 
     val home_desc_true_false: String
@@ -55,6 +60,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Des affirmations historiques — une seule mauvaise réponse met fin à la partie."
             AppLanguage.DE -> "Historische Aussagen — eine falsche Antwort beendet den Lauf."
             AppLanguage.IT -> "Affermazioni storiche: una sola risposta sbagliata termina la partita."
+            AppLanguage.HU -> "Történelmi állítások — egyetlen rossz válasz véget vet a menetnek."
         }
 
     val home_desc_blind_map_battle: String
@@ -64,6 +70,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Place une bataille historique sur la carte, sans aucune frontière affichée. Plus ton repère est précis, plus tu marques de points."
             AppLanguage.DE -> "Markiere den Ort einer historischen Schlacht auf der Karte ohne eingezeichnete Grenzen. Je näher deine Markierung, desto mehr Punkte."
             AppLanguage.IT -> "Posiziona sulla mappa una battaglia storica senza confini visibili. Più il tuo segnaposto è preciso, più punti ottieni."
+            AppLanguage.HU -> "Helyezz el egy történelmi csatát a térképen, határok nélkül. Minél közelebb a jelölőd, annál több pontot kapsz."
         }
 
     val home_coming_soon: String
@@ -73,6 +80,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Bientôt disponible"
             AppLanguage.DE -> "Demnächst verfügbar"
             AppLanguage.IT -> "Prossimamente"
+            AppLanguage.HU -> "Hamarosan"
         }
 
     @Composable
@@ -83,6 +91,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "À propos de %1\$s"
             AppLanguage.DE -> "Über %1\$s"
             AppLanguage.IT -> "Informazioni su %1\$s"
+            AppLanguage.HU -> "Névjegy: %1\$s"
         }
         return formatTemplate(template, arg1)
     }
@@ -95,6 +104,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Série de %1\$s jours"
             AppLanguage.DE -> "%1\$s-Tage-Serie"
             AppLanguage.IT -> "Serie di %1\$s giorni"
+            AppLanguage.HU -> "%1\$s napos sorozat"
         }
         return formatTemplate(template, arg1)
     }
@@ -106,6 +116,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Série quotidienne"
             AppLanguage.DE -> "Tages-Serie"
             AppLanguage.IT -> "Serie giornaliera"
+            AppLanguage.HU -> "Napi sorozat"
         }
 
     val home_streak_dialog_body: String
@@ -115,6 +126,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Le nombre de jours consécutifs où tu as joué à ce jeu. La torche s'allume une fois la partie du jour terminée — elle reste éteinte jusque-là, et la série est perdue si tu sautes une journée entière."
             AppLanguage.DE -> "Wie viele Tage in Folge du dieses Spiel gespielt hast. Die Fackel leuchtet, sobald du das heutige Spiel abgeschlossen hast — bis dahin bleibt sie grau, und die Serie reißt ab, wenn du einen ganzen Tag auslässt."
             AppLanguage.IT -> "Per quanti giorni di fila hai giocato a questo gioco. La torcia si accende non appena completi la partita di oggi — resta spenta fino ad allora, e la serie si interrompe se salti un giorno intero."
+            AppLanguage.HU -> "Hány napja játszol egyfolytában ezzel a játékkal. A fáklya akkor lobban fel, amint befejezted a mai játékot — addig szürke marad, és a sorozat megszakad, ha egy egész napot kihagysz."
         }
 
     @Composable
@@ -125,6 +137,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "%1\$s — %2\$s"
             AppLanguage.DE -> "%1\$s — %2\$s"
             AppLanguage.IT -> "%1\$s — %2\$s"
+            AppLanguage.HU -> "%1\$s — %2\$s"
         }
         return formatTemplate(template, arg1, arg2)
     }
@@ -136,6 +149,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Fermer"
             AppLanguage.DE -> "Schließen"
             AppLanguage.IT -> "Chiudi"
+            AppLanguage.HU -> "Bezárás"
         }
 
     val suggestion_panel_title: String
@@ -145,6 +159,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Une suggestion ?"
             AppLanguage.DE -> "Hast du einen Vorschlag?"
             AppLanguage.IT -> "Hai un suggerimento?"
+            AppLanguage.HU -> "Van egy ötleted?"
         }
 
     val suggestion_panel_info_body: String
@@ -154,6 +169,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Suggère de nouveaux modes de jeu ou partage tes retours sur ton expérience avec les jeux actuels."
             AppLanguage.DE -> "Schlage neue Spielmodi vor oder teile dein Feedback zu deiner Erfahrung mit den aktuellen Spielen."
             AppLanguage.IT -> "Suggerisci nuove modalità di gioco o condividi un feedback sulla tua esperienza con i giochi attuali."
+            AppLanguage.HU -> "Javasolj új játékmódokat, vagy oszd meg a véleményedet a jelenlegi játékokkal szerzett élményeidről."
         }
 
     val suggestion_panel_content_desc: String
@@ -163,6 +179,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "À propos des suggestions"
             AppLanguage.DE -> "Über Vorschläge"
             AppLanguage.IT -> "Informazioni sui suggerimenti"
+            AppLanguage.HU -> "Az ötletekről"
         }
 
     val email_copy_content_desc: String
@@ -172,6 +189,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Copier l'adresse e-mail"
             AppLanguage.DE -> "E-Mail-Adresse kopieren"
             AppLanguage.IT -> "Copia l'indirizzo e-mail"
+            AppLanguage.HU -> "E-mail-cím másolása"
         }
 
     val email_copied: String
@@ -181,6 +199,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Adresse e-mail copiée"
             AppLanguage.DE -> "E-Mail-Adresse kopiert"
             AppLanguage.IT -> "Indirizzo e-mail copiato"
+            AppLanguage.HU -> "E-mail-cím átmásolva"
         }
 
     val email_no_mail_app: String
@@ -190,6 +209,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Aucune application de messagerie trouvée — adresse copiée"
             AppLanguage.DE -> "Keine Mail-App gefunden — E-Mail-Adresse kopiert"
             AppLanguage.IT -> "Nessuna app di posta trovata — indirizzo copiato"
+            AppLanguage.HU -> "Nem található levelezőalkalmazás — az e-mail-cím átmásolva"
         }
 
     @Composable
@@ -200,6 +220,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Teste à nouveau tes connaissances dans %1\$s"
             AppLanguage.DE -> "Teste dein Wissen erneut in %1\$s"
             AppLanguage.IT -> "Metti di nuovo alla prova le tue conoscenze tra %1\$s"
+            AppLanguage.HU -> "Tedd újra próbára a tudásodat %1\$s múlva"
         }
         return formatTemplate(template, arg1)
     }
@@ -211,6 +232,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Score Final"
             AppLanguage.DE -> "Endergebnis"
             AppLanguage.IT -> "Punteggio Finale"
+            AppLanguage.HU -> "Végeredmény"
         }
 
     val results_rank_label: String
@@ -220,6 +242,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Classement"
             AppLanguage.DE -> "Platz"
             AppLanguage.IT -> "Posizione"
+            AppLanguage.HU -> "Helyezés"
         }
 
     @Composable
@@ -230,6 +253,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "sur %1\$s points"
             AppLanguage.DE -> "von %1\$s Punkten"
             AppLanguage.IT -> "su %1\$s punti"
+            AppLanguage.HU -> "%1\$s pontból"
         }
         return formatTemplate(template, arg1)
     }
@@ -242,6 +266,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "sur %1\$s joueurs"
             AppLanguage.DE -> "von %1\$s Spielern"
             AppLanguage.IT -> "su %1\$s giocatori"
+            AppLanguage.HU -> "%1\$s játékosból"
         }
         return formatTemplate(template, arg1)
     }
@@ -254,6 +279,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Meilleur que %1\$s%"
             AppLanguage.DE -> "Besser als %1\$s%"
             AppLanguage.IT -> "Meglio del %1\$s%"
+            AppLanguage.HU -> "Jobb, mint a játékosok %1\$s%-a"
         }
         return formatTemplate(template, arg1)
     }
@@ -265,6 +291,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Partager les Résultats"
             AppLanguage.DE -> "Ergebnisse Teilen"
             AppLanguage.IT -> "Condividi Risultati"
+            AppLanguage.HU -> "Eredmények megosztása"
         }
 
     val results_share_chooser_title: String
@@ -274,6 +301,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Partage tes résultats"
             AppLanguage.DE -> "Teile deine Ergebnisse"
             AppLanguage.IT -> "Condividi i tuoi risultati"
+            AppLanguage.HU -> "Oszd meg az eredményeidet"
         }
 
     @Composable
@@ -284,6 +312,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "J'ai obtenu %1\$s en %2\$s sur %3\$s ! Peux-tu me battre ?\\n\\n%4\$s"
             AppLanguage.DE -> "Ich habe %1\$s in %2\$s bei %3\$s erreicht! Schaffst du mehr?\\n\\n%4\$s"
             AppLanguage.IT -> "Ho ottenuto %1\$s in %2\$s su %3\$s! Riesci a battermi?\\n\\n%4\$s"
+            AppLanguage.HU -> "%1\$s pontot értem el a(z) %2\$s játékban a(z) %3\$s alkalmazásban! Meg tudsz verni?\\n\\n%4\$s"
         }
         return formatTemplate(template, arg1, arg2, arg3, arg4)
     }
@@ -296,6 +325,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Peux-tu me battre ? Joue à %1\$s"
             AppLanguage.DE -> "Schaffst du mehr? Spiel %1\$s"
             AppLanguage.IT -> "Riesci a battermi? Gioca a %1\$s"
+            AppLanguage.HU -> "Meg tudsz verni? Játssz te is: %1\$s"
         }
         return formatTemplate(template, arg1)
     }
@@ -307,6 +337,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Indice"
             AppLanguage.DE -> "Hinweis"
             AppLanguage.IT -> "Suggerimento"
+            AppLanguage.HU -> "Tipp"
         }
 
     val hint_dialog_title: String
@@ -316,6 +347,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Tu veux un indice ?"
             AppLanguage.DE -> "Möchtest du einen Hinweis?"
             AppLanguage.IT -> "Vuoi un suggerimento?"
+            AppLanguage.HU -> "Kérsz egy tippet?"
         }
 
     val hint_dialog_text: String
@@ -325,6 +357,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Regarde une courte publicité pour découvrir à quelle guerre ou quel conflit cela appartient."
             AppLanguage.DE -> "Sieh dir eine kurze Werbung an, um herauszufinden, zu welchem Krieg oder Konflikt dies gehört."
             AppLanguage.IT -> "Guarda un breve annuncio per scoprire a quale guerra o conflitto appartiene."
+            AppLanguage.HU -> "Nézz meg egy rövid hirdetést, hogy megtudd, melyik háborúhoz vagy konfliktushoz tartozik ez."
         }
 
     val hint_watch_ad: String
@@ -334,6 +367,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Voir la Pub"
             AppLanguage.DE -> "Werbung Ansehen"
             AppLanguage.IT -> "Guarda l'Annuncio"
+            AppLanguage.HU -> "Hirdetés megtekintése"
         }
 
     val hint_cancel: String
@@ -343,6 +377,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Annuler"
             AppLanguage.DE -> "Abbrechen"
             AppLanguage.IT -> "Annulla"
+            AppLanguage.HU -> "Mégse"
         }
 
     val nav_play: String
@@ -352,6 +387,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Jouer"
             AppLanguage.DE -> "Spielen"
             AppLanguage.IT -> "Gioca"
+            AppLanguage.HU -> "Játék"
         }
 
     val nav_friends: String
@@ -361,6 +397,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Amis"
             AppLanguage.DE -> "Freunde"
             AppLanguage.IT -> "Amici"
+            AppLanguage.HU -> "Barátok"
         }
 
     val nav_profile: String
@@ -370,6 +407,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Profil"
             AppLanguage.DE -> "Profil"
             AppLanguage.IT -> "Profilo"
+            AppLanguage.HU -> "Profil"
         }
 
     val nav_settings: String
@@ -379,6 +417,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Paramètres"
             AppLanguage.DE -> "Einstellungen"
             AppLanguage.IT -> "Impostazioni"
+            AppLanguage.HU -> "Beállítások"
         }
 
     val nav_year_guess: String
@@ -388,6 +427,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Devine l'Année"
             AppLanguage.DE -> "Errate das Jahr"
             AppLanguage.IT -> "Indovina l'Anno"
+            AppLanguage.HU -> "Találd ki az évet"
         }
 
     val nav_casualties_multiplier: String
@@ -397,6 +437,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Compte des Pertes"
             AppLanguage.DE -> "Verlustzahlen"
             AppLanguage.IT -> "Conta delle Vittime"
+            AppLanguage.HU -> "Veszteségek száma"
         }
 
     val nav_flag_color_match: String
@@ -406,6 +447,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Reproduis la Couleur du Drapeau"
             AppLanguage.DE -> "Flaggenfarbe Treffen"
             AppLanguage.IT -> "Abbina il Colore della Bandiera"
+            AppLanguage.HU -> "Találd el a zászló színét"
         }
 
     val nav_territory_compare: String
@@ -415,6 +457,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Plus Grand Territoire"
             AppLanguage.DE -> "Größeres Territorium"
             AppLanguage.IT -> "Territorio Maggiore"
+            AppLanguage.HU -> "Nagyobb terület"
         }
 
     val nav_true_false: String
@@ -424,6 +467,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Vrai ou Faux"
             AppLanguage.DE -> "Wahr oder Falsch"
             AppLanguage.IT -> "Vero o Falso"
+            AppLanguage.HU -> "Igaz vagy hamis"
         }
 
     val nav_blind_map_battle: String
@@ -433,6 +477,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Bataille sur Carte Aveugle"
             AppLanguage.DE -> "Blinde Kartenschlacht"
             AppLanguage.IT -> "Battaglia sulla Mappa al Buio"
+            AppLanguage.HU -> "Vak térképcsata"
         }
 
     val results_you_guessed_label: String
@@ -442,6 +487,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Tu as Deviné"
             AppLanguage.DE -> "Du hast geraten"
             AppLanguage.IT -> "Hai Indovinato"
+            AppLanguage.HU -> "A tipped"
         }
 
     val results_answer_label: String
@@ -451,6 +497,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Réponse"
             AppLanguage.DE -> "Antwort"
             AppLanguage.IT -> "Risposta"
+            AppLanguage.HU -> "Válasz"
         }
 
     val results_you_landed_label: String
@@ -460,6 +507,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Tu es Tombé"
             AppLanguage.DE -> "Du bist gelandet"
             AppLanguage.IT -> "Sei Arrivato"
+            AppLanguage.HU -> "Ide jutottál"
         }
 
     val results_why_it_matters_label: String
@@ -469,6 +517,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Pourquoi c'est Important"
             AppLanguage.DE -> "Warum es wichtig ist"
             AppLanguage.IT -> "Perché è Importante"
+            AppLanguage.HU -> "Miért fontos"
         }
 
     val results_how_everyone_guessed_label: String
@@ -478,6 +527,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Comment Tout le Monde a Deviné"
             AppLanguage.DE -> "Wie alle geraten haben"
             AppLanguage.IT -> "Come Hanno Indovinato Tutti"
+            AppLanguage.HU -> "Hogyan tippelt mindenki"
         }
 
     @Composable
@@ -488,6 +538,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "plus proche que %1\$s% des joueurs"
             AppLanguage.DE -> "näher dran als %1\$s% der Spieler"
             AppLanguage.IT -> "più vicino del %1\$s% dei giocatori"
+            AppLanguage.HU -> "közelebb, mint a játékosok %1\$s%-a"
         }
         return formatTemplate(template, arg1)
     }
@@ -499,6 +550,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Dans le Mille !"
             AppLanguage.DE -> "Volltreffer!"
             AppLanguage.IT -> "Centrato!"
+            AppLanguage.HU -> "Telitalálat!"
         }
 
     val results_you_chip: String
@@ -508,6 +560,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Toi"
             AppLanguage.DE -> "Du"
             AppLanguage.IT -> "Tu"
+            AppLanguage.HU -> "Te"
         }
 
     val offline_banner_message: String
@@ -517,6 +570,7 @@ object StringsHomeShared {
             AppLanguage.FR -> "Pas de connexion internet stable — les jeux, les statistiques et les amis ne se chargeront pas tant que tu n'es pas reconnecté."
             AppLanguage.DE -> "Keine stabile Internetverbindung — Spiele, Statistiken und Freunde laden erst wieder, wenn du online bist."
             AppLanguage.IT -> "Nessuna connessione internet stabile — giochi, statistiche e amici non si caricheranno finché non sei di nuovo online."
+            AppLanguage.HU -> "Nincs stabil internetkapcsolat — a játékok, a statisztikák és a barátok csak akkor töltődnek be, ha újra online vagy."
         }
 
 }

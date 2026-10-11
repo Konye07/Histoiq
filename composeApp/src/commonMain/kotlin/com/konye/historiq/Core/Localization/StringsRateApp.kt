@@ -10,6 +10,7 @@ object StringsRateApp {
             AppLanguage.FR -> "Tu Aimes Historiq ?"
             AppLanguage.DE -> "Gefällt Dir Historiq?"
             AppLanguage.IT -> "Ti Piace Historiq?"
+            AppLanguage.HU -> "Tetszik a Historiq?"
         }
 
     val rate_app_body: String
@@ -19,6 +20,7 @@ object StringsRateApp {
             AppLanguage.FR -> "Si tu aimes l'appli, une petite note sur le Play Store aide beaucoup."
             AppLanguage.DE -> "Wenn dir die App gefällt, hilft eine kurze Bewertung im Play Store sehr."
             AppLanguage.IT -> "Se ti piace l'app, una valutazione veloce sul Play Store aiuta molto."
+            AppLanguage.HU -> "Ha tetszik az alkalmazás, egy gyors értékelés a Play Áruházban sokat segít."
         }
 
     val rate_app_rate_now: String
@@ -28,6 +30,7 @@ object StringsRateApp {
             AppLanguage.FR -> "Noter Maintenant"
             AppLanguage.DE -> "Jetzt Bewerten"
             AppLanguage.IT -> "Valuta Ora"
+            AppLanguage.HU -> "Értékelem"
         }
 
     val rate_app_later: String
@@ -37,6 +40,7 @@ object StringsRateApp {
             AppLanguage.FR -> "Plus Tard"
             AppLanguage.DE -> "Vielleicht Später"
             AppLanguage.IT -> "Più Tardi"
+            AppLanguage.HU -> "Talán később"
         }
 
     val rate_app_never: String
@@ -46,5 +50,6 @@ object StringsRateApp {
             AppLanguage.FR -> "Non Merci"
             AppLanguage.DE -> "Nein Danke"
             AppLanguage.IT -> "No Grazie"
+            AppLanguage.HU -> "Nem, köszönöm"
         }
 }

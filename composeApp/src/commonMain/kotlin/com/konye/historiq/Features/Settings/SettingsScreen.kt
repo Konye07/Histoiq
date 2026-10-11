@@ -67,7 +67,8 @@ private val LANGUAGES = listOf(
     LanguageOption("es", "Español", available = true),
     LanguageOption("fr", "Français", available = true),
     LanguageOption("de", "Deutsch", available = true),
-    LanguageOption("it", "Italiano", available = true)
+    LanguageOption("it", "Italiano", available = true),
+    LanguageOption("hu", "Magyar", available = true)
 )
 
 @Composable

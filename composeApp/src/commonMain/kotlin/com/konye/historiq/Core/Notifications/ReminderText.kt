@@ -22,5 +22,6 @@ object ReminderText {
         AppLanguage.FR -> "L'histoire t'appelle. Répondras-tu aux mystères du jour ?"
         AppLanguage.DE -> "Die Geschichte ruft. Löst du die Rätsel von heute?"
         AppLanguage.IT -> "La storia ti chiama. Risolverai i misteri di oggi?"
+        AppLanguage.HU -> "A történelem hív. Megfejted a mai rejtélyeket?"
     }
 }

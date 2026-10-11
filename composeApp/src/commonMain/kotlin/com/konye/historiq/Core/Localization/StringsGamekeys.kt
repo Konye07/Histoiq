@@ -10,6 +10,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Annaliste"
             AppLanguage.DE -> "Annalist"
             AppLanguage.IT -> "Annalista"
+            AppLanguage.HU -> "Évkönyvíró"
         }
 
     val role_herald: String
@@ -19,6 +20,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Héraut"
             AppLanguage.DE -> "Herold"
             AppLanguage.IT -> "Araldo"
+            AppLanguage.HU -> "Hírnök"
         }
 
     val role_officer_of_arms: String
@@ -28,6 +30,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Officier d'Armes"
             AppLanguage.DE -> "Wappenoffizier"
             AppLanguage.IT -> "Ufficiale d'Armi"
+            AppLanguage.HU -> "Címertiszt"
         }
 
     val role_cosmographer: String
@@ -37,6 +40,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Cosmographe"
             AppLanguage.DE -> "Kosmograph"
             AppLanguage.IT -> "Cosmografo"
+            AppLanguage.HU -> "Kozmográfus"
         }
 
     val role_chronicler: String
@@ -46,6 +50,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Chroniqueur"
             AppLanguage.DE -> "Chronist"
             AppLanguage.IT -> "Cronista"
+            AppLanguage.HU -> "Krónikás"
         }
 
     val role_chancellor: String
@@ -55,6 +60,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Chancelier"
             AppLanguage.DE -> "Kanzler"
             AppLanguage.IT -> "Cancelliere"
+            AppLanguage.HU -> "Kancellár"
         }
 
     val title_year_guess: String
@@ -64,6 +70,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Devine l'Année"
             AppLanguage.DE -> "Rate das Jahr"
             AppLanguage.IT -> "Indovina l'Anno"
+            AppLanguage.HU -> "Találd ki az évet"
         }
 
     val title_casualties_multiplier: String
@@ -73,6 +80,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Nombre de Pertes"
             AppLanguage.DE -> "Verlustzahl"
             AppLanguage.IT -> "Conteggio delle Perdite"
+            AppLanguage.HU -> "Veszteségek száma"
         }
 
     val title_flag_color_match: String
@@ -82,6 +90,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Assortis la Couleur du Drapeau"
             AppLanguage.DE -> "Finde die Flaggenfarbe"
             AppLanguage.IT -> "Abbina il Colore della Bandiera"
+            AppLanguage.HU -> "Találd el a zászló színét"
         }
 
     val title_territory_compare: String
@@ -91,6 +100,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Plus Grand Territoire"
             AppLanguage.DE -> "Größeres Gebiet"
             AppLanguage.IT -> "Territorio Maggiore"
+            AppLanguage.HU -> "Nagyobb terület"
         }
 
     val title_true_false: String
@@ -100,6 +110,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Vrai ou Faux"
             AppLanguage.DE -> "Wahr oder Falsch"
             AppLanguage.IT -> "Vero o Falso"
+            AppLanguage.HU -> "Igaz vagy hamis"
         }
 
     val title_blind_map_battle: String
@@ -109,6 +120,7 @@ object StringsGamekeys {
             AppLanguage.FR -> "Bataille sur Carte Aveugle"
             AppLanguage.DE -> "Blindkarten-Schlacht"
             AppLanguage.IT -> "Battaglia sulla Mappa Cieca"
+            AppLanguage.HU -> "Vak térképcsata"
         }
 
 }
