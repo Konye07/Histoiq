@@ -24,7 +24,11 @@ data class HistoricalEvent(
     @SerialName("hint_es") val hintEs: String? = null,
     @SerialName("hint_fr") val hintFr: String? = null,
     @SerialName("hint_de") val hintDe: String? = null,
-    @SerialName("hint_it") val hintIt: String? = null
+    @SerialName("hint_it") val hintIt: String? = null,
+    @SerialName("description_es") val descriptionEs: String? = null,
+    @SerialName("description_fr") val descriptionFr: String? = null,
+    @SerialName("description_de") val descriptionDe: String? = null,
+    @SerialName("description_it") val descriptionIt: String? = null
 ) {
     /** Each falls back to the English text when a language's translation is missing. */
     fun localizedEvent(languageCode: String): String = when (languageCode) {
@@ -47,6 +51,10 @@ data class HistoricalEvent(
 
     fun localizedDescription(languageCode: String): String? = when (languageCode) {
         "hu" -> descriptionHu ?: description
+        "es" -> descriptionEs ?: description
+        "fr" -> descriptionFr ?: description
+        "de" -> descriptionDe ?: description
+        "it" -> descriptionIt ?: description
         else -> description
     }
 }
