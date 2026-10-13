@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -80,6 +81,13 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
         }
     }
 
+    // Nothing above this screen paints a background, so without its own surface the text and the
+    // outlined Apple button sat on whatever the window was (white or black) instead of the theme's.
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background,
+        contentColor = MaterialTheme.colorScheme.onBackground
+    ) {
     Box(
         Modifier
             .fillMaxSize()
@@ -121,13 +129,16 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
             if (showAppleSignInButton) {
                 Spacer(Modifier.height(12.dp))
 
+                val appleContent = MaterialTheme.colorScheme.onBackground
                 OutlinedButton(
                     onClick = { continueWithApple() },
                     enabled = loadingProvider == null,
+                    // The default content color is the accent (Tan), only about 3:1 on the light theme's cream.
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = appleContent),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     if (loadingProvider == AuthProviderType.APPLE) {
-                        CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                        CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp, color = appleContent)
                     } else {
                         Text(StringsAuthSettings.auth_continue_with_apple)
                     }
@@ -187,5 +198,6 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
                 textAlign = TextAlign.Center
             )
         }
+    }
     }
 }

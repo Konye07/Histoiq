@@ -2,6 +2,7 @@ package com.konye.historiq.Features.Play.FlagColorMatch
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -47,10 +48,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -72,6 +77,7 @@ import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.gameColorScheme
+import com.konye.historiq.Core.Theme.legibleOn
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyQuizRepository
 import com.konye.historiq.Data.Quiz.FlagColor
@@ -98,7 +104,9 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlin.math.sign
 import kotlin.random.Random
 import org.jetbrains.compose.resources.painterResource
 
@@ -368,6 +376,7 @@ private fun FlagColorQuestion(
             brush = Brush.horizontalGradient(
                 (0..12).map { Color.hsv(it * 30f, 1f, 1f) }
             ),
+            correctValue = if (revealed) analysis.targetHue / 360f else null,
             onValueChange = { onHueChange(it * 360f) }
         )
         LabeledGradientSlider(
@@ -380,6 +389,7 @@ private fun FlagColorQuestion(
                     Color.hsv(hue, 1f, brightness / 100f)
                 )
             ),
+            correctValue = if (revealed) analysis.targetSaturation / 100f else null,
             onValueChange = { onSaturationChange(it * 100f) }
         )
         LabeledGradientSlider(
@@ -392,8 +402,10 @@ private fun FlagColorQuestion(
                     Color.hsv(hue, saturation / 100f, 1f)
                 )
             ),
+            correctValue = if (revealed) analysis.targetBrightness / 100f else null,
             onValueChange = { onBrightnessChange(it * 100f) }
         )
+        if (revealed) SliderLegend()
 
         AnimatedContent(
             targetState = revealed,
@@ -403,7 +415,10 @@ private fun FlagColorQuestion(
                 Button(onClick = onSubmit) { Text(StringsGamesFlagTerritoryBlindmap.flag_lock_color) }
             } else {
                 val score = lastScore ?: 0.0
-                val resultColor by animateColorAsState(if (score >= 6.0) AppColors.Success else MaterialTheme.colorScheme.error)
+                // The plain success green and error maroon are close to this screen's olive, so they are lifted until they read.
+                val resultColor by animateColorAsState(
+                    (if (score >= 6.0) AppColors.Success else MaterialTheme.colorScheme.error).legibleOn(MaterialTheme.colorScheme.background)
+                )
                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
                         StringsGamesFlagTerritoryBlindmap.flag_target_values(analysis.targetHue, analysis.targetSaturation, analysis.targetBrightness),
@@ -459,12 +474,25 @@ private fun LabeledGradientSlider(
     value: Float,
     enabled: Boolean,
     brush: Brush,
-    onValueChange: (Float) -> Unit
+    onValueChange: (Float) -> Unit,
+    correctValue: Float? = null
 ) {
     Column(Modifier.fillMaxWidth()) {
         Text(label, style = MaterialTheme.typography.labelMedium)
-        GradientSlider(value = value, enabled = enabled, brush = brush, onValueChange = onValueChange)
+        GradientSlider(value = value, enabled = enabled, brush = brush, onValueChange = onValueChange, correctValue = correctValue)
     }
+}
+
+private val CorrectMarkerRadius = 16.dp
+
+/**
+ * The ring that marks the original flag's value on a slider: a white stroke inside a darker one, so it reads
+ * on every part of every gradient. [progress] pops it in (0 = nothing, 1 = full size).
+ */
+private fun DrawScope.drawCorrectMarker(center: Offset, progress: Float) {
+    val radius = CorrectMarkerRadius.toPx() * (0.6f + 0.4f * progress)
+    drawCircle(Color.Black.copy(alpha = 0.5f * progress), radius, center, style = Stroke(width = 5.dp.toPx()))
+    drawCircle(Color.White.copy(alpha = progress), radius, center, style = Stroke(width = 3.dp.toPx()))
 }
 
 @Composable
@@ -473,46 +501,96 @@ private fun GradientSlider(
     brush: Brush,
     enabled: Boolean,
     onValueChange: (Float) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    correctValue: Float? = null
 ) {
     var trackWidth by remember { mutableStateOf(0f) }
     val thumbSizePx = with(LocalDensity.current) { 28.dp.toPx() }
     val clamped = value.coerceIn(0f, 1f)
+    val markerProgress by animateFloatAsState(if (correctValue != null) 1f else 0f, tween(350))
 
-    Box(
-        modifier
-            .fillMaxWidth()
-            .height(36.dp)
-            .clip(RoundedCornerShape(18.dp))
-            .background(brush)
-            .onGloballyPositioned { trackWidth = it.size.width.toFloat() }
-            .pointerInput(enabled, trackWidth) {
-                if (enabled && trackWidth > 0f) {
-                    detectTapGestures { offset ->
-                        onValueChange((offset.x / trackWidth).coerceIn(0f, 1f))
-                    }
-                }
-            }
-            .pointerInput(enabled, trackWidth) {
-                if (enabled && trackWidth > 0f) {
-                    detectDragGestures { change, _ ->
-                        change.consume()
-                        onValueChange((change.position.x / trackWidth).coerceIn(0f, 1f))
-                    }
-                }
-            }
-    ) {
-        val maxThumbX = (trackWidth - thumbSizePx).coerceAtLeast(0f)
-        val thumbX = (clamped * trackWidth - thumbSizePx / 2f).coerceIn(-thumbSizePx / 2f, maxThumbX + thumbSizePx / 2f)
+    Box(modifier.fillMaxWidth().height(36.dp)) {
         Box(
             Modifier
-                .align(Alignment.CenterStart)
-                .offset { IntOffset(thumbX.roundToInt(), 0) }
-                .size(28.dp)
-                .clip(CircleShape)
-                .background(Color.White)
-                .border(2.dp, Color.Black.copy(alpha = 0.3f), CircleShape)
-        )
+                .fillMaxSize()
+                .clip(RoundedCornerShape(18.dp))
+                .background(brush)
+                .onGloballyPositioned { trackWidth = it.size.width.toFloat() }
+                .pointerInput(enabled, trackWidth) {
+                    if (enabled && trackWidth > 0f) {
+                        detectTapGestures { offset ->
+                            onValueChange((offset.x / trackWidth).coerceIn(0f, 1f))
+                        }
+                    }
+                }
+                .pointerInput(enabled, trackWidth) {
+                    if (enabled && trackWidth > 0f) {
+                        detectDragGestures { change, _ ->
+                            change.consume()
+                            onValueChange((change.position.x / trackWidth).coerceIn(0f, 1f))
+                        }
+                    }
+                }
+        ) {
+            val maxThumbX = (trackWidth - thumbSizePx).coerceAtLeast(0f)
+            val thumbX = (clamped * trackWidth - thumbSizePx / 2f).coerceIn(-thumbSizePx / 2f, maxThumbX + thumbSizePx / 2f)
+            Box(
+                Modifier
+                    .align(Alignment.CenterStart)
+                    .offset { IntOffset(thumbX.roundToInt(), 0) }
+                    .size(28.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .border(2.dp, Color.Black.copy(alpha = 0.3f), CircleShape)
+            )
+        }
+        // Outside the track's clip so a marker at either end of the slider is still a whole ring. With no
+        // pointer handler of its own, touches fall through to the track below.
+        if (markerProgress > 0f) {
+            Canvas(Modifier.fillMaxSize()) {
+                val y = size.height / 2f
+                val thumbCenter = Offset(clamped * size.width, y)
+                val markerCenter = Offset((correctValue ?: clamped).coerceIn(0f, 1f) * size.width, y)
+                // Only the stretch between the two marks: it stops at the ring's edge instead of running into it.
+                val toMarker = markerCenter.x - thumbCenter.x
+                val ringRadius = CorrectMarkerRadius.toPx()
+                if (abs(toMarker) > ringRadius) {
+                    drawLine(
+                        color = Color.White.copy(alpha = 0.85f * markerProgress),
+                        start = thumbCenter,
+                        end = Offset(markerCenter.x - sign(toMarker) * ringRadius, y),
+                        strokeWidth = 4.dp.toPx(),
+                        cap = StrokeCap.Round
+                    )
+                }
+                drawCorrectMarker(markerCenter, markerProgress)
+            }
+        }
+    }
+}
+
+/** Says which mark on the sliders is the player's and which is the original flag's, once the answer shows. */
+@Composable
+private fun SliderLegend() {
+    Row(horizontalArrangement = Arrangement.spacedBy(24.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                Modifier
+                    .size(16.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .border(2.dp, Color.Black.copy(alpha = 0.3f), CircleShape)
+            )
+            Text(StringsGamesFlagTerritoryBlindmap.flag_your_guess, style = MaterialTheme.typography.labelMedium)
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Canvas(Modifier.size(22.dp)) {
+                val radius = 8.dp.toPx()
+                drawCircle(Color.Black.copy(alpha = 0.5f), radius, style = Stroke(width = 4.dp.toPx()))
+                drawCircle(Color.White, radius, style = Stroke(width = 2.dp.toPx()))
+            }
+            Text(StringsGamesFlagTerritoryBlindmap.flag_original, style = MaterialTheme.typography.labelMedium)
+        }
     }
 }
 

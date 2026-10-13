@@ -1,12 +1,8 @@
 package com.konye.historiq.Features.Play.BlindMapBattle
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,18 +23,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.drawscope.withTransform
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -77,28 +70,14 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
-import kotlin.math.min
 import org.jetbrains.compose.resources.painterResource
-
-/**
- * The bundled map (world_map.png) is a black-land/white-ocean silhouette rather than a colored
- * physical map, so it's tinted here via a duotone ColorMatrix: black -> continent color (ForestDark),
- * white -> water color (SlateBlue), linearly in between. Real coastlines from Natural Earth data,
- * Wikimedia Commons, CC BY-SA 4.0.
- */
-private val MAP_COLOR_MATRIX = ColorMatrix(
-    floatArrayOf(
-        (120f - 30f) / 255f, 0f, 0f, 0f, 30f,
-        0f, (140f - 42f) / 255f, 0f, 0f, 42f,
-        0f, 0f, (158f - 32f) / 255f, 0f, 32f,
-        0f, 0f, 0f, 1f, 0f
-    )
-)
 
 private const val QUESTIONS_PER_ROUND = 5
 private const val GAME_KEY = GameKeys.BLIND_MAP_BATTLE
-private const val MIN_SCALE = 1f
-private const val MAX_SCALE = 6f
+
+/** How close the map zooms on its own to the guess and the real place once the answer shows (the player can go further). */
+private const val REVEAL_MAX_SCALE = 12f
+private const val OVERVIEW_MAX_SCALE = 12f
 
 private suspend fun persist(
     modeKey: String,
@@ -115,18 +94,6 @@ private suspend fun persist(
     })
 }
 
-private fun offsetToLatLng(offset: Offset, size: IntSize): Pair<Double, Double> {
-    val lng = (offset.x / size.width) * 360.0 - 180.0
-    val lat = 90.0 - (offset.y / size.height) * 180.0
-    return lat to lng
-}
-
-private fun latLngToOffset(lat: Double, lng: Double, size: IntSize): Offset {
-    val x = ((lng + 180.0) / 360.0 * size.width).toFloat()
-    val y = ((90.0 - lat) / 180.0 * size.height).toFloat()
-    return Offset(x, y)
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
@@ -136,8 +103,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
     var worldMap by remember { mutableStateOf<ImageBitmap?>(null) }
     var questionIndex by remember { mutableStateOf(0) }
     var revealed by remember { mutableStateOf(false) }
-    var guessOffset by remember { mutableStateOf<Offset?>(null) }
-    var canvasSize by remember { mutableStateOf(IntSize.Zero) }
+    var guess by remember { mutableStateOf<Pair<Double, Double>?>(null) }
     val guessLats = remember { mutableStateListOf<Double>() }
     val guessLngs = remember { mutableStateListOf<Double>() }
     val scores = remember { mutableStateListOf<Double>() }
@@ -186,9 +152,9 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
             if (battles.isEmpty() || map == null) {
                 HistoriqLoadingIndicator()
             } else if (questionIndex >= battles.size && resumedAlreadyDone) {
-                MapResults(modeKey, battles, guessLats, guessLngs, scores, onBack)
+                MapResults(modeKey, battles, map, guessLats, guessLngs, scores, onBack)
             } else if (questionIndex >= battles.size) {
-                AdGatedResults { MapResults(modeKey, battles, guessLats, guessLngs, scores, onBack) }
+                AdGatedResults { MapResults(modeKey, battles, map, guessLats, guessLngs, scores, onBack) }
             } else {
                 val current = battles[questionIndex]
                 MapQuestion(
@@ -197,14 +163,11 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
                     questionNumber = questionIndex + 1,
                     totalQuestions = battles.size,
                     revealed = revealed,
-                    guessOffset = guessOffset,
+                    guess = guess,
                     lastScore = scores.getOrNull(questionIndex),
-                    onCanvasSized = { canvasSize = it },
-                    onTap = { offset -> if (!revealed) guessOffset = offset },
+                    onTap = { if (!revealed) guess = it },
                     onSubmit = {
-                        val offset = guessOffset ?: return@MapQuestion
-                        if (canvasSize.width == 0 || canvasSize.height == 0) return@MapQuestion
-                        val (lat, lng) = offsetToLatLng(offset, canvasSize)
+                        val (lat, lng) = guess ?: return@MapQuestion
                         val distanceKm = haversineKm(lat, lng, current.correctLat, current.correctLng)
                         guessLats.add(lat)
                         guessLngs.add(lng)
@@ -215,7 +178,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
                     },
                     onNext = {
                         questionIndex += 1
-                        guessOffset = null
+                        guess = null
                         revealed = false
                     }
                 )
@@ -238,13 +201,33 @@ private fun MapQuestion(
     questionNumber: Int,
     totalQuestions: Int,
     revealed: Boolean,
-    guessOffset: Offset?,
+    guess: Pair<Double, Double>?,
     lastScore: Double?,
-    onCanvasSized: (IntSize) -> Unit,
-    onTap: (Offset) -> Unit,
+    onTap: (Pair<Double, Double>) -> Unit,
     onSubmit: () -> Unit,
     onNext: () -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    val viewport = remember { MapViewport(scope) }
+
+    LaunchedEffect(questionNumber) { viewport.reset(animated = false) }
+
+    // Zoom in on the guess and the real place together, so how far off it was can be read. Taps stop
+    // counting once the answer shows, but the map stays free to pinch and drag, to look closer still.
+    LaunchedEffect(revealed) {
+        val placed = guess
+        if (revealed && placed != null) {
+            viewport.frame(
+                listOf(
+                    latLngToMapPoint(placed.first, placed.second, viewport.size),
+                    latLngToMapPoint(battle.correctLat, battle.correctLng, viewport.size)
+                ),
+                maxScale = REVEAL_MAX_SCALE,
+                animated = true
+            )
+        }
+    }
+
     Column(
         Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -252,97 +235,37 @@ private fun MapQuestion(
     ) {
         Text(StringsGamesFlagTerritoryBlindmap.blindmap_question_counter(questionNumber, totalQuestions), style = MaterialTheme.typography.labelLarge)
         Text(battle.localizedBattle(LocalAppLanguage.current.code), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
-        Text(StringsGamesFlagTerritoryBlindmap.blindmap_instructions, style = MaterialTheme.typography.bodySmall)
+        Text(
+            if (revealed) StringsGamesFlagTerritoryBlindmap.blindmap_zoom_hint else StringsGamesFlagTerritoryBlindmap.blindmap_instructions,
+            style = MaterialTheme.typography.bodySmall
+        )
         Text(
             StringsGamesFlagTerritoryBlindmap.blindmap_map_attribution,
             style = MaterialTheme.typography.labelSmall
         )
 
-        var boxSize by remember(questionNumber) { mutableStateOf(IntSize.Zero) }
-        var scale by remember(questionNumber) { mutableStateOf(MIN_SCALE) }
-        var panOffset by remember(questionNumber) { mutableStateOf(Offset.Zero) }
-
-        // Reset to fully zoomed-out once the answer is revealed, so both the guess and the
-        // correct pin are visible even if the player was zoomed in on a small region to place
-        // their tap precisely — otherwise the correct location could be off-screen entirely.
-        LaunchedEffect(revealed) {
-            if (revealed) {
-                scale = MIN_SCALE
-                panOffset = Offset.Zero
-            }
-        }
-
-        fun clampPan(pan: Offset, currentScale: Float, size: IntSize): Offset {
-            val minX = size.width * (1f - currentScale)
-            val minY = size.height * (1f - currentScale)
-            return Offset(pan.x.coerceIn(min(minX, 0f), 0f), pan.y.coerceIn(min(minY, 0f), 0f))
-        }
-
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .aspectRatio(2f)
-                .clipToBounds()
-                .onGloballyPositioned {
-                    boxSize = it.size
-                    onCanvasSized(it.size)
-                }
-                .pointerInput(revealed, boxSize) {
-                    if (!revealed) {
-                        detectTransformGestures { centroid, pan, zoom, _ ->
-                            val newScale = (scale * zoom).coerceIn(MIN_SCALE, MAX_SCALE)
-                            // Keep the content point under the pinch centroid fixed on screen,
-                            // instead of always scaling from the (0,0) origin — otherwise zooming
-                            // visibly drifts toward the top-left corner instead of where you pinch.
-                            val contentAtCentroid = (centroid - panOffset) / scale
-                            val zoomAdjustedPan = centroid + pan - contentAtCentroid * newScale
-                            scale = newScale
-                            panOffset = clampPan(zoomAdjustedPan, newScale, boxSize)
-                        }
-                    }
-                }
-                .pointerInput(revealed) {
-                    if (!revealed) {
-                        detectTapGestures { rawOffset ->
-                            val adjusted = Offset(
-                                (rawOffset.x - panOffset.x) / scale,
-                                (rawOffset.y - panOffset.y) / scale
-                            )
-                            onTap(adjusted)
-                        }
-                    }
-                }
+        val placePin: (Offset) -> Unit = { point -> onTap(mapPointToLatLng(point, viewport.size)) }
+        ZoomableWorldMap(
+            worldMap = worldMap,
+            viewport = viewport,
+            onTap = if (revealed) null else placePin,
+            zoomFocus = if (revealed) null else guess?.let { latLngToMapPoint(it.first, it.second, viewport.size) }
         ) {
-            Canvas(Modifier.fillMaxSize()) {
-                drawRect(color = AppColors.SlateBlue)
-                if (boxSize.width > 0) {
-                    withTransform({
-                        translate(left = panOffset.x, top = panOffset.y)
-                        scale(scale, scale, pivot = Offset.Zero)
-                    }) {
-                        drawImage(
-                            worldMap,
-                            dstSize = IntSize(boxSize.width, boxSize.height),
-                            colorFilter = ColorFilter.colorMatrix(MAP_COLOR_MATRIX)
-                        )
-                        guessOffset?.let {
-                            drawCircle(color = Color(0xFFFFC107), radius = 8f / scale, center = it)
-                        }
-                        if (revealed) {
-                            val correctOffset = latLngToOffset(battle.correctLat, battle.correctLng, boxSize)
-                            drawCircle(color = Color(0xFFE53935), radius = 8f / scale, center = correctOffset)
-                            guessOffset?.let {
-                                drawLine(color = Color.White, start = it, end = correctOffset, strokeWidth = 2f / scale)
-                            }
-                        }
-                    }
+            val guessOnScreen = guess?.let { viewport.toScreen(latLngToMapPoint(it.first, it.second, viewport.size)) }
+            if (revealed) {
+                val answerOnScreen = viewport.toScreen(latLngToMapPoint(battle.correctLat, battle.correctLng, viewport.size))
+                if (guessOnScreen != null) {
+                    drawLine(Color.White, guessOnScreen, answerOnScreen, strokeWidth = 2.dp.toPx())
                 }
+                drawPin(answerOnScreen, AnswerPinColor, extraRadius = 3.dp.toPx())
             }
+            guessOnScreen?.let { drawPin(it, GuessPinColor) }
         }
 
         if (!revealed) {
-            Button(onClick = onSubmit, enabled = guessOffset != null) { Text(StringsGamesFlagTerritoryBlindmap.blindmap_submit) }
+            Button(onClick = onSubmit, enabled = guess != null) { Text(StringsGamesFlagTerritoryBlindmap.blindmap_submit) }
         } else {
+            MapLegend()
             Text(
                 StringsGamesFlagTerritoryBlindmap.blindmap_score_points(formatFixed(lastScore ?: 0.0, 2)),
                 style = MaterialTheme.typography.bodyLarge
@@ -354,10 +277,64 @@ private fun MapQuestion(
     }
 }
 
+/** One answered question as a pair of places on the final map, numbered like its row in the list. */
+private data class PinPair(val number: Int, val guess: Pair<Double, Double>, val answer: Pair<Double, Double>)
+
+/**
+ * Every question on one map: the player's pin and the real place for each, joined by a line and carrying the
+ * same number. It opens framed on all of them and zooms freely from there.
+ */
+@Composable
+private fun AllPinsMap(worldMap: ImageBitmap, pairs: List<PinPair>) {
+    val scope = rememberCoroutineScope()
+    val viewport = remember { MapViewport(scope) }
+    val textMeasurer = rememberTextMeasurer()
+    val labelStyle = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold)
+    val labels = remember(pairs, labelStyle) { pairs.map { textMeasurer.measure(it.number.toString(), labelStyle) } }
+
+    val mapSize = viewport.size
+    LaunchedEffect(mapSize, pairs) {
+        if (mapSize != IntSize.Zero) {
+            viewport.frame(
+                pairs.flatMap {
+                    listOf(
+                        latLngToMapPoint(it.guess.first, it.guess.second, mapSize),
+                        latLngToMapPoint(it.answer.first, it.answer.second, mapSize)
+                    )
+                },
+                maxScale = OVERVIEW_MAX_SCALE,
+                animated = false
+            )
+        }
+    }
+
+    Column(
+        Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Text(StringsGamesFlagTerritoryBlindmap.blindmap_overview_title, style = MaterialTheme.typography.titleMedium)
+        ZoomableWorldMap(worldMap = worldMap, viewport = viewport) {
+            val guessesOnScreen = pairs.map { viewport.toScreen(latLngToMapPoint(it.guess.first, it.guess.second, viewport.size)) }
+            val answersOnScreen = pairs.map { viewport.toScreen(latLngToMapPoint(it.answer.first, it.answer.second, viewport.size)) }
+            pairs.indices.forEach { i ->
+                drawLine(Color.White, guessesOnScreen[i], answersOnScreen[i], strokeWidth = 2.dp.toPx())
+            }
+            pairs.indices.forEach { i ->
+                drawNumberedPin(answersOnScreen[i], AnswerPinColor, Color.White, labels[i], extraRadius = 3.dp.toPx())
+            }
+            pairs.indices.forEach { i -> drawNumberedPin(guessesOnScreen[i], GuessPinColor, AppColors.EspressoDark, labels[i]) }
+        }
+        MapLegend()
+        Text(StringsGamesFlagTerritoryBlindmap.blindmap_zoom_hint, style = MaterialTheme.typography.labelSmall)
+    }
+}
+
 @Composable
 private fun MapResults(
     modeKey: String,
     battles: List<BattleLocation>,
+    worldMap: ImageBitmap,
     guessLats: List<Double>,
     guessLngs: List<Double>,
     scores: List<Double>,
@@ -392,9 +369,22 @@ private fun MapResults(
             distributionMaxLabel = formatThousands(maxPossible.toLong())
         )
         HorizontalDivider()
+        val pairs = battles.indices.mapNotNull { i ->
+            val lat = guessLats.getOrNull(i)
+            val lng = guessLngs.getOrNull(i)
+            if (lat != null && lng != null) {
+                PinPair(i + 1, lat to lng, battles[i].correctLat to battles[i].correctLng)
+            } else {
+                null
+            }
+        }
+        if (pairs.isNotEmpty()) {
+            AllPinsMap(worldMap, pairs)
+            HorizontalDivider()
+        }
         battles.forEachIndexed { i, battle ->
             Column(Modifier.fillMaxWidth()) {
-                Text(battle.localizedBattle(LocalAppLanguage.current.code), style = MaterialTheme.typography.bodyMedium)
+                Text("${i + 1}. ${battle.localizedBattle(LocalAppLanguage.current.code)}", style = MaterialTheme.typography.bodyMedium)
                 val guessLat = guessLats.getOrNull(i)
                 val guessLng = guessLngs.getOrNull(i)
                 Text(

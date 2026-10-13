@@ -495,4 +495,64 @@ object StringsGamesFlagTerritoryBlindmap {
             AppLanguage.HU -> "Vissza a menübe"
         }
 
+    val blindmap_zoom_hint: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Pinch to zoom and drag to look closer."
+            AppLanguage.ES -> "Pellizca para hacer zoom y arrastra para mirar de cerca."
+            AppLanguage.FR -> "Pincez pour zoomer et faites glisser pour voir de plus près."
+            AppLanguage.DE -> "Zum Zoomen zwei Finger nutzen, zum genaueren Ansehen ziehen."
+            AppLanguage.IT -> "Pizzica per ingrandire e trascina per guardare più da vicino."
+            AppLanguage.HU -> "Csippentéssel nagyíthatsz, húzással közelebbről is megnézheted."
+        }
+
+    val blindmap_overview_title: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Your pins on the map"
+            AppLanguage.ES -> "Tus pins en el mapa"
+            AppLanguage.FR -> "Vos repères sur la carte"
+            AppLanguage.DE -> "Deine Nadeln auf der Karte"
+            AppLanguage.IT -> "I tuoi segnalini sulla mappa"
+            AppLanguage.HU -> "A jelölőid a térképen"
+        }
+
+    val blindmap_legend_your_pin: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Your pin"
+            AppLanguage.ES -> "Tu pin"
+            AppLanguage.FR -> "Votre repère"
+            AppLanguage.DE -> "Deine Nadel"
+            AppLanguage.IT -> "Il tuo segnalino"
+            AppLanguage.HU -> "A jelölőd"
+        }
+
+    val blindmap_legend_actual: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Actual location"
+            AppLanguage.ES -> "Ubicación real"
+            AppLanguage.FR -> "Lieu réel"
+            AppLanguage.DE -> "Tatsächlicher Ort"
+            AppLanguage.IT -> "Posizione reale"
+            AppLanguage.HU -> "Valós hely"
+        }
+
+    val blindmap_zoom_in: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Zoom in"
+            AppLanguage.ES -> "Acercar"
+            AppLanguage.FR -> "Zoomer"
+            AppLanguage.DE -> "Vergrößern"
+            AppLanguage.IT -> "Ingrandisci"
+            AppLanguage.HU -> "Nagyítás"
+        }
+
+    val blindmap_zoom_out: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Zoom out"
+            AppLanguage.ES -> "Alejar"
+            AppLanguage.FR -> "Dézoomer"
+            AppLanguage.DE -> "Verkleinern"
+            AppLanguage.IT -> "Riduci"
+            AppLanguage.HU -> "Kicsinyítés"
+        }
+
 }

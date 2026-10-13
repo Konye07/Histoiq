@@ -378,6 +378,15 @@ and color — screens must reference `GameKeys.X`, never re-declare the key as a
 literal. Each game's key also names its Postgres question-bank table (`<key>_items`) and is the
 `game_key` column value everywhere else — keep them in sync if a key ever changes.
 
+**Chancellor's map** (`Features/Play/BlindMapBattle/ZoomableWorldMap.kt`): `ZoomableWorldMap` + `MapViewport` draw the
+tinted `world_map.png` with pinch, drag and `+`/`−` buttons, up to 40x (`MAP_MAX_SCALE`). The question screen uses it
+to place a pin (the buttons zoom about that pin); once the answer shows it frames the guess and the real place
+together and stays pinchable. The final results' `AllPinsMap` puts every guess and its answer on one map, joined by a
+line and numbered like the list below it, framed on all of them to begin with. Pins are drawn in screen space (via
+`MapViewport.toScreen`) so they keep their size at any zoom. A single finger on a map that is not zoomed in is left to
+the page's own scroll (`detectMapGestures`) so the map never traps a scroll. The bundled map is only 1280 px wide, so
+the coastline goes soft past about 16x; a sharper picture would be a new Wikimedia Commons asset (needs the owner's OK).
+
 ## Era game modes
 
 Annalist, Herald and Chancellor (`GameKeys.ERA_FILTERABLE` — the only banks whose questions carry a
@@ -454,6 +463,11 @@ its own (see `EraThemes`), supplied by the project owner.
 
 ## Conventions
 
+- A screen shown outside a `Scaffold` (`AuthScreen`, before any game) paints its own `Surface` in the theme's
+  `background`/`onBackground`: nothing above it draws a background, so its plain text and the outlined "Continue with
+  Apple" button otherwise take their colors from the bare native window instead of the theme (unreadable in dark mode).
+  Result text in a game's accent colors (success green, error maroon) goes through `legibleOn(background)`: the raw
+  colors sit at 1-2:1 on the dark game backgrounds (True/False and Territory Compare still use them raw).
 - Text sizes come from `MaterialTheme.typography`, never a literal `sp`/`fontSize`: Settings → Text size
   (`AppFontSize` in `Core/Theme/AppFontSize.kt` — Small 85%, Medium 100% = the original look and the default,
   Large 125%, on top of the device's own text size) scales the typography that `AppTheme` provides, and a
