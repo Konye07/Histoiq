@@ -76,8 +76,9 @@ import com.konye.historiq.Core.Network.retryNetwork
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
+import com.konye.historiq.Core.Theme.errorText
 import com.konye.historiq.Core.Theme.gameColorScheme
-import com.konye.historiq.Core.Theme.legibleOn
+import com.konye.historiq.Core.Theme.successText
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyQuizRepository
 import com.konye.historiq.Data.Quiz.FlagColor
@@ -415,9 +416,8 @@ private fun FlagColorQuestion(
                 Button(onClick = onSubmit) { Text(StringsGamesFlagTerritoryBlindmap.flag_lock_color) }
             } else {
                 val score = lastScore ?: 0.0
-                // The plain success green and error maroon are close to this screen's olive, so they are lifted until they read.
                 val resultColor by animateColorAsState(
-                    (if (score >= 6.0) AppColors.Success else MaterialTheme.colorScheme.error).legibleOn(MaterialTheme.colorScheme.background)
+                    if (score >= 6.0) MaterialTheme.colorScheme.successText() else MaterialTheme.colorScheme.errorText()
                 )
                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(

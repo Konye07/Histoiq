@@ -44,7 +44,9 @@ import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
+import com.konye.historiq.Core.Theme.errorText
 import com.konye.historiq.Core.Theme.gameColorScheme
+import com.konye.historiq.Core.Theme.successText
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.TrueFalseStatement
@@ -193,7 +195,9 @@ private fun TrueFalseQuestion(
                     Button(onClick = { onAnswer(false) }) { Text(StringsGamesTruefalse.tf_false_button) }
                 }
             } else {
-                val resultColor by animateColorAsState(if (correct) AppColors.Success else MaterialTheme.colorScheme.error)
+                val resultColor by animateColorAsState(
+                    if (correct) MaterialTheme.colorScheme.successText() else MaterialTheme.colorScheme.errorText()
+                )
                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     Text(
                         if (correct) StringsGamesTruefalse.tf_correct else StringsGamesTruefalse.tf_wrong_game_over,
@@ -267,7 +271,7 @@ private fun TrueFalseResults(
                     Text(
                         StringsGamesTruefalse.tf_failed_here,
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.error
+                        color = MaterialTheme.colorScheme.errorText()
                     )
                 }
             }

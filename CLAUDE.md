@@ -466,8 +466,9 @@ its own (see `EraThemes`), supplied by the project owner.
 - A screen shown outside a `Scaffold` (`AuthScreen`, before any game) paints its own `Surface` in the theme's
   `background`/`onBackground`: nothing above it draws a background, so its plain text and the outlined "Continue with
   Apple" button otherwise take their colors from the bare native window instead of the theme (unreadable in dark mode).
-  Result text in a game's accent colors (success green, error maroon) goes through `legibleOn(background)`: the raw
-  colors sit at 1-2:1 on the dark game backgrounds (True/False and Territory Compare still use them raw).
+  Result text in the success green or the error maroon goes through `ColorScheme.successText()` / `errorText()`
+  (`Core/Theme/Theme.kt`): the raw colors sit at 1-2:1 on the dark game backgrounds, so they are lifted in lightness,
+  keeping their hue, until they reach 4.5:1 on the scheme's own background (unchanged where they already do).
 - Text sizes come from `MaterialTheme.typography`, never a literal `sp`/`fontSize`: Settings → Text size
   (`AppFontSize` in `Core/Theme/AppFontSize.kt` — Small 85%, Medium 100% = the original look and the default,
   Large 125%, on top of the device's own text size) scales the typography that `AppTheme` provides, and a

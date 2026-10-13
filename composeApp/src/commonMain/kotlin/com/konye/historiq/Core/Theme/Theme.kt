@@ -11,6 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.luminance
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 /** The app's fixed historical palette — used regardless of system light/dark setting. */
 object AppColors {
@@ -87,6 +90,40 @@ fun Color.legibleOn(background: Color, minContrast: Float = 3f): Color {
         else -> if (contrastRatio(lighter, background) >= contrastRatio(darker, background)) lighter else darker
     }
 }
+
+/**
+ * This color with its lightness raised (on a dark [background]) or lowered (on a light one) just until it reaches
+ * [minContrast], keeping its hue and saturation, so a red still reads as red and a green as green where [legibleOn]'s
+ * blend toward white would turn the error maroon into a dusty pink. Unchanged when it already reads.
+ */
+fun Color.liftedToRead(background: Color, minContrast: Float = MIN_TEXT_CONTRAST): Color {
+    if (contrastRatio(this, background) >= minContrast) return this
+    val high = max(red, max(green, blue))
+    val low = min(red, min(green, blue))
+    val spread = high - low
+    val lightness = (high + low) / 2f
+    val saturation = if (spread == 0f) 0f else spread / (1f - abs(2f * lightness - 1f))
+    val hue = when {
+        spread == 0f -> 0f
+        high == red -> 60f * (((green - blue) / spread + 6f) % 6f)
+        high == green -> 60f * ((blue - red) / spread + 2f)
+        else -> 60f * ((red - green) / spread + 4f)
+    }
+    val step = if (background.luminance() < 0.18f) 0.01f else -0.01f
+    var candidate = this
+    var level = lightness
+    while (level in 0f..1f && contrastRatio(candidate, background) < minContrast) {
+        level += step
+        candidate = Color.hsl(hue, saturation.coerceIn(0f, 1f), level.coerceIn(0f, 1f))
+    }
+    return candidate
+}
+
+/** The error color as text on this scheme's own background: the raw maroon is only 1-2:1 on the dark game colors. */
+fun ColorScheme.errorText(): Color = error.liftedToRead(background)
+
+/** [AppColors.Success] as text on this scheme's own background, for a correct answer. */
+fun ColorScheme.successText(): Color = AppColors.Success.liftedToRead(background)
 
 private const val ACCENT_SHIFT = 0.32f
 private const val MIN_ACCENT_SHIFT = 0.2f

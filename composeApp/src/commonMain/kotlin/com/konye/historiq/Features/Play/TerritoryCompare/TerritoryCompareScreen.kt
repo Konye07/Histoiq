@@ -46,6 +46,7 @@ import com.konye.historiq.Core.Network.retryNetwork
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
+import com.konye.historiq.Core.Theme.errorText
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyQuizRepository
@@ -496,7 +497,7 @@ private fun TerritoryResults(
                     Text(
                         StringsGamesFlagTerritoryBlindmap.territory_failed_here,
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.error
+                        color = MaterialTheme.colorScheme.errorText()
                     )
                 }
             }

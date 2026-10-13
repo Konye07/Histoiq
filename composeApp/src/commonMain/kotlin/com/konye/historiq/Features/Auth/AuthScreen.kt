@@ -36,6 +36,7 @@ import com.konye.historiq.Core.Localization.StringsAuthSettings
 import com.konye.historiq.Core.Network.networkOrElse
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.darken
+import com.konye.historiq.Core.Theme.errorText
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Account.AuthProviderType
 import com.konye.historiq.Data.Account.UserAccount
@@ -174,7 +175,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
                 Text(
                     message,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error,
+                    color = MaterialTheme.colorScheme.errorText(),
                     textAlign = TextAlign.Center
                 )
             }
