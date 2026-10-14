@@ -1,8 +1,15 @@
 package com.konye.historiq.Data.Quiz
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
+import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.atan2
+import kotlin.math.cos
 import kotlin.math.min
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 data class FlagColorCandidate(
     val hue: Int,
@@ -95,7 +102,8 @@ fun findFlagColorCandidates(originalBitmap: ImageBitmap): List<FlagColorCandidat
     val pixels = readArgbPixels(originalBitmap)
 
     val bucketCounts = DoubleArray(HUE_BUCKETS)
-    val bucketHueSum = DoubleArray(HUE_BUCKETS)
+    val bucketHueSin = DoubleArray(HUE_BUCKETS)
+    val bucketHueCos = DoubleArray(HUE_BUCKETS)
     val bucketSatSum = DoubleArray(HUE_BUCKETS)
     val bucketValSum = DoubleArray(HUE_BUCKETS)
     val hsv = FloatArray(3)
@@ -106,14 +114,17 @@ fun findFlagColorCandidates(originalBitmap: ImageBitmap): List<FlagColorCandidat
         if (isNeutral(hsv)) continue
         val bucket = hueBucket(hsv[0])
         bucketCounts[bucket] += 1.0
-        bucketHueSum[bucket] += hsv[0].toDouble()
+        val radians = hsv[0].toDouble() * PI / 180.0
+        bucketHueSin[bucket] += sin(radians)
+        bucketHueCos[bucket] += cos(radians)
         bucketSatSum[bucket] += hsv[1].toDouble()
         bucketValSum[bucket] += hsv[2].toDouble()
     }
 
     fun candidateFor(bucket: Int): FlagColorCandidate {
         val count = bucketCounts[bucket]
-        val hue = if (count > 0) bucketHueSum[bucket] / count else 0.0
+        // Averaged around the circle: reds sit on both sides of 0/360 (353 and 5), and their plain mean is 179, a cyan.
+        val hue = if (count > 0) (atan2(bucketHueSin[bucket], bucketHueCos[bucket]) * 180.0 / PI + 360.0) % 360.0 else 0.0
         val sat = if (count > 0) bucketSatSum[bucket] / count else 0.5
         val value = if (count > 0) bucketValSum[bucket] / count else 0.5
         return FlagColorCandidate(
@@ -145,6 +156,65 @@ fun findFlagColorCandidates(originalBitmap: ImageBitmap): List<FlagColorCandidat
             hue = (sumHue / total).toInt().coerceIn(0, 359),
             saturation = ((sumSat / total) * 100).toInt().coerceIn(0, 100),
             brightness = ((sumVal / total) * 100).toInt().coerceIn(0, 100)
+        )
+    )
+}
+
+private const val INV_SQRT_2 = 0.70710678f
+private const val INV_SQRT_3 = 0.57735027f
+private const val INV_SQRT_6 = 0.40824829f
+
+/** Where the fully saturated color of [hue] points around the gray axis of the RGB cube, in radians. */
+private fun chromaAngle(hue: Float): Float {
+    val c = Color.hsv(hue, 1f, 1f)
+    return atan2((c.green - c.blue) * INV_SQRT_2, (2f * c.red - c.green - c.blue) * INV_SQRT_6)
+}
+
+/** How far a color is from the gray axis of the RGB cube. */
+private fun chromaLength(c: Color): Float {
+    val mean = (c.red + c.green + c.blue) / 3f
+    val dr = c.red - mean
+    val dg = c.green - mean
+    val db = c.blue - mean
+    return sqrt(dr * dr + dg * dg + db * db)
+}
+
+/**
+ * The color matrix that turns a flag's target color into the player's guess while every other shade in the
+ * recolored region keeps its place relative to the target. Brightness is measured along the RGB cube's gray axis
+ * and vividness as the distance from it, so the matrix is a scale along the axis plus a scale and a turn around it:
+ * the guess's brightness and vividness over the target's, and the difference in hue. Applied to the original
+ * pixels it gives a guess equal to the target the original back exactly, and shows a flag's two reds (or a crest's
+ * shading) as two shades of whatever the guess is. A flat fill of the guess, which this replaces, could not.
+ * Hues are 0-360, saturations and brightnesses 0-1.
+ */
+fun flagRecolorMatrix(
+    targetHue: Float,
+    targetSaturation: Float,
+    targetBrightness: Float,
+    guessHue: Float,
+    guessSaturation: Float,
+    guessBrightness: Float
+): ColorMatrix {
+    val target = Color.hsv(targetHue, targetSaturation, targetBrightness)
+    val guess = Color.hsv(guessHue, guessSaturation, guessBrightness)
+    val targetSum = target.red + target.green + target.blue
+    val targetChroma = chromaLength(target)
+    val axisScale = if (targetSum > 1e-4f) (guess.red + guess.green + guess.blue) / targetSum else 1f
+    val chromaScale = if (targetChroma > 1e-4f) chromaLength(guess) / targetChroma else 1f
+    val turn = if (targetChroma > 1e-4f) chromaAngle(guessHue) - chromaAngle(targetHue) else 0f
+
+    val onAxis = axisScale / 3f
+    val aroundDiagonal = chromaScale * cos(turn) / 3f
+    val aroundSide = chromaScale * sin(turn) * INV_SQRT_3
+    val diagonal = onAxis + 2f * aroundDiagonal
+    val off = onAxis - aroundDiagonal
+    return ColorMatrix(
+        floatArrayOf(
+            diagonal, off - aroundSide, off + aroundSide, 0f, 0f,
+            off + aroundSide, diagonal, off - aroundSide, 0f, 0f,
+            off - aroundSide, off + aroundSide, diagonal, 0f, 0f,
+            0f, 0f, 0f, 1f, 0f
         )
     )
 }

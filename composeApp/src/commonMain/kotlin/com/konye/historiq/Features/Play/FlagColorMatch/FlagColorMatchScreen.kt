@@ -52,6 +52,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -89,6 +90,7 @@ import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.buildFlagColorAnalysis
 import com.konye.historiq.Data.Quiz.colorMatchScore
 import com.konye.historiq.Data.Quiz.findFlagColorCandidates
+import com.konye.historiq.Data.Quiz.flagRecolorMatrix
 import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.getDoubleList
 import com.konye.historiq.Data.Quiz.getIntList
@@ -322,7 +324,6 @@ private fun FlagColorQuestion(
     onSubmit: () -> Unit,
     onNext: () -> Unit
 ) {
-    val sliderColor = Color.hsv(hue, saturation / 100f, brightness / 100f)
     val aspect = analysis.baseBitmap.width.toFloat() / analysis.baseBitmap.height.toFloat()
 
     Column(
@@ -339,7 +340,9 @@ private fun FlagColorQuestion(
         if (!revealed) {
             RecoloredFlag(
                 analysis = analysis,
-                sliderColor = sliderColor,
+                hue = hue,
+                saturation = saturation,
+                brightness = brightness,
                 aspectRatio = aspect,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -349,7 +352,9 @@ private fun FlagColorQuestion(
                     Text(StringsGamesFlagTerritoryBlindmap.flag_your_guess, style = MaterialTheme.typography.labelSmall)
                     RecoloredFlag(
                         analysis = analysis,
-                        sliderColor = sliderColor,
+                        hue = hue,
+                        saturation = saturation,
+                        brightness = brightness,
                         aspectRatio = aspect,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -438,13 +443,32 @@ private fun FlagColorQuestion(
     }
 }
 
+/**
+ * The flag with its target-colored region shown as the guess: the original pixels of that region run through
+ * [flagRecolorMatrix], so shades inside it (a flag's two reds, a crest's shading) stay two shades instead of
+ * becoming one flat fill. The rest of the flag is drawn over it from [FlagColorAnalysis.baseBitmap].
+ */
 @Composable
 private fun RecoloredFlag(
     analysis: FlagColorAnalysis,
-    sliderColor: Color,
+    hue: Float,
+    saturation: Float,
+    brightness: Float,
     aspectRatio: Float,
     modifier: Modifier = Modifier
 ) {
+    val recolor = remember(analysis, hue, saturation, brightness) {
+        ColorFilter.colorMatrix(
+            flagRecolorMatrix(
+                targetHue = analysis.targetHue.toFloat(),
+                targetSaturation = analysis.targetSaturation / 100f,
+                targetBrightness = analysis.targetBrightness / 100f,
+                guessHue = hue,
+                guessSaturation = saturation / 100f,
+                guessBrightness = brightness / 100f
+            )
+        )
+    }
     Box(
         modifier
             .aspectRatio(aspectRatio)
@@ -456,8 +480,9 @@ private fun RecoloredFlag(
                 .fillMaxSize()
                 .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
         ) {
-            drawImage(analysis.maskBitmap, dstSize = IntSize(size.width.roundToInt(), size.height.roundToInt()))
-            drawRect(color = sliderColor, blendMode = BlendMode.SrcIn)
+            val target = IntSize(size.width.roundToInt(), size.height.roundToInt())
+            drawImage(analysis.maskBitmap, dstSize = target)
+            drawImage(analysis.originalBitmap, dstSize = target, colorFilter = recolor, blendMode = BlendMode.SrcIn)
         }
         Image(
             bitmap = analysis.baseBitmap,
@@ -639,18 +664,15 @@ private fun FlagColorResults(
                 Text(flag.localizedName(LocalAppLanguage.current.code), style = MaterialTheme.typography.bodyMedium)
                 Text(StringsGamesFlagTerritoryBlindmap.flag_score_pts(formatFixed(scores.getOrNull(i) ?: 0.0, 2)), style = MaterialTheme.typography.bodySmall)
                 if (analysis != null) {
-                    val guessColor = Color.hsv(
-                        (guessHues.getOrNull(i) ?: analysis.targetHue).toFloat(),
-                        (guessSaturations.getOrNull(i) ?: analysis.targetSaturation) / 100f,
-                        (guessBrightnesses.getOrNull(i) ?: analysis.targetBrightness) / 100f
-                    )
                     val aspect = analysis.baseBitmap.width.toFloat() / analysis.baseBitmap.height.toFloat()
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(StringsGamesFlagTerritoryBlindmap.flag_your_guess, style = MaterialTheme.typography.labelSmall)
                             RecoloredFlag(
                                 analysis = analysis,
-                                sliderColor = guessColor,
+                                hue = (guessHues.getOrNull(i) ?: analysis.targetHue).toFloat(),
+                                saturation = (guessSaturations.getOrNull(i) ?: analysis.targetSaturation).toFloat(),
+                                brightness = (guessBrightnesses.getOrNull(i) ?: analysis.targetBrightness).toFloat(),
                                 aspectRatio = aspect,
                                 modifier = Modifier.fillMaxWidth()
                             )

@@ -387,6 +387,17 @@ line and numbered like the list below it, framed on all of them to begin with. P
 the page's own scroll (`detectMapGestures`) so the map never traps a scroll. The bundled map is only 1280 px wide, so
 the coastline goes soft past about 16x; a sharper picture would be a new Wikimedia Commons asset (needs the owner's OK).
 
+**Officer-of-Arms recolor** (`Data/Quiz/FlagImageAnalysis.kt`, `RecoloredFlag` in `FlagColorMatchScreen.kt`): the target
+color's region is every non-neutral pixel within 25° of the target hue, whatever its saturation or brightness, and it is
+drawn from the *original pixels* through `flagRecolorMatrix`, not as a flat fill: one 3x3 color matrix that scales a
+pixel's brightness and vividness by guess over target and turns its hue by the difference. So the shades inside the
+region keep their relation to each other (Mysore's two reds stay two greens) and a guess equal to the target gives the
+original back exactly. `findFlagColorCandidates` averages hues around the circle: reds sit on both sides of 0/360, and
+a plain mean once put California Republic's red at 85°, Bulgaria's at 70° and the Soviet Union 1922's at 26°, so their
+region was empty or wrong. Candidate order and bucket shares must not change (the day's target is picked from them with
+a seeded `Random`, so every device must see the same list). Courland and Sicily have no color at all (black on white),
+so there is nothing to recolor in them.
+
 ## Era game modes
 
 Annalist, Herald and Chancellor (`GameKeys.ERA_FILTERABLE` — the only banks whose questions carry a
