@@ -395,8 +395,9 @@ region keep their relation to each other (Mysore's two reds stay two greens) and
 original back exactly. `findFlagColorCandidates` averages hues around the circle: reds sit on both sides of 0/360, and
 a plain mean once put California Republic's red at 85°, Bulgaria's at 70° and the Soviet Union 1922's at 26°, so their
 region was empty or wrong. Candidate order and bucket shares must not change (the day's target is picked from them with
-a seeded `Random`, so every device must see the same list). Courland and Sicily have no color at all (black on white),
-so there is nothing to recolor in them.
+a seeded `Random`, so every device must see the same list). Courland and Sicily had no color at all (black on white), so
+nothing in them could be recolored; they were removed from the bank on 2026-10-14
+(`supabase/question_banks/20261014_remove_monochrome_flags.sql`). A new flag needs at least one real color.
 
 ## Era game modes
 
