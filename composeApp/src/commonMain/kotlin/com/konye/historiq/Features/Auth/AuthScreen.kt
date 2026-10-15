@@ -16,7 +16,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -31,16 +30,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.konye.historiq.Core.Auth.AppleSignInButton
 import com.konye.historiq.Core.Auth.showAppleSignInButton
 import com.konye.historiq.Core.Localization.StringsAuthSettings
 import com.konye.historiq.Core.Network.networkOrElse
 import com.konye.historiq.Core.Theme.AppColors
+import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.darken
 import com.konye.historiq.Core.Theme.errorText
 import com.konye.historiq.Data.Account.AccountRepository
 import com.konye.historiq.Data.Account.AuthProviderType
 import com.konye.historiq.Data.Account.UserAccount
 import kotlinx.coroutines.launch
+
+/** The same for all three sign-in buttons: Apple asks that its button is never smaller than the others. */
+private val AUTH_BUTTON_HEIGHT = 48.dp
 
 @Composable
 fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) {
@@ -82,8 +86,8 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
         }
     }
 
-    // Nothing above this screen paints a background, so without its own surface the text and the
-    // outlined Apple button sat on whatever the window was (white or black) instead of the theme's.
+    // Nothing above this screen paints a background, so without its own surface its text sat on
+    // whatever the window was (white or black) instead of the theme's.
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -118,7 +122,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
             Button(
                 onClick = { continueWithGoogle() },
                 enabled = loadingProvider == null,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().height(AUTH_BUTTON_HEIGHT)
             ) {
                 if (loadingProvider == AuthProviderType.GOOGLE) {
                     CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
@@ -130,20 +134,13 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
             if (showAppleSignInButton) {
                 Spacer(Modifier.height(12.dp))
 
-                val appleContent = MaterialTheme.colorScheme.onBackground
-                OutlinedButton(
+                AppleSignInButton(
                     onClick = { continueWithApple() },
                     enabled = loadingProvider == null,
-                    // The default content color is the accent (Tan), only about 3:1 on the light theme's cream.
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = appleContent),
+                    darkTheme = LocalIsDarkTheme.current,
+                    height = AUTH_BUTTON_HEIGHT,
                     modifier = Modifier.fillMaxWidth()
-                ) {
-                    if (loadingProvider == AuthProviderType.APPLE) {
-                        CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp, color = appleContent)
-                    } else {
-                        Text(StringsAuthSettings.auth_continue_with_apple)
-                    }
-                }
+                )
             }
 
             Spacer(Modifier.height(12.dp))
@@ -157,7 +154,7 @@ fun AuthScreen(onAuthenticated: () -> Unit, onContinueAsGuest: () -> Unit = {}) 
                     containerColor = AppColors.SlateBlue.darken(0.35f),
                     contentColor = AppColors.Cream
                 ),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().height(AUTH_BUTTON_HEIGHT)
             ) {
                 if (loadingProvider == AuthProviderType.FACEBOOK) {
                     CircularProgressIndicator(

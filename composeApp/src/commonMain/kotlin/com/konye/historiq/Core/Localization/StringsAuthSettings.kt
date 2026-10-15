@@ -33,16 +33,6 @@ object StringsAuthSettings {
             AppLanguage.HU -> "Folytatás Google-lal"
         }
 
-    val auth_continue_with_apple: String
-        @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Continue with Apple"
-            AppLanguage.ES -> "Continuar con Apple"
-            AppLanguage.FR -> "Continuer avec Apple"
-            AppLanguage.DE -> "Weiter mit Apple"
-            AppLanguage.IT -> "Continua con Apple"
-            AppLanguage.HU -> "Folytatás Apple-lel"
-        }
-
     val auth_continue_with_facebook: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Continue with Facebook"

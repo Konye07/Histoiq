@@ -195,7 +195,10 @@ identity token to that same anonymous session rather than replacing it (see "Gue
 below), so any guest-mode progress carries over. "Continue with Apple" is real
 too, but iOS-only: native `AuthenticationServices` via direct cinterop (`AppleSignIn.ios.kt`) — the
 button is hidden entirely on Android (`showAppleSignInButton`), where `signInWithApple` is
-structurally unreachable. `AuthProvider.kt`'s `mockSignIn` still exists but is now only a defensive
+structurally unreachable. The button itself is Apple's own `ASAuthorizationAppleIDButton` in a `UIKitView`
+(`AppleSignInButton.ios.kt`; black on a light theme, white on a dark one, only its corner radius adjusted): App
+Review rejected build 7 (2026-10-15, Guideline 4) for the earlier Material text button, because Sign in with Apple
+must use Apple's artwork and layout. Don't go back to a hand-drawn button. `AuthProvider.kt`'s `mockSignIn` still exists but is now only a defensive
 fallback for the `NotImplementedOnThisPlatform` outcome branches in `AccountRepository.kt` — not
 the live path behind either real button anymore. Guest mode gets this same anonymous session too,
 via `AccountRepository.ensureAnonymousSession()` — it only skips attaching a display identity. So a
