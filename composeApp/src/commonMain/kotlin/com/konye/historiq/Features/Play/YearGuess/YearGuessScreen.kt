@@ -65,10 +65,13 @@ import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.ActiveEra
+import com.konye.historiq.Data.Quiz.BattleLeg
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyDistribution
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.HistoricalEvent
+import com.konye.historiq.Data.Quiz.YEAR_GUESS_GOOD_SCORE
+import com.konye.historiq.Data.Quiz.battleAverageScore
 import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.getDoubleList
@@ -78,6 +81,7 @@ import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
 import com.konye.historiq.Data.Quiz.yearGuessScore
+import com.konye.historiq.Features.Play.Shared.BattleLegFinished
 import com.konye.historiq.Features.Play.Shared.GameBarTitle
 import com.konye.historiq.Features.Play.Shared.GuessQuestionLayout
 import com.konye.historiq.Features.Play.Shared.HintAction
@@ -148,12 +152,17 @@ private suspend fun persist(modeKey: String, ids: List<String>, guesses: List<In
     })
 }
 
-/** Data stores signed years: negative is BCE, positive (or zero) is AD. */
+/**
+ * Data stores signed years: negative is BCE, positive (or zero) is AD. [battle] is set when this is the Annalist's
+ * question of the Daily Battle: a round of just that one event, drawn and saved under the battle's key (never in an
+ * era), counted as the battle's question [BattleLeg.number] of [BattleLeg.total], and handing its score to the battle
+ * instead of showing results of its own.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun YearGuessScreen(onBack: () -> Unit = {}) {
-    val era = remember { ActiveEra.current() }
-    val modeKey = remember { GameKeys.modeKey(GAME_KEY, era) }
+fun YearGuessScreen(onBack: () -> Unit = {}, battle: BattleLeg? = null) {
+    val era = remember { if (battle == null) ActiveEra.current() else null }
+    val modeKey = remember { battle?.progressKey ?: GameKeys.modeKey(GAME_KEY, era) }
     var events by remember { mutableStateOf<List<HistoricalEvent>>(emptyList()) }
     var questionIndex by remember { mutableStateOf(0) }
     var guessText by remember { mutableStateOf("") }
@@ -165,7 +174,7 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
     val scores = remember { mutableStateListOf<Double>() }
 
     LaunchedEffect(Unit) {
-        val resume = resumeOrStartQuiz(modeKey, QUESTIONS_PER_ROUND, { it.id }, ::loadHistoricalEvents)
+        val resume = resumeOrStartQuiz(modeKey, if (battle != null) 1 else QUESTIONS_PER_ROUND, { it.id }, ::loadHistoricalEvents)
         events = resume.questions
         resume.resumedState?.let { stored ->
             guesses.addAll(stored.getIntList("guesses"))
@@ -179,7 +188,7 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { GameBarTitle(StringsGamesYearguessCasualties.yearguess_title, era) },
+                    title = { GameBarTitle(StringsGamesYearguessCasualties.yearguess_title, era, battle) },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
                             Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = StringsGamesYearguessCasualties.yearguess_back_cd)
@@ -207,7 +216,9 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
                 when {
                     events.isEmpty() -> HistoriqLoadingIndicator()
                     questionIndex >= events.size -> {
-                        if (resumedAlreadyDone) {
+                        if (battle != null) {
+                            BattleLegFinished(battle, battleAverageScore(scores, 100.0, 1000.0))
+                        } else if (resumedAlreadyDone) {
                             YearGuessResults(modeKey, events, guesses, scores, onBack)
                         } else {
                             AdGatedResults { YearGuessResults(modeKey, events, guesses, scores, onBack) }
@@ -218,8 +229,8 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
                         YearGuessQuestion(
                             modeKey = modeKey,
                             event = current,
-                            questionNumber = questionIndex + 1,
-                            totalQuestions = events.size,
+                            questionNumber = battle?.number ?: (questionIndex + 1),
+                            totalQuestions = battle?.total ?: events.size,
                             guessText = guessText,
                             isBce = isBce,
                             revealed = revealed,
@@ -232,9 +243,9 @@ fun YearGuessScreen(onBack: () -> Unit = {}) {
                                 val magnitude = guessText.toIntOrNull() ?: return@YearGuessQuestion
                                 val guess = if (isBce) -magnitude else magnitude
                                 guesses.add(guess)
-                                val score = yearGuessScore(guess, current.correctYear, current.difficulty)
+                                val score = yearGuessScore(guess, current.correctYear)
                                 scores.add(score)
-                                if (score >= 550.0) { Haptics.correct(); BubbleSoundPlayer.playCorrectChirp() } else { Haptics.wrong(); BubbleSoundPlayer.playWrongTone() }
+                                if (score >= YEAR_GUESS_GOOD_SCORE) { Haptics.correct(); BubbleSoundPlayer.playCorrectChirp() } else { Haptics.wrong(); BubbleSoundPlayer.playWrongTone() }
                                 revealed = true
                             },
                             onNext = {

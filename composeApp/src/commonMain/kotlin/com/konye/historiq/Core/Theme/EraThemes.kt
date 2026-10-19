@@ -149,6 +149,7 @@ object EraThemes {
 
     /** The all-time card pictures — also what an era's card falls back to until the era has its own. */
     fun allTimeLogoAsset(gameKey: String): String = when (gameKey) {
+        GameKeys.DAILY_BATTLE -> "images/menulogos/00the_battle.png"
         GameKeys.YEAR_GUESS -> "images/menulogos/01guess_year.png"
         GameKeys.CASUALTIES_MULTIPLIER -> "images/menulogos/02casualities.png"
         GameKeys.FLAG_COLOR_MATCH -> "images/menulogos/03paint_flag.png"

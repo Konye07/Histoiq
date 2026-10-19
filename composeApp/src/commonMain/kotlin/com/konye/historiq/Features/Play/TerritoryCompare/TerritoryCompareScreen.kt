@@ -40,6 +40,7 @@ import com.konye.historiq.Core.Formatting.formatWithCommas
 import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Haptics.Haptics
 import com.konye.historiq.Core.Localization.LocalAppLanguage
+import com.konye.historiq.Core.Localization.StringsDailyBattle
 import com.konye.historiq.Core.Localization.StringsGamesFlagTerritoryBlindmap
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Network.retryNetwork
@@ -48,14 +49,18 @@ import com.konye.historiq.Core.Theme.GameBackgroundArt
 import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.errorText
 import com.konye.historiq.Core.Theme.gameColorScheme
+import com.konye.historiq.Data.Quiz.BattleLeg
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyQuizRepository
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.TerritoryCountry
+import com.konye.historiq.Data.Quiz.battleSurvivalScore
 import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.loadTerritories
 import com.konye.historiq.Data.Quiz.rememberLiveRank
+import com.konye.historiq.Features.Play.Shared.BattleLegFinished
+import com.konye.historiq.Features.Play.Shared.GameBarTitle
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
@@ -69,15 +74,6 @@ import org.jetbrains.compose.resources.painterResource
 
 private const val ROUNDS_TO_WIN = 10
 private const val PROGRESS_KEY = GameKeys.TERRITORY_COMPARE
-
-/**
- * Exactly enough for one perfect run: the initial champion plus one new challenger per round
- * (10). Tie-skip retries don't need extra headroom beyond this — [drawNext] reshuffles the same
- * pool back into the queue once it empties rather than running out. Kept deliberately tight (not
- * a large buffer like the old 60) so the 4-day no-repeat window in get_or_create_daily_quiz is
- * actually honored: 11/day * 4 days = 44, comfortably under the 130-country catalog.
- */
-private const val DAILY_POOL_SIZE = ROUNDS_TO_WIN + 1
 
 @Serializable
 private data class HistoryEntry(
@@ -168,6 +164,7 @@ private fun buildUnplayedRounds(
 }
 
 private suspend fun persist(
+    progressKey: String,
     championId: String,
     challengerId: String,
     queueIds: List<String>,
@@ -177,16 +174,26 @@ private suspend fun persist(
     history: List<HistoryEntry>
 ) {
     val state = TerritoryProgressState(championId, challengerId, queueIds, round, finished, won, history)
-    QuizProgressStore.save(PROGRESS_KEY, Json.encodeToJsonElement(state).jsonObject)
+    QuizProgressStore.save(progressKey, Json.encodeToJsonElement(state).jsonObject)
 }
 
+/**
+ * [battle] is set when this is the Cosmographer's question of the Daily Battle: one comparison of two countries, with
+ * no survival run behind it (see the Annalist screen).
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
+fun TerritoryCompareScreen(onBack: () -> Unit = {}, battle: BattleLeg? = null) {
+    val progressKey = remember { battle?.progressKey ?: PROGRESS_KEY }
+    val roundsToWin = if (battle != null) 1 else ROUNDS_TO_WIN
     var allCountries by remember { mutableStateOf<List<TerritoryCountry>>(emptyList()) }
     val queue = remember { mutableListOf<TerritoryCountry>() }
     val history = remember { mutableStateListOf<HistoryEntry>() }
-    val dailyRandom = remember { Random(DailyClock.todayKey().hashCode().toLong()) }
+    // The plain game's seed must stay exactly the date's hash (every app version shuffles a day's pool the same way);
+    // the battle's own pool needs only a seed of its own.
+    val dailyRandom = remember {
+        Random((if (battle == null) DailyClock.todayKey() else DailyClock.todayKey() + ":" + progressKey).hashCode().toLong())
+    }
 
     var champion by remember { mutableStateOf<TerritoryCountry?>(null) }
     var challenger by remember { mutableStateOf<TerritoryCountry?>(null) }
@@ -204,7 +211,11 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
 
     LaunchedEffect(Unit) {
         val dateKey = DailyClock.todayKey()
-        val ids = retryNetwork { DailyQuizRepository.getOrCreate(PROGRESS_KEY, dateKey, DAILY_POOL_SIZE) }
+        // Exactly enough for one perfect run: the initial champion plus one new challenger per round. Tie-skip retries
+        // need no extra headroom — [drawNext] reshuffles the same pool back into the queue once it empties. Kept
+        // tight (not a large buffer like the old 60) so the picker's no-repeat window is honored: 11 a day is already
+        // a tenth of the catalog.
+        val ids = retryNetwork { DailyQuizRepository.getOrCreate(progressKey, dateKey, roundsToWin + 1) }
         val pool = retryNetwork { loadTerritories(ids) }
         allCountries = pool
         // Below 2, no non-self matchup is possible at all — bail to the loading state instead of
@@ -212,7 +223,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
         // looked like in practice: a real production incident, see the 2026-09-25 fix).
         if (pool.size < 2) return@LaunchedEffect
 
-        val stored = retryNetwork { QuizProgressStore.load(PROGRESS_KEY) }
+        val stored = retryNetwork { QuizProgressStore.load(progressKey) }
         val state = stored?.let { Json.decodeFromJsonElement<TerritoryProgressState>(it) }
         val resumedChampion = state?.let { s -> pool.find { it.id == s.championId } }
         val resumedChallenger = state?.let { s -> pool.find { it.id == s.challengerId } }
@@ -237,7 +248,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
             champion = champ
             challenger = chall
             round = 1
-            persist(champ.id, chall.id, queue.map { it.id }, 1, false, false, emptyList())
+            persist(progressKey, champ.id, chall.id, queue.map { it.id }, 1, false, false, emptyList())
         }
     }
 
@@ -245,7 +256,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(StringsGamesFlagTerritoryBlindmap.territory_title) },
+                title = { GameBarTitle(StringsGamesFlagTerritoryBlindmap.territory_title, null, battle) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = StringsGamesFlagTerritoryBlindmap.territory_back)
@@ -267,6 +278,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
             val ch = challenger
             when {
                 c == null || ch == null -> HistoriqLoadingIndicator()
+                showResults && battle != null -> BattleLegFinished(battle, battleSurvivalScore(history.count { it.correct }, roundsToWin))
                 showResults && resumedAlreadyDone -> TerritoryResults(
                     won = won,
                     history = history,
@@ -288,7 +300,9 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
                 else -> TerritoryQuestion(
                     champion = c,
                     challenger = ch,
-                    round = round,
+                    round = battle?.number ?: round,
+                    totalRounds = battle?.total ?: ROUNDS_TO_WIN,
+                    inBattle = battle != null,
                     revealed = revealed,
                     pickedChampionSide = pickedChampionSide,
                     correct = correct,
@@ -304,7 +318,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
 
                         if (!isCorrect) {
                             won = false
-                        } else if (round == ROUNDS_TO_WIN) {
+                        } else if (round == roundsToWin) {
                             won = true
                         } else {
                             // The older country (champion) is always retired; the challenger it just faced
@@ -317,7 +331,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
                         }
                     },
                     onContinue = {
-                        if (!correct || round == ROUNDS_TO_WIN) {
+                        if (!correct || round == roundsToWin) {
                             showResults = true
                         } else {
                             champion = pendingChampion
@@ -336,7 +350,7 @@ fun TerritoryCompareScreen(onBack: () -> Unit = {}) {
         val c = champion
         val ch = challenger
         if (c != null && ch != null) {
-            persist(c.id, ch.id, queue.map { it.id }, round, showResults, won, history.toList())
+            persist(progressKey, c.id, ch.id, queue.map { it.id }, round, showResults, won, history.toList())
         }
     }
 }
@@ -346,6 +360,8 @@ private fun TerritoryQuestion(
     champion: TerritoryCountry,
     challenger: TerritoryCountry,
     round: Int,
+    totalRounds: Int,
+    inBattle: Boolean,
     revealed: Boolean,
     pickedChampionSide: Boolean,
     correct: Boolean,
@@ -357,7 +373,7 @@ private fun TerritoryQuestion(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text(StringsGamesFlagTerritoryBlindmap.territory_round_counter(round, ROUNDS_TO_WIN), style = MaterialTheme.typography.titleMedium)
+        Text(StringsGamesFlagTerritoryBlindmap.territory_round_counter(round, totalRounds), style = MaterialTheme.typography.titleMedium)
         Text(StringsGamesFlagTerritoryBlindmap.territory_question_prompt, style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -381,11 +397,16 @@ private fun TerritoryQuestion(
 
         if (revealed) {
             Text(
-                if (correct) StringsGamesFlagTerritoryBlindmap.territory_correct else StringsGamesFlagTerritoryBlindmap.territory_wrong_game_over,
+                when {
+                    correct -> StringsGamesFlagTerritoryBlindmap.territory_correct
+                    inBattle -> StringsDailyBattle.battle_wrong
+                    else -> StringsGamesFlagTerritoryBlindmap.territory_wrong_game_over
+                },
                 style = MaterialTheme.typography.bodyLarge
             )
             Button(onClick = onContinue) {
-                Text(if (!correct || round == ROUNDS_TO_WIN) StringsGamesFlagTerritoryBlindmap.territory_see_results else StringsGamesFlagTerritoryBlindmap.territory_next_round)
+                val last = if (inBattle) round == totalRounds else !correct || round == ROUNDS_TO_WIN
+                Text(if (last) StringsGamesFlagTerritoryBlindmap.territory_see_results else StringsGamesFlagTerritoryBlindmap.territory_next_round)
             }
         }
     }

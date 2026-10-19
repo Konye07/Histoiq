@@ -35,8 +35,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Haptics.Haptics
+import com.konye.historiq.Core.Localization.StringsDailyBattle
 import com.konye.historiq.Core.Localization.StringsEras
 import com.konye.historiq.Core.Localization.StringsHomeShared
+import com.konye.historiq.Data.Quiz.BattleLeg
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizEra
 import com.konye.historiq.generated.resources.Res
@@ -159,15 +161,21 @@ private fun EraPickerDialog(selected: QuizEra?, onSelect: (QuizEra?) -> Unit, on
     )
 }
 
-/** A game screen's app-bar title: the game's name, with the era underneath when the round is an era mode. */
+/**
+ * A game screen's app-bar title: the game's name, with the era underneath when the round is an era mode, or which game of
+ * the Daily Battle it is when it is played inside one.
+ */
 @Composable
-fun GameBarTitle(title: String, era: QuizEra?) {
-    if (era == null) {
+fun GameBarTitle(title: String, era: QuizEra?, battle: BattleLeg? = null) {
+    if (era == null && battle == null) {
         Text(title)
     } else {
         Column {
             Text(title)
-            Text(StringsEras.label(era), style = MaterialTheme.typography.labelMedium)
+            Text(
+                if (battle != null) StringsDailyBattle.battle_bar_title(battle.number, battle.total) else StringsEras.label(era),
+                style = MaterialTheme.typography.labelMedium
+            )
         }
     }
 }

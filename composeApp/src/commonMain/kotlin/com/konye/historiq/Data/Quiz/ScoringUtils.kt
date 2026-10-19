@@ -4,6 +4,7 @@ import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
+import kotlin.math.log10
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
@@ -23,14 +24,16 @@ fun formatThousands(value: Long): String {
     return if (negative) "-$grouped" else grouped
 }
 
-/**
- * Linear falloff from 1000 down to 100 over a difficulty-scaled tolerance window,
- * floored at 100 beyond that window.
- */
-fun yearGuessScore(guess: Int, correctYear: Int, difficulty: Int): Double {
-    val distance = abs(guess - correctYear).toDouble()
-    val tolerance = 30.0 + difficulty * 20.0
-    val raw = 1000.0 - (distance / tolerance) * 900.0
+/** A year guess this many years off (or more) scores the minimum. */
+const val YEAR_GUESS_WINDOW_YEARS = 200.0
+
+/** Score at or above which a year guess counts as a good one: within 50 years. */
+const val YEAR_GUESS_GOOD_SCORE = 775.0
+
+/** Linear falloff from 1000 down to 100 over [YEAR_GUESS_WINDOW_YEARS], floored at 100 beyond that. */
+fun yearGuessScore(guess: Int, correctYear: Int): Double {
+    val distance = abs(guess.toLong() - correctYear.toLong()).toDouble()
+    val raw = 1000.0 - (distance / YEAR_GUESS_WINDOW_YEARS) * 900.0
     return raw.coerceIn(100.0, 1000.0).roundTo2()
 }
 
@@ -105,3 +108,38 @@ fun mapPinpointScore(distanceKm: Double): Double {
     val raw = 1000.0 - (distanceKm / tolerance) * 900.0
     return raw.coerceIn(100.0, 1000.0).roundTo2()
 }
+
+/*
+ * The Daily Battle asks one question from each of six games and adds the six answers into one score, so each answer is
+ * first put on the same 0-1000 scale (every game keeps its own scoring inside its own screen; only the answered question
+ * is converted here). A perfect answer is 1000 in all six, a wrong one is 0 or the game's own minimum stretched to 0, and
+ * the battle's total is the sum: 0-6000. The functions take a list because a game's own round is a list of questions; the
+ * battle's round holds exactly one.
+ */
+
+/** Points one question can add to the Daily Battle. */
+const val BATTLE_GAME_MAX = 1000.0
+
+/** The battle holds one question per game, so its best possible score is six times a question's. */
+val BATTLE_MAX_SCORE: Double get() = GameKeys.ALL.size * BATTLE_GAME_MAX
+
+/** The average of per-question scores that run [lowest]-[highest] (Annalist and Chancellor 100-1000, Officer-of-Arms 1-10), stretched to 0-1000. */
+fun battleAverageScore(questionScores: List<Double>, lowest: Double, highest: Double): Double {
+    if (questionScores.isEmpty()) return 0.0
+    return ((questionScores.average() - lowest) / (highest - lowest) * BATTLE_GAME_MAX).coerceIn(0.0, BATTLE_GAME_MAX).roundTo2()
+}
+
+/**
+ * Herald's score is its multiplier (1 is exact, higher is worse, with no upper limit; a round of several questions is
+ * scored by the geometric mean of theirs). A hundredfold miss or worse is 0, exact is 1000, and each doubling of the
+ * multiplier costs the same: 3x off is about 760, 10x about 500.
+ */
+fun battleCasualtiesScore(multipliers: List<Double>): Double {
+    if (multipliers.isEmpty()) return 0.0
+    val geometricMean = geometricMeanMultiplier(multipliers)
+    return (BATTLE_GAME_MAX * (1.0 - log10(geometricMean) / 2.0)).coerceIn(0.0, BATTLE_GAME_MAX).roundTo2()
+}
+
+/** Cosmographer and Chronicler: the share of the [rounds] answered right (the battle's one question is all or nothing). */
+fun battleSurvivalScore(correct: Int, rounds: Int): Double =
+    (correct.toDouble() / rounds * BATTLE_GAME_MAX).coerceIn(0.0, BATTLE_GAME_MAX).roundTo2()

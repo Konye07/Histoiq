@@ -2,6 +2,7 @@ package com.konye.historiq.Features.Play
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -61,6 +62,7 @@ import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Feedback.RateAppPrompt
 import com.konye.historiq.Core.Formatting.formatTwoDigits
 import com.konye.historiq.Core.Haptics.Haptics
+import com.konye.historiq.Core.Localization.StringsDailyBattle
 import com.konye.historiq.Core.Localization.StringsEras
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Localization.StringsRateApp
@@ -78,11 +80,13 @@ import com.konye.historiq.Core.Theme.contrastingOn
 import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.ActiveEra
+import com.konye.historiq.Data.Quiz.BATTLE_MAX_SCORE
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.GameStreak
 import com.konye.historiq.Data.Quiz.QuizEra
 import com.konye.historiq.Data.Quiz.StreakStore
+import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
 import com.konye.historiq.Features.Play.Shared.EraModeStrip
 import com.konye.historiq.generated.resources.Res
@@ -108,6 +112,7 @@ private data class QuizMode(
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun PlayScreen(
+    onSelectDailyBattle: () -> Unit = {},
     onSelectYearGuess: () -> Unit = {},
     onSelectCasualtiesMultiplier: () -> Unit = {},
     onSelectFlagColorMatch: () -> Unit = {},
@@ -129,6 +134,16 @@ fun PlayScreen(
             eraQuizMode(current, GameKeys.BLIND_MAP_BATTLE, StringsHomeShared.home_desc_blind_map_battle, onSelectBlindMapBattle)
         )
     } ?: listOf(
+        QuizMode(
+            key = GameKeys.DAILY_BATTLE,
+            roleName = GameKeys.roleName(GameKeys.DAILY_BATTLE),
+            title = GameKeys.title(GameKeys.DAILY_BATTLE),
+            description = StringsDailyBattle.battle_intro(formatThousands(BATTLE_MAX_SCORE.toLong())),
+            color = GameKeys.color(GameKeys.DAILY_BATTLE),
+            logoAsset = EraThemes.allTimeLogoAsset(GameKeys.DAILY_BATTLE),
+            enabled = true,
+            onClick = onSelectDailyBattle
+        ),
         QuizMode(
             key = GameKeys.YEAR_GUESS,
             roleName = GameKeys.roleName(GameKeys.YEAR_GUESS),
@@ -250,7 +265,15 @@ fun PlayScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 era?.let { current -> item { EraModeHeader(current, banner) } }
-                items(modes) { mode -> QuizModeCard(mode, logos[mode.logoAsset], torch, streaks[GameKeys.modeKey(mode.key, era)]) }
+                items(modes) { mode ->
+                    QuizModeCard(
+                        mode,
+                        logos[mode.logoAsset],
+                        torch,
+                        streaks[GameKeys.modeKey(mode.key, era)],
+                        highlighted = mode.key == GameKeys.DAILY_BATTLE
+                    )
+                }
                 item { SuggestionPanel() }
             }
         }
@@ -427,11 +450,13 @@ private fun SuggestionPanel() {
     }
 }
 
+/** [highlighted] sets a card apart from the rest of the list (the Daily Battle's): raised, edged and with a larger picture. */
 @Composable
-private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?, streak: GameStreak?) {
+private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?, streak: GameStreak?, highlighted: Boolean = false) {
     var showInfo by remember { mutableStateOf(false) }
     var showStreakInfo by remember { mutableStateOf(false) }
     val textColor = contrastingOn(mode.color)
+    val logoHeight = if (highlighted) 140.dp else 110.dp
 
     Card(
         modifier = Modifier
@@ -442,7 +467,9 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?
             },
         colors = CardDefaults.cardColors(
             containerColor = if (mode.enabled) mode.color else mode.color.copy(alpha = 0.45f)
-        )
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = if (highlighted) 10.dp else 1.dp),
+        border = if (highlighted) BorderStroke(3.dp, MaterialTheme.colorScheme.onBackground.copy(alpha = 0.85f)) else null
     ) {
         Box(Modifier.fillMaxWidth()) {
             if (streak != null && streak.days > 0) {
@@ -460,7 +487,7 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?
                     .padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(Modifier.height(110.dp), contentAlignment = Alignment.Center) {
+                Box(Modifier.height(logoHeight), contentAlignment = Alignment.Center) {
                     if (logo != null) {
                         val aspect = logo.width.toFloat() / logo.height.toFloat()
                         Image(
@@ -468,7 +495,7 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?
                             contentDescription = mode.roleName,
                             contentScale = ContentScale.Fit,
                             modifier = Modifier
-                                .height(110.dp)
+                                .height(logoHeight)
                                 .aspectRatio(aspect)
                         )
                     } else {

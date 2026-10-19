@@ -54,10 +54,12 @@ import com.konye.historiq.Core.Theme.dimmedOn
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.ActiveEra
 import com.konye.historiq.Data.Quiz.BattleCasualty
+import com.konye.historiq.Data.Quiz.BattleLeg
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyDistribution
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
+import com.konye.historiq.Data.Quiz.battleCasualtiesScore
 import com.konye.historiq.Data.Quiz.casualtyMultiplier
 import com.konye.historiq.Data.Quiz.geometricMeanMultiplier
 import com.konye.historiq.Data.Quiz.formatThousands
@@ -66,6 +68,7 @@ import com.konye.historiq.Data.Quiz.getLongList
 import com.konye.historiq.Data.Quiz.loadBattleCasualties
 import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
+import com.konye.historiq.Features.Play.Shared.BattleLegFinished
 import com.konye.historiq.Features.Play.Shared.GameBarTitle
 import com.konye.historiq.Features.Play.Shared.GuessQuestionLayout
 import com.konye.historiq.Features.Play.Shared.HintAction
@@ -135,11 +138,12 @@ private suspend fun persist(modeKey: String, ids: List<String>, guesses: List<Lo
     })
 }
 
+/** [battle] is set when this is the Herald's question of the Daily Battle: one battle (see the Annalist screen). */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
-    val era = remember { ActiveEra.current() }
-    val modeKey = remember { GameKeys.modeKey(GAME_KEY, era) }
+fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}, battle: BattleLeg? = null) {
+    val era = remember { if (battle == null) ActiveEra.current() else null }
+    val modeKey = remember { battle?.progressKey ?: GameKeys.modeKey(GAME_KEY, era) }
     var battles by remember { mutableStateOf<List<BattleCasualty>>(emptyList()) }
     var questionIndex by remember { mutableStateOf(0) }
     var guessText by remember { mutableStateOf("") }
@@ -150,7 +154,7 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
     val multipliers = remember { mutableStateListOf<Double>() }
 
     LaunchedEffect(Unit) {
-        val resume = resumeOrStartQuiz(modeKey, QUESTIONS_PER_ROUND, { it.id }, ::loadBattleCasualties)
+        val resume = resumeOrStartQuiz(modeKey, if (battle != null) 1 else QUESTIONS_PER_ROUND, { it.id }, ::loadBattleCasualties)
         battles = resume.questions
         resume.resumedState?.let { stored ->
             guesses.addAll(stored.getLongList("guesses"))
@@ -164,7 +168,7 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { GameBarTitle(StringsGamesYearguessCasualties.casualties_title, era) },
+                    title = { GameBarTitle(StringsGamesYearguessCasualties.casualties_title, era, battle) },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
                             Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = StringsGamesYearguessCasualties.casualties_back_cd)
@@ -194,7 +198,9 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                 when {
                     battles.isEmpty() -> HistoriqLoadingIndicator()
                     questionIndex >= battles.size -> {
-                        if (resumedAlreadyDone) {
+                        if (battle != null) {
+                            BattleLegFinished(battle, battleCasualtiesScore(multipliers))
+                        } else if (resumedAlreadyDone) {
                             CasualtiesResults(modeKey, battles, guesses, multipliers, onBack)
                         } else {
                             AdGatedResults { CasualtiesResults(modeKey, battles, guesses, multipliers, onBack) }
@@ -205,8 +211,8 @@ fun CasualtiesMultiplierScreen(onBack: () -> Unit = {}) {
                         CasualtiesQuestion(
                             modeKey = modeKey,
                             battle = current,
-                            questionNumber = questionIndex + 1,
-                            totalQuestions = battles.size,
+                            questionNumber = battle?.number ?: (questionIndex + 1),
+                            totalQuestions = battle?.total ?: battles.size,
                             guessText = guessText,
                             revealed = revealed,
                             lastMultiplier = multipliers.getOrNull(questionIndex),

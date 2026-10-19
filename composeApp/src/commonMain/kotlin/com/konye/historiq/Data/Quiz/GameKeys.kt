@@ -7,6 +7,7 @@ import com.konye.historiq.Core.Localization.StringsEras
 import com.konye.historiq.Core.Localization.StringsGamekeys
 import com.konye.historiq.Core.Theme.AppColors
 import com.konye.historiq.Core.Theme.EraThemes
+import kotlin.math.roundToInt
 
 /**
  * Central registry of the six quizzes' progress-store keys, so Friends/Profile/Stats agree with each game screen.
@@ -20,12 +21,26 @@ object GameKeys {
     const val TRUE_FALSE = "true_false"
     const val BLIND_MAP_BATTLE = "blind_map_battle"
 
+    /**
+     * The Daily Battle: one question from each of the six games, scored together. Not a seventh game with questions of its
+     * own, so it is not in [ALL]; its combined score is stored under this key, each game's own question under [battleKey].
+     */
+    const val DAILY_BATTLE = "daily_battle"
+
     val ALL = listOf(YEAR_GUESS, CASUALTIES_MULTIPLIER, FLAG_COLOR_MATCH, TERRITORY_COMPARE, TRUE_FALSE, BLIND_MAP_BATTLE)
 
     /** The games whose questions each carry a year, so a [QuizEra] can filter them — the other three have no per-question date. */
     val ERA_FILTERABLE = setOf(YEAR_GUESS, CASUALTIES_MULTIPLIER, BLIND_MAP_BATTLE)
 
     private const val ERA_SEPARATOR = ':'
+    private const val BATTLE_SUFFIX = "battle"
+
+    /**
+     * The key one game's question inside the Daily Battle is drawn and saved under, "<game>:battle". Like an era mode
+     * key it is a game of its own to every table keyed by game (its own daily question set, saved progress and
+     * answer distribution), but it never gets a score_history row: only the combined [DAILY_BATTLE] score does.
+     */
+    fun battleKey(gameKey: String): String = "$gameKey$ERA_SEPARATOR$BATTLE_SUFFIX"
 
     /**
      * The key one game's rounds, scores, ranks and stats are stored under: the plain game key for
@@ -42,6 +57,7 @@ object GameKeys {
 
     @Composable
     fun roleName(key: String): String = when (baseKey(key)) {
+        DAILY_BATTLE -> StringsGamekeys.role_daily_battle
         YEAR_GUESS -> StringsGamekeys.role_annalist
         CASUALTIES_MULTIPLIER -> StringsGamekeys.role_herald
         FLAG_COLOR_MATCH -> StringsGamekeys.role_officer_of_arms
@@ -55,6 +71,7 @@ object GameKeys {
     @Composable
     fun title(key: String): String {
         val base = when (baseKey(key)) {
+            DAILY_BATTLE -> StringsGamekeys.title_daily_battle
             YEAR_GUESS -> StringsGamekeys.title_year_guess
             CASUALTIES_MULTIPLIER -> StringsGamekeys.title_casualties_multiplier
             FLAG_COLOR_MATCH -> StringsGamekeys.title_flag_color_match
@@ -75,6 +92,7 @@ object GameKeys {
         val era = eraOf(key)
         if (era != null) return EraThemes.palette(era, dark).forGame(baseKey(key))
         return when (baseKey(key)) {
+            DAILY_BATTLE -> AppColors.BattleGold
             YEAR_GUESS -> AppColors.SlateBlue
             CASUALTIES_MULTIPLIER -> AppColors.Maroon
             FLAG_COLOR_MATCH -> AppColors.OliveDark
@@ -87,6 +105,7 @@ object GameKeys {
 
     fun formatScore(key: String, score: Double): String = when (baseKey(key)) {
         CASUALTIES_MULTIPLIER -> "x" + formatFixed(score, 2)
+        DAILY_BATTLE -> formatThousands(score.roundToInt().toLong())
         else -> formatFixed(score, 2)
     }
 }

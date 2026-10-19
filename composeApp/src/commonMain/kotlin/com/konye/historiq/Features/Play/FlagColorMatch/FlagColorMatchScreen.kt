@@ -80,6 +80,7 @@ import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.errorText
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Core.Theme.successText
+import com.konye.historiq.Data.Quiz.BattleLeg
 import com.konye.historiq.Data.Quiz.DailyClock
 import com.konye.historiq.Data.Quiz.DailyQuizRepository
 import com.konye.historiq.Data.Quiz.FlagColor
@@ -87,6 +88,7 @@ import com.konye.historiq.Data.Quiz.FlagColorAnalysis
 import com.konye.historiq.Data.Quiz.FlagColorCandidate
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
+import com.konye.historiq.Data.Quiz.battleAverageScore
 import com.konye.historiq.Data.Quiz.buildFlagColorAnalysis
 import com.konye.historiq.Data.Quiz.colorMatchScore
 import com.konye.historiq.Data.Quiz.findFlagColorCandidates
@@ -98,6 +100,8 @@ import com.konye.historiq.Data.Quiz.getStringList
 import com.konye.historiq.Data.Quiz.loadFlagColors
 import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
+import com.konye.historiq.Features.Play.Shared.BattleLegFinished
+import com.konye.historiq.Features.Play.Shared.GameBarTitle
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
@@ -117,6 +121,7 @@ private const val QUESTIONS_PER_ROUND = 5
 private const val PROGRESS_KEY = GameKeys.FLAG_COLOR_MATCH
 
 private suspend fun persist(
+    progressKey: String,
     ids: List<String>,
     targetHues: List<Int>,
     targetSaturations: List<Int>,
@@ -126,7 +131,7 @@ private suspend fun persist(
     brightnesses: List<Int>,
     scores: List<Double>
 ) {
-    QuizProgressStore.save(PROGRESS_KEY, buildJsonObject {
+    QuizProgressStore.save(progressKey, buildJsonObject {
         put("ids", JsonArray(ids.map { JsonPrimitive(it) }))
         put("targetHues", JsonArray(targetHues.map { JsonPrimitive(it) }))
         put("targetSaturations", JsonArray(targetSaturations.map { JsonPrimitive(it) }))
@@ -138,9 +143,11 @@ private suspend fun persist(
     })
 }
 
+/** [battle] is set when this is the Officer-of-Arms' question of the Daily Battle: one flag (see the Annalist screen). */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
+fun FlagColorMatchScreen(onBack: () -> Unit = {}, battle: BattleLeg? = null) {
+    val progressKey = remember { battle?.progressKey ?: PROGRESS_KEY }
     var flags by remember { mutableStateOf<List<FlagColor>>(emptyList()) }
     var analysisByFlagId by remember { mutableStateOf<Map<String, FlagColorAnalysis>>(emptyMap()) }
     var questionIndex by remember { mutableStateOf(0) }
@@ -155,7 +162,7 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
     var resumedAlreadyDone by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        val stored = retryNetwork { QuizProgressStore.load(PROGRESS_KEY) }?.takeIf { "targetHues" in it }
+        val stored = retryNetwork { QuizProgressStore.load(progressKey) }?.takeIf { "targetHues" in it }
         val chosen: List<FlagColor>
         val targets: List<FlagColorCandidate>
         if (stored != null) {
@@ -174,7 +181,7 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
             resumedAlreadyDone = questionIndex >= chosen.size
         } else {
             val todayKey = DailyClock.todayKey()
-            val ids = retryNetwork { DailyQuizRepository.getOrCreate(PROGRESS_KEY, todayKey, QUESTIONS_PER_ROUND) }
+            val ids = retryNetwork { DailyQuizRepository.getOrCreate(progressKey, todayKey, if (battle != null) 1 else QUESTIONS_PER_ROUND) }
             val rows = retryNetwork { loadFlagColors(ids) }
             val newlyChosen = ids.mapNotNull { id -> rows.find { it.id == id } }
             chosen = newlyChosen
@@ -192,6 +199,7 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
                 }
             }
             persist(
+                progressKey,
                 chosen.map { it.id },
                 targets.map { it.hue },
                 targets.map { it.saturation },
@@ -213,7 +221,7 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(StringsGamesFlagTerritoryBlindmap.flag_title) },
+                title = { GameBarTitle(StringsGamesFlagTerritoryBlindmap.flag_title, null, battle) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = StringsGamesFlagTerritoryBlindmap.flag_back)
@@ -230,7 +238,9 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
             when {
                 flags.isEmpty() || analysisByFlagId.size < flags.size -> HistoriqLoadingIndicator()
                 questionIndex >= flags.size -> {
-                    if (resumedAlreadyDone) {
+                    if (battle != null) {
+                        BattleLegFinished(battle, battleAverageScore(scores, 1.0, 10.0))
+                    } else if (resumedAlreadyDone) {
                         FlagColorResults(
                             flags, analysisByFlagId, guessHues, guessSaturations, guessBrightnesses, scores, onBack
                         )
@@ -248,8 +258,8 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
                     FlagColorQuestion(
                         flag = current,
                         analysis = analysis,
-                        questionNumber = questionIndex + 1,
-                        totalQuestions = flags.size,
+                        questionNumber = battle?.number ?: (questionIndex + 1),
+                        totalQuestions = battle?.total ?: flags.size,
                         hue = hue,
                         saturation = saturation,
                         brightness = brightness,
@@ -294,6 +304,7 @@ fun FlagColorMatchScreen(onBack: () -> Unit = {}) {
     LaunchedEffect(scores.size) {
         if (scores.size in 1..flags.size && analysisByFlagId.size >= flags.size) {
             persist(
+                progressKey,
                 flags.map { it.id },
                 flags.map { analysisByFlagId.getValue(it.id).targetHue },
                 flags.map { analysisByFlagId.getValue(it.id).targetSaturation },

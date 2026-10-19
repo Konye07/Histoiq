@@ -1,7 +1,8 @@
 # Historiq
 
 Kotlin Multiplatform + Compose Multiplatform app, Android and iOS from one codebase. Six daily
-history-trivia quiz games, each playable once per day, resumable mid-round, with a real
+history-trivia quiz games, plus the Daily Battle (one question from each, scored together), each
+playable once per day, resumable mid-round, with a real
 friends/profile layer backed by Supabase. Material3 styling is shared identically across both
 platforms — no native Cupertino reskin on iOS.
 
@@ -282,15 +283,16 @@ with `auth.linkIdentity(Facebook)` (browser OAuth, `FacebookOAuthSession.kt`).
   specifically require a real attached display identity.
 - `daily_quizzes` — the fix for "same quiz everywhere on a given date": `(game_key, date_key) ->
   item_ids`, publicly readable, writable only through `get_or_create_daily_quiz(game_key, date,
-  count)` (SECURITY DEFINER). That function is the *only* place the cross-day cooldown logic
-  exists — it excludes ids used within the game's cooldown window per `daily_quizzes` history (15
-  days by default, shorter for a few games — see the function's own comment), falls back
-  to the unfiltered pool if too few remain, and atomically inserts-once/reads-after so every device
-  gets the identical set. Territory Compare (a continuous survival queue, not a fixed N) asks for a
+  count)` (SECURITY DEFINER). That function is the *only* place the cross-day repeat logic
+  exists, and it atomically inserts-once/reads-after so every device gets the identical set. It does
+  not shuffle a cooled-down pool: it draws by weighted random sampling over `daily_quizzes` history,
+  judged on an *event identity* rather than a row id (see "Picking the day's questions" under "The
+  Daily Battle" — the same event sits in up to three banks, and a plain per-game cooldown let it come back
+  in another game a day later). Territory Compare (a continuous survival queue, not a fixed N) asks for a
   larger pool (60 ids) and turns it into match order client-side with a `Random` seeded by the
   date, so the *shuffle* is deterministic and shared too, not just the item set. A game key may
   also be an era mode key, `<game>:<era>` (see "Era game modes" below): the function then draws only
-  that era's questions and excludes a question for just 2 days.
+  that era's questions; or a battle key, `<game>:battle` (see "The Daily Battle").
 - `year_guess_items`, `casualties_multiplier_items`, `flag_color_match_items`,
   `territory_compare_items`, `true_false_items`, `blind_map_battle_items` — the question banks,
   1:1 with the Kotlin data classes in `Data/Quiz/`, publicly readable, no client insert policy
@@ -302,6 +304,12 @@ with `auth.linkIdentity(Facebook)` (browser OAuth, `FacebookOAuthSession.kt`).
   other two (`correct_year` / `year`) so every question can be flagged with its era; give every new
   battle one. Those three banks also carry `era_key`, a stored generated column (see "Era game modes");
   it is not the free-text `era` label that `territory_compare_items` has.
+  Every bank carries `fame` (smallint, default 2): how well known the question is to a Western European or
+  American player, 3 famous / 2 known / 1 niche. Only the Daily Battle reads it, and a new row defaults to 2, which
+  makes it battle-eligible before anyone has rated it, so rate every new row: events (Annalist, Herald and Chancellor
+  alike) by `year|name` in `supabase/question_banks/20261019_fame_ratings.sql`; flags, countries and statements follow
+  their own `difficulty` (1 -> 3, 2 -> 2, 3 -> 1) with the exceptions listed there. Recent politics (ISIS, the Iran
+  deal, the Syrian and Gaza wars) is niche on purpose: the battle is meant to be history.
   Adding questions: keep an idempotent audit copy in `supabase/question_banks/` (`insert ... on conflict
   (id) do nothing`; ids continue the numbering, `event_NNN` / `battle_NNN` / `battlemap_NNN`), dry-run it
   on the scratch Postgres, then check the per-era counts. `correct_casualties` is killed + wounded of both
@@ -309,17 +317,21 @@ with `auth.linkIdentity(Facebook)` (browser OAuth, `FacebookOAuthSession.kt`).
   the article's own text (several don't, e.g. Breadfield, Mühlberg, Belgrade 1717); the row's `source` says
   how it was combined. Chancellor needs only a year and coordinates, so a battle with no usable casualty
   figure (Vajkal, Ugra) can still go there. An Annalist event name must not contain its year.
-  `year_guess_items.description` and `casualties_multiplier_items.description` (nullable text) hold a 2-4
-  sentence write-up of what happened and why it matters, English only, shown under the answer in the
+  `year_guess_items.description`, `casualties_multiplier_items.description` and (since 2026-10-19)
+  `blind_map_battle_items.description` (nullable text, each with `_hu/_es/_fr/_de/_it` translations) hold a 2-4
+  sentence write-up of what happened and why it matters, shown under the answer in the
   reveal panel and in the results list (`QuestionDescription` in `Features/Play/Shared/ResultsComponents.kt`;
-  a row without one draws nothing, and builds from before the column existed ignore it). Give every new
-  Annalist event and Herald battle one in the same insert; Chancellor has none. One text serves the Annalist
-  event and the Herald battle with the same name and year, so keep the two identical:
-  `supabase/question_banks/20261006_descriptions_<era>.sql` set them by (name, year) through a temp table.
+  Chancellor shows it under the map once the player has pinned; a row without one draws nothing, and builds from
+  before the column existed ignore it). Give every new
+  Annalist event, Herald battle and Chancellor battle one in the same insert. One text serves the Annalist
+  event, the Herald battle and the Chancellor battle with the same name and year, so keep them identical:
+  `supabase/question_banks/20261006_descriptions_<era>.sql` set them by (name, year) through a temp table, and
+  `20261019_chancellor_descriptions.sql` copied 279 of the map's 293 battles from the other two and wrote the
+  other twelve.
   Write each in your own words from the Wikipedia article, say only what the article supports, and keep it
   consistent with the stored answer (the Herald figure for Verdun, Gallipoli, Petersburg and the like covers
-  the whole campaign, not one day). The 1858 "Battle of Monterrey (Reform War)" row has none on purpose: its
-  own `source` says no such battle could be found.
+  the whole campaign, not one day). The 1858 "Battle of Monterrey (Reform War)" row has none on purpose, in all
+  three banks: its own `source` says no such battle could be found.
   **Hungarian**: every bank row carries its Hungarian text in `_hu` columns next to the English one
   (`year_guess_items.event_hu/hint_hu/description_hu`, `casualties_multiplier_items.battle_hu/hint_hu/
   description_hu`, `blind_map_battle_items.battle_hu`, `flag_color_match_items.flag_name_hu`,
@@ -369,7 +381,7 @@ select named `log_attributes['key']` values (never the whole map), filter on a f
 
 | Role name (in-app) | GameKeys constant | Mechanic |
 |---|---|---|
-| Annalist | `YEAR_GUESS` | Guess the year of an event/battle (1000-point scale per question, `yearGuessScore`) |
+| Annalist | `YEAR_GUESS` | Guess the year of an event/battle (100-1000 points per question, `yearGuessScore`: linear over a 200-year window, 200+ years off is the minimum) |
 | Herald | `CASUALTIES_MULTIPLIER` | Guess a battle's casualty count; score is a multiplier, lower is better |
 | Officer-of-Arms | `FLAG_COLOR_MATCH` | Recolor a historical flag's dominant hue/sat/brightness to match the original |
 | Cosmographer | `TERRITORY_COMPARE` | Pick the bigger of two countries by peak territorial size; sudden-death, 10 rounds |
@@ -456,6 +468,69 @@ into, not a filter on the original.
   screens, the bottom bar, Friends, Profile) pass `LocalIsDarkTheme.current`; the all-time games keep their
   fixed signature colors in dark mode. Tune `EraPalette`'s `DARK_*` constants, not per-era values.
 
+## The Daily Battle
+
+The top card of the Play menu (`GameKeys.DAILY_BATTLE`, gold `AppColors.BattleGold` = `#E09F3E`, logo
+`images/menulogos/00the_battle.png`): six questions a day, one from each game in the Play menu's order (Annalist, Herald,
+Officer-of-Arms, Cosmographer, Chronicler, Chancellor), added into one score out of 6 000 and ranked against everyone who
+played it that day. It is not a seventh game: it has no question bank and is not in `GameKeys.ALL`. It has no theme of its
+own either: every question is its original game's own screen in that game's own colours (era colours never apply); the
+gold is only the Play card, the overview and the final results. (The owner wrote the color as "E09FE"; it was read as
+`#E09F3E`.)
+
+- **Client** (`Features/Play/DailyBattle/DailyBattleScreen.kt`, `Data/Quiz/DailyBattle.kt`,
+  `Features/Play/Shared/BattleComponents.kt`): each game screen takes an optional `battle: BattleLeg?`. With it the screen
+  asks one question (Cosmographer: one pair of countries), drawn and saved under `GameKeys.battleKey(game)`,
+  `"<game>:battle"` — like an era key it is a game of its own to `daily_quizzes` / `quiz_progress` and the answer
+  distribution, but it never writes `score_history` — counts "n / 6" from `battle.number`, and on its answer calls
+  `BattleLegFinished`, which hands the 0-1000 score to the host. The host loads `DailyBattleStore` (`quiz_progress` under
+  `daily_battle`: the scores answered so far), shows an overview of the six, moves on by itself from each answer to the
+  next game, runs `AdGatedResults` only when the last answer was given in this visit, and ends on the results with
+  `rememberLiveRank(DAILY_BATTLE, ...)`. The combined score is the only `score_history` row (`daily_battle`, 0-6 000), so
+  ranks, Friends, Profile and lifetime stats treat it like a game. A question answered but not yet recorded in the
+  store is found again, already answered, when its screen reopens and reports it again. `BattleSession` (a StateFlow) tells
+  the bottom bar which game's color to wear.
+- **Scoring** (`Data/Quiz/ScoringUtils.kt`, `battle*Score`): each answer is put on 0-1000 so the six add up. Annalist and
+  Chancellor 100-1000 stretched to 0-1000, Officer-of-Arms 1-10 stretched, Herald `1000 x (1 - log10(multiplier) / 2)`
+  (exact 1000, 10x off 500, 100x off or worse 0), Cosmographer and Chronicler right or wrong (1000 / 0). Annalist's own
+  `yearGuessScore` falls linearly from 1000 to 100 over 200 years and stays at 100 beyond.
+- **Picking the day's questions** (`get_or_create_daily_quiz`, `_quiz_catalog()`, `event_aliases`; migration
+  `20261019120000_daily_battle_selection.sql`, applied 2026-10-19): the same event sits in up to three banks (Annalist,
+  Herald and Chancellor each keep their own copy of most battles), so a question's identity is the *event identity* —
+  lowercase name stripped to a-z0-9, `_`, year — with `event_aliases` merging the events one bank names differently
+  (Tannenberg = Grunwald); every other bank's identity is its id. The function draws by weighted random sampling inside a
+  *class* of rounds (the plain all-time rounds, one era's rounds, or the battle's: an era's small pool cycles every few
+  days and must not push its questions out of the all-time rounds). Weight = (days since the identity last ran in the
+  class, at most 150 + 1)^2, times 1e-4 inside the game's hard minimum gap (a soft guarantee that gives way before a round
+  would come up short), times 0.3 when another class used it in the last 3 days, times 1e-20 when it already runs today
+  under any other key (so no event ever appears twice on one day across all modes, era ones included, and the battle never
+  repeats another mode's question that day). Battle only: fame 3 x3, fame 2 x1, fame 1 x1e-12 (a niche question only when
+  nothing else is left), and the Annalist leg x0.25 for an event that is also a battle in Herald/Chancellor, which share
+  about 113 battle identities at two a day and so last about 50 days. Simulated for 60 days on the real banks and history
+  (PGlite, 2026-10-19): the all-time rounds repeat an event after a median 21 days (never under 4), the battle after a
+  median 39 (never under 10), no same-day duplicates, no niche pick, no short round. The era modes still cycle every ~6
+  days because their pools are small; only more questions fix that.
+- **Banks**: Cosmographer's bank holds 122 countries, with four Chinese states (Yuan, Qing, Ming, Tang; the other eight
+  were removed 2026-10-19 because the quiz drew too many obscure dynasties — `20261019_territory_keep_four_chinese.sql`
+  keeps the restore inserts); 98 are battle-eligible (fame follows each country's own `difficulty`). Don't add another
+  Chinese dynasty without asking.
+- **Flags**: the battle never takes a fame-1 flag (84 of the 277 are rated 2 or 3). Besides the obscure ones, the flags whose picture is the wrong flag for
+  its name are fame 1 on purpose, as are the Nazi, Italian Social Republic and Ustase flags. Found by looking at every
+  flag in the bank on 2026-10-19: 068 First Austrian Republic (a Silesian shield), 079 Irish Free State (a naval ensign), 093
+  Weimar war ensign (the Nazi flag), 104 People's Republic of China (the China Fire and Rescue flag), 112 Mandatory
+  Palestine (a Zionist flag), 143 Transvaal (not the Vierkleur), 149 Belgian Congo (the 2006 DR Congo flag), 151 French
+  Equatorial Africa (a red crescent flag with a French canton), 202 Sweden's union flag (a Danish customs flag), 247
+  Democratic Republic of Georgia (a red saltire), 264 Anglo-Egyptian Sudan (today's Sudan), 276 French Somaliland (a copy of
+  British Somaliland), 281 Portuguese Macau (today's Macau), 362 Congo-Leopoldville (today's DR Congo), 391 United Arab
+  States (the UAE flag), 478 Commonwealth of the Philippines (the President's flag), 492 People's Republic of Poland (the
+  Luhansk People's Republic flag), 495 Latvia (the Latvian Soviet republic's flag) and 496 Estonia (the Estonian Workers'
+  Commune's flag). They still come up in Officer-of-Arms itself; replacing them is new Wikimedia Commons images, which
+  need the owner's OK each time.
+- **Testing on a device**: the day comes from `DailyClock`, so a test build that returns a far-future date (e.g.
+  2099-01-03) writes only rows no real player shares; afterwards delete `daily_quizzes`, `quiz_progress` and
+  `score_history` rows with `date_key >= '2099-01-01'` and the emulator's anonymous `auth.users` row (a guest writes
+  to production like anyone). Never commit the date change.
+
 ## Onboarding tutorial
 
 `Features/Onboarding/TutorialScreen.kt`, shown once per device (`SettingsStore.hasSeenTutorial`, gated in
@@ -474,7 +549,8 @@ device, clear the app's data (or `hasSeenTutorial` in `app_settings`).
 Each game gets its own Material3 `ColorScheme` built from one base color via `gameColorScheme()`
 in `Core/Theme/Theme.kt` (`AppColors` object holds the palette). Don't introduce new colors outside
 this palette without asking. Era game modes are the exception: each era is meant to get a palette of
-its own (see `EraThemes`), supplied by the project owner.
+its own (see `EraThemes`), supplied by the project owner. So is the Daily Battle's gold (`BattleGold`), the owner's
+color for its Play card, overview and results only — never inside a game.
 
 ## Conventions
 

@@ -49,9 +49,11 @@ import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.LocalIsDarkTheme
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Data.Quiz.ActiveEra
+import com.konye.historiq.Data.Quiz.BattleLeg
 import com.konye.historiq.Data.Quiz.BattleLocation
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
+import com.konye.historiq.Data.Quiz.battleAverageScore
 import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.getDoubleList
 import com.konye.historiq.Data.Quiz.haversineKm
@@ -60,7 +62,9 @@ import com.konye.historiq.Data.Quiz.mapPinpointScore
 import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Data.Quiz.tryLoadImageBitmap
+import com.konye.historiq.Features.Play.Shared.BattleLegFinished
 import com.konye.historiq.Features.Play.Shared.GameBarTitle
+import com.konye.historiq.Features.Play.Shared.QuestionDescription
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
@@ -94,11 +98,12 @@ private suspend fun persist(
     })
 }
 
+/** [battle] is set when this is the Chancellor's question of the Daily Battle: one battle (see the Annalist screen). */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
-    val era = remember { ActiveEra.current() }
-    val modeKey = remember { GameKeys.modeKey(GAME_KEY, era) }
+fun BlindMapBattleScreen(onBack: () -> Unit = {}, battle: BattleLeg? = null) {
+    val era = remember { if (battle == null) ActiveEra.current() else null }
+    val modeKey = remember { battle?.progressKey ?: GameKeys.modeKey(GAME_KEY, era) }
     var battles by remember { mutableStateOf<List<BattleLocation>>(emptyList()) }
     var worldMap by remember { mutableStateOf<ImageBitmap?>(null) }
     var questionIndex by remember { mutableStateOf(0) }
@@ -113,7 +118,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
         worldMap = withContext(Dispatchers.Default) {
             tryLoadImageBitmap("images/world_map.png")
         }
-        val resume = resumeOrStartQuiz(modeKey, QUESTIONS_PER_ROUND, { it.id }, ::loadBattleLocations)
+        val resume = resumeOrStartQuiz(modeKey, if (battle != null) 1 else QUESTIONS_PER_ROUND, { it.id }, ::loadBattleLocations)
         battles = resume.questions
         resume.resumedState?.let { stored ->
             guessLats.addAll(stored.getDoubleList("guessLats"))
@@ -128,7 +133,7 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { GameBarTitle(StringsGamesFlagTerritoryBlindmap.blindmap_title, era) },
+                title = { GameBarTitle(StringsGamesFlagTerritoryBlindmap.blindmap_title, era, battle) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = StringsGamesFlagTerritoryBlindmap.blindmap_back)
@@ -151,6 +156,8 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
             val map = worldMap
             if (battles.isEmpty() || map == null) {
                 HistoriqLoadingIndicator()
+            } else if (questionIndex >= battles.size && battle != null) {
+                BattleLegFinished(battle, battleAverageScore(scores, 100.0, 1000.0))
             } else if (questionIndex >= battles.size && resumedAlreadyDone) {
                 MapResults(modeKey, battles, map, guessLats, guessLngs, scores, onBack)
             } else if (questionIndex >= battles.size) {
@@ -160,8 +167,8 @@ fun BlindMapBattleScreen(onBack: () -> Unit = {}) {
                 MapQuestion(
                     battle = current,
                     worldMap = map,
-                    questionNumber = questionIndex + 1,
-                    totalQuestions = battles.size,
+                    questionNumber = battle?.number ?: (questionIndex + 1),
+                    totalQuestions = battle?.total ?: battles.size,
                     revealed = revealed,
                     guess = guess,
                     lastScore = scores.getOrNull(questionIndex),
@@ -270,6 +277,7 @@ private fun MapQuestion(
                 StringsGamesFlagTerritoryBlindmap.blindmap_score_points(formatFixed(lastScore ?: 0.0, 2)),
                 style = MaterialTheme.typography.bodyLarge
             )
+            QuestionDescription(battle.localizedDescription(LocalAppLanguage.current.code))
             Button(onClick = onNext) {
                 Text(if (questionNumber == totalQuestions) StringsGamesFlagTerritoryBlindmap.blindmap_see_results else StringsGamesFlagTerritoryBlindmap.blindmap_next_question)
             }
@@ -401,6 +409,7 @@ private fun MapResults(
                     },
                     style = MaterialTheme.typography.bodySmall
                 )
+                QuestionDescription(battle.localizedDescription(LocalAppLanguage.current.code), Modifier.padding(top = 8.dp))
             }
         }
         Button(onClick = onBack) { Text(StringsGamesFlagTerritoryBlindmap.blindmap_back_to_menu) }

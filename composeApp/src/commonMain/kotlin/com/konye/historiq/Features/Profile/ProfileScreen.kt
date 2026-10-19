@@ -36,14 +36,16 @@ import com.konye.historiq.Data.Quiz.StatsStore
 import com.konye.historiq.Features.Play.Shared.EraFilterChip
 
 /** Games with a personal-best display in Profile — the point-scale games only, not the two sudden-death survival games. */
-private val BEST_SCORE_GAMES = listOf(GameKeys.YEAR_GUESS, GameKeys.CASUALTIES_MULTIPLIER, GameKeys.FLAG_COLOR_MATCH, GameKeys.BLIND_MAP_BATTLE)
+private val BEST_SCORE_GAMES = listOf(
+    GameKeys.DAILY_BATTLE, GameKeys.YEAR_GUESS, GameKeys.CASUALTIES_MULTIPLIER, GameKeys.FLAG_COLOR_MATCH, GameKeys.BLIND_MAP_BATTLE
+)
 
 @Composable
 fun ProfileScreen() {
     val account = remember { AccountRepository.currentAccount() }
     var era by remember { mutableStateOf(ActiveEra.current()) }
-    // An era game mode has only Annalist, Herald and Chancellor, so picking an era drops the other games from the list.
-    val games = if (era == null) GameKeys.ALL else GameKeys.ALL.filter { it in GameKeys.ERA_FILTERABLE }
+    // An era game mode has only Annalist, Herald and Chancellor, so picking an era drops the other games (and the Daily Battle) from the list.
+    val games = if (era == null) listOf(GameKeys.DAILY_BATTLE) + GameKeys.ALL else GameKeys.ALL.filter { it in GameKeys.ERA_FILTERABLE }
     var statsByMode by remember { mutableStateOf<Map<String, GameStats>>(emptyMap()) }
     var bestByMode by remember { mutableStateOf<Map<String, Double?>>(emptyMap()) }
 

@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import com.konye.historiq.Core.Ads.AdGatedResults
 import com.konye.historiq.Core.Audio.BubbleSoundPlayer
 import com.konye.historiq.Core.Haptics.Haptics
+import com.konye.historiq.Core.Localization.StringsDailyBattle
 import com.konye.historiq.Core.Localization.StringsGamesTruefalse
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Theme.AppColors
@@ -47,15 +48,19 @@ import com.konye.historiq.Core.Theme.HistoriqLoadingIndicator
 import com.konye.historiq.Core.Theme.errorText
 import com.konye.historiq.Core.Theme.gameColorScheme
 import com.konye.historiq.Core.Theme.successText
+import com.konye.historiq.Data.Quiz.BattleLeg
 import com.konye.historiq.Data.Quiz.GameKeys
 import com.konye.historiq.Data.Quiz.QuizProgressStore
 import com.konye.historiq.Data.Quiz.TrueFalseStatement
+import com.konye.historiq.Data.Quiz.battleSurvivalScore
 import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.Data.Quiz.getBooleanList
 import com.konye.historiq.Data.Quiz.loadTrueFalseStatements
 import com.konye.historiq.Data.Quiz.rememberLiveRank
 import com.konye.historiq.Data.Quiz.resumeOrStartQuiz
 import com.konye.historiq.Data.Settings.SettingsStore
+import com.konye.historiq.Features.Play.Shared.BattleLegFinished
+import com.konye.historiq.Features.Play.Shared.GameBarTitle
 import com.konye.historiq.Features.Play.Shared.ResultsHeader
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.ic_arrow_back
@@ -69,17 +74,23 @@ import org.jetbrains.compose.resources.painterResource
 private const val ROUNDS_TO_WIN = 10
 private const val PROGRESS_KEY = GameKeys.TRUE_FALSE
 
-private suspend fun persist(ids: List<String>, answers: List<Boolean>, failed: Boolean) {
-    QuizProgressStore.save(PROGRESS_KEY, buildJsonObject {
+private suspend fun persist(progressKey: String, ids: List<String>, answers: List<Boolean>, failed: Boolean) {
+    QuizProgressStore.save(progressKey, buildJsonObject {
         put("ids", JsonArray(ids.map { JsonPrimitive(it) }))
         put("answers", JsonArray(answers.map { JsonPrimitive(it) }))
         put("failed", failed)
     })
 }
 
+/**
+ * [battle] is set when this is the Chronicler's question of the Daily Battle: a single statement, with no survival run
+ * behind it (see the Annalist screen).
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TrueFalseScreen(onBack: () -> Unit = {}) {
+fun TrueFalseScreen(onBack: () -> Unit = {}, battle: BattleLeg? = null) {
+    val progressKey = remember { battle?.progressKey ?: PROGRESS_KEY }
+    val rounds = if (battle != null) 1 else ROUNDS_TO_WIN
     var statements by remember { mutableStateOf<List<TrueFalseStatement>>(emptyList()) }
     var index by remember { mutableStateOf(0) }
     var revealed by remember { mutableStateOf(false) }
@@ -91,7 +102,7 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
     val answers = remember { mutableStateListOf<Boolean>() }
 
     LaunchedEffect(Unit) {
-        val resume = resumeOrStartQuiz(PROGRESS_KEY, ROUNDS_TO_WIN, { it.id }, ::loadTrueFalseStatements)
+        val resume = resumeOrStartQuiz(progressKey, rounds, { it.id }, ::loadTrueFalseStatements)
         statements = resume.questions
         resume.resumedState?.let { stored ->
             answers.addAll(stored.getBooleanList("answers"))
@@ -106,7 +117,7 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(GameKeys.title(GameKeys.TRUE_FALSE)) },
+                title = { GameBarTitle(GameKeys.title(GameKeys.TRUE_FALSE), null, battle) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = StringsGamesTruefalse.tf_back)
@@ -122,13 +133,19 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
             GameBackgroundArt("images/backgrounds/bg_true_false.png", MaterialTheme.colorScheme.onBackground)
             when {
                 statements.isEmpty() -> HistoriqLoadingIndicator()
+                showResults && battle != null -> BattleLegFinished(
+                    battle,
+                    battleSurvivalScore(answers.indices.count { i -> answers[i] == statements[i].correctAnswer }, rounds)
+                )
                 showResults && resumedAlreadyDone -> TrueFalseResults(statements, answers, failed, onBack)
                 showResults -> AdGatedResults { TrueFalseResults(statements, answers, failed, onBack) }
                 else -> {
                     val current = statements[index]
                     TrueFalseQuestion(
                         statement = current,
-                        round = index + 1,
+                        round = battle?.number ?: (index + 1),
+                        totalRounds = battle?.total ?: ROUNDS_TO_WIN,
+                        inBattle = battle != null,
                         revealed = revealed,
                         pickedTrue = pickedTrue,
                         correct = correct,
@@ -142,7 +159,7 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
                             revealed = true
                         },
                         onContinue = {
-                            if (!correct || index == statements.size - 1) {
+                            if (battle != null || !correct || index == statements.size - 1) {
                                 showResults = true
                             } else {
                                 index += 1
@@ -158,7 +175,7 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
 
     LaunchedEffect(answers.size, failed) {
         if (statements.isNotEmpty()) {
-            persist(statements.map { it.id }, answers.toList(), failed)
+            persist(progressKey, statements.map { it.id }, answers.toList(), failed)
         }
     }
 }
@@ -167,6 +184,8 @@ fun TrueFalseScreen(onBack: () -> Unit = {}) {
 private fun TrueFalseQuestion(
     statement: TrueFalseStatement,
     round: Int,
+    totalRounds: Int,
+    inBattle: Boolean,
     revealed: Boolean,
     pickedTrue: Boolean,
     correct: Boolean,
@@ -182,7 +201,7 @@ private fun TrueFalseQuestion(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text(StringsGamesTruefalse.tf_round_counter(round, ROUNDS_TO_WIN), style = MaterialTheme.typography.labelLarge)
+        Text(StringsGamesTruefalse.tf_round_counter(round, totalRounds), style = MaterialTheme.typography.labelLarge)
         Text(statement.localized(language), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
 
         AnimatedContent(
@@ -200,7 +219,11 @@ private fun TrueFalseQuestion(
                 )
                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     Text(
-                        if (correct) StringsGamesTruefalse.tf_correct else StringsGamesTruefalse.tf_wrong_game_over,
+                        when {
+                            correct -> StringsGamesTruefalse.tf_correct
+                            inBattle -> StringsDailyBattle.battle_wrong
+                            else -> StringsGamesTruefalse.tf_wrong_game_over
+                        },
                         style = MaterialTheme.typography.bodyLarge,
                         color = resultColor
                     )
@@ -209,7 +232,8 @@ private fun TrueFalseQuestion(
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Button(onClick = onContinue) {
-                        Text(if (!correct || round == ROUNDS_TO_WIN) StringsGamesTruefalse.tf_see_results else StringsGamesTruefalse.tf_next_statement)
+                        val last = if (inBattle) round == totalRounds else !correct || round == ROUNDS_TO_WIN
+                        Text(if (last) StringsGamesTruefalse.tf_see_results else StringsGamesTruefalse.tf_next_statement)
                     }
                 }
             }

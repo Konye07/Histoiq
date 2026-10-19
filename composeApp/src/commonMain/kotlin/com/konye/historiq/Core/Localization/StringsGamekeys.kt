@@ -123,4 +123,24 @@ object StringsGamekeys {
             AppLanguage.HU -> "Vak térképcsata"
         }
 
+    val role_daily_battle: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "The Daily Battle"
+            AppLanguage.ES -> "La Batalla Diaria"
+            AppLanguage.FR -> "La Bataille du Jour"
+            AppLanguage.DE -> "Die Tagesschlacht"
+            AppLanguage.IT -> "La Battaglia del Giorno"
+            AppLanguage.HU -> "A Napi Csata"
+        }
+
+    val title_daily_battle: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Six questions, one score"
+            AppLanguage.ES -> "Seis preguntas, una puntuación"
+            AppLanguage.FR -> "Six questions, un seul score"
+            AppLanguage.DE -> "Sechs Fragen, ein Ergebnis"
+            AppLanguage.IT -> "Sei domande, un solo punteggio"
+            AppLanguage.HU -> "Hat kérdés, egy pontszám"
+        }
+
 }

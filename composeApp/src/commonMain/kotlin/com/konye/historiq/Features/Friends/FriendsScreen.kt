@@ -64,8 +64,8 @@ private data class LeaderboardRow(val name: String, val score: Double?, val isMe
 fun FriendsScreen() {
     var era by remember { mutableStateOf(ActiveEra.current()) }
     var selectedGame by remember { mutableStateOf(GameKeys.YEAR_GUESS) }
-    // An era game mode has only Annalist, Herald and Chancellor, so picking an era drops the other games from the list.
-    val games = if (era == null) GameKeys.ALL else GameKeys.ALL.filter { it in GameKeys.ERA_FILTERABLE }
+    // An era game mode has only Annalist, Herald and Chancellor, so picking an era drops the other games (and the Daily Battle) from the list.
+    val games = if (era == null) listOf(GameKeys.DAILY_BATTLE) + GameKeys.ALL else GameKeys.ALL.filter { it in GameKeys.ERA_FILTERABLE }
     val activeGame = if (selectedGame in games) selectedGame else GameKeys.YEAR_GUESS
     val selectedModeKey = GameKeys.modeKey(activeGame, era)
     var selectedDayOffset by remember { mutableStateOf(0) }

@@ -28,6 +28,9 @@ object AppColors {
     val ForestDark = Color(0xFF1E2A20)
     val EspressoDark = Color(0xFF201409)
 
+    /** The Daily Battle's color, given by the project owner: used on its Play card and in lists, never inside a game. */
+    val BattleGold = Color(0xFFE09F3E)
+
     /** Highlight for a perfect (max-possible) score on any quiz's results screen. */
     val Success = Color(0xFF2E7D32)
 }

@@ -5,6 +5,7 @@ sealed class NavRoutes(val route: String) {
     data object Friends : NavRoutes("friends")
     data object Profile : NavRoutes("profile")
     data object Settings : NavRoutes("settings")
+    data object DailyBattle : NavRoutes("play/daily_battle")
     data object YearGuess : NavRoutes("play/year_guess")
     data object CasualtiesMultiplier : NavRoutes("play/casualties_multiplier")
     data object FlagColorMatch : NavRoutes("play/flag_color_match")
