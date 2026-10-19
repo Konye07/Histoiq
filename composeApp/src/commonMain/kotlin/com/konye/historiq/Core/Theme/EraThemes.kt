@@ -159,6 +159,13 @@ object EraThemes {
         else -> error("No card picture for game key $gameKey")
     }
 
+    /**
+     * How much larger than its box a game's card picture is drawn. The Officer-of-Arms picture is airy (flag, brushes and
+     * pots with gaps between them: about a third less ink than the others for its size), so in the same box it read as
+     * the smallest and faintest card; the surrounding padding has room for the overflow.
+     */
+    fun logoScale(gameKey: String): Float = if (gameKey == GameKeys.FLAG_COLOR_MATCH) 1.2f else 1f
+
     /** [era] null is the all-time artwork every era falls back to. */
     fun backgroundAsset(era: QuizEra?, gameKey: String) =
         if (era == null) "images/backgrounds/bg_$gameKey.png" else "images/eras/${era.key}/bg_$gameKey.png"

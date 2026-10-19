@@ -477,6 +477,11 @@ into, not a filter on the original.
   band just above the background. `GameKeys.color(key, dark)` and every era call site (Play, the three game
   screens, the bottom bar, Friends, Profile) pass `LocalIsDarkTheme.current`; the all-time games keep their
   fixed signature colors in dark mode. Tune `EraPalette`'s `DARK_*` constants, not per-era values.
+- **Card pictures** (`images/menulogos/*.png`, `EraThemes.allTimeLogoAsset`; drawn in a fixed-height box on the Play card and
+  in the Daily Battle's rows): crop a new one tight to its artwork, or it shrinks by its empty margin. A picture with
+  little ink for its size looks small even then: the Officer-of-Arms one (flag, brushes and pots with gaps, 44% of its
+  canvas against 54-66% for the others) was reported as too small and faint, so `EraThemes.logoScale` draws it 1.2x,
+  growing into the card's padding. Measure with the alpha channel before adding another such picture.
 
 ## The Daily Battle
 

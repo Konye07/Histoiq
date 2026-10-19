@@ -49,7 +49,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.contentDescription
@@ -490,6 +492,7 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?
                 Box(Modifier.height(logoHeight), contentAlignment = Alignment.Center) {
                     if (logo != null) {
                         val aspect = logo.width.toFloat() / logo.height.toFloat()
+                        val scale = EraThemes.logoScale(GameKeys.baseKey(mode.key))
                         Image(
                             bitmap = logo,
                             contentDescription = mode.roleName,
@@ -497,6 +500,12 @@ private fun QuizModeCard(mode: QuizMode, logo: ImageBitmap?, torch: ImageBitmap?
                             modifier = Modifier
                                 .height(logoHeight)
                                 .aspectRatio(aspect)
+                                // Grows toward the card's roomier top padding rather than into its title.
+                                .graphicsLayer {
+                                    scaleX = scale
+                                    scaleY = scale
+                                    transformOrigin = TransformOrigin(0.5f, 0.6f)
+                                }
                         )
                     } else {
                         CircularProgressIndicator(color = textColor, modifier = Modifier.size(28.dp))

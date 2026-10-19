@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -298,7 +299,16 @@ internal fun BattleGameRow(
             )
             Box(Modifier.width(64.dp).height(if (compact) 36.dp else 44.dp), contentAlignment = Alignment.Center) {
                 if (logo != null) {
-                    Image(bitmap = logo, contentDescription = null, contentScale = ContentScale.Fit, modifier = Modifier.fillMaxSize())
+                    val scale = EraThemes.logoScale(game)
+                    Image(
+                        bitmap = logo,
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.fillMaxSize().graphicsLayer {
+                            scaleX = scale
+                            scaleY = scale
+                        }
+                    )
                 }
             }
             Column(Modifier.weight(1f)) {
