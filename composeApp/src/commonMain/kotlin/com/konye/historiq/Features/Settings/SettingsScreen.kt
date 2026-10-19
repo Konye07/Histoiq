@@ -60,17 +60,6 @@ import com.konye.historiq.Data.Settings.SettingsStore
 import com.konye.historiq.Data.Social.formatFriendCode
 import kotlinx.coroutines.launch
 
-private data class LanguageOption(val code: String, val label: String, val available: Boolean)
-
-private val LANGUAGES = listOf(
-    LanguageOption("en", "English", available = true),
-    LanguageOption("es", "Español", available = true),
-    LanguageOption("fr", "Français", available = true),
-    LanguageOption("de", "Deutsch", available = true),
-    LanguageOption("it", "Italiano", available = true),
-    LanguageOption("hu", "Magyar", available = true)
-)
-
 @Composable
 fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit = {}) {
     val scope = rememberCoroutineScope()
@@ -161,27 +150,19 @@ fun SettingsScreen(onSignedOut: () -> Unit = {}, onOpenPrivacyPolicy: () -> Unit
         // Languages
         SectionTitle(StringsAuthSettings.settings_languages_title)
         Column {
-            LANGUAGES.forEach { option ->
+            AppLanguage.entries.forEach { option ->
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .clickable(enabled = option.available) { selectLanguage(option.code) }
+                        .clickable { selectLanguage(option.code) }
                         .padding(vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = currentLanguage.code == option.code,
-                        onClick = { selectLanguage(option.code) },
-                        enabled = option.available
+                        selected = currentLanguage == option,
+                        onClick = { selectLanguage(option.code) }
                     )
-                    Text(
-                        option.label,
-                        modifier = Modifier.weight(1f),
-                        color = if (option.available) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.outline
-                    )
-                    if (!option.available) {
-                        Text(StringsAuthSettings.settings_coming_soon, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline)
-                    }
+                    Text(option.nativeName, modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.onBackground)
                 }
             }
         }

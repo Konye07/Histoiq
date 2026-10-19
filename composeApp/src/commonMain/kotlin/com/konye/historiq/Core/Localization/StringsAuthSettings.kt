@@ -136,16 +136,6 @@ object StringsAuthSettings {
             AppLanguage.HU -> "Nyelvek"
         }
 
-    val settings_coming_soon: String
-        @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Coming soon"
-            AppLanguage.ES -> "Próximamente"
-            AppLanguage.FR -> "Bientôt disponible"
-            AppLanguage.DE -> "Demnächst verfügbar"
-            AppLanguage.IT -> "Prossimamente"
-            AppLanguage.HU -> "Hamarosan"
-        }
-
     val settings_font_size_title: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Text size"

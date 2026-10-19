@@ -136,7 +136,8 @@ represent a platform bitmap across both), `ReminderScheduler`, `rememberRequestN
 `openEmailComposer`, `copyToClipboard`, `openUrl`, `InterstitialAd`/`RewardedAd` (`Core/Ads/`),
 `signInWithGoogle` (`Core/Auth/GoogleSignIn.*.kt`), and `signInWithApple` (`Core/Auth/AppleSignIn.*.kt` — iOS only;
 Android's `actual` always returns `AppleAuthOutcome.NotImplementedOnThisPlatform` since the button
-itself is hidden there, see `showAppleSignInButton`). All live under
+itself is hidden there, see `showAppleSignInButton`), and `devicePreferredLanguages` (`Core/Platform/DeviceLanguage.*.kt`,
+the first-run language screen's starting point: Android `LocaleList`, iOS `NSLocale.preferredLanguages`). All live under
 `Core/{Haptics,Audio,Share,Notifications,Platform,Ads,Auth}/` with `.android.kt`/`.ios.kt` suffixes
 alongside the common `expect` declaration.
 
@@ -181,6 +182,15 @@ translated the same way (`_es/_fr/_de/_it` columns); the privacy policy and the 
 new true/false statement needs all five translations in the same insert, or that language shows English for it.
 Years are written by `formatEraYear` (`Core/Localization/EraYear.kt`): the era label follows the language, and
 Hungarian puts it first ("Kr. e. 480").
+
+**First-run language**: a fresh install is asked for its language before sign-in and the tutorial
+(`Features/Onboarding/LanguageScreen.kt`, the first branch of `RootApp` after the splash). It is asked only when
+`SettingsStore.needsLanguageChoice()`: never answered and the tutorial not yet seen, so nobody who updates from an
+older build is asked. The screen opens in the device's own language (`AppLanguage.fromDevice()`, from the expect/actual
+`devicePreferredLanguages()`: Android `LocaleList`, iOS `NSLocale.preferredLanguages`; English when the device has none
+of the six), switches the whole app as soon as another is tapped, and Continue stores the choice
+(`SettingsStore.languageChosen`). `AppLanguage.nativeName` is the one list of the languages' names; Settings' picker
+uses it too, so a seventh language is one enum entry plus its strings.
 
 ## Supabase backend
 
@@ -514,18 +524,18 @@ gold is only the Play card, the overview and the final results. (The owner wrote
   were removed 2026-10-19 because the quiz drew too many obscure dynasties — `20261019_territory_keep_four_chinese.sql`
   keeps the restore inserts); 98 are battle-eligible (fame follows each country's own `difficulty`). Don't add another
   Chinese dynasty without asking.
-- **Flags**: the battle never takes a fame-1 flag (84 of the 277 are rated 2 or 3). Besides the obscure ones, the flags whose picture is the wrong flag for
-  its name are fame 1 on purpose, as are the Nazi, Italian Social Republic and Ustase flags. Found by looking at every
-  flag in the bank on 2026-10-19: 068 First Austrian Republic (a Silesian shield), 079 Irish Free State (a naval ensign), 093
-  Weimar war ensign (the Nazi flag), 104 People's Republic of China (the China Fire and Rescue flag), 112 Mandatory
-  Palestine (a Zionist flag), 143 Transvaal (not the Vierkleur), 149 Belgian Congo (the 2006 DR Congo flag), 151 French
-  Equatorial Africa (a red crescent flag with a French canton), 202 Sweden's union flag (a Danish customs flag), 247
-  Democratic Republic of Georgia (a red saltire), 264 Anglo-Egyptian Sudan (today's Sudan), 276 French Somaliland (a copy of
-  British Somaliland), 281 Portuguese Macau (today's Macau), 362 Congo-Leopoldville (today's DR Congo), 391 United Arab
-  States (the UAE flag), 478 Commonwealth of the Philippines (the President's flag), 492 People's Republic of Poland (the
-  Luhansk People's Republic flag), 495 Latvia (the Latvian Soviet republic's flag) and 496 Estonia (the Estonian Workers'
-  Commune's flag). They still come up in Officer-of-Arms itself; replacing them is new Wikimedia Commons images, which
-  need the owner's OK each time.
+- **Flags**: the battle never takes a fame-1 flag (94 of the 275 are rated 2 or 3); the Nazi, Italian Social Republic and
+  Ustase flags are fame 1 on purpose. On 2026-10-19 every flag in the bank was looked at: 18 showed the wrong picture for
+  their name (e.g. Belgian Congo had the 2006 DR Congo flag, Poland 1944-89 the Luhansk flag, Latvia and Estonia the
+  Soviet republics' flags), and with the owner's permission 16 were replaced with the right file from Wikimedia
+  Commons and 2 deleted, because Anglo-Egyptian Sudan and the United Arab States never had a flag of their own
+  (`20261019_flag_pictures.sql` lists every file with its license and keeps the restore inserts; the pictures are 960 px
+  renderings of the SVGs, same names, so `image_asset` did not change). French Equatorial Africa was suspected and is
+  right: it is the file English Wikipedia shows. A new flag's `source` names the Commons file and license. A picture whose
+  license asks for credit (CC BY, CC BY-SA) gets a `credit` line, which the flag screen shows under the name; only
+  Transvaal has one so far. **Known gap**: about 70 of the bank's flags are CC BY or CC BY-SA
+  (`select source, count(*) from flag_color_match_items group by 1`) and have no credit line; the Commons file titles
+  were never recorded, so filling them in means finding each file again. Fetching images needs the owner's OK each time.
 - **Testing on a device**: the day comes from `DailyClock`, so a test build that returns a far-future date (e.g.
   2099-01-03) writes only rows no real player shares; afterwards delete `daily_quizzes`, `quiz_progress` and
   `score_history` rows with `date_key >= '2099-01-01'` and the emulator's anonymous `auth.users` row (a guest writes
@@ -534,13 +544,15 @@ gold is only the Play card, the overview and the final results. (The owner wrote
 ## Onboarding tutorial
 
 `Features/Onboarding/TutorialScreen.kt`, shown once per device (`SettingsStore.hasSeenTutorial`, gated in
-`RootApp`) and skippable at any page. Ten pages: welcome, the six games, two era pages, closing. The game pages
+`RootApp`, after the language screen) and skippable at any page. Eleven pages: welcome, the six games, the Daily
+Battle, two era pages, closing. The game pages
 are real on-device screenshots (`composeResources/drawable/tutorial_*.png`), so the text inside them stays English
-in every language; the three games with era modes carry an "Also in 5 historical eras" badge. The era pages
-(`TutorialEraPages.kt`) are drawn live from `QuizEra.entries`, `EraThemes` and the app's own strings, so they follow
-the language, dark mode and text size and need no edit when an era's palette or picture changes; the second one
-cycles through the eras while it is on screen. When a game gains or loses a feature, update its page text in
-`StringsTutorial.kt` (five languages) and re-take its screenshot. Because the tutorial runs once, a player who
+in every language; the three games with era modes carry an "Also in 5 historical eras" badge. The Daily Battle page
+(`TutorialBattlePage.kt`: the overview's own `BattleGameRow` cards in compact form, two sample scores in) and the era
+pages (`TutorialEraPages.kt`) are drawn live from `GameKeys`, `QuizEra.entries`, `EraThemes` and the app's own strings,
+so they follow the language, dark mode and text size and need no edit when a palette or picture changes; the second era
+page cycles through the eras while it is on screen. When a game gains or loses a feature, update its page text in
+`StringsTutorial.kt` (six languages) and re-take its screenshot. Because the tutorial runs once, a player who
 finished it before a change never sees that change; Settings has no "replay tutorial" row yet. To re-run it on a
 device, clear the app's data (or `hasSeenTutorial` in `app_settings`).
 

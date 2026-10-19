@@ -3,6 +3,40 @@ package com.konye.historiq.Core.Localization
 import androidx.compose.runtime.Composable
 
 object StringsTutorial {
+    val language_title: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Choose your language"
+            AppLanguage.ES -> "Elige tu idioma"
+            AppLanguage.FR -> "Choisis ta langue"
+            AppLanguage.DE -> "Wähle deine Sprache"
+            AppLanguage.IT -> "Scegli la tua lingua"
+            AppLanguage.HU -> "Válaszd ki a nyelvedet"
+        }
+
+    /** [arg1] is the name of the Settings tab, where the language can be changed later. */
+    @Composable
+    fun language_subtitle(arg1: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "The tutorial and the whole app will use it. You can change it any time under %1\$s."
+            AppLanguage.ES -> "El tutorial y toda la aplicación la usarán. Puedes cambiarla cuando quieras en %1\$s."
+            AppLanguage.FR -> "Le tutoriel et toute l'application l'utiliseront. Tu peux la changer à tout moment dans %1\$s."
+            AppLanguage.DE -> "Das Tutorial und die ganze App verwenden sie. Du kannst sie jederzeit unter „%1\$s“ ändern."
+            AppLanguage.IT -> "Il tutorial e tutta l'app la useranno. Puoi cambiarla in qualsiasi momento in %1\$s."
+            AppLanguage.HU -> "A bemutató és az egész alkalmazás ezt fogja használni. Bármikor megváltoztathatod a(z) %1\$s menüben."
+        }
+        return formatTemplate(template, arg1)
+    }
+
+    val language_continue: String
+        @Composable get() = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "Continue"
+            AppLanguage.ES -> "Continuar"
+            AppLanguage.FR -> "Continuer"
+            AppLanguage.DE -> "Weiter"
+            AppLanguage.IT -> "Continua"
+            AppLanguage.HU -> "Folytatás"
+        }
+
     val tutorial_skip: String
         @Composable get() = when (LocalAppLanguage.current) {
             AppLanguage.EN -> "Skip"
@@ -55,12 +89,12 @@ object StringsTutorial {
 
     val tutorial_welcome_body: String
         @Composable get() = when (LocalAppLanguage.current) {
-            AppLanguage.EN -> "Six daily history quizzes, each playable once a day and resumable if you step away — plus five historical eras to step into. Let's take a quick look."
-            AppLanguage.ES -> "Seis cuestionarios históricos diarios, cada uno jugable una vez al día y reanudable si te alejas — y además cinco épocas históricas en las que sumergirte. Echemos un vistazo rápido."
-            AppLanguage.FR -> "Six quiz d'histoire quotidiens, chacun jouable une fois par jour et reprenable si tu t'absentes — et cinq époques historiques à explorer. Jetons un coup d'œil rapide."
-            AppLanguage.DE -> "Sechs tägliche Geschichtsquiz, jedes einmal pro Tag spielbar und fortsetzbar, falls du unterbrichst — dazu fünf historische Epochen zum Eintauchen. Werfen wir einen kurzen Blick darauf."
-            AppLanguage.IT -> "Sei quiz di storia giornalieri, ciascuno giocabile una volta al giorno e ripristinabile se ti interrompi — più cinque epoche storiche in cui immergerti. Diamo una rapida occhiata."
-            AppLanguage.HU -> "Hat napi történelmi kvíz, mindegyik naponta egyszer játszható, és folytatható, ha megszakítod — plusz öt történelmi korszak, amelybe belemerülhetsz. Vessünk rájuk egy gyors pillantást."
+            AppLanguage.EN -> "Six daily history quizzes, each playable once a day and resumable if you step away — plus five historical eras to step into and a Daily Battle that brings all six together. Let's take a quick look."
+            AppLanguage.ES -> "Seis cuestionarios históricos diarios, cada uno jugable una vez al día y reanudable si te alejas — además de cinco épocas históricas en las que sumergirte y una Batalla Diaria que reúne los seis. Echemos un vistazo rápido."
+            AppLanguage.FR -> "Six quiz d'histoire quotidiens, chacun jouable une fois par jour et reprenable si tu t'absentes — plus cinq époques historiques à explorer et une Bataille du Jour qui réunit les six. Jetons un coup d'œil rapide."
+            AppLanguage.DE -> "Sechs tägliche Geschichtsquiz, jedes einmal pro Tag spielbar und fortsetzbar, falls du unterbrichst — dazu fünf historische Epochen zum Eintauchen und eine Tagesschlacht, die alle sechs vereint. Werfen wir einen kurzen Blick darauf."
+            AppLanguage.IT -> "Sei quiz di storia giornalieri, ciascuno giocabile una volta al giorno e ripristinabile se ti interrompi — più cinque epoche storiche in cui immergerti e una Battaglia del Giorno che li riunisce tutti e sei. Diamo una rapida occhiata."
+            AppLanguage.HU -> "Hat napi történelmi kvíz, mindegyik naponta egyszer játszható, és folytatható, ha megszakítod — plusz öt történelmi korszak, amelybe belemerülhetsz, és egy Napi Csata, amely mind a hatot egyesíti. Vessünk rájuk egy gyors pillantást."
         }
 
     val tutorial_year_guess_body: String
@@ -122,6 +156,20 @@ object StringsTutorial {
             AppLanguage.IT -> "Pizzica per ingrandire, trascina per spostarti e tocca la mappa vuota per indicare esattamente dove si è svolta una battaglia storica."
             AppLanguage.HU -> "Csippentéssel nagyíts, húzással mozgasd a térképet, és koppints az üres térképre, hogy pontosan megjelöld, hol zajlott egy történelmi csata."
         }
+
+    /** [arg1] is the most a Daily Battle can score, already formatted ("6 000"), [arg2] the name of the Play tab. */
+    @Composable
+    fun tutorial_battle_body(arg1: Any, arg2: Any): String {
+        val template = when (LocalAppLanguage.current) {
+            AppLanguage.EN -> "One question from each of the six games, one after the other. Your six answers add up to a single score out of %1\$s, ranked against everyone who plays that day. You'll find it at the top of the %2\$s screen."
+            AppLanguage.ES -> "Una pregunta de cada uno de los seis juegos, una tras otra. Tus seis respuestas suman una única puntuación sobre %1\$s, clasificada frente a todos los que juegan ese día. La encontrarás arriba en la pantalla %2\$s."
+            AppLanguage.FR -> "Une question de chacun des six jeux, l'une après l'autre. Tes six réponses s'additionnent en un seul score sur %1\$s, classé parmi tous ceux qui jouent ce jour-là. Tu la trouveras en haut de l'écran %2\$s."
+            AppLanguage.DE -> "Eine Frage aus jedem der sechs Spiele, nacheinander. Deine sechs Antworten ergeben zusammen eine einzige Punktzahl von höchstens %1\$s – im Ranking gegen alle, die an diesem Tag spielen. Du findest sie ganz oben auf dem Bildschirm „%2\$s“."
+            AppLanguage.IT -> "Una domanda da ciascuno dei sei giochi, una dopo l'altra. Le tue sei risposte si sommano in un unico punteggio su %1\$s, in classifica con tutti quelli che giocano quel giorno. La trovi in cima alla schermata %2\$s."
+            AppLanguage.HU -> "Egy kérdés mind a hat játékból, egymás után. A hat válaszod egyetlen, legfeljebb %1\$s pontos eredménnyé adódik össze, amelyet az aznap játszókéval vetnek össze. A(z) %2\$s képernyő tetején találod."
+        }
+        return formatTemplate(template, arg1, arg2)
+    }
 
     @Composable
     fun tutorial_era_badge(arg1: Any): String {

@@ -1,5 +1,6 @@
 package com.konye.historiq.Data.Settings
 
+import com.konye.historiq.Core.Localization.AppLanguage
 import com.konye.historiq.Core.Platform.createSettings
 import com.konye.historiq.Core.Theme.AppFontSize
 
@@ -8,6 +9,7 @@ object SettingsStore {
     private val settings = createSettings("app_settings")
 
     private const val KEY_LANGUAGE = "language"
+    private const val KEY_LANGUAGE_CHOSEN = "languageChosen"
     private const val KEY_HAPTICS_ENABLED = "hapticsEnabled"
     private const val KEY_DAILY_REMINDER_ENABLED = "dailyReminderEnabled"
     private const val KEY_GUEST_MODE = "guestMode"
@@ -25,6 +27,32 @@ object SettingsStore {
 
     fun setLanguage(language: String) {
         settings.putString(KEY_LANGUAGE, language)
+    }
+
+    /** True once the first-run language screen has been answered. */
+    fun languageChosen(): Boolean = settings.getBoolean(KEY_LANGUAGE_CHOSEN, false)
+
+    fun setLanguageChosen(chosen: Boolean) {
+        settings.putBoolean(KEY_LANGUAGE_CHOSEN, chosen)
+    }
+
+    /**
+     * A fresh install is asked for its language before anything else (RootApp). Anyone who has been through the tutorial
+     * already lives with the language they have, and can change it in Settings.
+     */
+    fun needsLanguageChoice(): Boolean = !languageChosen() && !hasSeenTutorial()
+
+    /**
+     * The language the app opens in: the stored one, or for a fresh install that is still to be asked the device's own,
+     * so the question itself is already in a language the player reads. English for everyone else who never picked one.
+     */
+    fun startingLanguage(): AppLanguage {
+        val stored = settings.getStringOrNull(KEY_LANGUAGE)
+        return when {
+            stored != null -> AppLanguage.fromCode(stored)
+            needsLanguageChoice() -> AppLanguage.fromDevice()
+            else -> AppLanguage.fromCode(LANGUAGE_ENGLISH)
+        }
     }
 
     /** Survives process death (e.g. a language change), unlike RootApp's in-memory `isGuest`. */

@@ -411,12 +411,15 @@ begin
   --    (the Latvian Soviet republic's flag) and 496 Estonia (the Estonian Workers' Commune's flag);
   --  * the symbol of a regime the highlighted mode should not put in front of everyone: 002 Nazi Germany, 023 Italian Social
   --    Republic, 039 Independent State of Croatia.
-  -- The same look at every flag rated 1 found nine more wrong pictures that needed no change here (already fame 1): 068
-  -- First Austrian Republic (a Silesian shield), 112 Mandatory Palestine (a Zionist flag), 151 French Equatorial Africa (a red
-  -- crescent flag with a French canton), 247 Democratic Republic of Georgia (a red saltire), 264 Anglo-Egyptian Sudan (today's
-  -- Sudan), 276 French Somaliland (a copy of 275 British Somaliland), 281 Portuguese Macau (today's Macau), 362
-  -- Congo-Leopoldville (today's DR Congo) and 391 United Arab States (the UAE flag). They still appear in Officer-of-Arms
-  -- itself; replacing them means new Wikimedia Commons images, which need the owner's permission first.
+  -- The same look at every flag rated 1 found more wrong pictures that needed no change here (already fame 1): 068 First
+  -- Austrian Republic (a Silesian shield), 112 Mandatory Palestine (a Zionist flag), 247 Democratic Republic of Georgia (a red
+  -- saltire), 264 Anglo-Egyptian Sudan (today's Sudan), 276 French Somaliland (a copy of 275 British Somaliland), 281
+  -- Portuguese Macau (today's Macau), 362 Congo-Leopoldville (today's DR Congo) and 391 United Arab States (the UAE flag).
+  -- (151 French Equatorial Africa was suspected as well and turned out to be right.)
+  -- All of these were fixed the same day, with the owner's permission, by 20261019_flag_pictures.sql: the right picture from
+  -- Wikimedia Commons, the ten flags with a wrong picture that this statement sets to 1 (079, 093, 104, 143, 149, 202, 478,
+  -- 492, 495, 496) back to their difficulty's rating, and 264 and 391 deleted (neither had a flag of its own). 002, 023 and
+  -- 039 stay at 1 on purpose.
   update public.flag_color_match_items set fame = 1
     where id in ('flag_002', 'flag_023', 'flag_039', 'flag_079', 'flag_093', 'flag_104', 'flag_143', 'flag_149', 'flag_202', 'flag_478', 'flag_492', 'flag_495', 'flag_496');
 

@@ -15,7 +15,9 @@ data class FlagColor(
     @SerialName("flag_name_es") val flagNameEs: String? = null,
     @SerialName("flag_name_fr") val flagNameFr: String? = null,
     @SerialName("flag_name_de") val flagNameDe: String? = null,
-    @SerialName("flag_name_it") val flagNameIt: String? = null
+    @SerialName("flag_name_it") val flagNameIt: String? = null,
+    /** The credit line its picture's licence asks for (author, licence, source), shown with the flag; null for a picture that needs none. */
+    val credit: String? = null
 ) {
     /** Falls back to the English `flagName` when a language's translation is missing. */
     fun localizedName(languageCode: String): String = when (languageCode) {

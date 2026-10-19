@@ -39,7 +39,9 @@ import com.konye.historiq.Core.Localization.StringsEras
 import com.konye.historiq.Core.Localization.StringsHomeShared
 import com.konye.historiq.Core.Localization.StringsTutorial
 import com.konye.historiq.Core.Theme.legibleOn
+import com.konye.historiq.Data.Quiz.BATTLE_MAX_SCORE
 import com.konye.historiq.Data.Quiz.GameKeys
+import com.konye.historiq.Data.Quiz.formatThousands
 import com.konye.historiq.generated.resources.Res
 import com.konye.historiq.generated.resources.tutorial_blind_map_battle
 import com.konye.historiq.generated.resources.tutorial_casualties_multiplier
@@ -76,11 +78,12 @@ private fun gamePage(gameKey: String, image: DrawableResource, body: String, has
 )
 
 /**
- * First-launch-only walkthrough (see RootApp: gated by SettingsStore.hasSeenTutorial): the welcome, each of
- * the six games, the era game modes, and a closing page. Each game page uses a real screenshot of that
- * game's first question, captured live on-device rather than a mockup — screenshots, so the text inside
- * them stays English in every language. The era pages are drawn live instead, from the same palettes,
- * pictures and strings the app itself uses, so they follow the language, dark mode and text size. Skippable
+ * First-launch-only walkthrough (see RootApp: gated by SettingsStore.hasSeenTutorial, after the language
+ * screen): the welcome, each of the six games, the Daily Battle, the era game modes, and a closing page. Each
+ * game page uses a real screenshot of that game's first question, captured live on-device rather than a
+ * mockup — screenshots, so the text inside them stays English in every language. The Daily Battle and era
+ * pages are drawn live instead, from the same palettes, pictures and strings the app itself uses, so they
+ * follow the language, dark mode and text size. Skippable
  * at any point, not just at the end — a new user who already gets the gist shouldn't be forced through
  * every page.
  */
@@ -98,6 +101,13 @@ fun TutorialScreen(onFinished: () -> Unit) {
         gamePage(GameKeys.TERRITORY_COMPARE, Res.drawable.tutorial_territory_compare, StringsTutorial.tutorial_territory_compare_body),
         gamePage(GameKeys.TRUE_FALSE, Res.drawable.tutorial_true_false, StringsTutorial.tutorial_true_false_body),
         gamePage(GameKeys.BLIND_MAP_BATTLE, Res.drawable.tutorial_blind_map_battle, StringsTutorial.tutorial_blind_map_battle_body, hasEras = true),
+        TutorialPage(
+            illustration = { BattleOverviewIllustration() },
+            accentColor = GameKeys.color(GameKeys.DAILY_BATTLE),
+            title = GameKeys.roleName(GameKeys.DAILY_BATTLE),
+            subtitle = GameKeys.title(GameKeys.DAILY_BATTLE),
+            body = StringsTutorial.tutorial_battle_body(formatThousands(BATTLE_MAX_SCORE.toLong()), StringsHomeShared.nav_play)
+        ),
         TutorialPage(
             illustration = { EraListIllustration(eraLogos) },
             title = StringsTutorial.tutorial_eras_title,

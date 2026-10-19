@@ -163,7 +163,7 @@ private fun BattleFrame(onBack: () -> Unit, content: @Composable (PaddingValues)
 }
 
 @Composable
-private fun rememberGameLogos(): Map<String, ImageBitmap> {
+internal fun rememberGameLogos(): Map<String, ImageBitmap> {
     var logos by remember { mutableStateOf<Map<String, ImageBitmap>>(emptyMap()) }
     LaunchedEffect(Unit) {
         logos = withContext(Dispatchers.Default) {
@@ -262,10 +262,18 @@ private fun BattleResults(scores: List<Double>, padding: PaddingValues, onBack: 
 /**
  * One of the six questions as a card in its game's own color, with its number, the game's picture and name and, once
  * answered, its score out of [BATTLE_GAME_MAX]. The question to answer next is marked; the ones after it are dimmed like
- * an unavailable card.
+ * an unavailable card. [compact] is the tighter card the tutorial draws six of on one page.
  */
 @Composable
-private fun BattleGameRow(number: Int, game: String, logo: ImageBitmap?, score: Double?, isNext: Boolean, color: Color) {
+internal fun BattleGameRow(
+    number: Int,
+    game: String,
+    logo: ImageBitmap?,
+    score: Double?,
+    isNext: Boolean,
+    color: Color,
+    compact: Boolean = false
+) {
     val dimmed = score == null && !isNext
     // A dimmed card is the game's color faded into the page, so its text is chosen against what actually shows.
     val shown = if (dimmed) color.copy(alpha = 0.45f).compositeOver(MaterialTheme.colorScheme.background) else color
@@ -277,7 +285,7 @@ private fun BattleGameRow(number: Int, game: String, logo: ImageBitmap?, score: 
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Row(
-            Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            Modifier.padding(horizontal = 16.dp, vertical = if (compact) 6.dp else 12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -288,7 +296,7 @@ private fun BattleGameRow(number: Int, game: String, logo: ImageBitmap?, score: 
                 color = textColor.dimmedOn(shown, 0.85f),
                 modifier = Modifier.width(14.dp)
             )
-            Box(Modifier.width(64.dp).height(44.dp), contentAlignment = Alignment.Center) {
+            Box(Modifier.width(64.dp).height(if (compact) 36.dp else 44.dp), contentAlignment = Alignment.Center) {
                 if (logo != null) {
                     Image(bitmap = logo, contentDescription = null, contentScale = ContentScale.Fit, modifier = Modifier.fillMaxSize())
                 }
